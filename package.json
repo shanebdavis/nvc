@@ -10,7 +10,8 @@
   "scripts": {
     "hot": "webpack-dev-server --hot --inline --progress",
     "dev": "webpack-dev-server -d --progress",
-    "test": "webpack-dev-server -d --progress"
+    "test": "webpack-dev-server -d --progress",
+    "build": "webpack --progress"
   },
   "author": "Shane Brinkman-Davis Delamore",
   "license": "MIT"

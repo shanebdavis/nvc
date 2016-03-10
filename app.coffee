@@ -1,1 +1,1 @@
-module.exports = require "./src/boiler_plate"
+module.exports = require "./src/nvc/app/main"
