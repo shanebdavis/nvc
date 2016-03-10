@@ -1,0 +1,17 @@
+{
+  "name": "art-boiler_plate",
+  "version": "0.0.1",
+  "description": "art-boiler_plate",
+  "main": "index.coffee",
+  "dependencies": {
+    "art-foundation": "git://github.com/Imikimi-LLC/art-foundation.git",
+    "art-react": "git://github.com/Imikimi-LLC/art-react.git"
+  },
+  "scripts": {
+    "hot": "webpack-dev-server --hot --inline --progress",
+    "dev": "webpack-dev-server -d --progress",
+    "test": "webpack-dev-server -d --progress"
+  },
+  "author": "Shane Brinkman-Davis Delamore",
+  "license": "MIT"
+}
