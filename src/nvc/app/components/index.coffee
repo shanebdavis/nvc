@@ -3,8 +3,8 @@
 
 module.exports =
 Components       = require './namespace'
-Components.Pages = require './pages'
 Components.App   = require './app'
+Components.Pages = require './pages'
 Components.finishLoad(
   ["App"]
 )

@@ -3,9 +3,9 @@
 
 module.exports =
 App            = require './namespace'
+App.Main       = require './main'
 App.Components = require './components'
 App.Models     = require './models'
-App.Main       = require './main'
 App.finishLoad(
   ["Main"]
 )
