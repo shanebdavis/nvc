@@ -28,14 +28,13 @@ MapLine = createFluxComponentFactory
 
   drillIn: ->
     {category, subMap, showSubMap} = @props
-
-    showSubMap && showSubMap
-      category: category
-      map: subMap
+    if subMap
+      @models.navState.currentMap = subMap
+      @models.navState.currentTab = category
 
   render: ->
     {category, subMap, selected, color, indent} = @props
-    color = if selected then "orange" else if subMap then "white" else "#fff0"
+    color = if selected then "orange" else "white"
     indent ||= 0
     Element
       size: wcw:1, hch: 1
@@ -47,7 +46,7 @@ MapLine = createFluxComponentFactory
         padding: 3
       TextElement textStyle,
         size: hch: 1, wcw:1
-        padding: if subMap then 20 else 10
+        padding: if subMap then 20 else 15
         align: "centerLeft"
         text: category
 
@@ -67,15 +66,16 @@ ShowMap = createComponentFactory
     {showSubMap} = @state
 
     Element
-      size: ww: 1, hch:1
+      size: ps: 1
       cacheDraw: true
       childrenLayout: "column"
-      addedAnimation: animate && from: axis: point -1, 0
-      removedAnimation: animate && to: axis: "topRight"
+      animators: "axis"
+      voidProps: axis: point -1, 0
 
       if isPlainObject map
         Element
-          size: ww: 1, hch:1
+          size: ps: 1
+          childrenAlignment: "centerCenter"
           childrenLayout: "flow"
           for k, v of map
             v && showSubMap ||=
@@ -94,26 +94,27 @@ ShowMap = createComponentFactory
           size: ww:1, hch:1
           text: map.join ', '
 
-      showSubMap?.map && Element
-        size: ww:1, hch:1
-        margin: 4
-        childrenLayout: "column"
+      # showSubMap?.map && Element
+      #   size: ww:1, hch:1
+      #   margin: 4
+      #   childrenLayout: "column"
         # addedAnimation: animate && from: opacity: 0
         # removedAnimation: animate && to: opacity: 0
 
-        RectangleElement color: "orange",
-          margin: 4
-          size: ww:1, h:2
+        # RectangleElement color: "orange",
+        #   margin: 4
+        #   size: ww:1, h:2
 
-        showSubMap?.map && Element
-          size: ww: 1, hch:1
+        # showSubMap?.map && Element
+        #   size: ww: 1, hch:1
 
-          ShowMap showSubMap, key: showSubMap.category, animate: true
+        #   ShowMap showSubMap, key: showSubMap.category, animate: true
 
 TabButton = createFluxComponentFactory
 
   pointerClick: ->
     @models.navState.currentTab = @props.nvcCategory
+    @models.navState.currentMap = Nvc[@props.nvcCategory]
 
   render: ->
     {nvcCategory, selected} = @props
@@ -140,6 +141,9 @@ TabBar = createFluxComponentFactory
     {currentTab} = @state
     Element
       size: ww:1, h:50
+      voidProps:
+        size: ww:1, h: 0
+      animators: "size"
       RectangleElement color: "white"
       Element
         childrenLayout: "row"
@@ -148,22 +152,20 @@ TabBar = createFluxComponentFactory
         for k in Nvc.categories
           TabButton nvcCategory:k, selected: currentTab == k
 
-
 module.exports = createFluxComponentFactory class Top extends FluxComponent
   module: module
-  subscriptions: "navState.currentTab"
+  subscriptions: "navState.currentTab navState.currentMap"
 
   render: ->
-    {currentTab} = @state
+    {currentTab, currentMap} = @state
 
     Element
       size: ps: 1
       childrenLayout: "column"
       RectangleElement inFlow: false, color: "#f9f9f9"
 
-      PagingScrollElement
-        padding: top: 20
+      Element
         size: ps: 1
-        ShowMap category: "NVC", map: Nvc[currentTab]
+        currentMap && ShowMap key: currentTab, category: "NVC", map: currentMap
 
       TabBar()

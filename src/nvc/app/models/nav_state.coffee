@@ -6,5 +6,6 @@ Flux = require 'art-flux'
 
 module.exports = createHotWithPostCreate module, class NavState extends ApplicationState
   @stateFields
-    currentTab: "needs"
+    currentTab: null
+    currentMap: null
 
