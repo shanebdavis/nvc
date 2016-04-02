@@ -2,8 +2,8 @@
 # file: nvc/app/models/index.coffee
 
 module.exports =
-Models     = require './namespace'
-Models.Nvc = require './nvc'
+Models          = require './namespace'
+Models.NavState = require './nav_state'
 Models.finishLoad(
-  ["Nvc"]
+  ["NavState"]
 )

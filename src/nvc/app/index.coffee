@@ -5,6 +5,7 @@ module.exports =
 App            = require './namespace'
 App.Main       = require './main'
 App.Components = require './components'
+App.Data       = require './data'
 App.Models     = require './models'
 App.finishLoad(
   ["Main"]

@@ -2,7 +2,8 @@ Foundation = require 'art-foundation'
 React = require 'art-react'
 Atomic = require 'art-atomic'
 Namespace = require './namespace'
-{createFluxComponentFactory} = require 'art-flux'
+{Nvc} = require '../../data'
+{createFluxComponentFactory, FluxComponent} = require 'art-flux'
 
 {point} = Atomic
 {log, inspect, isPlainObject, capitalize} = Foundation
@@ -15,6 +16,7 @@ Namespace = require './namespace'
   RectangleElement
   TextElement
   PagingScrollElement
+  OutlineElement
 } = React
 
 textStyle =
@@ -108,14 +110,60 @@ ShowMap = createComponentFactory
 
           ShowMap showSubMap, key: showSubMap.category, animate: true
 
-module.exports = createFluxComponentFactory
-  module: module
-  subscriptions: "nvc.core"
+TabButton = createFluxComponentFactory
+
+  pointerClick: ->
+    @models.navState.currentTab = @props.nvcCategory
+
   render: ->
+    {nvcCategory, selected} = @props
+    emojiMap =
+      needs: "🍎"
+      negEmotions: "☹️"
+      posEmotions: "😀"
+
+    Element
+      on: pointerClick: @pointerClick
+      selected && RectangleElement
+        color: "orange"
+        padding: 5
+        radius: 5
+      TextElement
+        size: ps: 1
+        align: .5
+        fontSize: 32
+        text: emojiMap[nvcCategory]
+
+TabBar = createFluxComponentFactory
+  subscriptions: "navState.currentTab"
+  render: ->
+    {currentTab} = @state
+    Element
+      size: ww:1, h:50
+      RectangleElement color: "white"
+      Element
+        childrenLayout: "row"
+        padding: (ps) -> h: ps.x / 12
+
+        for k in Nvc.categories
+          TabButton nvcCategory:k, selected: currentTab == k
+
+
+module.exports = createFluxComponentFactory class Top extends FluxComponent
+  module: module
+  subscriptions: "navState.currentTab"
+
+  render: ->
+    {currentTab} = @state
+
     Element
       size: ps: 1
+      childrenLayout: "column"
       RectangleElement inFlow: false, color: "#f9f9f9"
+
       PagingScrollElement
         padding: top: 20
         size: ps: 1
-        ShowMap category: "NVC", map: @state.core
+        ShowMap category: "NVC", map: Nvc[currentTab]
+
+      TabBar()
