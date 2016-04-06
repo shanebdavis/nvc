@@ -6,7 +6,7 @@ Namespace = require './namespace'
 {createFluxComponentFactory, FluxComponent} = require 'art-flux'
 
 {point} = Atomic
-{log, inspect, isPlainObject, capitalize} = Foundation
+{log, inspect, isPlainObject, capitalize, peek, arrayWith} = Foundation
 
 {
   createComponentFactory
@@ -30,7 +30,7 @@ MapLine = createFluxComponentFactory
     {category, subMap, showSubMap} = @props
     if subMap
       @models.navState.currentMap = subMap
-      @models.navState.currentTab = category
+      @models.navState.currentPath = arrayWith @models.navState.currentPath, category
 
   render: ->
     {category, subMap, selected, color, indent} = @props
@@ -113,15 +113,22 @@ ShowMap = createComponentFactory
 TabButton = createFluxComponentFactory
 
   pointerClick: ->
-    @models.navState.currentTab = @props.nvcCategory
-    @models.navState.currentMap = Nvc[@props.nvcCategory]
+    {path, map} = @props
+    @models.navState.currentPath = path
+    @models.navState.currentMap = map
 
   render: ->
-    {nvcCategory, selected} = @props
+    {text, selected} = @props
     emojiMap =
       needs: "🍎"
       negEmotions: "☹️"
       posEmotions: "😀"
+    props = if emojiText = emojiMap[text]
+      text: emojiText
+      fontSize: 32
+      color: "black"
+    else
+      text: text
 
     Element
       on: pointerClick: @pointerClick
@@ -129,35 +136,51 @@ TabButton = createFluxComponentFactory
         color: "orange"
         padding: 5
         radius: 5
-      TextElement
+      TextElement textStyle, props,
         size: ps: 1
         align: .5
-        fontSize: 32
-        text: emojiMap[nvcCategory]
 
 TabBar = createFluxComponentFactory
-  subscriptions: "navState.currentTab"
+  subscriptions: "navState.currentPath navState.currentMap"
   render: ->
-    {currentTab} = @state
+    {currentPath, currentMap} = @state
+
     Element
       size: ww:1, h:50
       voidProps:
         size: ww:1, h: 0
       animators: "size"
       RectangleElement color: "white"
+
       Element
         childrenLayout: "row"
         padding: (ps) -> h: ps.x / 12
-
-        for k in Nvc.categories
-          TabButton nvcCategory:k, selected: currentTab == k
+        switch currentPath.length
+          when 0, 1
+            for k in Nvc.categories
+              TabButton
+                path: [k]
+                map: Nvc[k]
+                text: k
+                selected: k == peek currentPath
+          else
+            rootMap = Nvc.core
+            path = []
+            for p, i in currentPath
+              path = arrayWith path, p
+              TabButton
+                path: path
+                map: rootMap = rootMap[p]
+                text: p
+                selected: i == currentPath.length - 1
 
 module.exports = createFluxComponentFactory class Top extends FluxComponent
   module: module
-  subscriptions: "navState.currentTab navState.currentMap"
+  subscriptions: "navState.currentPath navState.currentMap"
 
   render: ->
-    {currentTab, currentMap} = @state
+    {currentPath, currentMap} = @state
+    currentTab = peek currentPath
 
     Element
       size: ps: 1

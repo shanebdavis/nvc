@@ -1,11 +1,12 @@
 Foundation = require 'art-foundation'
 Flux = require 'art-flux'
+Data = require '../data'
 
 {createHotWithPostCreate} = Foundation
 {ApplicationState} = Flux
 
 module.exports = createHotWithPostCreate module, class NavState extends ApplicationState
   @stateFields
-    currentTab: null
-    currentMap: null
+    currentPath: []
+    currentMap: Data.Nvc.core
 

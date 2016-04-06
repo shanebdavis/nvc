@@ -437,3 +437,7 @@ module.exports = class Nvc extends HotStyleProps
       wistful
       """
 
+  @core:
+    needs: @needs
+    posEmotions: @posEmotions
+    negEmotions: @negEmotions
