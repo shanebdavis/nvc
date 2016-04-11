@@ -3,6 +3,7 @@ React = require 'art-react'
 Namespace = require './namespace'
 
 Pages = require './pages'
+TabBar = require './tab_bar'
 
 {log, inspect} = Foundation
 
@@ -17,4 +18,6 @@ module.exports = createComponentFactory
   render: ->
     CanvasElement
       canvasId: "artCanvas"
+      childrenLayout: "column"
       Pages.ShowMap()
+      TabBar()

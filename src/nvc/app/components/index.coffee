@@ -2,9 +2,11 @@
 # file: nvc/app/components/index.coffee
 
 module.exports =
-Components       = require './namespace'
-Components.App   = require './app'
-Components.Pages = require './pages'
+Components          = require './namespace'
+Components.App      = require './app'
+Components.TabBar   = require './tab_bar'
+Components.Pages    = require './pages'
+Components.Partials = require './partials'
 Components.finishLoad(
-  ["App"]
+  ["App","TabBar"]
 )

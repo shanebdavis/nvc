@@ -7,6 +7,7 @@ App.Main       = require './main'
 App.Components = require './components'
 App.Data       = require './data'
 App.Models     = require './models'
+App.Styles     = require './styles'
 App.finishLoad(
   ["Main"]
 )

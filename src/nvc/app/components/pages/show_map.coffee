@@ -19,15 +19,13 @@ Namespace = require './namespace'
   OutlineElement
 } = React
 
-textStyle =
-  color: "#000a"
-  fontFamily: "sans-serif"
-  fontSize: 18 #if subMap then 18 else 16
+{textStyle} = Neptune.Nvc.App.Styles.StyleProps
+{TabButton} = require '../partials'
 
 MapLine = createFluxComponentFactory
 
   drillIn: ->
-    {category, subMap, showSubMap} = @props
+    {category, subMap} = @props
     if subMap
       @models.navState.currentMap = subMap
       @models.navState.currentPath = arrayWith @models.navState.currentPath, category
@@ -50,20 +48,18 @@ MapLine = createFluxComponentFactory
         align: "centerLeft"
         text: category
 
-ShowMap = createComponentFactory
+ShowMap = createFluxComponentFactory
   module: module
-  setShowSubMap: (props) ->
-    if props.category == @state.showSubMap?.category
-      @clearShowSubMap()
-    else
-      @setState showSubMap: props
 
-  clearShowSubMap: ->
-    @setState showSubMap: false
+  backOut: ->
+    path = @models.navState.currentPath = @models.navState.currentPath.slice 0, -1
+    map = Nvc.core
+    for k in path
+      map = map[k]
+    @models.navState.currentMap = map
 
   render: ->
-    {map, category, indent, animate} = @props
-    {showSubMap} = @state
+    {map, category, indent, animate, key, currentPath} = @props
 
     Element
       size: ps: 1
@@ -75,18 +71,13 @@ ShowMap = createComponentFactory
       if isPlainObject map
         Element
           size: ps: 1
-          childrenAlignment: "centerCenter"
+          childrenAlignment: "bottomCenter"
           childrenLayout: "flow"
           for k, v of map
-            v && showSubMap ||=
-              category: k
-              map: v
             MapLine
               category: k
               subMap: v
               indent: indent
-              selected: showSubMap?.category == k
-              showSubMap: @setShowSubMap
 
       else
         TextElement textStyle,
@@ -94,92 +85,26 @@ ShowMap = createComponentFactory
           size: ww:1, hch:1
           text: map.join ', '
 
-      # showSubMap?.map && Element
-      #   size: ww:1, hch:1
-      #   margin: 4
-      #   childrenLayout: "column"
-        # addedAnimation: animate && from: opacity: 0
-        # removedAnimation: animate && to: opacity: 0
-
-        # RectangleElement color: "orange",
-        #   margin: 4
-        #   size: ww:1, h:2
-
-        # showSubMap?.map && Element
-        #   size: ww: 1, hch:1
-
-        #   ShowMap showSubMap, key: showSubMap.category, animate: true
-
-TabButton = createFluxComponentFactory
-
-  pointerClick: ->
-    {path, map} = @props
-    @models.navState.currentPath = path
-    @models.navState.currentMap = map
-
-  render: ->
-    {text, selected} = @props
-    emojiMap =
-      needs: "🍎"
-      negEmotions: "☹️"
-      posEmotions: "😀"
-    props = if emojiText = emojiMap[text]
-      text: emojiText
-      fontSize: 32
-      color: "black"
-    else
-      text: text
-
-    Element
-      on: pointerClick: @pointerClick
-      selected && RectangleElement
-        color: "orange"
-        padding: 5
-        radius: 5
-      TextElement textStyle, props,
-        size: ps: 1
-        align: .5
-
-TabBar = createFluxComponentFactory
-  subscriptions: "navState.currentPath navState.currentMap"
-  render: ->
-    {currentPath, currentMap} = @state
-
-    Element
-      size: ww:1, h:50
-      voidProps:
-        size: ww:1, h: 0
-      animators: "size"
-      RectangleElement color: "white"
-
-      Element
-        childrenLayout: "row"
-        padding: (ps) -> h: ps.x / 12
-        switch currentPath.length
-          when 0, 1
-            for k in Nvc.categories
-              TabButton
-                path: [k]
-                map: Nvc[k]
-                text: k
-                selected: k == peek currentPath
-          else
-            rootMap = Nvc.core
-            path = []
-            for p, i in currentPath
-              path = arrayWith path, p
-              TabButton
-                path: path
-                map: rootMap = rootMap[p]
-                text: p
-                selected: i == currentPath.length - 1
+      if currentPath.length > 1
+        Element
+          size: ww:1, h:50
+          childrenLayout: "row"
+          TabButton text: "◀︎", action: @backOut, size: hh:1, wh:1
+          TabButton text: key, selected:true, size: ps: 1
+          TabButton text: "", size: hh:1, wh:1
 
 module.exports = createFluxComponentFactory class Top extends FluxComponent
   module: module
   subscriptions: "navState.currentPath navState.currentMap"
 
+  # preprocessState: (newState) ->
+  #   if @state.currentPath && @state.currentPath.length != newState.currentPath.length
+  #     newState.lastPath = @state.currentPath
+  #     newState.lastMap = @state.currentMap
+  #   newState
+
   render: ->
-    {currentPath, currentMap} = @state
+    {currentPath, currentMap, lastPath, lastMap} = @state
     currentTab = peek currentPath
 
     Element
@@ -189,6 +114,36 @@ module.exports = createFluxComponentFactory class Top extends FluxComponent
 
       Element
         size: ps: 1
-        currentMap && ShowMap key: currentTab, category: "NVC", map: currentMap
+        padding: 5
+        if currentPath.length > 0
+          # if lastPath
+          #   if lastPath.length > currentPath.length
+          #     [
+          #       ShowMap key: lastTab, category: "NVC", map: lastMap, currentPath:currentPath
+          #       ShowMap key: currentTab, category: "NVC", map: currentMap, currentPath:currentPath
+          #     ]
+          #   else
+          #     [
+          #       ShowMap key: lastTab, category: "NVC", map: lastMap, currentPath:currentPath
+          #       ShowMap key: currentTab, category: "NVC", map: currentMap, currentPath:currentPath
+          #     ]
+          # else
+          ShowMap key: currentTab, category: "NVC", map: currentMap, currentPath:currentPath
+        else
+          Element
+            size: ww:1, hch:1
+            childrenLayout: "row"
+            childrenAlignment: "center"
 
-      TabBar()
+            TextElement textStyle,
+              size: cs: 1
+              padding: 10
+              fontSize: 12
+
+              text: """
+                NVC Content
+                (c) 2005 by Center for Nonviolent Communication
+                Website: www.cnvc.org Email: cnvc@cnvc.org
+                Phone: +1.505-244-4041
+                """
+

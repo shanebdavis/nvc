@@ -1,4 +1,5 @@
 AppNamespace = require './namespace'
+require './styles'
 require './models'
 {App} = require './components'
 {FullScreenApp} = require 'art-engine'

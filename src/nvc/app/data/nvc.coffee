@@ -8,7 +8,7 @@ splitOnLines = (str) -> str.split "\n"
 module.exports = class Nvc extends HotStyleProps
   @categories: ["needs", "posEmotions" ,"negEmotions"]
   @needs:
-    connection:
+    "connection a-h":
       arrayToFalseMap splitOnLines """
       acceptance
       affection
@@ -23,19 +23,26 @@ module.exports = class Nvc extends HotStyleProps
       consideration
       consistency
       empathy
+      """
+    "connection i-z":
+      arrayToFalseMap splitOnLines """
       inclusion
       intimacy
       love
       mutuality
       nurturing
-      respect/self-respect
+      respect
+      self-respect
       safety
       security
       stability
       support
-      to know and be known
-      to see and be seen
-      to understand and be understood
+      to know
+      to be known
+      to see
+      to be seen
+      to understand
+      to be understood
       trust
       warmth
       """
