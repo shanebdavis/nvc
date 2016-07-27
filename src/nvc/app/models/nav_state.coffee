@@ -2,11 +2,15 @@ Foundation = require 'art-foundation'
 Flux = require 'art-flux'
 Data = require '../data'
 
-{createHotWithPostCreate} = Foundation
+{createHotWithPostCreate, arrayWith} = Foundation
 {ApplicationState} = Flux
 
 module.exports = createHotWithPostCreate module, class NavState extends ApplicationState
   @stateFields
     currentPath: []
-    currentMap: Data.Nvc.core
 
+  drillIn: (name, map, depth) ->
+    {currentPath} = @
+    if depth?
+      currentPath = currentPath.slice 0, depth
+    @currentPath = arrayWith currentPath, name:name, map:map

@@ -1,15 +1,76 @@
 Foundation = require 'art-foundation'
 {HotStyleProps} = require 'art-react'
 
-{log, arrayToFalseMap} = Foundation
+{log, arrayToFalseMap, wordsArray, deepMap} = Foundation
 
 splitOnLines = (str) -> str.split "\n"
 
+sbdNeedsList =
+  surviving:
+    "body":
+      sustanence:              "air, food, water"
+      "health":               "wellbeing, wellness, healing, regeneration, rejuvenation"
+      "energy":               "rest, restoration, sleep, vitality"
+    "healthy environment":    "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter"
+    "safety & security":
+      physical:               "violence, accidents, illness, disasters"
+      economic:               "stability predictability sustainability"
+    procreation:              "sexual-release children"
+
+  thriving:
+    pleasure:
+      senses:                 "music, food, fragrance, texture, art touch, smell, hear, taste, see"
+      body:                   "eroticisim, exercise, fitness, movement, dance, sex"
+      relaxation:             "leisure"
+      variety:                "newness, novelty"
+      comfort:                "quietness, space, sanctuary, ergonomic"
+
+    play:                     "adventure, excitement, fantasy, fun, humor, joy, laughter"
+
+    connection:
+      bonding:                "hugs, sexual-connection, trust, embrace, touch, openness, closeness, communication, communion, companionship, friendship, relationship, intimacy, mourning, partnership, mutuality, balance"
+
+      community:
+        belonging:            "acceptance, accepted, acknowledged, included, equality, interdependence"
+        participation:        "collaboration, cooperation, service, sharing"
+        appriciation:         "valued, recognition, wanted"
+
+      "giving & receiving":
+        nurturing:            "care, feedback, help, kindness, support, service, affection"
+        understanding:        "listening, empathy, knowing, respect, seeing"
+        compassion:           "attention, consideration, forgiveness, presence, reciprocity, respect, tenderness, unconditional, vulnerability, love"
+
+      safety:                 "consistency, honesty, justice, reassurance, trust"
+
+  transcending:
+    self:
+      "self-awareness":       "consciousness, acceptance, allowing, approval, care, connection, discovery, empathy, honesty, knowledge, love, responsibility"
+      "self-growth":          "learning, evolution, integration, development, improvement"
+      "self-expression":      "creativity, creation, expression, imagination, intuition, invention, innovation, actualization, empowerment, realization, transcendence"
+      "self-respect":         "esteem, respect, authenticity, congruency, courage, dignity, honor, integrity, lovely, worthy, wholeness"
+
+    meaning:                  "awareness, celebration, connectedness, depth, discovery, exploration, legacy, life, quality, spirituality, unity, union, oneness, vision, beauty"
+
+    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, idleness, order, privacy, routines, structure, time, tranquility, nature"
+
+    action:
+      engagement:             "flow, gratitude"
+      autonomy:               "challenge, choice, empowerment, enablement, flexibility, freedom, intention, independence, liberty, limitless, possibility, potential, power, responsibility"
+      purpose:                "contribution, dedication, dreams, enrich, impact, importance, inspiration, matter, passion, significance"
+      mastery:                "competence, effectiveness, efficiency"
+
+# TODO: use babelbridge to write a parser
+
+
+
+
 module.exports = class Nvc extends HotStyleProps
   @categories: ["needs", "posEmotions" ,"negEmotions"]
-  @needs:
+  @needs: deepMap sbdNeedsList, (el) -> el.match /[-_0-9a-z]+/gi
+
+  @nvcNeeds:
     "connection a-h":
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       acceptance
       affection
       appreciation
@@ -25,7 +86,7 @@ module.exports = class Nvc extends HotStyleProps
       empathy
       """
     "connection i-z":
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       inclusion
       intimacy
       love
@@ -48,7 +109,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     "physical well being":
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       air
       food
       movement/exercise
@@ -61,20 +122,20 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     honesty:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       authenticity
       integrity
       presence
       """
 
     play:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       joy
       humor
       """
 
     peace:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       beauty
       communion
       ease
@@ -85,7 +146,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     autonomy:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       choice
       freedom
       independence
@@ -94,7 +155,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     meaning:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       awareness
       celebration of life
       challenge
@@ -120,7 +181,7 @@ module.exports = class Nvc extends HotStyleProps
 
   @posEmotions:
     affectionate:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       compassionate
       friendly
       loving
@@ -131,7 +192,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     engaged:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       absorbed
       alert
       curious
@@ -147,14 +208,14 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     hopeful:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       expectant
       encouraged
       optimistic
       """
 
     confident:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       empowered
       open
       proud
@@ -163,7 +224,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     excited:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       amazed
       animated
       ardent
@@ -182,7 +243,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     grateful:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       appreciative
       moved
       thankful
@@ -190,14 +251,14 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     inspired:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       amazed
       awed
       wonder
       """
 
     joyful:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       amused
       delighted
       glad
@@ -208,7 +269,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     exhilarated:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       blissful
       ecstatic
       elated
@@ -220,7 +281,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     peaceful:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       calm
       clear headed
       comfortable
@@ -241,7 +302,7 @@ module.exports = class Nvc extends HotStyleProps
 
   @negEmotions:
     afraid:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       apprehensive
       dread
       foreboding
@@ -257,7 +318,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     annoyed:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       aggravated
       dismayed
       disgruntled
@@ -270,7 +331,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     angry:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       enraged
       furious
       incensed
@@ -282,7 +343,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     aversion:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       animosity
       appalled
       contempt
@@ -295,7 +356,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     confused:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       ambivalent
       baffled
       bewildered
@@ -309,7 +370,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     disconnected:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       alienated
       aloof
       apathetic
@@ -326,7 +387,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     disquiet:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       agitated
       alarmed
       discombobulated
@@ -349,7 +410,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     embarrassed:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       ashamed
       chagrined
       flustered
@@ -359,7 +420,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     fatigue:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       beat
       burnt out
       depleted
@@ -373,7 +434,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     pain:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       agony
       anguished
       bereaved
@@ -388,7 +449,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     sad:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       depressed
       dejected
       despair
@@ -406,7 +467,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     tense:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       anxious
       cranky
       distressed
@@ -423,7 +484,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     vulnerable:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       fragile
       guarded
       helpless
@@ -435,7 +496,7 @@ module.exports = class Nvc extends HotStyleProps
       """
 
     yearning:
-      arrayToFalseMap splitOnLines """
+      wordsArray """
       envious
       jealous
       longing
