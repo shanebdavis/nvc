@@ -1,6 +1,6 @@
 
 cp cordova/www/app.js gh_pages_transfer/
-git checkout gh_pages
+git checkout gh-pages
 cp gh_pages_transfer/* .
 git add *
 git commit -m "deploy"
