@@ -63,12 +63,14 @@ module.exports = createWithPostCreate class App extends Component
 
               text: """
 
+                Needs list and App by
+                Shane Brinkman-Davis Delamore
 
+                Emotion lists:
                 NVC Content
                 (c) 2005 by Center for Nonviolent Communication
                 Website: www.cnvc.org Email: cnvc@cnvc.org
                 Phone: +1.505-244-4041
-
 
                 """
 
