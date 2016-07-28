@@ -2,4 +2,5 @@
 # file: nvc/index.coffee
 
 module.exports = require './namespace'
+.includeInNamespace require './_nvc'
 require './app'

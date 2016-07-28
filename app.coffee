@@ -1,1 +1,1 @@
-module.exports = require "./src/nvc/app/main"
+module.exports = require "./src/nvc"

@@ -65,6 +65,7 @@ module.exports = createWithPostCreate class App extends Component
 
                 Needs list and App by
                 Shane Brinkman-Davis Delamore
+                v#{Neptune.Nvc.version}
 
                 Emotion lists:
                 NVC Content
