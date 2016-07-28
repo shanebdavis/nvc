@@ -15180,7 +15180,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.2.0"
+		"version": "0.3.0"
 	};
 
 /***/ },
@@ -20470,6 +20470,9 @@
 	    elementSpaceDrawArea: function() {
 	      return this._elementSpaceDrawArea || (this._elementSpaceDrawArea = this._computeElementSpaceDrawArea());
 	    },
+	    drawArea: function() {
+	      return this.elementSpaceDrawArea;
+	    },
 	    absOpacity: function() {
 	      var opacity, parent;
 	      opacity = this.getVisible() ? this.getOpacity() : 0;
@@ -21215,12 +21218,15 @@
 	        })(this));
 	      }
 	    },
-	    baseDrawArea: function(pending) {
+	    preFilteredBaseDrawArea: function(pending) {
 	      var _currentPadding, _currentSize, h, ref, w, x, y;
 	      ref = this.getState(pending), _currentPadding = ref._currentPadding, _currentSize = ref._currentSize;
 	      x = _currentSize.x, y = _currentSize.y;
 	      w = _currentPadding.w, h = _currentPadding.h;
 	      return rect(0, 0, x - w, y - h);
+	    },
+	    baseDrawArea: function(pending) {
+	      return this.getPreFilteredBaseDrawArea(pending);
 	    }
 	  });
 
@@ -27992,8 +27998,8 @@
 	      if (offset = shadow.offset) {
 	        ref1 = offset.layout(_currentSize), x = ref1.x, y = ref1.y;
 	        return merge(shadow, {
-	          offsetX: x - _currentSize.x / 2,
-	          offsetY: y - _currentSize.y / 2
+	          offsetX: x,
+	          offsetY: y
 	        });
 	      } else {
 	        return merge({
@@ -28021,13 +28027,11 @@
 	    return r["with"](x - expandLeft, y - expandTop, w + expandLeft + expandRight, h + expandTop + expandBottom);
 	  };
 
-	  FillableBase.prototype.getBaseDrawArea = function() {
-	    return this._expandRectangleByShadow(FillableBase.__super__.getBaseDrawArea.apply(this, arguments), this.getShadow());
-	  };
-
-	  FillableBase.prototype.getPendingBaseDrawArea = function() {
-	    return this._expandRectangleByShadow(FillableBase.__super__.getPendingBaseDrawArea.apply(this, arguments), this.getPendingShadow());
-	  };
+	  FillableBase.virtualProperty({
+	    baseDrawArea: function(pending) {
+	      return this._expandRectangleByShadow(this.getPreFilteredBaseDrawArea(pending), this.getState(pending)._shadow);
+	    }
+	  });
 
 	  FillableBase.prototype._prepareDrawOptions = function(drawOptions, compositeMode, opacity) {
 	    var _colors, _currentSize, _from, _gradientRadius, _to, gradientScale, r1, r2;
@@ -31192,8 +31196,8 @@
 	  }
 
 	  FillElement.virtualProperty({
-	    baseDrawArea: function(pending) {
-	      return this.getParent().getBaseDrawArea(pending);
+	    preFilteredBaseDrawArea: function(pending) {
+	      return this.getParent().getPreFilteredBaseDrawArea(pending);
 	    }
 	  });
 
@@ -31307,11 +31311,12 @@
 	      var _lineJoin, _lineWidth, _miterLimit, ref;
 	      ref = this.getState(pending), _lineWidth = ref._lineWidth, _lineJoin = ref._lineJoin, _miterLimit = ref._miterLimit;
 	      return _lineWidth * (_lineJoin === "miter" ? _miterLimit / 2 : .5);
-	    },
-	    baseDrawArea: function(pending) {
-	      return this.getState(pending)._parent.getBaseDrawArea(pending).grow(this.getDrawAreaPadding(pending));
 	    }
 	  });
+
+	  OutlineElement.prototype.getPreFilteredBaseDrawArea = function(pending) {
+	    return OutlineElement.__super__.getPreFilteredBaseDrawArea.apply(this, arguments).grow(this.getDrawAreaPadding(pending));
+	  };
 
 	  OutlineElement.getter({
 	    cacheable: function() {
@@ -39515,52 +39520,46 @@
 	      "health": "wellbeing, wellness, healing, regeneration, rejuvenation",
 	      "energy": "rest, restoration, sleep, vitality"
 	    },
-	    "healthy environment": "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter",
-	    "safety & security": {
-	      physical: "violence, accidents, illness, disasters",
-	      economic: "stability predictability sustainability"
-	    },
+	    "environment": "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter",
+	    safety: "violence, accidents, illness, disasters",
+	    security: "stability predictability sustainability",
 	    procreation: "sexual-release children"
 	  },
 	  thriving: {
 	    pleasure: {
 	      senses: "music, food, fragrance, texture, art touch, smell, hear, taste, see",
 	      body: "eroticisim, exercise, fitness, movement, dance, sex",
-	      relaxation: "leisure",
 	      variety: "newness, novelty",
-	      comfort: "quietness, space, sanctuary, ergonomic"
+	      comfort: "quiet, space, sanctuary, ergonomics, leisure, time"
 	    },
 	    play: "adventure, excitement, fantasy, fun, humor, joy, laughter",
-	    connection: {
-	      bonding: "hugs, sexual-connection, trust, embrace, touch, openness, closeness, communication, communion, companionship, friendship, relationship, intimacy, mourning, partnership, mutuality, balance",
+	    social: {
+	      bonding: "common-experience, common-interests, common-values, connection, hug, sexual-connection, embracing, touch, openness, closeness, communication, communion, companionship, friendship, relationship, intimacy, mourning, partnership, mutuality, balance",
 	      community: {
-	        belonging: "acceptance, accepted, acknowledged, included, equality, interdependence",
+	        belonging: "accepted, acknowledged, included, equal",
 	        participation: "collaboration, cooperation, service, sharing",
-	        appriciation: "valued, recognition, wanted"
+	        appriciation: "valued, recognized, wanted"
 	      },
-	      "giving & receiving": {
-	        nurturing: "care, feedback, help, kindness, support, service, affection",
-	        understanding: "listening, empathy, knowing, respect, seeing",
-	        compassion: "attention, consideration, forgiveness, presence, reciprocity, respect, tenderness, unconditional, vulnerability, love"
+	      reciprocity: {
+	        nurturing: "care, feedback, help, kindness, support, affection",
+	        understanding: "listening, empathy, knowing, seeing",
+	        compassion: "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
 	      },
 	      safety: "consistency, honesty, justice, reassurance, trust"
 	    }
 	  },
 	  transcending: {
-	    self: {
-	      "self-awareness": "consciousness, acceptance, allowing, approval, care, connection, discovery, empathy, honesty, knowledge, love, responsibility",
-	      "self-growth": "learning, evolution, integration, development, improvement",
-	      "self-expression": "creativity, creation, expression, imagination, intuition, invention, innovation, actualization, empowerment, realization, transcendence",
-	      "self-respect": "esteem, respect, authenticity, congruency, courage, dignity, honor, integrity, lovely, worthy, wholeness"
-	    },
-	    meaning: "awareness, celebration, connectedness, depth, discovery, exploration, legacy, life, quality, spirituality, unity, union, oneness, vision, beauty",
-	    peace: "ease, balance, clarity, faith, grace, harmony, hope, idleness, order, privacy, routines, structure, time, tranquility, nature",
-	    action: {
-	      engagement: "flow, gratitude",
-	      autonomy: "challenge, choice, empowerment, enablement, flexibility, freedom, intention, independence, liberty, limitless, possibility, potential, power, responsibility",
-	      purpose: "contribution, dedication, dreams, enrich, impact, importance, inspiration, matter, passion, significance",
-	      mastery: "competence, effectiveness, efficiency"
-	    }
+	    "self-acceptance": "allowing, approval, empathy, love, compassion, caring",
+	    "self-awareness": "consciousness, discovery, honesty, knowledge",
+	    "self-growth": "evolution, integration, development, improvement",
+	    "self-expression": "creativity, creation, imagination, invention, innovation, actualization, realization",
+	    "self-respect": "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy",
+	    meaning: "perspective, learning, awareness, celebration, depth, discovery, exploration, legacy, quality, spirituality, unity, oneness, beauty",
+	    peace: "ease, balance, clarity, faith, grace, harmony, hope, idleness, order, privacy, structure, tranquility",
+	    engagement: "flow, gratitude, practice",
+	    autonomy: "challenged, choice, empowered, enabled, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
+	    purpose: "contribute, dedicated, dreams, enrich, impact, important, inspired, matter, passionate, significant, vision",
+	    mastery: "competent, effective, efficient, skillful"
 	  }
 	};
 
@@ -39762,7 +39761,7 @@
 /* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, PagingScrollElement, React, RectangleElement, SubMap, SubMapFactory, TabButton, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, PagingScrollElement, React, RectangleElement, SubMap, SubMapFactory, TabButton, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, subtextMap, textStyle,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -39792,6 +39791,15 @@
 	  posEmotions: "😀"
 	};
 
+	subtextMap = {
+	  needs: "needs",
+	  negEmotions: "emotions",
+	  posEmotions: "emotions",
+	  surviving: "animal",
+	  thriving: "mamal",
+	  transcending: "human"
+	};
+
 	MapLine = createFluxComponentFactory({
 	  drillIn: function() {
 	    var category, drillIn, ref1, subMap;
@@ -39801,10 +39809,11 @@
 	    }
 	  },
 	  render: function() {
-	    var category, color, emojiText, indent, ref1, selected, subMap;
+	    var category, color, emojiText, indent, ref1, selected, subMap, subtext;
 	    ref1 = this.props, category = ref1.category, subMap = ref1.subMap, selected = ref1.selected, color = ref1.color, indent = ref1.indent;
 	    color = selected ? "orange" : "white";
 	    indent || (indent = 0);
+	    subtext = subtextMap[category];
 	    return Element({
 	      size: {
 	        wcw: 1,
@@ -39824,7 +39833,7 @@
 	      padding: 3
 	    }), (emojiText = emojiMap[category]) ? Element({
 	      size: 100,
-	      padding: 10
+	      padding: 18
 	    }, TextElement({
 	      text: emojiText,
 	      location: {
@@ -39843,6 +39852,18 @@
 	      align: "centerCenter",
 	      text: category,
 	      padding: subMap ? 20 : 15
+	    }), subtext && TextElement(textStyle, {
+	      fontSize: 10,
+	      location: {
+	        ww: .5,
+	        yh: 1,
+	        y: -8
+	      },
+	      size: {
+	        cs: 1
+	      },
+	      axis: "bottomCenter",
+	      text: subtext
 	    }));
 	  }
 	});
