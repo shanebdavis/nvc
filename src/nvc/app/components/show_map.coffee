@@ -27,6 +27,14 @@ emojiMap =
   negEmotions: "☹️"
   posEmotions: "😀"
 
+subtextMap =
+  needs: "needs"
+  negEmotions: "emotions"
+  posEmotions: "emotions"
+  surviving: "animal"
+  thriving: "mamal"
+  transcending: "human"
+
 MapLine = createFluxComponentFactory
 
   drillIn: ->
@@ -39,6 +47,8 @@ MapLine = createFluxComponentFactory
     color = if selected then "orange" else "white"
     indent ||= 0
 
+    subtext = subtextMap[category]
+
     Element
       size: wcw:1, hch: 1
       on: pointerClick: @drillIn
@@ -50,7 +60,7 @@ MapLine = createFluxComponentFactory
       if emojiText = emojiMap[category]
         Element
           size: 100
-          padding: 10
+          padding: 18
           TextElement
             text: emojiText
             location: ps: .5
@@ -66,6 +76,13 @@ MapLine = createFluxComponentFactory
           align: "centerCenter"
           text: category
           padding: if subMap then 20 else 15
+      subtext &&
+        TextElement textStyle,
+          fontSize: 10
+          location: ww:.5, yh: 1, y:-8
+          size: cs:1
+          axis: "bottomCenter"
+          text: subtext
 
 module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxComponent
   module: module
