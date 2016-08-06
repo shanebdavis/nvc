@@ -19,11 +19,12 @@ Atomic = require 'art-atomic'
   FillElement
 } = React
 
-{textStyle} = Neptune.Nvc.App.Styles.StyleProps
+{StyleProps} = Neptune.Nvc.App.Styles
+{textStyle} = StyleProps
 {TabButton} = require './partials'
 
 emojiMap =
-  needs: "🍎"
+  needs: "🌳"
   negEmotions: "☹️"
   posEmotions: "😀"
 
@@ -44,7 +45,7 @@ MapLine = createFluxComponentFactory
 
   render: ->
     {category, subMap, selected, color, indent} = @props
-    color = if selected then "orange" else "white"
+    color = if selected then StyleProps.primaryColor else "white"
     indent ||= 0
 
     subtext = subtextMap[category]
@@ -112,7 +113,7 @@ module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxC
         cacheDraw: true
         childrenLayout: "column"
         margin: 5
-        key && RectangleElement color: "orange", margin: 5, size: ww:1, h:1
+        key && RectangleElement color: StyleProps.primaryColor, margin: 5, size: ww:1, h:1
           # size: ww:1, h:50
           # childrenLayout: "row"
           # TabButton text: key, selected:true, size: ps: 1

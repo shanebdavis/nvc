@@ -3,7 +3,8 @@ React = require 'art-react'
 {createFluxComponentFactory, FluxComponent} = require 'art-flux'
 {RectangleElement, Element, TextElement} = React
 
-{textStyle} = Neptune.Nvc.App.Styles.StyleProps
+{StyleProps} = Neptune.Nvc.App.Styles
+{textStyle} = StyleProps
 
 module.exports = createFluxComponentFactory
 
@@ -11,7 +12,7 @@ module.exports = createFluxComponentFactory
     {text, selected, action, size} = @props
 
     emojiMap =
-      needs: "🍎"
+      needs: "🌳"
       negEmotions: "☹️"
       posEmotions: "😀"
     props = if emojiText = emojiMap[text]
@@ -25,7 +26,7 @@ module.exports = createFluxComponentFactory
       size: size
       on: pointerClick: action
       selected && RectangleElement
-        color: "orange"
+        color: StyleProps.primaryColor
         padding: 5
         radius: 5
       TextElement textStyle, props,
