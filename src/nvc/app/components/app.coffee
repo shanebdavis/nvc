@@ -41,7 +41,9 @@ module.exports = createWithPostCreate class App extends Component
       RectangleElement inFlow: false, color: "#f9f9f9"
 
       PagingScrollElement
-        size: ps: 1
+        location: ww: .5
+        axis: "topCenter"
+        size: ps: 1, max: w: 600
 
         Element
           size: ww:1, hch:1

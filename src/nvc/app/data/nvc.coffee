@@ -38,23 +38,23 @@ sbdNeedsList =
         understanding:        "listening, empathy, knowing, seeing"
         compassion:           "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
 
-      safety:                 "consistency, honesty, justice, reassurance, trust"
+      safety:                 "consistency, honesty, justice, reassurance, trust privacy"
 
   transcending:
-    "self-acceptance":        "allowing, approval, empathy, love, compassion, caring"
-    "self-awareness":         "consciousness, discovery, honesty, knowledge"
+    "self-acceptance":        "allowing, approval, empathy, love, compassion, caring honesty"
+    "self-awareness":         "consciousness, discovery, knowledge"
     "self-growth":            "evolution, integration, development, improvement"
     "self-expression":        "creativity, creation, imagination, invention, innovation, actualization, realization"
     "self-respect":           "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy"
 
     meaning:                  "perspective, learning, awareness, celebration, depth, discovery, exploration, legacy, quality, spirituality, unity, oneness, beauty"
 
-    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, idleness, order, privacy, structure, tranquility"
+    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility"
 
     engagement:               "flow, gratitude, practice"
-    autonomy:                 "challenged, choice, empowered, enabled, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility"
-    purpose:                  "contribute, dedicated, dreams, enrich, impact, important, inspired, matter, passionate, significant, vision"
-    mastery:                  "competent, effective, efficient, skillful"
+    autonomy:                 "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility"
+    purpose:                  "contribution, dedication, dreams, enrichment, impact, importance, inspiration, to-matter, passion, significance, vision"
+    mastery:                  "competence, effectiveness, efficiency, skill"
 
 # TODO: use babelbridge to write a parser
 

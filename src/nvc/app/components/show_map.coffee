@@ -57,6 +57,7 @@ MapLine = createFluxComponentFactory
         color: "white"
         animate: to: color: color
         padding: 3
+        radius: 2
         shadow: offsetY: 2, blur: 8, color: "#0002" unless selected
       if emojiText = emojiMap[category]
         Element
@@ -112,8 +113,8 @@ module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxC
         size: ww:1, hch:1
         cacheDraw: true
         childrenLayout: "column"
-        margin: 5
-        key && RectangleElement color: StyleProps.primaryColor, margin: 5, size: ww:1, h:1
+        margin: 10
+        key && RectangleElement color: "#0001", margin: 10, size: ww: 1, h: 2
 
         if isPlainObject map
           Element
@@ -135,7 +136,7 @@ module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxC
             childrenAlignment: "center"
             TextElement textStyle,
               padding: 10
-              size: ww:1, hch:1, max: w: 600
+              size: ww:1, hch:1
               text: map.sort?().join(', ') || map
               align: "center"
 
