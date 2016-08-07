@@ -419,7 +419,7 @@ module.exports = class Nvc extends HotStyleProps
     fatigue:
       wordsArray """
       beat
-      burnt out
+      burnt-out
       depleted
       exhausted
       lethargic
@@ -427,7 +427,7 @@ module.exports = class Nvc extends HotStyleProps
       sleepy
       tired
       weary
-      worn out
+      worn-out
       """
 
     pain:

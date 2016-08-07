@@ -21,7 +21,6 @@ Atomic = require 'art-atomic'
 
 {StyleProps} = Neptune.Nvc.App.Styles
 {textStyle} = StyleProps
-{TabButton} = require './partials'
 
 emojiMap =
   needs: "🌳"
@@ -58,6 +57,7 @@ MapLine = createFluxComponentFactory
         color: "white"
         animate: to: color: color
         padding: 3
+        shadow: offsetY: 2, blur: 8, color: "#0002" unless selected
       if emojiText = emojiMap[category]
         Element
           size: 100
@@ -114,9 +114,6 @@ module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxC
         childrenLayout: "column"
         margin: 5
         key && RectangleElement color: StyleProps.primaryColor, margin: 5, size: ww:1, h:1
-          # size: ww:1, h:50
-          # childrenLayout: "row"
-          # TabButton text: key, selected:true, size: ps: 1
 
         if isPlainObject map
           Element

@@ -5,4 +5,3 @@ module.exports = require './namespace'
 .addModules
   App:     require './app'     
   ShowMap: require './show_map'
-require './partials'
