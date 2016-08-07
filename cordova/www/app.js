@@ -1319,7 +1319,7 @@
 	};
 
 	module.exports = Types = (function() {
-	  var cloneObjectUpToKey, deepEach, deepMap, deepMapArray, deepMapObject, functionName, hasKeys, isClass, isFunction, isJsonAtomicType, isNumber, isObject, isPlainArray, isPlainObject, isString, noopMapper, objectName, toJsonStructure, toPostMessageStructure;
+	  var cloneObjectUpToKey, deepEach, deepEachAll, deepMap, deepMapArray, deepMapObject, functionName, hasKeys, isClass, isFunction, isJsonAtomicType, isNumber, isObject, isPlainArray, isPlainObject, isString, noopMapper, objectName, toJsonStructure, toPostMessageStructure;
 
 	  function Types() {}
 
@@ -1406,6 +1406,18 @@
 	  like RubyOnRails#present:
 	    "An object is present if it's not blank."
 	  
+	  IN:
+	    obj:
+	      object tested for presence
+	    returnIfNotPresent: [false]
+	      what to return if not present
+	  
+	  OUT:
+	    if obj is "present"
+	      obj
+	    else
+	      returnIfNotPresent
+	  
 	  Examples:
 	    "", undefined, null => false
 	    0 => true
@@ -1413,11 +1425,16 @@
 	  If 'obj' has method: obj.present() => !!obj.present()
 	   */
 
-	  Types.present = function(obj) {
-	    if (isFunction(obj != null ? obj.present : void 0)) {
-	      return !!obj.present();
+	  Types.present = function(obj, returnIfNotPresent) {
+	    var present;
+	    if (returnIfNotPresent == null) {
+	      returnIfNotPresent = false;
+	    }
+	    present = isFunction(obj != null ? obj.present : void 0) ? obj.present() : obj !== "" && obj !== void 0 && obj !== null && obj !== false;
+	    if (present) {
+	      return obj;
 	    } else {
-	      return obj !== "" && obj !== void 0 && obj !== null;
+	      return returnIfNotPresent;
 	    }
 	  };
 
@@ -1507,6 +1524,30 @@
 	      }
 	    } else {
 	      f(v, key);
+	    }
+	    return v;
+	  };
+
+
+	  /*
+	  deepEachAll: just like deepEach except 'f' gets called on every value found including the initial value.
+	   */
+
+	  Types.deepEachAll = deepEachAll = function(v, f, key) {
+	    var j, k, len, subV;
+	    f(v, key);
+	    if (isPlainArray(v)) {
+	      for (j = 0, len = v.length; j < len; j++) {
+	        subV = v[j];
+	        deepEachAll(subV, f);
+	      }
+	    } else if (isPlainObject(v)) {
+	      for (k in v) {
+	        subV = v[k];
+	        deepEachAll(subV, f, k);
+	      }
+	    } else {
+
 	    }
 	    return v;
 	  };
@@ -1711,6 +1752,23 @@
 	      res[a] = false;
 	    }
 	    return res;
+	  };
+
+	  ArrayExtensions.uniqueValues = function(sortedArray, eqF) {
+	    var i, len1, p, results, v;
+	    if (eqF == null) {
+	      eqF = (function(a, b) {
+	        return a === b;
+	      });
+	    }
+	    results = [];
+	    for (i = p = 0, len1 = sortedArray.length; p < len1; i = ++p) {
+	      v = sortedArray[i];
+	      if (i === 0 || !eqF(v, sortedArray[i - 1])) {
+	        results.push(v);
+	      }
+	    }
+	    return results;
 	  };
 
 
@@ -2304,12 +2362,28 @@
 	    return n1 === n2 || float32Precision > abs(n1 - n2);
 	  };
 
-	  Math.floatEq0 = function(n1) {
-	    return n1 === 0 || float64Precision > abs(n1);
+	  Math.floatEq0 = function(n) {
+	    return n === 0 || float64Precision > abs(n);
 	  };
 
-	  Math.float32Eq0 = function(n1) {
-	    return n1 === 0 || float32Precision > abs(n1);
+	  Math.float32Eq0 = function(n) {
+	    return n === 0 || float32Precision > abs(n);
+	  };
+
+	  Math.floatTrue0 = function(n) {
+	    if (n === 0 || float64Precision > abs(n)) {
+	      return 0;
+	    } else {
+	      return n;
+	    }
+	  };
+
+	  Math.float32True0 = function(n) {
+	    if (n === 0 || float32Precision > abs(n)) {
+	      return 0;
+	    } else {
+	      return n;
+	    }
 	  };
 
 	  Math.random = random;
@@ -2636,12 +2710,14 @@
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Eq, isNumber, isString, min, objectKeyCount, ref, remove,
+	var Eq, floatTrue0, isNumber, isString, min, objectKeyCount, ref, remove,
 	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 	remove = __webpack_require__(23).remove;
 
 	objectKeyCount = __webpack_require__(29).objectKeyCount;
+
+	floatTrue0 = __webpack_require__(24).floatTrue0;
 
 	ref = __webpack_require__(22), isString = ref.isString, isNumber = ref.isNumber;
 
@@ -2759,12 +2835,12 @@
 	    if (a === b) {
 	      return 0;
 	    }
-	    if (a && b && a.constructor === (_constructor = b.constructor)) {
+	    if ((a != null) && (b != null) && a.constructor === (_constructor = b.constructor)) {
 	      if (isString(a)) {
 	        return a.localeCompare(b);
 	      }
 	      if (isNumber(a)) {
-	        return a - b;
+	        return floatTrue0(a - b);
 	      }
 	      if (recursionBlockArray) {
 	        if (indexOf.call(recursionBlockArray, a) >= 0 || indexOf.call(recursionBlockArray, b) >= 0) {
@@ -5708,11 +5784,14 @@
 	    return this;
 	  };
 
-	  BaseObject.getPrototypePropertyExtendedByInheritance = function(propertyName, defaultStructure) {
+	  BaseObject.getPrototypePropertyExtendedByInheritance = function(propertyName, defaultStructure, _clone) {
+	    if (_clone == null) {
+	      _clone = extendClone;
+	    }
 	    if (this.prototype.hasOwnProperty(propertyName)) {
 	      return this.prototype[propertyName];
 	    } else {
-	      return this.prototype[propertyName] = extendClone(this.__super__[propertyName] || defaultStructure);
+	      return this.prototype[propertyName] = _clone(this.__super__[propertyName] || defaultStructure);
 	    }
 	  };
 
@@ -10551,7 +10630,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.21.0"
+		"version": "0.23.0"
 	};
 
 /***/ },
@@ -11207,6 +11286,8 @@
 
 	module.exports = StyleProps = (function() {
 	  function StyleProps() {}
+
+	  StyleProps.primaryColor = "#8ebdf6";
 
 	  StyleProps.textStyle = {
 	    color: "#000a",
@@ -15341,7 +15422,7 @@
 
 	module.exports = {
 		"name": "art-canvas",
-		"version": "1.2.0",
+		"version": "1.3.1",
 		"description": "art-canvas",
 		"main": "index.coffee",
 		"dependencies": {
@@ -15361,515 +15442,608 @@
 /* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	var Atomic, BaseObject, Binary, BinaryString, BitmapBase, Color, Foundation, Matrix, Point, Rectangle, alphaChannelOffset, color, floor, inspect, isNumber, isString, log, matrix, nextTick, pixelStep, point, pureMerge, rect, round, toChannelNumberMap,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10), __webpack_require__(125)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic) {
-	  var BaseObject, Binary, BinaryString, BitmapBase, Color, Matrix, Point, Rectangle, color, floor, inspect, isNumber, isString, log, matrix, nextTick, point, pureMerge, rect, round, toChannelNumberMap;
-	  point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, color = Atomic.color, Color = Atomic.Color;
-	  inspect = Foundation.inspect, nextTick = Foundation.nextTick, BaseObject = Foundation.BaseObject, Binary = Foundation.Binary, pureMerge = Foundation.pureMerge, isString = Foundation.isString, isNumber = Foundation.isNumber, log = Foundation.log;
-	  round = Math.round, floor = Math.floor;
-	  BinaryString = Binary.BinaryString;
-	  toChannelNumberMap = {
-	    0: 0,
-	    1: 1,
-	    2: 2,
-	    3: 3,
-	    r: 0,
-	    g: 1,
-	    b: 2,
-	    a: 3,
-	    red: 0,
-	    green: 1,
-	    blue: 2,
-	    alpha: 3
+	Foundation = __webpack_require__(10);
+
+	Atomic = __webpack_require__(125);
+
+	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, color = Atomic.color, Color = Atomic.Color;
+
+	inspect = Foundation.inspect, nextTick = Foundation.nextTick, BaseObject = Foundation.BaseObject, Binary = Foundation.Binary, pureMerge = Foundation.pureMerge, isString = Foundation.isString, isNumber = Foundation.isNumber, log = Foundation.log;
+
+	round = Math.round, floor = Math.floor;
+
+	BinaryString = Binary.BinaryString;
+
+	toChannelNumberMap = {
+	  0: 0,
+	  1: 1,
+	  2: 2,
+	  3: 3,
+	  r: 0,
+	  g: 1,
+	  b: 2,
+	  a: 3,
+	  red: 0,
+	  green: 1,
+	  blue: 2,
+	  alpha: 3
+	};
+
+	alphaChannelOffset = 3;
+
+	pixelStep = 4;
+
+	module.exports = BitmapBase = (function(superClass) {
+	  var calculateBottom, calculateLeft, calculateRight, calculateTop;
+
+	  extend(BitmapBase, superClass);
+
+	  BitmapBase.bitmapsCreated = 0;
+
+	  BitmapBase.prototype.compositeModeSupported = function(mode) {
+	    return this.supportedCompositeModes.indexOf(mode) >= 0;
 	  };
-	  return BitmapBase = (function(superClass) {
-	    extend(BitmapBase, superClass);
 
-	    BitmapBase.bitmapsCreated = 0;
+	  BitmapBase.pixelSnapDefault = true;
 
-	    BitmapBase.prototype.compositeModeSupported = function(mode) {
-	      return this.supportedCompositeModes.indexOf(mode) >= 0;
-	    };
+	  BitmapBase.prototype.defaultColor = color("black");
 
-	    BitmapBase.pixelSnapDefault = true;
+	  BitmapBase.prototype.defaultColorString = "black";
 
-	    BitmapBase.prototype.defaultColor = color("black");
+	  function BitmapBase(a, b) {
+	    BitmapBase.__super__.constructor.apply(this, arguments);
+	    this._htmlImageElement = null;
+	    this._canvas = null;
+	    this._clippingArea = null;
+	    this._context = null;
+	    this._size = null;
+	    this._lastTransform = null;
+	    this._imageSmoothing = false;
+	    this.pixelSnap = BitmapBase.pixelSnapDefault;
+	    this._pixelsPerPoint = 1;
+	    BitmapBase.bitmapsCreated++;
+	    if (b) {
+	      a = point(a, b);
+	    }
+	    if (a instanceof BitmapBase) {
+	      this.populateClone(this);
+	    } else if (a instanceof HTMLCanvasElement) {
+	      this.initFromCanvas(a);
+	    } else if (a instanceof HTMLImageElement) {
+	      this.initFromImage(a);
+	    } else {
+	      this.initNewCanvas(point(a, b));
+	    }
+	  }
 
-	    BitmapBase.prototype.defaultColorString = "black";
-
-	    function BitmapBase(a, b) {
-	      BitmapBase.__super__.constructor.apply(this, arguments);
-	      this._htmlImageElement = null;
-	      this._canvas = null;
-	      this._clippingArea = null;
-	      this._context = null;
-	      this._size = null;
-	      this._lastTransform = null;
-	      this._imageSmoothing = false;
-	      this.pixelSnap = BitmapBase.pixelSnapDefault;
-	      this._pixelsPerPoint = 1;
-	      BitmapBase.bitmapsCreated++;
-	      if (b) {
-	        a = point(a, b);
+	  BitmapBase.getter({
+	    inspectedObjects: function() {
+	      return this;
+	    },
+	    canvas: function() {
+	      if (!this._canvas) {
+	        if (this._htmlImageElement) {
+	          this.initNewCanvas(this.size);
+	          this.drawBitmap(null, this._htmlImageElement);
+	        } else {
+	          throw new Error("can't get @canvas");
+	        }
 	      }
-	      if (a instanceof BitmapBase) {
-	        this.populateClone(this);
-	      } else if (a instanceof HTMLCanvasElement) {
-	        this.initFromCanvas(a);
-	      } else if (a instanceof HTMLImageElement) {
-	        this.initFromImage(a);
-	      } else {
-	        this.initNewCanvas(point(a, b));
+	      return this._canvas;
+	    },
+	    bitmapClass: function() {
+	      return this["class"];
+	    },
+	    clippingArea: function() {
+	      return this._clippingArea || (this._clippingArea = rect(this.getSize()));
+	    },
+	    aspectRatio: function() {
+	      return this.getSize().getAspectRatio();
+	    }
+	  });
+
+	  BitmapBase.prototype.shouldPixelSnap = function(where) {
+	    return this.pixelSnap && ((!where) || (where instanceof Point) || where.isTranslateAndPositiveScaleOnly);
+	  };
+
+	  BitmapBase.prototype.pixelSnapWhere = function(where) {
+	    if (where instanceof Point) {
+	      return where.rounded;
+	    } else if (where) {
+	      return where.withRoundedTranslation;
+	    }
+	  };
+
+	  BitmapBase.prototype.pixelSnapRectangle = function(where, r) {
+	    var bottom, h, isx, isy, right, sx, sy, tx, ty, w, x, y;
+	    right = (x = r.x) + (w = r.w);
+	    bottom = (y = r.y) + (h = r.h);
+	    isx = isy = sx = sy = 1;
+	    tx = ty = 0;
+	    if (where instanceof Point) {
+	      tx = where.x;
+	      ty = where.y;
+	    } else if (where) {
+	      tx = where.tx;
+	      ty = where.ty;
+	      sx = where.sx;
+	      isx = 1 / sx;
+	      sy = where.sy;
+	      isy = 1 / sy;
+	    }
+	    x = (Math.round((x * sx) + tx) - tx) * isx;
+	    y = (Math.round((y * sy) + ty) - ty) * isy;
+	    w = (Math.round((right * sx) + tx) - tx) * isx - x;
+	    h = (Math.round((bottom * sy) + ty) - ty) * isy - y;
+	    return rect(x, y, w, h);
+	  };
+
+	  BitmapBase.prototype.pixelSnapAndTransformRectangle = function(where, r) {
+	    var bottom, left, right, top;
+	    if (!r) {
+	      console.error("no r");
+	    }
+	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
+	    if (where instanceof Point) {
+	      left += where.x;
+	      right += where.x;
+	      top += where.y;
+	      bottom += where.y;
+	    } else if (where) {
+	      left = where.transformX(left, top);
+	      top = where.transformY(left, top);
+	      right = where.transformX(right, bottom);
+	      bottom = where.transformY(right, bottom);
+	    }
+	    left = Math.round(left);
+	    top = Math.round(top);
+	    right = Math.round(right);
+	    bottom = Math.round(bottom);
+	    return rect(left, top, right - left, bottom - top);
+	  };
+
+	  BitmapBase.prototype.clone = function() {
+	    var b;
+	    b = this.newBitmap(this.size);
+	    b.drawBitmap(null, this);
+	    return b;
+	  };
+
+	  BitmapBase.prototype.crop = function(area) {
+	    area || (area = this.getAutoCropRectangle());
+	    area = rect(area).intersection(rect(this.size));
+	    return this.newBitmap(area.size).drawBitmap(Matrix.translateXY(-area.x, -area.y), this);
+	  };
+
+	  BitmapBase.prototype.initFromCanvas = function(canvas) {
+	    this._canvas = canvas;
+	    this._size = point(this._canvas.width, this._canvas.height);
+	    return this.initContext();
+	  };
+
+	  BitmapBase.prototype.initFromImage = function(image) {
+	    this._size = point(image.width, image.height);
+	    this.initNewCanvas(this.size);
+	    return this.drawBitmap(point(), image);
+	  };
+
+	  BitmapBase.prototype.initNewCanvas = function(size) {
+	    if (this._context) {
+	      return;
+	    }
+	    if (!size.gt(point())) {
+	      throw new Error("invalid size=" + size + " for Art.Canvas.Bitmap");
+	    }
+	    this._size = size.floor();
+	    this._canvas = document.createElement('canvas');
+	    this._canvas.width = this.size.x;
+	    this._canvas.height = this.size.y;
+	    return this.initContext();
+	  };
+
+	  BitmapBase.prototype.populateClone = function(result) {
+	    result.initNewCanvas(this.size);
+	    result.drawBitmap(null, this);
+	    return result._pixelsPerPoint = this._pixelsPerPoint;
+	  };
+
+	  BitmapBase.getter({
+	    pixelsPerPoint: function() {
+	      return this._pixelsPerPoint;
+	    },
+	    pointsPerPixel: function() {
+	      return 1 / this._pixelsPerPoint;
+	    },
+	    pointSize: function() {
+	      return this.size.div(this.pixelsPerPoint);
+	    },
+	    byteSize: function() {
+	      return this.size.area * this.getBytesPerPixel();
+	    },
+	    bytesPerPixel: function() {
+	      return 4;
+	    }
+	  });
+
+	  BitmapBase.setter({
+	    pixelsPerPoint: function(v) {
+	      return this._pixelsPerPoint = v;
+	    },
+	    pointsPerPixel: function(v) {
+	      return this._pixelsPerPoint = 1 / v;
+	    }
+	  });
+
+	  BitmapBase.property({
+	    size: point(100, 100)
+	  });
+
+	  BitmapBase.property({
+	    imageSmoothing: false
+	  });
+
+	  BitmapBase.prototype.toMemoryBitmap = function() {
+	    return this;
+	  };
+
+	  BitmapBase.prototype.toMemoryDrawableBitmap = function() {
+	    return this;
+	  };
+
+	  BitmapBase.prototype.getImageData = function(a, b, c, d) {
+	    var area;
+	    area = a === null || a === void 0 ? rect(this.size) : rect(a, b, c, d);
+	    return this.toMemoryBitmap().context.getImageData(area.x, area.y, area.w, area.h);
+	  };
+
+	  BitmapBase.prototype.putImageData = function(imageData, location, sourceArea) {
+	    if (location == null) {
+	      location = point();
+	    }
+	    if (sourceArea == null) {
+	      sourceArea = rect(this.size);
+	    }
+	    location = location.sub(sourceArea.location);
+	    this._context.putImageData(imageData, location.x, location.y, sourceArea.x, sourceArea.y, sourceArea.w, sourceArea.h);
+	    return this;
+	  };
+
+	  BitmapBase.prototype.getImageDataArray = function(channel) {
+	    var data, end, i, j, len, results, results1, v;
+	    if (channel == null) {
+	      channel = null;
+	    }
+	    data = this.getImageData().data;
+	    if ((channel = toChannelNumberMap[channel]) != null) {
+	      i = channel;
+	      end = data.length;
+	      results = [];
+	      while (i < end) {
+	        i += 4;
+	        results.push(data[i - 4]);
+	      }
+	      return results;
+	    } else {
+	      results1 = [];
+	      for (j = 0, len = data.length; j < len; j++) {
+	        v = data[j];
+	        results1.push(v);
+	      }
+	      return results1;
+	    }
+	  };
+
+	  BitmapBase.prototype.toPngUri = function() {
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        return _this.toMemoryBitmap().canvas.toDataURL();
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.toJpgUri = function(quality) {
+	    if (quality == null) {
+	      quality = .95;
+	    }
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        return _this.toMemoryBitmap().canvas.toDataURL("image/jpeg", quality);
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.toPng = function() {
+	    return this.toPngUri().then(function(dataURI) {
+	      return BinaryString.fromDataUri(dataURI);
+	    });
+	  };
+
+	  BitmapBase.prototype.toJpg = function(quality) {
+	    return this.toJpgUri(quality).then(function(dataURI) {
+	      return BinaryString.fromDataUri(dataURI);
+	    });
+	  };
+
+	  BitmapBase.prototype.toImage = function() {
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        var url;
+	        if (_this._htmlImageElement) {
+	          return _this._htmlImageElement;
+	        } else {
+	          url = _this.toMemoryBitmap().canvas.toDataURL();
+	          return Binary.EncodedImage.toImage(url).then(function(image) {
+	            var h, ref, w;
+	            ref = _this.pointSize, w = ref.w, h = ref.h;
+	            image.width = w;
+	            image.height = h;
+	            return image;
+	          });
+	        }
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.hFlipped = function() {
+	    var result;
+	    result = this.newBitmap(this.size);
+	    result.drawBitmap(Matrix.translateXY(-this.size.x / 2, 0).scaleXY(-1, 1).translateXY(this.size.x / 2, 0), this);
+	    return result;
+	  };
+
+	  BitmapBase.prototype.vFlipped = function() {
+	    var result;
+	    result = this.newBitmap(this.size);
+	    result.drawBitmap(Matrix.translateXY(0, -this.size.y / 2).scaleXY(1, -1).translateXY(0, this.size.y / 2), this);
+	    return result;
+	  };
+
+	  BitmapBase.prototype.drawBorder = function(where, r, options) {
+	    var c, m, p, w;
+	    m = matrix(where);
+	    r = rect(r);
+	    c = options.color || "#777";
+	    w = options.width || 1;
+	    p = options.padding || 0;
+	    r = r.grow(p);
+	    this.drawRectangle(m, rect(r.x, r.y, r.w, w), c);
+	    this.drawRectangle(m, rect(r.x, r.bottom - w, r.w, w), c);
+	    this.drawRectangle(m, rect(r.x, r.y + w, w, r.h - w * 2), c);
+	    return this.drawRectangle(m, rect(r.right - w, r.y + w, w, r.h - w * 2), c);
+	  };
+
+	  BitmapBase.prototype.drawStretchedBorderBitmap = function(drawMatrix, targetArea, bitmap, sourceCenterArea, options) {
+	    var bitmapSize, borderRatio, borderReductionRatio, borderScale, botomCenter, bottomCenter, bottomLeft, bottomRight, centerCenter, centerLeft, centerRight, centertCenter, hide, horizontalBorderHeight, horizontalBorderWidth, m, show, sourceBottomHeight, sourceBottomScale, sourceCenterAreaBottom, sourceCenterAreaHeight, sourceCenterAreaLeft, sourceCenterAreaRight, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterHeightScale, sourceCenterWidthScale, sourceLeftScale, sourceLeftWidth, sourceRightScale, sourceRightWidth, sourceTopHeight, sourceTopScale, targetAreaBottom, targetAreaHeight, targetAreaLeft, targetAreaRight, targetAreaTop, targetAreaWidth, targetBottomHeight, targetCenterAreaBottom, targetCenterAreaHeight, targetCenterAreaLeft, targetCenterAreaRight, targetCenterAreaTop, targetCenterAreaWidth, targetLeftWidth, targetRightWidth, targetTopHeight, topCenter, topLeft, topRight, totalBorderHeight, totalBorderWidth;
+	    if (options == null) {
+	      options = {};
+	    }
+	    hide = options.hide, show = options.show;
+	    bitmapSize = bitmap.size;
+	    borderScale = options.borderScale;
+	    if (!isNumber(borderScale)) {
+	      borderScale = 1;
+	    }
+	    sourceCenterAreaLeft = sourceCenterArea.left;
+	    sourceCenterAreaTop = sourceCenterArea.top;
+	    sourceCenterAreaRight = sourceCenterArea.right;
+	    sourceCenterAreaBottom = sourceCenterArea.bottom;
+	    sourceCenterAreaWidth = sourceCenterAreaRight - sourceCenterAreaLeft;
+	    sourceCenterAreaHeight = sourceCenterAreaBottom - sourceCenterAreaTop;
+	    targetAreaLeft = round(drawMatrix.transformX(targetArea.left, 0));
+	    targetAreaTop = round(drawMatrix.transformY(0, targetArea.top));
+	    targetAreaRight = round(drawMatrix.transformX(targetArea.right, 0));
+	    targetAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom));
+	    targetAreaWidth = targetAreaRight - targetAreaLeft;
+	    targetAreaHeight = targetAreaBottom - targetAreaTop;
+	    sourceLeftWidth = sourceCenterAreaLeft;
+	    sourceTopHeight = sourceCenterAreaTop;
+	    sourceRightWidth = bitmapSize.w - sourceCenterAreaRight;
+	    sourceBottomHeight = bitmapSize.h - sourceCenterAreaBottom;
+	    targetCenterAreaLeft = round(drawMatrix.transformX(targetArea.left + sourceLeftWidth * borderScale, 0));
+	    targetCenterAreaTop = round(drawMatrix.transformY(0, targetArea.top + sourceTopHeight * borderScale));
+	    targetCenterAreaRight = round(drawMatrix.transformX(targetArea.right - sourceRightWidth * borderScale, 0));
+	    targetCenterAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom - sourceBottomHeight * borderScale));
+	    targetCenterAreaWidth = targetCenterAreaRight - targetCenterAreaLeft;
+	    targetCenterAreaHeight = targetCenterAreaBottom - targetCenterAreaTop;
+	    if (targetCenterAreaWidth < 0) {
+	      horizontalBorderWidth = targetAreaWidth - targetCenterAreaWidth;
+	      borderReductionRatio = targetAreaWidth / horizontalBorderWidth;
+	      borderRatio = sourceLeftWidth / (totalBorderWidth = sourceLeftWidth + sourceRightWidth);
+	      sourceLeftWidth = round(sourceLeftWidth * borderReductionRatio);
+	      sourceRightWidth = round(sourceRightWidth * borderReductionRatio);
+	      sourceCenterAreaRight = bitmap.size.x - sourceRightWidth;
+	      targetCenterAreaLeft = targetCenterAreaRight = targetAreaLeft + round(targetAreaWidth * borderRatio);
+	      targetCenterAreaWidth = 0;
+	    }
+	    if (targetCenterAreaHeight < 0) {
+	      horizontalBorderHeight = targetAreaHeight - targetCenterAreaHeight;
+	      borderReductionRatio = targetAreaHeight / horizontalBorderHeight;
+	      borderRatio = sourceTopHeight / (totalBorderHeight = sourceTopHeight + sourceBottomHeight);
+	      sourceTopHeight = round(sourceTopHeight * borderReductionRatio);
+	      sourceBottomHeight = round(sourceBottomHeight * borderReductionRatio);
+	      sourceCenterAreaBottom = bitmap.size.x - sourceBottomHeight;
+	      targetCenterAreaTop = targetCenterAreaBottom = targetAreaTop + round(targetAreaHeight * borderRatio);
+	      targetCenterAreaHeight = 0;
+	    }
+	    targetLeftWidth = targetCenterAreaLeft - targetAreaLeft;
+	    targetTopHeight = targetCenterAreaTop - targetAreaTop;
+	    targetRightWidth = targetAreaRight - targetCenterAreaRight;
+	    targetBottomHeight = targetAreaBottom - targetCenterAreaBottom;
+	    sourceLeftScale = targetLeftWidth / sourceLeftWidth;
+	    sourceTopScale = targetTopHeight / sourceTopHeight;
+	    sourceRightScale = targetRightWidth / sourceRightWidth;
+	    sourceBottomScale = targetBottomHeight / sourceBottomHeight;
+	    sourceCenterWidthScale = targetCenterAreaWidth / sourceCenterAreaWidth;
+	    sourceCenterHeightScale = targetCenterAreaHeight / sourceCenterAreaHeight;
+	    if (show) {
+	      topLeft = !show.topLeft;
+	      topRight = !show.topRight;
+	      topCenter = !show.topCenter;
+	      centerLeft = !show.centerLeft;
+	      centerRight = !show.centerRight;
+	      centerCenter = !show.centerCenter;
+	      bottomLeft = !show.bottomLeft;
+	      bottomRight = !show.bottomRight;
+	      bottomCenter = !show.bottomCenter;
+	    }
+	    if (hide) {
+	      topLeft = hide.topLeft, topCenter = hide.topCenter, topRight = hide.topRight, centerLeft = hide.centerLeft, centerCenter = hide.centerCenter, centerRight = hide.centerRight, bottomLeft = hide.bottomLeft, botomCenter = hide.botomCenter, bottomRight = hide.bottomRight;
+	      if (hide.top) {
+	        topLeft = topCenter = topRight = true;
+	      }
+	      if (hide.bottom) {
+	        bottomLeft = bottomCenter = bottomRight = true;
+	      }
+	      if (hide.left) {
+	        topLeft = centerLeft = bottomLeft = true;
+	      }
+	      if (hide.left) {
+	        topRight = centerRight = bottomRight = true;
+	      }
+	      if (hide.centerRow) {
+	        centerLeft = centerCenter = centerRight = true;
+	      }
+	      if (hide.centerColumn) {
+	        topCenter = centertCenter = bottomRight = true;
 	      }
 	    }
-
-	    BitmapBase.getter({
-	      inspectedObjects: function() {
-	        return this;
-	      },
-	      canvas: function() {
-	        if (!this._canvas) {
-	          if (this._htmlImageElement) {
-	            this.initNewCanvas(this.size);
-	            this.drawBitmap(null, this._htmlImageElement);
-	          } else {
-	            throw new Error("can't get @canvas");
-	          }
-	        }
-	        return this._canvas;
-	      },
-	      bitmapClass: function() {
-	        return this["class"];
-	      },
-	      clippingArea: function() {
-	        return this._clippingArea || (this._clippingArea = rect(this.getSize()));
-	      },
-	      aspectRatio: function() {
-	        return this.getSize().getAspectRatio();
-	      }
-	    });
-
-	    BitmapBase.prototype.shouldPixelSnap = function(where) {
-	      return this.pixelSnap && ((!where) || (where instanceof Point) || where.isTranslateAndPositiveScaleOnly);
-	    };
-
-	    BitmapBase.prototype.pixelSnapWhere = function(where) {
-	      if (where instanceof Point) {
-	        return where.rounded;
-	      } else if (where) {
-	        return where.withRoundedTranslation;
-	      }
-	    };
-
-	    BitmapBase.prototype.pixelSnapRectangle = function(where, r) {
-	      var bottom, h, isx, isy, right, sx, sy, tx, ty, w, x, y;
-	      right = (x = r.x) + (w = r.w);
-	      bottom = (y = r.y) + (h = r.h);
-	      isx = isy = sx = sy = 1;
-	      tx = ty = 0;
-	      if (where instanceof Point) {
-	        tx = where.x;
-	        ty = where.y;
-	      } else if (where) {
-	        tx = where.tx;
-	        ty = where.ty;
-	        sx = where.sx;
-	        isx = 1 / sx;
-	        sy = where.sy;
-	        isy = 1 / sy;
-	      }
-	      x = (Math.round((x * sx) + tx) - tx) * isx;
-	      y = (Math.round((y * sy) + ty) - ty) * isy;
-	      w = (Math.round((right * sx) + tx) - tx) * isx - x;
-	      h = (Math.round((bottom * sy) + ty) - ty) * isy - y;
-	      return rect(x, y, w, h);
-	    };
-
-	    BitmapBase.prototype.pixelSnapAndTransformRectangle = function(where, r) {
-	      var bottom, left, right, top;
-	      if (!r) {
-	        console.error("no r");
-	      }
-	      left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	      if (where instanceof Point) {
-	        left += where.x;
-	        right += where.x;
-	        top += where.y;
-	        bottom += where.y;
-	      } else if (where) {
-	        left = where.transformX(left, top);
-	        top = where.transformY(left, top);
-	        right = where.transformX(right, bottom);
-	        bottom = where.transformY(right, bottom);
-	      }
-	      left = Math.round(left);
-	      top = Math.round(top);
-	      right = Math.round(right);
-	      bottom = Math.round(bottom);
-	      return rect(left, top, right - left, bottom - top);
-	    };
-
-	    BitmapBase.prototype.clone = function() {
-	      var b;
-	      b = this.newBitmap(this.size);
-	      b.drawBitmap(null, this);
-	      return b;
-	    };
-
-	    BitmapBase.prototype.crop = function(area) {
-	      area = rect(area).intersection(rect(this.size));
-	      return this.newBitmap(area.size).drawBitmap(Matrix.translateXY(-area.x, -area.y), this);
-	    };
-
-	    BitmapBase.prototype.initFromCanvas = function(canvas) {
-	      this._canvas = canvas;
-	      this._size = point(this._canvas.width, this._canvas.height);
-	      return this.initContext();
-	    };
-
-	    BitmapBase.prototype.initFromImage = function(image) {
-	      this._size = point(image.width, image.height);
-	      this.initNewCanvas(this.size);
-	      return this.drawBitmap(point(), image);
-	    };
-
-	    BitmapBase.prototype.initNewCanvas = function(size) {
-	      if (this._context) {
-	        return;
-	      }
-	      if (!size.gt(point())) {
-	        throw new Error("invalid size=" + size + " for Art.Canvas.Bitmap");
-	      }
-	      this._size = size.floor();
-	      this._canvas = document.createElement('canvas');
-	      this._canvas.width = this.size.x;
-	      this._canvas.height = this.size.y;
-	      return this.initContext();
-	    };
-
-	    BitmapBase.prototype.populateClone = function(result) {
-	      result.initNewCanvas(this.size);
-	      result.drawBitmap(null, this);
-	      return result._pixelsPerPoint = this._pixelsPerPoint;
-	    };
-
-	    BitmapBase.getter({
-	      pixelsPerPoint: function() {
-	        return this._pixelsPerPoint;
-	      },
-	      pointsPerPixel: function() {
-	        return 1 / this._pixelsPerPoint;
-	      },
-	      pointSize: function() {
-	        return this.size.div(this.pixelsPerPoint);
-	      },
-	      byteSize: function() {
-	        return this.size.area * this.getBytesPerPixel();
-	      },
-	      bytesPerPixel: function() {
-	        return 4;
-	      }
-	    });
-
-	    BitmapBase.setter({
-	      pixelsPerPoint: function(v) {
-	        return this._pixelsPerPoint = v;
-	      },
-	      pointsPerPixel: function(v) {
-	        return this._pixelsPerPoint = 1 / v;
-	      }
-	    });
-
-	    BitmapBase.property({
-	      size: point(100, 100)
-	    });
-
-	    BitmapBase.property({
-	      imageSmoothing: false
-	    });
-
-	    BitmapBase.prototype.toMemoryBitmap = function() {
-	      return this;
-	    };
-
-	    BitmapBase.prototype.toMemoryDrawableBitmap = function() {
-	      return this;
-	    };
-
-	    BitmapBase.prototype.getImageData = function(a, b, c, d) {
-	      var area;
-	      area = a === null || a === void 0 ? rect(this.size) : rect(a, b, c, d);
-	      return this.toMemoryBitmap().context.getImageData(area.x, area.y, area.w, area.h);
-	    };
-
-	    BitmapBase.prototype.putImageData = function(imageData, location, sourceArea) {
-	      if (location == null) {
-	        location = point();
-	      }
-	      if (sourceArea == null) {
-	        sourceArea = rect(this.size);
-	      }
-	      location = location.sub(sourceArea.location);
-	      this._context.putImageData(imageData, location.x, location.y, sourceArea.x, sourceArea.y, sourceArea.w, sourceArea.h);
-	      return this;
-	    };
-
-	    BitmapBase.prototype.getImageDataArray = function(channel) {
-	      var data, end, i, j, len, results, results1, v;
-	      if (channel == null) {
-	        channel = null;
-	      }
-	      data = this.getImageData().data;
-	      if ((channel = toChannelNumberMap[channel]) != null) {
-	        i = channel;
-	        end = data.length;
-	        results = [];
-	        while (i < end) {
-	          i += 4;
-	          results.push(data[i - 4]);
-	        }
-	        return results;
-	      } else {
-	        results1 = [];
-	        for (j = 0, len = data.length; j < len; j++) {
-	          v = data[j];
-	          results1.push(v);
-	        }
-	        return results1;
-	      }
-	    };
-
-	    BitmapBase.prototype.toPngUri = function() {
-	      return nextTick().then((function(_this) {
-	        return function() {
-	          return _this.toMemoryBitmap().canvas.toDataURL();
-	        };
-	      })(this));
-	    };
-
-	    BitmapBase.prototype.toJpgUri = function(quality) {
-	      if (quality == null) {
-	        quality = .95;
-	      }
-	      return nextTick().then((function(_this) {
-	        return function() {
-	          return _this.toMemoryBitmap().canvas.toDataURL("image/jpeg", quality);
-	        };
-	      })(this));
-	    };
-
-	    BitmapBase.prototype.toPng = function() {
-	      return this.toPngUri().then(function(dataURI) {
-	        return BinaryString.fromDataUri(dataURI);
-	      });
-	    };
-
-	    BitmapBase.prototype.toJpg = function(quality) {
-	      return this.toJpgUri(quality).then(function(dataURI) {
-	        return BinaryString.fromDataUri(dataURI);
-	      });
-	    };
-
-	    BitmapBase.prototype.toImage = function() {
-	      return nextTick().then((function(_this) {
-	        return function() {
-	          var url;
-	          if (_this._htmlImageElement) {
-	            return _this._htmlImageElement;
-	          } else {
-	            url = _this.toMemoryBitmap().canvas.toDataURL();
-	            return Binary.EncodedImage.toImage(url).then(function(image) {
-	              var h, ref, w;
-	              ref = _this.pointSize, w = ref.w, h = ref.h;
-	              image.width = w;
-	              image.height = h;
-	              return image;
-	            });
-	          }
-	        };
-	      })(this));
-	    };
-
-	    BitmapBase.prototype.hFlipped = function() {
-	      var result;
-	      result = this.newBitmap(this.size);
-	      result.drawBitmap(Matrix.translateXY(-this.size.x / 2, 0).scaleXY(-1, 1).translateXY(this.size.x / 2, 0), this);
-	      return result;
-	    };
-
-	    BitmapBase.prototype.vFlipped = function() {
-	      var result;
-	      result = this.newBitmap(this.size);
-	      result.drawBitmap(Matrix.translateXY(0, -this.size.y / 2).scaleXY(1, -1).translateXY(0, this.size.y / 2), this);
-	      return result;
-	    };
-
-	    BitmapBase.prototype.drawBorder = function(where, r, options) {
-	      var c, m, p, w;
-	      m = matrix(where);
-	      r = rect(r);
-	      c = options.color || "#777";
-	      w = options.width || 1;
-	      p = options.padding || 0;
-	      r = r.grow(p);
-	      this.drawRectangle(m, rect(r.x, r.y, r.w, w), c);
-	      this.drawRectangle(m, rect(r.x, r.bottom - w, r.w, w), c);
-	      this.drawRectangle(m, rect(r.x, r.y + w, w, r.h - w * 2), c);
-	      return this.drawRectangle(m, rect(r.right - w, r.y + w, w, r.h - w * 2), c);
-	    };
-
-	    BitmapBase.prototype.drawStretchedBorderBitmap = function(drawMatrix, targetArea, bitmap, sourceCenterArea, options) {
-	      var bitmapSize, borderRatio, borderReductionRatio, borderScale, botomCenter, bottomCenter, bottomLeft, bottomRight, centerCenter, centerLeft, centerRight, centertCenter, hide, horizontalBorderHeight, horizontalBorderWidth, m, show, sourceBottomHeight, sourceBottomScale, sourceCenterAreaBottom, sourceCenterAreaHeight, sourceCenterAreaLeft, sourceCenterAreaRight, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterHeightScale, sourceCenterWidthScale, sourceLeftScale, sourceLeftWidth, sourceRightScale, sourceRightWidth, sourceTopHeight, sourceTopScale, targetAreaBottom, targetAreaHeight, targetAreaLeft, targetAreaRight, targetAreaTop, targetAreaWidth, targetBottomHeight, targetCenterAreaBottom, targetCenterAreaHeight, targetCenterAreaLeft, targetCenterAreaRight, targetCenterAreaTop, targetCenterAreaWidth, targetLeftWidth, targetRightWidth, targetTopHeight, topCenter, topLeft, topRight, totalBorderHeight, totalBorderWidth;
-	      if (options == null) {
-	        options = {};
-	      }
-	      hide = options.hide, show = options.show;
-	      bitmapSize = bitmap.size;
-	      borderScale = options.borderScale;
-	      if (!isNumber(borderScale)) {
-	        borderScale = 1;
-	      }
-	      sourceCenterAreaLeft = sourceCenterArea.left;
-	      sourceCenterAreaTop = sourceCenterArea.top;
-	      sourceCenterAreaRight = sourceCenterArea.right;
-	      sourceCenterAreaBottom = sourceCenterArea.bottom;
-	      sourceCenterAreaWidth = sourceCenterAreaRight - sourceCenterAreaLeft;
-	      sourceCenterAreaHeight = sourceCenterAreaBottom - sourceCenterAreaTop;
-	      targetAreaLeft = round(drawMatrix.transformX(targetArea.left, 0));
-	      targetAreaTop = round(drawMatrix.transformY(0, targetArea.top));
-	      targetAreaRight = round(drawMatrix.transformX(targetArea.right, 0));
-	      targetAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom));
-	      targetAreaWidth = targetAreaRight - targetAreaLeft;
-	      targetAreaHeight = targetAreaBottom - targetAreaTop;
-	      sourceLeftWidth = sourceCenterAreaLeft;
-	      sourceTopHeight = sourceCenterAreaTop;
-	      sourceRightWidth = bitmapSize.w - sourceCenterAreaRight;
-	      sourceBottomHeight = bitmapSize.h - sourceCenterAreaBottom;
-	      targetCenterAreaLeft = round(drawMatrix.transformX(targetArea.left + sourceLeftWidth * borderScale, 0));
-	      targetCenterAreaTop = round(drawMatrix.transformY(0, targetArea.top + sourceTopHeight * borderScale));
-	      targetCenterAreaRight = round(drawMatrix.transformX(targetArea.right - sourceRightWidth * borderScale, 0));
-	      targetCenterAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom - sourceBottomHeight * borderScale));
-	      targetCenterAreaWidth = targetCenterAreaRight - targetCenterAreaLeft;
-	      targetCenterAreaHeight = targetCenterAreaBottom - targetCenterAreaTop;
-	      if (targetCenterAreaWidth < 0) {
-	        horizontalBorderWidth = targetAreaWidth - targetCenterAreaWidth;
-	        borderReductionRatio = targetAreaWidth / horizontalBorderWidth;
-	        borderRatio = sourceLeftWidth / (totalBorderWidth = sourceLeftWidth + sourceRightWidth);
-	        sourceLeftWidth = round(sourceLeftWidth * borderReductionRatio);
-	        sourceRightWidth = round(sourceRightWidth * borderReductionRatio);
-	        sourceCenterAreaRight = bitmap.size.x - sourceRightWidth;
-	        targetCenterAreaLeft = targetCenterAreaRight = targetAreaLeft + round(targetAreaWidth * borderRatio);
-	        targetCenterAreaWidth = 0;
-	      }
-	      if (targetCenterAreaHeight < 0) {
-	        horizontalBorderHeight = targetAreaHeight - targetCenterAreaHeight;
-	        borderReductionRatio = targetAreaHeight / horizontalBorderHeight;
-	        borderRatio = sourceTopHeight / (totalBorderHeight = sourceTopHeight + sourceBottomHeight);
-	        sourceTopHeight = round(sourceTopHeight * borderReductionRatio);
-	        sourceBottomHeight = round(sourceBottomHeight * borderReductionRatio);
-	        sourceCenterAreaBottom = bitmap.size.x - sourceBottomHeight;
-	        targetCenterAreaTop = targetCenterAreaBottom = targetAreaTop + round(targetAreaHeight * borderRatio);
-	        targetCenterAreaHeight = 0;
-	      }
-	      targetLeftWidth = targetCenterAreaLeft - targetAreaLeft;
-	      targetTopHeight = targetCenterAreaTop - targetAreaTop;
-	      targetRightWidth = targetAreaRight - targetCenterAreaRight;
-	      targetBottomHeight = targetAreaBottom - targetCenterAreaBottom;
-	      sourceLeftScale = targetLeftWidth / sourceLeftWidth;
-	      sourceTopScale = targetTopHeight / sourceTopHeight;
-	      sourceRightScale = targetRightWidth / sourceRightWidth;
-	      sourceBottomScale = targetBottomHeight / sourceBottomHeight;
-	      sourceCenterWidthScale = targetCenterAreaWidth / sourceCenterAreaWidth;
-	      sourceCenterHeightScale = targetCenterAreaHeight / sourceCenterAreaHeight;
-	      if (show) {
-	        topLeft = !show.topLeft;
-	        topRight = !show.topRight;
-	        topCenter = !show.topCenter;
-	        centerLeft = !show.centerLeft;
-	        centerRight = !show.centerRight;
-	        centerCenter = !show.centerCenter;
-	        bottomLeft = !show.bottomLeft;
-	        bottomRight = !show.bottomRight;
-	        bottomCenter = !show.bottomCenter;
-	      }
-	      if (hide) {
-	        topLeft = hide.topLeft, topCenter = hide.topCenter, topRight = hide.topRight, centerLeft = hide.centerLeft, centerCenter = hide.centerCenter, centerRight = hide.centerRight, bottomLeft = hide.bottomLeft, botomCenter = hide.botomCenter, bottomRight = hide.bottomRight;
-	        if (hide.top) {
-	          topLeft = topCenter = topRight = true;
-	        }
-	        if (hide.bottom) {
-	          bottomLeft = bottomCenter = bottomRight = true;
-	        }
-	        if (hide.left) {
-	          topLeft = centerLeft = bottomLeft = true;
-	        }
-	        if (hide.left) {
-	          topRight = centerRight = bottomRight = true;
-	        }
-	        if (hide.centerRow) {
-	          centerLeft = centerCenter = centerRight = true;
-	        }
-	        if (hide.centerColumn) {
-	          topCenter = centertCenter = bottomRight = true;
-	        }
-	      }
-	      if (!topLeft) {
-	        m = Matrix.scaleXY(sourceLeftScale, sourceTopScale).translateXY(targetAreaLeft, targetAreaTop);
-	        options.sourceArea = rect(0, 0, sourceLeftWidth, sourceTopHeight);
+	    if (!topLeft) {
+	      m = Matrix.scaleXY(sourceLeftScale, sourceTopScale).translateXY(targetAreaLeft, targetAreaTop);
+	      options.sourceArea = rect(0, 0, sourceLeftWidth, sourceTopHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!topRight) {
+	      m = Matrix.scaleXY(sourceRightScale, sourceTopScale).translateXY(targetCenterAreaRight, targetAreaTop);
+	      options.sourceArea = rect(sourceCenterAreaRight, 0, sourceRightWidth, sourceTopHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!bottomLeft) {
+	      m = Matrix.scaleXY(sourceLeftScale, sourceBottomScale).translateXY(targetAreaLeft, targetCenterAreaBottom);
+	      options.sourceArea = rect(0, sourceCenterAreaBottom, sourceLeftWidth, sourceBottomHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!bottomRight) {
+	      m = Matrix.scaleXY(sourceRightScale, sourceBottomScale).translateXY(targetCenterAreaRight, targetCenterAreaBottom);
+	      options.sourceArea = rect(sourceCenterAreaRight, sourceCenterAreaBottom, sourceRightWidth, sourceBottomHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (targetCenterAreaHeight > 0) {
+	      if (!centerLeft) {
+	        m = Matrix.scaleXY(sourceLeftScale, sourceCenterHeightScale).translateXY(targetAreaLeft, targetCenterAreaTop);
+	        options.sourceArea = rect(0, sourceTopHeight, sourceLeftWidth, sourceCenterAreaHeight);
 	        this.drawBitmap(m, bitmap, options);
 	      }
-	      if (!topRight) {
-	        m = Matrix.scaleXY(sourceRightScale, sourceTopScale).translateXY(targetCenterAreaRight, targetAreaTop);
-	        options.sourceArea = rect(sourceCenterAreaRight, 0, sourceRightWidth, sourceTopHeight);
+	      if (!(centerCenter || targetCenterAreaWidth <= 0)) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceCenterHeightScale).translateXY(targetCenterAreaLeft, targetCenterAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaLeft, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterAreaHeight);
 	        this.drawBitmap(m, bitmap, options);
 	      }
-	      if (!bottomLeft) {
-	        m = Matrix.scaleXY(sourceLeftScale, sourceBottomScale).translateXY(targetAreaLeft, targetCenterAreaBottom);
-	        options.sourceArea = rect(0, sourceCenterAreaBottom, sourceLeftWidth, sourceBottomHeight);
+	      if (!centerRight) {
+	        m = Matrix.scaleXY(sourceRightScale, sourceCenterHeightScale).translateXY(targetCenterAreaRight, targetCenterAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaRight, sourceTopHeight, sourceRightWidth, sourceCenterAreaHeight);
 	        this.drawBitmap(m, bitmap, options);
 	      }
-	      if (!bottomRight) {
-	        m = Matrix.scaleXY(sourceRightScale, sourceBottomScale).translateXY(targetCenterAreaRight, targetCenterAreaBottom);
-	        options.sourceArea = rect(sourceCenterAreaRight, sourceCenterAreaBottom, sourceRightWidth, sourceBottomHeight);
+	    }
+	    if (sourceCenterAreaWidth > 0) {
+	      if (!bottomCenter) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceBottomScale).translateXY(targetCenterAreaLeft, targetCenterAreaBottom);
+	        options.sourceArea = rect(sourceLeftWidth, sourceCenterAreaBottom, sourceCenterAreaWidth, sourceBottomHeight);
 	        this.drawBitmap(m, bitmap, options);
 	      }
-	      if (targetCenterAreaHeight > 0) {
-	        if (!centerLeft) {
-	          m = Matrix.scaleXY(sourceLeftScale, sourceCenterHeightScale).translateXY(targetAreaLeft, targetCenterAreaTop);
-	          options.sourceArea = rect(0, sourceTopHeight, sourceLeftWidth, sourceCenterAreaHeight);
-	          this.drawBitmap(m, bitmap, options);
-	        }
-	        if (!(centerCenter || targetCenterAreaWidth <= 0)) {
-	          m = Matrix.scaleXY(sourceCenterWidthScale, sourceCenterHeightScale).translateXY(targetCenterAreaLeft, targetCenterAreaTop);
-	          options.sourceArea = rect(sourceCenterAreaLeft, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterAreaHeight);
-	          this.drawBitmap(m, bitmap, options);
-	        }
-	        if (!centerRight) {
-	          m = Matrix.scaleXY(sourceRightScale, sourceCenterHeightScale).translateXY(targetCenterAreaRight, targetCenterAreaTop);
-	          options.sourceArea = rect(sourceCenterAreaRight, sourceTopHeight, sourceRightWidth, sourceCenterAreaHeight);
-	          this.drawBitmap(m, bitmap, options);
-	        }
+	      if (!topCenter) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceTopScale).translateXY(targetCenterAreaLeft, targetAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaLeft, 0, sourceCenterAreaWidth, sourceTopHeight);
+	        return this.drawBitmap(m, bitmap, options);
 	      }
-	      if (sourceCenterAreaWidth > 0) {
-	        if (!bottomCenter) {
-	          m = Matrix.scaleXY(sourceCenterWidthScale, sourceBottomScale).translateXY(targetCenterAreaLeft, targetCenterAreaBottom);
-	          options.sourceArea = rect(sourceLeftWidth, sourceCenterAreaBottom, sourceCenterAreaWidth, sourceBottomHeight);
-	          this.drawBitmap(m, bitmap, options);
-	        }
-	        if (!topCenter) {
-	          m = Matrix.scaleXY(sourceCenterWidthScale, sourceTopScale).translateXY(targetCenterAreaLeft, targetAreaTop);
-	          options.sourceArea = rect(sourceCenterAreaLeft, 0, sourceCenterAreaWidth, sourceTopHeight);
-	          return this.drawBitmap(m, bitmap, options);
-	        }
-	      }
-	    };
+	    }
+	  };
 
-	    return BitmapBase;
+	  calculateTop = function(data, size, threshold) {
+	    var lineStep, pos;
+	    lineStep = size.x * pixelStep;
+	    pos = alphaChannelOffset;
+	    while (pos < data.length && data[pos] <= threshold) {
+	      pos += pixelStep;
+	    }
+	    return floor(pos / lineStep);
+	  };
 
-	  })(BaseObject);
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  calculateBottom = function(data, size, threshold, top) {
+	    var lineStep, pos, stopPos;
+	    lineStep = size.x * pixelStep;
+	    pos = data.length + alphaChannelOffset - pixelStep;
+	    stopPos = top * lineStep;
+	    while (pos > stopPos && data[pos] <= threshold) {
+	      pos -= pixelStep;
+	    }
+	    return floor(pos / lineStep);
+	  };
+
+	  calculateLeft = function(data, size, threshold, top, bottom) {
+	    var bottomOffset, length, lineStep, pos, posX, stop, topOffset;
+	    lineStep = size.x * pixelStep;
+	    length = data.length;
+	    topOffset = top * lineStep;
+	    bottomOffset = bottom * lineStep;
+	    posX = alphaChannelOffset;
+	    while (posX < lineStep) {
+	      pos = posX + topOffset;
+	      stop = posX + bottomOffset;
+	      while (pos < stop) {
+	        if (data[pos] > threshold) {
+	          return floor(posX / pixelStep);
+	        }
+	        pos += lineStep;
+	      }
+	      posX += pixelStep;
+	    }
+	  };
+
+	  calculateRight = function(data, size, threshold, top, bottom, left) {
+	    var bottomOffset, length, lineStep, outterStop, pos, posX, stop, topOffset;
+	    lineStep = size.x * pixelStep;
+	    length = data.length;
+	    topOffset = top * lineStep;
+	    bottomOffset = bottom * lineStep;
+	    posX = lineStep - pixelStep + alphaChannelOffset;
+	    outterStop = left * pixelStep;
+	    while (posX > outterStop) {
+	      pos = posX + topOffset;
+	      stop = posX + bottomOffset;
+	      while (pos < stop) {
+	        if (data[pos] > threshold) {
+	          return floor(posX / pixelStep);
+	        }
+	        pos += lineStep;
+	      }
+	      posX -= pixelStep;
+	    }
+	  };
+
+	  BitmapBase.prototype.getAutoCropRectangle = function(threshold) {
+	    var bottom, context, data, left, right, size, top;
+	    if (threshold == null) {
+	      threshold = 0;
+	    }
+	    size = this.size, context = this.context;
+	    data = context.getImageData(0, 0, size.x, size.y).data;
+	    top = calculateTop(data, size, threshold);
+	    if (top === size.y) {
+	      return rect();
+	    }
+	    bottom = calculateBottom(data, size, threshold, top);
+	    left = calculateLeft(data, size, threshold, top, bottom);
+	    right = calculateRight(data, size, threshold, top, bottom, left);
+	    return rect(left, top, right - left + 1, bottom - top + 1);
+	  };
+
+	  return BitmapBase;
+
+	})(BaseObject);
 
 
 /***/ },
@@ -16522,58 +16696,76 @@
 	    return ret;
 	  };
 
-	  GradientFillStyle.interpolateColorPositionRange = function(colors, start, end) {
-	    var firstN, i, lastN, n, nDelta, results, steps;
-	    steps = end - start;
-	    firstN = colors[start].n;
-	    lastN = colors[end].n;
+	  GradientFillStyle.interpolateColorPositionRange = function(outColors, colors, start, end, firstN, lastN) {
+	    var i, j, nDelta, ref, ref1, results, steps;
+	    steps = end - start + 1;
 	    nDelta = (lastN - firstN) / steps;
-	    n = firstN + nDelta;
-	    i = start + 1;
 	    results = [];
-	    while (i < end) {
-	      colors[i].n = n;
-	      n += nDelta;
-	      results.push(i++);
+	    for (i = j = ref = start, ref1 = end; ref <= ref1 ? j < ref1 : j > ref1; i = ref <= ref1 ? ++j : --j) {
+	      results.push(outColors.push({
+	        c: colors[i].c,
+	        n: (i - start + 1) * nDelta
+	      }));
 	    }
 	    return results;
 	  };
 
+	  GradientFillStyle.needToInterpolateColors = function(colors) {
+	    var clr, j, len, ret;
+	    ret = false;
+	    for (j = 0, len = colors.length; j < len; j++) {
+	      clr = colors[j];
+	      if (!(clr.n == null)) {
+	        continue;
+	      }
+	      ret = true;
+	      break;
+	    }
+	    return ret;
+	  };
+
 	  GradientFillStyle.interpolateColorPositions = function(colors) {
-	    var c, clr, firstColor, i, j, lastColor, lastNindex, len, n;
-	    firstColor = colors[0];
-	    lastColor = peek(colors);
-	    if (!isNumber(firstColor.n)) {
-	      firstColor.n = 0;
+	    var clr, firstColor, i, interpolateCount, j, lastColor, len, n, outColors, startN;
+	    if (!GradientFillStyle.needToInterpolateColors(colors)) {
+	      return colors;
 	    }
-	    if (!isNumber(lastColor.n)) {
-	      lastColor.n = 1;
+	    firstColor = colors[0], lastColor = colors[colors.length - 1];
+	    if (firstColor.n == null) {
+	      firstColor = {
+	        c: firstColor.c,
+	        n: 0
+	      };
 	    }
-	    lastNindex = 0;
+	    if (lastColor.n == null) {
+	      lastColor = {
+	        c: lastColor.c,
+	        n: 1
+	      };
+	    }
+	    outColors = [firstColor];
+	    startN = firstColor.n;
+	    interpolateCount = 0;
 	    for (i = j = 0, len = colors.length; j < len; i = ++j) {
 	      clr = colors[i];
-	      if (clr.n) {
-	        GradientFillStyle.interpolateColorPositionRange(colors, lastNindex, i);
-	        lastNindex = i;
+	      if (!(i > 0)) {
+	        continue;
+	      }
+	      if (i === colors.length - 1) {
+	        clr = lastColor;
+	      }
+	      n = clr.n;
+	      if (n != null) {
+	        if (interpolateCount > 0) {
+	          GradientFillStyle.interpolateColorPositionRange(outColors, colors, i - interpolateCount, i, startN, n);
+	          interpolateCount = 0;
+	        }
+	        startN = n;
+	      } else {
+	        interpolateCount++;
 	      }
 	    }
-	    n = firstColor.n, c = firstColor.c;
-	    if (!floatEq(n, 0)) {
-	      colors = [
-	        {
-	          n: 0,
-	          c: c
-	        }
-	      ].concat(colors);
-	    }
-	    n = lastColor.n, c = lastColor.c;
-	    if (!floatEq(n, 1)) {
-	      colors = arrayWith(colors, {
-	        n: 1,
-	        c: c
-	      });
-	    }
-	    return colors;
+	    outColors.push(lastColor);
+	    return outColors;
 	  };
 
 	  GradientFillStyle.sortColorsByN = function(colors) {
@@ -16585,8 +16777,8 @@
 	  GradientFillStyle.normalizeColors = function(colors) {
 	    colors = this.colorsFromObjects(colors);
 	    colors = this.colorsToObjectsAndStringColors(colors);
-	    colors = this.sortColorsByN(colors);
 	    colors = this.interpolateColorPositions(colors);
+	    colors = this.sortColorsByN(colors);
 	    return colors;
 	  };
 
@@ -16681,7 +16873,7 @@
 	    for (j = 0, len = ref.length; j < len; j++) {
 	      clr = ref[j];
 	      try {
-	        gradient.addColorStop(clr.n, clr.c);
+	        gradient.addColorStop(clr.n, clr.c.toString());
 	      } catch (error) {
 	        e = error;
 	        gradient.addColorStop(clr.n, "black");
@@ -28395,7 +28587,7 @@
 
 	module.exports = {
 		"name": "art-text",
-		"version": "0.0.4",
+		"version": "0.0.5",
 		"description": "art-text",
 		"main": "index.coffee",
 		"dependencies": {
@@ -29036,24 +29228,19 @@
 	    tempRectangleToCapturePessimisticDrawArea = new Rectangle;
 
 	    Metrics._generateTightFontMetrics = function(text, tightThreshold, fontOptions, fontCss) {
-	      var area, ascender, bottom, data, descender, layoutH, layoutW, left, location, padding, ref, ref1, right, scratchBitmap, size, textOffsetX, textOffsetY, top;
+	      var area, ascender, bottom, data, descender, layoutH, layoutW, left, location, padding, ref, ref1, ref2, ref3, right, scratchBitmap, size, textOffsetX, textOffsetY, top;
 	      padding = Metrics.defaultFontSizeProportionalDrawAreaPadding * 2;
 	      ref = this.renderTextToScratchBitmap(text, fontOptions, padding), scratchBitmap = ref[0], size = ref[1], location = ref[2];
 	      data = scratchBitmap.context.getImageData(0, 0, size.x, size.y).data;
-	      while (!this.checkBorder(data, size)) {
+	      ref1 = scratchBitmap.getAutoCropRectangle(tightThreshold), left = ref1.left, right = ref1.right, top = ref1.top, bottom = ref1.bottom;
+	      while (left === 0 || top === 0 || right === size.x || bottom === size.y) {
 	        this.log("Art.Text.Metrics#_generateTightFontMetrics: " + (inspect(fontOptions, 1)) + ", padding: " + padding + " too small. scratchBitmap.size: " + scratchBitmap.size);
 	        padding *= 2;
-	        ref1 = this.renderTextToScratchBitmap(text, fontOptions, padding), scratchBitmap = ref1[0], size = ref1[1], location = ref1[2];
-	        data = scratchBitmap.context.getImageData(0, 0, size.x, size.y).data;
+	        ref2 = this.renderTextToScratchBitmap(text, fontOptions, padding), scratchBitmap = ref2[0], size = ref2[1], location = ref2[2];
+	        ref3 = scratchBitmap.getAutoCropRectangle(tightThreshold), left = ref3.left, right = ref3.right, top = ref3.top, bottom = ref3.bottom;
 	      }
-	      top = this.calculateTop(data, size, tightThreshold);
-	      left = this.calculateLeft(data, size, tightThreshold);
-	      right = this.calculateRight(data, size, tightThreshold);
-	      bottom = this.calculateBottom(data, size, tightThreshold);
 	      top--;
 	      left--;
-	      right++;
-	      bottom++;
 	      textOffsetX = location.x - left;
 	      textOffsetY = location.y - top;
 	      layoutW = right - left + 1;
@@ -29083,92 +29270,6 @@
 	        return this._scratchCanvasBitmap || (this._scratchCanvasBitmap = new Canvas.Bitmap(point(10, 10)));
 	      }
 	    });
-
-	    Metrics.calculateTop = function(data, size, tightThreshold) {
-	      var lineStep, pos;
-	      lineStep = size.x * pixelStep;
-	      pos = alphaChannelOffset;
-	      while (pos < data.length && data[pos] <= tightThreshold) {
-	        pos += pixelStep;
-	      }
-	      return floor(pos / lineStep);
-	    };
-
-	    Metrics.calculateBottom = function(data, size, tightThreshold) {
-	      var lineStep, pos;
-	      lineStep = size.x * pixelStep;
-	      pos = data.length + alphaChannelOffset - pixelStep;
-	      while (pos > 0 && data[pos] <= tightThreshold) {
-	        pos -= pixelStep;
-	      }
-	      return floor(pos / lineStep);
-	    };
-
-	    Metrics.calculateLeft = function(data, size, tightThreshold) {
-	      var length, lineStep, pos, posX;
-	      lineStep = size.x * pixelStep;
-	      length = data.length;
-	      posX = pixelStep + alphaChannelOffset;
-	      while (posX < lineStep) {
-	        pos = posX;
-	        while (pos < length) {
-	          if (data[pos] > tightThreshold) {
-	            return floor(posX / pixelStep);
-	          }
-	          pos += lineStep;
-	        }
-	        posX += pixelStep;
-	      }
-	    };
-
-	    Metrics.calculateRight = function(data, size, tightThreshold) {
-	      var length, lineStep, pos, posX;
-	      lineStep = size.x * pixelStep;
-	      length = data.length;
-	      posX = lineStep - 2 * pixelStep + alphaChannelOffset;
-	      while (posX > 0) {
-	        pos = posX;
-	        while (pos < length) {
-	          if (data[pos] > tightThreshold) {
-	            return floor(posX / pixelStep);
-	          }
-	          pos += lineStep;
-	        }
-	        posX -= pixelStep;
-	      }
-	    };
-
-	    Metrics.topAndBottomCheck = function(data, size) {
-	      var lineStep, posX, topBottomStep;
-	      lineStep = size.x * pixelStep;
-	      posX = alphaChannelOffset;
-	      topBottomStep = (size.y - 1) * lineStep;
-	      while (posX < lineStep) {
-	        if (data[posX] || data[posX + topBottomStep]) {
-	          return false;
-	        }
-	        posX += pixelStep;
-	      }
-	      return true;
-	    };
-
-	    Metrics.leftAndRightCheck = function(data, size) {
-	      var leftRightStep, lineStep, posY;
-	      lineStep = size.x * pixelStep;
-	      posY = alphaChannelOffset + lineStep;
-	      leftRightStep = lineStep - pixelStep;
-	      while (posY < data.length) {
-	        if (data[posY] || data[posY + leftRightStep]) {
-	          return false;
-	        }
-	        posY += lineStep;
-	      }
-	      return true;
-	    };
-
-	    Metrics.checkBorder = function(data, size) {
-	      return this.topAndBottomCheck(data, size) && this.leftAndRightCheck(data, size);
-	    };
 
 	    Metrics.pessimisticDrawArea = function(textWidth, fontOptions, intoRectangle, increasedFontSizeProportionalDrawAreaPadding) {
 	      var floatX, floatY, fontSize, h, padding, w, x, y;
@@ -37512,6 +37613,9 @@
 	   */
 
 	  FluxStore.prototype.update = function(modelName, key, updateFunctionOrNewFluxRecord) {
+	    if (!isString(key)) {
+	      throw new Error("key must be a string. got: " + (inspect(key)));
+	    }
 	    this._queueChange({
 	      modelName: modelName,
 	      key: key,
@@ -39617,21 +39721,21 @@
 	        understanding: "listening, empathy, knowing, seeing",
 	        compassion: "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
 	      },
-	      safety: "consistency, honesty, justice, reassurance, trust"
+	      safety: "consistency, honesty, justice, reassurance, trust privacy"
 	    }
 	  },
 	  transcending: {
-	    "self-acceptance": "allowing, approval, empathy, love, compassion, caring",
-	    "self-awareness": "consciousness, discovery, honesty, knowledge",
+	    "self-acceptance": "allowing, approval, empathy, love, compassion, caring honesty",
+	    "self-awareness": "consciousness, discovery, knowledge",
 	    "self-growth": "evolution, integration, development, improvement",
 	    "self-expression": "creativity, creation, imagination, invention, innovation, actualization, realization",
 	    "self-respect": "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy",
 	    meaning: "perspective, learning, awareness, celebration, depth, discovery, exploration, legacy, quality, spirituality, unity, oneness, beauty",
-	    peace: "ease, balance, clarity, faith, grace, harmony, hope, idleness, order, privacy, structure, tranquility",
+	    peace: "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility",
 	    engagement: "flow, gratitude, practice",
-	    autonomy: "challenged, choice, empowered, enabled, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
-	    purpose: "contribute, dedicated, dreams, enrich, impact, important, inspired, matter, passionate, significant, vision",
-	    mastery: "competent, effective, efficient, skillful"
+	    autonomy: "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
+	    purpose: "contribution, dedication, dreams, enrichment, impact, importance, inspiration, to-matter, passion, significance, vision",
+	    mastery: "competence, effectiveness, efficiency, skill"
 	  }
 	};
 
@@ -39681,7 +39785,7 @@
 	    disconnected: wordsArray("alienated\naloof\napathetic\nbored\ncold\ndetached\ndistant\ndistracted\nindifferent\nnumb\nremoved\nuninterested\nwithdrawn"),
 	    disquiet: wordsArray("agitated\nalarmed\ndiscombobulated\ndisconcerted\ndisturbed\nperturbed\nrattled\nrestless\nshocked\nstartled\nsurprised\ntroubled\nturbulent\nturmoil\nuncomfortable\nuneasy\nunnerved\nunsettled\nupset"),
 	    embarrassed: wordsArray("ashamed\nchagrined\nflustered\nguilty\nmortified\nself-conscious"),
-	    fatigue: wordsArray("beat\nburnt out\ndepleted\nexhausted\nlethargic\nlistless\nsleepy\ntired\nweary\nworn out"),
+	    fatigue: wordsArray("beat\nburnt-out\ndepleted\nexhausted\nlethargic\nlistless\nsleepy\ntired\nweary\nworn-out"),
 	    pain: wordsArray("agony\nanguished\nbereaved\ndevastated\ngrief\nheartbroken\nhurt\nlonely\nmiserable\nregretful\nremorseful"),
 	    sad: wordsArray("depressed\ndejected\ndespair\ndespondent\ndisappointed\ndiscouraged\ndisheartened\nforlorn\ngloomy\nheavy hearted\nhopeless\nmelancholy\nunhappy\nwretched"),
 	    tense: wordsArray("anxious\ncranky\ndistressed\ndistraught\nedgy\nfidgety\nfrazzled\nirritable\njittery\nnervous\noverwhelmed\nrestless\nstressed out"),
@@ -39708,8 +39812,6 @@
 	  App: __webpack_require__(319),
 	  ShowMap: __webpack_require__(320)
 	});
-
-	__webpack_require__(321);
 
 
 /***/ },
@@ -39794,8 +39896,15 @@
 	      inFlow: false,
 	      color: "#f9f9f9"
 	    }), PagingScrollElement({
+	      location: {
+	        ww: .5
+	      },
+	      axis: "topCenter",
 	      size: {
-	        ps: 1
+	        ps: 1,
+	        max: {
+	          w: 600
+	        }
 	      }
 	    }, Element({
 	      size: {
@@ -39833,7 +39942,7 @@
 /* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, PagingScrollElement, React, RectangleElement, SubMap, SubMapFactory, TabButton, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, subtextMap, textStyle,
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, PagingScrollElement, React, RectangleElement, StyleProps, SubMap, SubMapFactory, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, subtextMap, textStyle,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -39853,12 +39962,12 @@
 
 	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, PagingScrollElement = React.PagingScrollElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
 
-	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
+	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	TabButton = __webpack_require__(321).TabButton;
+	textStyle = StyleProps.textStyle;
 
 	emojiMap = {
-	  needs: "🍎",
+	  needs: "🌳",
 	  negEmotions: "☹️",
 	  posEmotions: "😀"
 	};
@@ -39883,7 +39992,7 @@
 	  render: function() {
 	    var category, color, emojiText, indent, ref1, selected, subMap, subtext;
 	    ref1 = this.props, category = ref1.category, subMap = ref1.subMap, selected = ref1.selected, color = ref1.color, indent = ref1.indent;
-	    color = selected ? "orange" : "white";
+	    color = selected ? StyleProps.primaryColor : "white";
 	    indent || (indent = 0);
 	    subtext = subtextMap[category];
 	    return Element({
@@ -39902,7 +40011,13 @@
 	          color: color
 	        }
 	      },
-	      padding: 3
+	      padding: 3,
+	      radius: 2,
+	      shadow: !selected ? {
+	        offsetY: 2,
+	        blur: 8,
+	        color: "#0002"
+	      } : void 0
 	    }), (emojiText = emojiMap[category]) ? Element({
 	      size: 100,
 	      padding: 18
@@ -39981,13 +40096,13 @@
 	      },
 	      cacheDraw: true,
 	      childrenLayout: "column",
-	      margin: 5
+	      margin: 10
 	    }, key && RectangleElement({
-	      color: "orange",
-	      margin: 5,
+	      color: "#0001",
+	      margin: 10,
 	      size: {
 	        ww: 1,
-	        h: 1
+	        h: 2
 	      }
 	    }), isPlainObject(map) ? Element({
 	      size: {
@@ -40022,10 +40137,7 @@
 	      padding: 10,
 	      size: {
 	        ww: 1,
-	        hch: 1,
-	        max: {
-	          w: 600
-	        }
+	        hch: 1
 	      },
 	      text: (typeof map.sort === "function" ? map.sort().join(', ') : void 0) || map,
 	      align: "center"
@@ -40040,94 +40152,6 @@
 	})(FluxComponent));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(112)(module)))
-
-/***/ },
-/* 321 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(322).addModules({
-	  TabButton: __webpack_require__(323)
-	});
-
-
-/***/ },
-/* 322 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Components, Partials,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Components = __webpack_require__(318);
-
-	module.exports = Components.Partials || Components.addNamespace('Partials', Partials = (function(superClass) {
-	  extend(Partials, superClass);
-
-	  function Partials() {
-	    return Partials.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Partials;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 323 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Element, FluxComponent, Foundation, React, RectangleElement, TextElement, createFluxComponentFactory, ref, textStyle;
-
-	Foundation = __webpack_require__(10);
-
-	React = __webpack_require__(269);
-
-	ref = __webpack_require__(113), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
-
-	RectangleElement = React.RectangleElement, Element = React.Element, TextElement = React.TextElement;
-
-	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
-
-	module.exports = createFluxComponentFactory({
-	  render: function() {
-	    var action, emojiMap, emojiText, props, ref1, selected, size, text;
-	    ref1 = this.props, text = ref1.text, selected = ref1.selected, action = ref1.action, size = ref1.size;
-	    emojiMap = {
-	      needs: "🍎",
-	      negEmotions: "☹️",
-	      posEmotions: "😀"
-	    };
-	    props = (emojiText = emojiMap[text]) ? {
-	      text: emojiText,
-	      fontSize: 32,
-	      color: "black"
-	    } : {
-	      text: text
-	    };
-	    return Element({
-	      size: size,
-	      on: {
-	        pointerClick: action
-	      }
-	    }, selected && RectangleElement({
-	      color: "orange",
-	      padding: 5,
-	      radius: 5
-	    }), TextElement(textStyle, props, {
-	      size: {
-	        cs: 1
-	      },
-	      padding: {
-	        h: 10
-	      },
-	      location: {
-	        ps: .5
-	      },
-	      axis: .5
-	    }));
-	  }
-	});
-
 
 /***/ }
 /******/ ]);
