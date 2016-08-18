@@ -6412,12 +6412,14 @@
 /* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Inspect, Log, callStack,
+	var Inspect, Log, callStack, isString,
 	  slice = [].slice;
 
 	Inspect = __webpack_require__(51);
 
 	callStack = __webpack_require__(57).callStack;
+
+	isString = __webpack_require__(15).isString;
 
 	module.exports = Log = (function() {
 	  function Log() {}
@@ -6489,7 +6491,7 @@
 	    if (Log.alternativeLogger) {
 	      return Log.alternativeLogger.logCore(m, stack, className);
 	    } else if (Neptune.isNode) {
-	      return Log.rawLog(Inspect.formattedInspect(m));
+	      return Log.rawLog(isString(m) ? m : Inspect.formattedInspect(m));
 	    } else {
 	      return Log.rawLog(m, "\n# Foundation.log called " + Log.contextString(stack, className));
 	    }
@@ -11182,7 +11184,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.1.0"
+		"version": "0.1.1"
 	};
 
 /***/ },
@@ -15422,7 +15424,7 @@
 
 	module.exports = {
 		"name": "art-canvas",
-		"version": "1.3.1",
+		"version": "1.3.2",
 		"description": "art-canvas",
 		"main": "index.coffee",
 		"dependencies": {
@@ -16891,63 +16893,67 @@
 /* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation) {
-	  var Paths, floatEq, log, min;
-	  log = Foundation.log, floatEq = Foundation.floatEq, min = Foundation.min;
-	  return Paths = (function() {
-	    var rectangle, roundedRectangle;
+	var Foundation, Paths, floatEq, log, max, min;
 
-	    function Paths() {}
+	Foundation = __webpack_require__(10);
 
-	    Paths.rectangle = rectangle = function(context, r) {
-	      var bottom, left, right, top;
+	log = Foundation.log, floatEq = Foundation.floatEq, min = Foundation.min, max = Foundation.max;
+
+	module.exports = Paths = (function() {
+	  var rectangle, roundedRectangle;
+
+	  function Paths() {}
+
+	  Paths.rectangle = rectangle = function(context, r) {
+	    var bottom, left, right, top;
+	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
+	    context.moveTo(left, top);
+	    context.lineTo(right, top);
+	    context.lineTo(right, bottom);
+	    context.lineTo(left, bottom);
+	    return context.closePath();
+	  };
+
+	  Paths.line = function(context, fromPoint, toPoint) {
+	    context.moveTo(fromPoint.x, fromPoint.y);
+	    return context.lineTo(toPoint.x, toPoint.y);
+	  };
+
+	  Paths.roundedRectangle = roundedRectangle = function(context, r, radius) {
+	    var bottom, h, hCenter, halfW, left, right, top, vCenter, w;
+	    if (!((radius != null) && radius > 0)) {
+	      return rectangle(context, r);
+	    }
+	    w = r.w, h = r.h;
+	    w = max(0, w);
+	    h = max(0, h);
+	    if (floatEq(w, h) && radius >= (halfW = w / 2)) {
+	      hCenter = r.hCenter, vCenter = r.vCenter;
+	      return context.arc(hCenter, vCenter, halfW, 0, Math.PI * 2, true);
+	    } else {
+	      radius = min(radius, w / 2, h / 2);
 	      left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	      context.moveTo(left, top);
-	      context.lineTo(right, top);
-	      context.lineTo(right, bottom);
-	      context.lineTo(left, bottom);
+	      context.moveTo(left, top + radius);
+	      context.arcTo(left, top, left + radius, top, radius);
+	      context.lineTo(right - radius, top);
+	      context.arcTo(right, top, right, top + radius, radius);
+	      context.lineTo(right, bottom - radius);
+	      context.arcTo(right, bottom, right - radius, bottom, radius);
+	      context.lineTo(left + radius, bottom);
+	      context.arcTo(left, bottom, left, bottom - radius, radius);
 	      return context.closePath();
+	    }
+	  };
+
+	  Paths.curriedRoundedRectangle = function(r, radius) {
+	    return function(context) {
+	      return roundedRectangle(context, r, radius);
 	    };
+	  };
 
-	    Paths.line = function(context, fromPoint, toPoint) {
-	      context.moveTo(fromPoint.x, fromPoint.y);
-	      return context.lineTo(toPoint.x, toPoint.y);
-	    };
+	  return Paths;
 
-	    Paths.roundedRectangle = roundedRectangle = function(context, r, radius) {
-	      var bottom, h, hCenter, halfW, left, right, top, vCenter, w;
-	      if (!((radius != null) && radius > 0)) {
-	        return rectangle(context, r);
-	      }
-	      w = r.w, h = r.h;
-	      if (floatEq(w, h) && radius >= (halfW = w / 2)) {
-	        hCenter = r.hCenter, vCenter = r.vCenter;
-	        return context.arc(hCenter, vCenter, halfW, 0, Math.PI * 2, true);
-	      } else {
-	        radius = min(radius, w / 2, h / 2);
-	        left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	        context.moveTo(left, top + radius);
-	        context.arcTo(left, top, left + radius, top, radius);
-	        context.lineTo(right - radius, top);
-	        context.arcTo(right, top, right, top + radius, radius);
-	        context.lineTo(right, bottom - radius);
-	        context.arcTo(right, bottom, right - radius, bottom, radius);
-	        context.lineTo(left + radius, bottom);
-	        context.arcTo(left, bottom, left, bottom - radius, radius);
-	        return context.closePath();
-	      }
-	    };
-
-	    Paths.curriedRoundedRectangle = function(r, radius) {
-	      return function(context) {
-	        return roundedRectangle(context, r, radius);
-	      };
-	    };
-
-	    return Paths;
-
-	  })();
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	})();
 
 
 /***/ },
@@ -20436,6 +20442,7 @@
 	        options = emptyObject;
 	      }
 	      e = new PointerEvent(options.type || this.type, options.pointer || this.pointer, options.time || this.time);
+	      e.timeStamp = this.timeStamp;
 	      e.target = options.target || this.target;
 	      return e;
 	    };
@@ -20529,7 +20536,7 @@
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Animator, Atomic, Canvas, DrawCacheManager, DrawEpoch, Element, ElementBase, Foundation, GlobalEpochCycle, Join, Layout, Map, Matrix, Point, PointLayout, PointLayoutBase, Promise, Rectangle, StateEpoch, Unique, arrayWithoutValue, cacheAggressively, clone, compact, compactFlatten, createWithPostCreate, currentSecond, defaultSize, drawCacheManager, drawEpoch, floatEq, floatEq0, floor, globalEpochCycle, identityMatrix, insert, inspect, inspectLean, isFunction, isInfiniteResult, isNumber, isPlainArray, isPlainObject, isPoint, isString, keepIfRubyTrue, log, matrix, max, merge, mergeInto, min, minimumOrderedOverlappingMerge, modulo, nonStatePropertyKeyTest, perimeter0, plainObjectsDeepEq, point, point0, point1, present, rect, remove, repeat, rubyTrue, shallowEq, stateEpoch, stats, time, truncateLayoutCoordinate, zeroedStats,
+	var Animator, Atomic, Canvas, DrawCacheManager, DrawEpoch, Element, ElementBase, Foundation, GlobalEpochCycle, Join, Layout, Map, Matrix, Point, PointLayout, PointLayoutBase, Promise, Rectangle, StateEpoch, Unique, arrayWithoutValue, cacheAggressively, clone, compact, compactFlatten, createWithPostCreate, currentSecond, defaultSize, drawCacheManager, drawEpoch, floatEq, floatEq0, floor, globalEpochCycle, identityMatrix, insert, inspect, inspectLean, inspectedObjectLiteral, isFunction, isInfiniteResult, isNumber, isPlainArray, isPlainObject, isPoint, isString, keepIfRubyTrue, log, matrix, max, merge, mergeInto, min, minimumOrderedOverlappingMerge, modulo, nonStatePropertyKeyTest, perimeter0, plainObjectsDeepEq, point, point0, point1, present, rect, remove, repeat, rubyTrue, shallowEq, stateEpoch, stats, time, truncateLayoutCoordinate, zeroedStats,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty,
 	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -20570,7 +20577,7 @@
 	  return floor(v + 1 / 256);
 	};
 
-	inspect = Foundation.inspect, inspectLean = Foundation.inspectLean, clone = Foundation.clone, time = Foundation.time, Map = Foundation.Map, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, shallowEq = Foundation.shallowEq, Unique = Foundation.Unique, compact = Foundation.compact, compactFlatten = Foundation.compactFlatten, keepIfRubyTrue = Foundation.keepIfRubyTrue, log = Foundation.log, insert = Foundation.insert, remove = Foundation.remove, merge = Foundation.merge, max = Foundation.max, min = Foundation.min, arrayWithoutValue = Foundation.arrayWithoutValue, minimumOrderedOverlappingMerge = Foundation.minimumOrderedOverlappingMerge, isPlainObject = Foundation.isPlainObject, isPlainArray = Foundation.isPlainArray, isNumber = Foundation.isNumber, isString = Foundation.isString, isFunction = Foundation.isFunction, mergeInto = Foundation.mergeInto, floatEq = Foundation.floatEq, floatEq0 = Foundation.floatEq0, Join = Foundation.Join, rubyTrue = Foundation.rubyTrue, createWithPostCreate = Foundation.createWithPostCreate, currentSecond = Foundation.currentSecond, repeat = Foundation.repeat, present = Foundation.present, Promise = Foundation.Promise, modulo = Foundation.modulo;
+	inspect = Foundation.inspect, inspectLean = Foundation.inspectLean, clone = Foundation.clone, time = Foundation.time, Map = Foundation.Map, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, shallowEq = Foundation.shallowEq, Unique = Foundation.Unique, compact = Foundation.compact, compactFlatten = Foundation.compactFlatten, keepIfRubyTrue = Foundation.keepIfRubyTrue, log = Foundation.log, insert = Foundation.insert, remove = Foundation.remove, merge = Foundation.merge, max = Foundation.max, min = Foundation.min, arrayWithoutValue = Foundation.arrayWithoutValue, minimumOrderedOverlappingMerge = Foundation.minimumOrderedOverlappingMerge, isPlainObject = Foundation.isPlainObject, isPlainArray = Foundation.isPlainArray, isNumber = Foundation.isNumber, isString = Foundation.isString, isFunction = Foundation.isFunction, mergeInto = Foundation.mergeInto, floatEq = Foundation.floatEq, floatEq0 = Foundation.floatEq0, Join = Foundation.Join, rubyTrue = Foundation.rubyTrue, createWithPostCreate = Foundation.createWithPostCreate, currentSecond = Foundation.currentSecond, repeat = Foundation.repeat, present = Foundation.present, Promise = Foundation.Promise, modulo = Foundation.modulo, inspectedObjectLiteral = Foundation.inspectedObjectLiteral;
 
 	cacheAggressively = false;
 
@@ -20638,7 +20645,7 @@
 	    this._initTemporaryFields();
 	    this._initComputedFields();
 	    this._activeAnimator = null;
-	    this._animatingOut = false;
+	    this._toVoidAnimationStatus = false;
 	    return this._locationLayoutDisabled = false;
 	  };
 
@@ -21077,62 +21084,41 @@
 	    children: {
 	      "default": initialChildren = [],
 	      setter: function(newChildren, oldChildren) {
-	        var child, childRemovedAnimation, childrenHaveRemovedAnimations, firstTimeSettingChildren, j, keepAllChildren, keepOldChildren, len, len1, len2, len3, len4, n, oldParent, q, r, t;
+	        var child, childrenHaveRemovedAnimations, firstTimeSettingChildren, j, keepOldChildren, len, len1, len2, len3, n, oldParent, q, r;
 	        this.__drawPropertiesChanged = true;
 	        newChildren = compactFlatten(newChildren, keepIfRubyTrue);
 	        firstTimeSettingChildren = oldChildren === initialChildren;
-	        if (!(childrenHaveRemovedAnimations = childRemovedAnimation = this.getPendingChildRemovedAnimation())) {
-	          for (j = 0, len = oldChildren.length; j < len; j++) {
-	            child = oldChildren[j];
-	            if (!(child.getPendingRemovedAnimation())) {
-	              continue;
-	            }
-	            childrenHaveRemovedAnimations = true;
-	            break;
+	        for (j = 0, len = oldChildren.length; j < len; j++) {
+	          child = oldChildren[j];
+	          if (!(child.getPendingHasToVoidAnimators())) {
+	            continue;
 	          }
+	          childrenHaveRemovedAnimations = true;
+	          break;
 	        }
 	        if (childrenHaveRemovedAnimations) {
 	          keepOldChildren = [];
 	          for (n = 0, len1 = oldChildren.length; n < len1; n++) {
 	            child = oldChildren[n];
-	            if (child._animatingOut === "done") {
-	              child._animatingOut = false;
-	            } else if (childRemovedAnimation || child.getPendingRemovedAnimation() || indexOf.call(newChildren, child) >= 0) {
+	            if (child._toVoidAnimationStatus === "done") {
+	              child._toVoidAnimationStatus = false;
+	            } else if (indexOf.call(newChildren, child) >= 0) {
+	              keepOldChildren.push(child);
+	            } else if (child.getPendingHasToVoidAnimators()) {
+	              child._activateToVoidAnimators();
 	              keepOldChildren.push(child);
 	            }
 	          }
-	          keepAllChildren = minimumOrderedOverlappingMerge(keepOldChildren, newChildren);
-	          for (q = 0, len2 = keepAllChildren.length; q < len2; q++) {
-	            child = keepAllChildren[q];
-	            if (indexOf.call(newChildren, child) < 0) {
-	              (function(child) {
-	                var animation;
-	                if (!child._animatingOut && (animation = childRemovedAnimation || child.getPendingRemovedAnimation())) {
-	                  child.setAnimate(merge(animation, {
-	                    on: {
-	                      done: (function(_this) {
-	                        return function() {
-	                          child._animatingOut = "done";
-	                          return child.removeFromParent();
-	                        };
-	                      })(this)
-	                    }
-	                  }));
-	                  return child._animatingOut = true;
-	                }
-	              })(child);
-	            }
-	          }
-	          newChildren = keepAllChildren;
+	          newChildren = minimumOrderedOverlappingMerge(keepOldChildren, newChildren);
 	        }
-	        for (r = 0, len3 = oldChildren.length; r < len3; r++) {
-	          child = oldChildren[r];
+	        for (q = 0, len2 = oldChildren.length; q < len2; q++) {
+	          child = oldChildren[q];
 	          if (indexOf.call(newChildren, child) < 0) {
 	            child._setParentOnly(null);
 	          }
 	        }
-	        for (t = 0, len4 = newChildren.length; t < len4; t++) {
-	          child = newChildren[t];
+	        for (r = 0, len3 = newChildren.length; r < len3; r++) {
+	          child = newChildren[r];
 	          if (!((oldParent = child.getPendingParent()) !== this)) {
 	            continue;
 	          }
@@ -21140,9 +21126,6 @@
 	            oldParent._setChildrenOnly(oldParent.pendingChildrenWithout(child));
 	          }
 	          child._setParentOnly(this);
-	          if (!firstTimeSettingChildren) {
-	            this.startChildAddedAnimation(child);
-	          }
 	        }
 	        return newChildren;
 	      }
@@ -21191,6 +21174,38 @@
 	      f(child);
 	    }
 	    return this;
+	  };
+
+	  Element.prototype._toVoidAnimationDone = function() {
+	    var animator, prop, ref;
+	    ref = this.animators;
+	    for (prop in ref) {
+	      animator = ref[prop];
+	      if ((animator.toVoid != null) && (animator.active != null)) {
+	        return;
+	      }
+	    }
+	    this._toVoidAnimationStatus = "done";
+	    return this.removeFromParent();
+	  };
+
+	  Element.prototype._activateToVoidAnimators = function() {
+	    var animator, prop, ref, results1;
+	    if (!(!this._toVoidAnimationStatus && this.getPendingHasToVoidAnimators())) {
+	      return;
+	    }
+	    this._toVoidAnimationStatus = "active";
+	    ref = this.getPendingAnimators();
+	    results1 = [];
+	    for (prop in ref) {
+	      animator = ref[prop];
+	      results1.push(animator.startToVoidAnimation(this).then((function(_this) {
+	        return function() {
+	          return _this._toVoidAnimationDone();
+	        };
+	      })(this)));
+	    }
+	    return results1;
 	  };
 
 	  Element.getter({
@@ -21266,30 +21281,6 @@
 	        return (v == null) || isPlainObject(v);
 	      }
 	    },
-	    childAddedAnimation: {
-	      "default": null,
-	      validate: function(v) {
-	        return (v == null) || isPlainObject(v);
-	      }
-	    },
-	    childRemovedAnimation: {
-	      "default": null,
-	      validate: function(v) {
-	        return (v == null) || isPlainObject(v);
-	      }
-	    },
-	    addedAnimation: {
-	      "default": null,
-	      validate: function(v) {
-	        return (v == null) || isPlainObject(v);
-	      }
-	    },
-	    removedAnimation: {
-	      "default": null,
-	      validate: function(v) {
-	        return (v == null) || isPlainObject(v);
-	      }
-	    },
 	    receivePointerEvents: {
 	      "default": "inLogicalArea",
 	      validate: function(v) {
@@ -21322,6 +21313,20 @@
 	      },
 	      setter: function(v) {
 	        return this.setVisible(!v);
+	      }
+	    },
+	    hasToVoidAnimators: {
+	      getter: function(pending) {
+	        var animator, animators, prop;
+	        if (animators = this.getState(pending)._animators) {
+	          for (prop in animators) {
+	            animator = animators[prop];
+	            if (animator.hasToVoidAnimation) {
+	              return true;
+	            }
+	          }
+	        }
+	        return false;
 	      }
 	    },
 	    isMask: {
@@ -21469,7 +21474,7 @@
 	        return this._activeAnimator;
 	      },
 	      setter: function(options) {
-	        if (this._animatingOut) {
+	        if (this._toVoidAnimationStatus) {
 	          return;
 	        }
 	        this.finishAnimations();
@@ -22603,6 +22608,19 @@
 	        results1.push(c.inspectedName);
 	      }
 	      return results1;
+	    },
+	    inspectedObjects: function() {
+	      var child;
+	      return [inspectedObjectLiteral(this.inspectedName), this.minimalProps].concat((function() {
+	        var j, len, ref, results1;
+	        ref = this.children;
+	        results1 = [];
+	        for (j = 0, len = ref.length; j < len; j++) {
+	          child = ref[j];
+	          results1.push(child.inspectedObjects);
+	        }
+	        return results1;
+	      }).call(this));
 	    }
 	  });
 
@@ -26348,12 +26366,6 @@
 	        addProps(v);
 	        return processedAnimators;
 	      }
-	    },
-	    voidProps: {
-	      "default": null,
-	      validate: function(v) {
-	        return !v || isPlainObject(v);
-	      }
 	    }
 	  });
 
@@ -26395,31 +26407,13 @@
 	  };
 
 	  EpochedObject.prototype._initProperties = function(options) {
-	    var metaProperties, voidProps;
+	    var metaProperties;
 	    metaProperties = this.metaProperties;
 	    if (!this.__proto__.hasOwnProperty("_initPropertiesAuto")) {
 	      this.__proto__._initPropertiesAuto = this["class"]._generateSetPropertyDefaults();
 	    }
 	    this._initPropertiesAuto(options);
 	    this.setProperties(options);
-	    if (voidProps = options.voidProps) {
-	      this.setProperties(voidProps);
-	      this.onNextEpoch((function(_this) {
-	        return function() {
-	          var _, k, props, v;
-	          props = {};
-	          for (k in voidProps) {
-	            _ = voidProps[k];
-	            v = options[k];
-	            if (v === void 0) {
-	              v = metaProperties[k].defaultValue;
-	            }
-	            props[k] = v;
-	          }
-	          return _this.setProperties(props);
-	        };
-	      })(this));
-	    }
 	    this._elementChanged(true, true, true);
 	    return null;
 	  };
@@ -26544,15 +26538,22 @@
 	    })(this));
 	  };
 
+	  EpochedObject.prototype.getPendingCreatedAndAddedToExistingParent = function() {
+	    var ref1;
+	    return this.__stateEpochCount === 0 && !(((ref1 = this._pendingState._parent) != null ? ref1.__stateEpochCount : void 0) === 0);
+	  };
+
 	  EpochedObject.prototype._applyAnimators = function() {
-	    var animator, currentValue, frameSecond, newValue, pendingAnimators, pendingValue, prop;
+	    var active, animateFromVoid, animator, currentValue, epochCount, frameSecond, hasFromVoidAnimation, newValue, pendingAnimators, pendingValue, prop;
 	    if (pendingAnimators = this._pendingState._animators) {
-	      frameSecond = stateEpoch.frameSecond;
+	      animateFromVoid = this.getPendingCreatedAndAddedToExistingParent();
+	      frameSecond = stateEpoch.frameSecond, epochCount = stateEpoch.epochCount;
 	      for (prop in pendingAnimators) {
 	        animator = pendingAnimators[prop];
+	        active = animator.active;
 	        pendingValue = this._pendingState[prop];
-	        currentValue = this[prop];
-	        newValue = animator.active || (this.isRegistered && this.__stateEpochCount > 0 && !propsEq(currentValue, pendingValue)) ? animator.animateAbsoluteTime(this, currentValue, pendingValue, frameSecond) : pendingValue;
+	        currentValue = animateFromVoid && (hasFromVoidAnimation = animator.hasFromVoidAnimation) ? animator.getPreprocessedFromVoid(this) : this.__stateEpochCount === 0 ? pendingValue : this[prop];
+	        newValue = active || !propsEq(currentValue, pendingValue) ? animator.animateAbsoluteTime(this, currentValue, pendingValue, frameSecond) : pendingValue;
 	        this._pendingState[prop] = newValue;
 	      }
 	    }
@@ -26640,11 +26641,6 @@
 	    this._resetThisCyclesStats();
 	    boundQueueNextEpoch = fastBind(this.queueNextEpoch, this);
 	    idleEpoch.queueNextEpoch = stateEpoch.queueNextEpoch = drawEpoch.queueNextEpoch = eventEpoch.queueNextEpoch = boundQueueNextEpoch;
-	    eventEpoch.flushEpochNow = (function(_this) {
-	      return function() {
-	        return _this.flushEpochNow();
-	      };
-	    })(this);
 	    eventEpoch.logEvent = (function(_this) {
 	      return function(name, id) {
 	        var ref;
@@ -27294,7 +27290,19 @@
 /* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+	var BaseObject, EventedObject, Events, Foundation, PersistantAnimator, capitalize, inspectedObjectLiteral, isFunction, isPlainObject, isString, log, plainObjectsDeepEq,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(10);
+
+	Events = __webpack_require__(157);
+
+	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, capitalize = Foundation.capitalize, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isPlainObject = Foundation.isPlainObject;
+
+	EventedObject = Events.EventedObject;
+
+
 	/*
 	Useful ideas about optimizing animations and garbage collection: http://blog.artillery.com/2012/10/browser-garbage-collection-and-framerate.html
 
@@ -27536,19 +27544,6 @@
 	NOTE: Span elements will make this less onerous. Just wrap the root in a Span and you can
 	  do whatever you want within that span as-if you were just returning an array of elements.
 	 */
-	var BaseObject, EasingFunctions, EventedObject, Events, Foundation, PersistantAnimator, capitalize, isFunction, isString, log,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(10);
-
-	Events = __webpack_require__(157);
-
-	EasingFunctions = __webpack_require__(175);
-
-	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, capitalize = Foundation.capitalize;
-
-	EventedObject = Events.EventedObject;
 
 
 	/*
@@ -27570,19 +27565,29 @@
 	 */
 
 	module.exports = PersistantAnimator = (function(superClass) {
+	  var interpolate;
+
 	  extend(PersistantAnimator, superClass);
 
 	  PersistantAnimator.include(EventedObject);
 
-	  PersistantAnimator.interpolate = function(startValue, toValue, pos) {
+	  PersistantAnimator.interpolate = interpolate = function(startValue, toValue, pos) {
+	    var k, out, v;
 	    if (isFunction(startValue.interpolate)) {
 	      return startValue.interpolate(toValue, pos);
+	    } else if (isPlainObject(startValue)) {
+	      out = {};
+	      for (k in startValue) {
+	        v = startValue[k];
+	        out[k] = interpolate(v, toValue[k], pos);
+	      }
+	      return out;
 	    } else {
 	      return startValue + (toValue - startValue) * pos;
 	    }
 	  };
 
-	  PersistantAnimator.getter("options prop element startValue currentValue toValue continuous");
+	  PersistantAnimator.getter("options prop element startValue currentValue toValue continuous voidValue currentSecond startSecond");
 
 	  PersistantAnimator.getter({
 	    active: function() {
@@ -27595,17 +27600,18 @@
 
 	  PersistantAnimator.prototype.deactivate = function() {
 	    if (this._active) {
-	      this.queueEvent("done");
+	      return this._deactivate();
 	    }
-	    return this._active = false;
 	  };
 
 	  PersistantAnimator.getter({
 	    inspectedObjects: function() {
+	      var ref;
 	      return [
-	        "PersistantAnimator", {
+	        inspectedObjectLiteral("PersistantAnimator"), {
 	          prop: this.prop,
-	          element: this.element.uniqueId
+	          element: (ref = this.element) != null ? ref.inspectedName : void 0,
+	          options: this.options
 	        }
 	      ];
 	    }
@@ -27615,7 +27621,7 @@
 	  /*
 	  IN:
 	    options:
-	      animate: (startValue, currentValue, toValue, secondsSinceStart, animator) -> nextValue
+	      animate: (animator) -> nextValue
 	        IN:
 	          startValue: the value when the aniation started
 	          currentValue: the element's current value
@@ -27637,9 +27643,17 @@
 	        STATE:
 	          Use animator.state object to store any persistant state the animation function needs.
 	          animator.state is reserved for exclusive use by the animate function.
+	      continuous: t/f
+	      on: handlers
+	  
+	       * added and removed animation values
+	      voidValue:  # both
+	      fromVoid:   # added animation
+	      toVoid:     # removed animation
 	   */
 
 	  function PersistantAnimator(prop, options) {
+	    PersistantAnimator.__super__.constructor.apply(this, arguments);
 	    this._prop = prop;
 	    this._options = options;
 	    this._active = false;
@@ -27649,13 +27663,39 @@
 	    this._startValue = null;
 	    this._currentValue = null;
 	    this._toValue = null;
-	    this._animate = options.animate;
 	    this._element = null;
-	    this._continuous = !!options.continuous;
+	    this._animate = options.animate;
+	    this._continuous = options.continuous;
+	    this._voidValue = options.voidValue;
+	    this._toVoid = options.toVoid;
+	    this._fromVoid = options.fromVoid;
 	    if (options != null ? options.on : void 0) {
 	      this.on(options.on);
 	    }
 	  }
+
+	  PersistantAnimator.getter({
+	    fromVoid: function() {
+	      if (this._voidValue != null) {
+	        return this._voidValue;
+	      } else {
+	        return this._fromVoid;
+	      }
+	    },
+	    toVoid: function() {
+	      if (this._voidValue != null) {
+	        return this._voidValue;
+	      } else {
+	        return this._toVoid;
+	      }
+	    },
+	    hasFromVoidAnimation: function() {
+	      return this.fromVoid != null;
+	    },
+	    hasToVoidAnimation: function() {
+	      return this.toVoid != null;
+	    }
+	  });
 
 	  PersistantAnimator.getter({
 	    animationSeconds: function() {
@@ -27681,12 +27721,48 @@
 	    }
 	  });
 
+	  PersistantAnimator.prototype.startToVoidAnimation = function(_element) {
+	    this._element = _element;
+	    if (!this.hasToVoidAnimation) {
+	      return Promise.reject();
+	    }
+	    return new Promise((function(_this) {
+	      return function(resolve, reject) {
+	        if (_this._active) {
+	          _this._activate();
+	        }
+	        _this._element[_this._prop] = _this._toValue = _this.toVoid;
+	        return _this.on({
+	          done: resolve
+	        });
+	      };
+	    })(this));
+	  };
+
+	  PersistantAnimator.prototype.getPreprocessedFromVoid = function(_element) {
+	    this._element = _element;
+	    return this._element.preprocessProperty(this._prop, this.fromVoid);
+	  };
+
 	  PersistantAnimator.prototype.animate = function() {
 	    if (this._animate) {
 	      return this._animate(this);
 	    } else {
+	      log("no @_animate");
 	      return this.stop();
 	    }
+	  };
+
+	  PersistantAnimator.prototype._activate = function() {
+	    this._lastSecond = this._startSecond = this._currentSecond;
+	    this._startValue = this._currentValue;
+	    this.queueEvent("start");
+	    return this._active = true;
+	  };
+
+	  PersistantAnimator.prototype._deactivate = function() {
+	    this.queueEvent("done");
+	    return this._active = false;
 	  };
 
 	  PersistantAnimator.prototype.animateAbsoluteTime = function(_element, _currentValue, _toValue, _currentSecond) {
@@ -27696,10 +27772,7 @@
 	    this._toValue = _toValue;
 	    this._currentSecond = _currentSecond;
 	    if (!this._active) {
-	      this._lastSecond = this._startSecond = this._currentSecond;
-	      this._startValue = this._currentValue;
-	      this.queueEvent("start");
-	      this._active = true;
+	      this._activate();
 	    }
 	    animationSeconds = this.getAnimationSeconds();
 	    newValue = this.animate();
@@ -27713,7 +27786,7 @@
 	        };
 	      })(this));
 	    } else {
-	      this.queueEvent("done");
+	      this._deactivate();
 	    }
 	    this._lastSecond = this._currentSecond;
 	    return this._element.preprocessProperty(this._prop, newValue);
@@ -28171,7 +28244,7 @@
 /* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Atomic, Base, Canvas, Color, FillableBase, Foundation, GradientFillStyle, Matrix, Point, PointLayout, PointLayoutBase, Rectangle, color, createWithPostCreate, isNumber, isPlainObject, log, matrix, max, merge, min, point, point0, point1, rect, ref,
+	var Atomic, Base, Canvas, Color, FillableBase, Foundation, GradientFillStyle, Matrix, Point, PointLayout, PointLayoutBase, Rectangle, createWithPostCreate, isNumber, isPlainObject, log, matrix, max, merge, min, point, point0, point1, rect, ref, rgbColor,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -28187,12 +28260,12 @@
 
 	log = Foundation.log, isPlainObject = Foundation.isPlainObject, min = Foundation.min, max = Foundation.max, createWithPostCreate = Foundation.createWithPostCreate, isNumber = Foundation.isNumber, merge = Foundation.merge;
 
-	color = Atomic.color, Color = Atomic.Color, point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, point0 = Atomic.point0, point1 = Atomic.point1;
+	rgbColor = Atomic.rgbColor, Color = Atomic.Color, point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, point0 = Atomic.point0, point1 = Atomic.point1;
 
 	GradientFillStyle = Canvas.GradientFillStyle;
 
 	module.exports = createWithPostCreate(FillableBase = (function(superClass) {
-	  var defaultFrom, defaultTo;
+	  var defaultFrom, defaultOffset, defaultTo, noShadow;
 
 	  extend(FillableBase, superClass);
 
@@ -28215,6 +28288,16 @@
 	  defaultTo = new PointLayout({
 	    hh: 1
 	  });
+
+	  defaultOffset = new PointLayout({
+	    y: 2
+	  });
+
+	  noShadow = {
+	    color: rgbColor(0, 0, 0, 0),
+	    blur: 0,
+	    offset: new PointLayout(0)
+	  };
 
 	  FillableBase.drawProperty({
 	    from: {
@@ -28239,44 +28322,44 @@
 	        return !v || isPlainObject(v);
 	      },
 	      preprocess: function(v) {
-	        var offset;
-	        if ((offset = v != null ? v.offset : void 0) && !(offset instanceof PointLayoutBase)) {
-	          return merge(v, {
-	            offset: new PointLayout(offset)
-	          });
-	        } else {
-	          return v;
+	        var blur, color, offset;
+	        if (!v) {
+	          return noShadow;
 	        }
+	        color = v.color, offset = v.offset, blur = v.blur;
+	        color = rgbColor(color || "#0007");
+	        offset = offset != null ? offset instanceof PointLayoutBase ? offset : new PointLayout(offset) : defaultOffset;
+	        if (blur == null) {
+	          blur = 4;
+	        }
+	        return {
+	          blur: blur,
+	          offset: offset,
+	          color: color
+	        };
 	      }
 	    }
 	  });
 
 	  FillableBase.getter({
 	    normalizedShadow: function() {
-	      var _currentSize, offset, ref1, shadow, x, y;
-	      shadow = this._shadow;
-	      if (!shadow) {
+	      var offset, x, y;
+	      if (this._shadow === noShadow) {
 	        return null;
 	      }
-	      _currentSize = this._currentSize;
-	      if (offset = shadow.offset) {
-	        ref1 = offset.layout(_currentSize), x = ref1.x, y = ref1.y;
-	        return merge(shadow, {
-	          offsetX: x,
-	          offsetY: y
-	        });
-	      } else {
-	        return merge({
-	          offsetX: 0,
-	          offsetY: 0
-	        }, shadow);
-	      }
+	      offset = this._shadow.offset;
+	      x = offset.layoutX(this._currentSize);
+	      y = offset.layoutY(this._currentSize);
+	      return merge(this._shadow, {
+	        offsetX: x,
+	        offsetY: y
+	      });
 	    }
 	  });
 
 	  FillableBase.prototype._expandRectangleByShadow = function(r, shadow) {
 	    var blur, expandBottom, expandLeft, expandRight, expandTop, h, offsetX, offsetY, ref1, w, x, y;
-	    if (!shadow) {
+	    if (shadow === noShadow) {
 	      return r;
 	    }
 	    x = r.x, y = r.y, w = r.w, h = r.h;
@@ -29579,7 +29662,7 @@
 /* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Atomic, BaseObject, Color, FillableBase, Foundation, GlobalEpochCycle, Matrix, Point, Rectangle, Text, TextElement, color, createWithPostCreate, globalEpochCycle, isPlainArray, log, matrix, merge, normalizeFontOptions, point, propInternalName, propSetterName, pureMerge, rect, shallowClone,
+	var Atomic, BaseObject, Color, FillableBase, Foundation, GlobalEpochCycle, Matrix, Point, Rectangle, Text, TextElement, color, createWithPostCreate, globalEpochCycle, isNumber, isPlainArray, isString, log, matrix, merge, normalizeFontOptions, point, propInternalName, propSetterName, pureMerge, rect, shallowClone,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -29593,7 +29676,7 @@
 
 	GlobalEpochCycle = __webpack_require__(190);
 
-	log = Foundation.log, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, pureMerge = Foundation.pureMerge, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, isPlainArray = Foundation.isPlainArray;
+	log = Foundation.log, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, pureMerge = Foundation.pureMerge, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, isPlainArray = Foundation.isPlainArray, isString = Foundation.isString, isNumber = Foundation.isNumber;
 
 	color = Atomic.color, Color = Atomic.Color, point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix;
 
@@ -29606,8 +29689,6 @@
 	propSetterName = BaseObject._propSetterName;
 
 	module.exports = createWithPostCreate(TextElement = (function(superClass) {
-	  var validLayoutModes, validOverflows;
-
 	  extend(TextElement, superClass);
 
 	  TextElement.prototype.defaultSize = {
@@ -29625,80 +29706,67 @@
 	    }
 	  });
 
-	  TextElement.propertySet = function(set) {
-	    var results, setName, setOptions;
-	    results = [];
-	    for (setName in set) {
-	      setOptions = set[setName];
-	      results.push((function(_this) {
-	        return function(setName, setOptions) {
-	          var defaultValue, definePropertyFunctionName, fn, internalName, propDefault, propDefinition, ref, setSetterName, subPropName, virtualProperties;
-	          definePropertyFunctionName = setOptions.definePropertyFunctionName;
-	          propDefinition = {};
-	          propDefault = setOptions["default"] || {};
-	          propDefinition[setName] = {
-	            "default": setOptions["default"],
-	            preprocess: setOptions.preprocess,
-	            validate: setOptions.validate
-	          };
-	          _this[definePropertyFunctionName](propDefinition);
-	          internalName = propInternalName(setName);
-	          setSetterName = propSetterName(setName);
-	          virtualProperties = {};
-	          ref = setOptions["default"];
-	          fn = function(subPropName) {
-	            return virtualProperties[subPropName] = {
-	              getter: function(pending) {
-	                var ref1;
-	                return (ref1 = this.getState()[internalName]) != null ? ref1[subPropName] : void 0;
-	              },
-	              setter: function(v) {
-	                var newOptions, oldOptions;
-	                if ((oldOptions = this[internalName]) === (newOptions = this._pendingState[internalName])) {
-	                  newOptions = shallowClone(oldOptions);
-	                  newOptions[subPropName] = v;
-	                  return this[setSetterName](newOptions);
-	                } else {
-	                  return newOptions[subPropName] = v;
-	                }
-	              }
-	            };
-	          };
-	          for (subPropName in ref) {
-	            defaultValue = ref[subPropName];
-	            fn(subPropName);
-	          }
-	          return _this.virtualProperty(virtualProperties);
-	        };
-	      })(this)(setName, setOptions));
-	    }
-	    return results;
-	  };
-
-	  validLayoutModes = Text.Layout.validLayoutOptions.layoutMode;
-
-	  validOverflows = Text.Layout.validLayoutOptions.overflow;
-
-	  TextElement.propertySet({
-	    font: {
-	      definePropertyFunctionName: "drawLayoutProperty",
-	      preprocess: function(v) {
-	        return normalizeFontOptions(v);
-	      },
-	      "default": Text.Metrics.defaultFontOptions
-	    },
-	    format: {
-	      definePropertyFunctionName: "drawLayoutProperty",
-	      "default": Text.Layout.defaultLayoutOptions,
-	      validate: function(layoutOptions) {
-	        var layoutMode, overflow;
-	        layoutMode = layoutOptions.layoutMode, overflow = layoutOptions.overflow;
-	        return (!layoutMode || validLayoutModes[layoutMode]) && (!overflow || validOverflows[overflow]);
-	      }
-	    }
-	  });
-
 	  TextElement.drawLayoutProperty({
+	    fontSize: {
+	      "default": 16,
+	      validate: function(v) {
+	        return isNumber(v);
+	      }
+	    },
+	    fontFamily: {
+	      "default": "Times",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
+	    fontStyle: {
+	      "default": "normal",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
+	    fontVariant: {
+	      "default": "normal",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
+	    fontWeight: {
+	      "default": "normal",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
+	    align: {
+	      "default": 0,
+	      preprocess: function(v) {
+	        return point(v);
+	      }
+	    },
+	    layoutMode: {
+	      "default": "textualBaseline",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
+	    leading: {
+	      "default": 1.25,
+	      validate: function(v) {
+	        return isNumber(v);
+	      }
+	    },
+	    maxLines: {
+	      "default": null,
+	      validate: function(v) {
+	        return (v == null) || isNumber(v);
+	      }
+	    },
+	    overflow: {
+	      "default": "ellipsis",
+	      validate: function(v) {
+	        return isString(v);
+	      }
+	    },
 	    text: {
 	      "default": Text.Layout.defaultText,
 	      preprocess: function(t) {
@@ -29708,15 +29776,34 @@
 	          return "" + t;
 	        }
 	      }
-	    },
-	    fontOptions: {
-	      validate: function(v) {
-	        return !v;
+	    }
+	  });
+
+	  TextElement.virtualProperty({
+	    font: {
+	      getter: function(pending) {
+	        var _fontFamily, _fontSize, _fontStyle, _fontVariant, _fontWeight, ref;
+	        ref = this.getState(pending), _fontFamily = ref._fontFamily, _fontSize = ref._fontSize, _fontStyle = ref._fontStyle, _fontVariant = ref._fontVariant, _fontWeight = ref._fontWeight;
+	        return {
+	          fontFamily: _fontFamily,
+	          fontSize: _fontSize,
+	          fontStyle: _fontStyle,
+	          fontVariant: _fontVariant,
+	          fontWeight: _fontWeight
+	        };
 	      }
 	    },
-	    layoutOptions: {
-	      validate: function(v) {
-	        return !v;
+	    format: {
+	      getter: function(pending) {
+	        var _align, _layoutMode, _leading, _maxLines, _overflow, ref;
+	        ref = this.getState(pending), _align = ref._align, _layoutMode = ref._layoutMode, _leading = ref._leading, _maxLines = ref._maxLines, _overflow = ref._overflow;
+	        return {
+	          align: _align,
+	          layoutMode: _layoutMode,
+	          leading: _leading,
+	          maxLines: _maxLines,
+	          overflow: _overflow
+	        };
 	      }
 	    }
 	  });
@@ -31895,7 +31982,7 @@
 
 	module.exports = {
 		"name": "art-engine",
-		"version": "1.6.2",
+		"version": "1.7.5",
 		"description": "art-engine",
 		"main": "index.coffee",
 		"dependencies": {
@@ -39895,41 +39982,16 @@
 	    }, RectangleElement({
 	      inFlow: false,
 	      color: "#f9f9f9"
-	    }), PagingScrollElement({
-	      location: {
-	        ww: .5
-	      },
-	      axis: "topCenter",
+	    }), Element({
 	      size: {
-	        ps: 1,
-	        max: {
-	          w: 600
-	        }
-	      }
-	    }, Element({
-	      size: {
-	        ww: 1,
-	        hch: 1
+	        ps: 1
 	      },
 	      padding: 5,
-	      childrenLayout: "column"
-	    }, Element({
-	      size: {
-	        ww: 1,
-	        hch: 1
-	      },
-	      childrenLayout: "row",
-	      childrenAlignment: "center"
-	    }, TextElement(textStyle, {
-	      size: {
-	        cs: 1
-	      },
-	      padding: 10,
-	      fontSize: 12,
-	      text: "\nNeeds list and App by\nShane Brinkman-Davis Delamore\nv" + Neptune.Nvc.version + "\n\nEmotion lists:\nNVC Content\n(c) 2005 by Center for Nonviolent Communication\nWebsite: www.cnvc.org Email: cnvc@cnvc.org\nPhone: +1.505-244-4041\n"
-	    })), ShowMap({
+	      childrenLayout: "column",
+	      childrenAlignment: "bottomCenter"
+	    }, ShowMap({
 	      map: Nvc.core
-	    }))));
+	    })));
 	  };
 
 	  return App;
@@ -39942,7 +40004,7 @@
 /* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, PagingScrollElement, React, RectangleElement, StyleProps, SubMap, SubMapFactory, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, subtextMap, textStyle,
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, Component, Element, FillElement, FluxComponent, Foundation, MapLine, Nvc, OutlineElement, React, RectangleElement, StyleProps, SubMap, SubMapFactory, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, emojiMap, eq, inspect, isPlainObject, log, peek, point, ref, subtextMap, textStyle,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -39960,7 +40022,7 @@
 
 	log = Foundation.log, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, capitalize = Foundation.capitalize, peek = Foundation.peek, arrayWith = Foundation.arrayWith, eq = Foundation.eq, createWithPostCreate = Foundation.createWithPostCreate;
 
-	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, PagingScrollElement = React.PagingScrollElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
+	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
@@ -39989,9 +40051,20 @@
 	      return drillIn(category, subMap);
 	    }
 	  },
+	  buttonDown: function() {
+	    return this.setState({
+	      buttonDown: true
+	    });
+	  },
+	  buttonUp: function() {
+	    return this.setState({
+	      buttonDown: false
+	    });
+	  },
 	  render: function() {
-	    var category, color, emojiText, indent, ref1, selected, subMap, subtext;
+	    var buttonDown, category, color, emojiText, indent, ref1, selected, subMap, subtext;
 	    ref1 = this.props, category = ref1.category, subMap = ref1.subMap, selected = ref1.selected, color = ref1.color, indent = ref1.indent;
+	    buttonDown = this.state.buttonDown;
 	    color = selected ? StyleProps.primaryColor : "white";
 	    indent || (indent = 0);
 	    subtext = subtextMap[category];
@@ -40001,22 +40074,22 @@
 	        hch: 1
 	      },
 	      on: {
-	        pointerClick: this.drillIn
+	        pointerClick: this.drillIn,
+	        pointerDown: this.buttonDown,
+	        pointerUp: this.buttonUp
 	      }
 	    }, RectangleElement({
 	      inFlow: false,
-	      color: "white",
-	      animate: {
-	        to: {
-	          color: color
-	        }
-	      },
+	      color: color,
+	      animators: "color shadow",
 	      padding: 3,
 	      radius: 2,
-	      shadow: !selected ? {
-	        offsetY: 2,
+	      shadow: !(buttonDown || selected) ? {
 	        blur: 8,
-	        color: "#0002"
+	        color: "#0002",
+	        offset: {
+	          y: 2
+	        }
 	      } : void 0
 	    }), (emojiText = emojiMap[category]) ? Element({
 	      size: 100,
@@ -40086,9 +40159,16 @@
 	        ww: 1,
 	        hch: 1
 	      },
-	      margin: 5,
 	      clip: true,
-	      childrenLayout: "column"
+	      childrenLayout: "column",
+	      animators: {
+	        size: {
+	          voidValue: {
+	            ww: 1,
+	            h: 0
+	          }
+	        }
+	      }
 	    }, Element({
 	      size: {
 	        ww: 1,
