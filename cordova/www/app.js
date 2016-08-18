@@ -19679,8 +19679,8 @@
 	  pointerClick
 	  pointerUpInside
 	  pointerUpOutside
-	  pointerMoveIn
-	  pointerMoveOut
+	  pointerIn
+	  pointerOut
 
 	Keyboard events are routed through the PointerEventManager.
 	  Keyboard Event types:
@@ -19712,7 +19712,7 @@
 	          send pointerUpInside
 	        else
 	          send pointerUpOutside
-	    pointerMoveIn / pointerMoveOut
+	    pointerIn / pointerOut
 	      pointer's "pointInside" changed from false>>true for the target element
 	        send pointerMovedIn
 	      else
@@ -20311,7 +20311,7 @@
 	        wasInside = wasInsideParent && element.pointInside(lastLocationInParentSpace);
 	        isInside = isInsideParent && element.pointInside(locationInParentSpace);
 	        if (isInside !== wasInside) {
-	          type = isInside ? "pointerMoveIn" : "pointerMoveOut";
+	          type = isInside ? "pointerIn" : "pointerOut";
 	          _this.queuePointerEventForElement(element, type, pointer, timeStampInPerformanceSeconds);
 	        }
 	        isInsideParent = isInside;
@@ -40074,9 +40074,11 @@
 	        hch: 1
 	      },
 	      on: {
-	        pointerClick: this.drillIn,
+	        pointerUpInside: this.drillIn,
 	        pointerDown: this.buttonDown,
-	        pointerUp: this.buttonUp
+	        pointerUp: this.buttonUp,
+	        pointerOut: this.buttonUp,
+	        pointerIn: this.buttonDown
 	      }
 	    }, RectangleElement({
 	      inFlow: false,
