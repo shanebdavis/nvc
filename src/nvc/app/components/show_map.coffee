@@ -14,7 +14,6 @@ Atomic = require 'art-atomic'
   CanvasElement
   RectangleElement
   TextElement
-  PagingScrollElement
   OutlineElement
   FillElement
 } = React
@@ -42,8 +41,12 @@ MapLine = createFluxComponentFactory
     if subMap
       drillIn category, subMap
 
+  buttonDown: -> @setState buttonDown: true
+  buttonUp: -> @setState buttonDown: false
+
   render: ->
     {category, subMap, selected, color, indent} = @props
+    {buttonDown} = @state
     color = if selected then StyleProps.primaryColor else "white"
     indent ||= 0
 
@@ -51,14 +54,17 @@ MapLine = createFluxComponentFactory
 
     Element
       size: wcw:1, hch: 1
-      on: pointerClick: @drillIn
+      on:
+        pointerClick: @drillIn
+        pointerDown:  @buttonDown
+        pointerUp:    @buttonUp
       RectangleElement
         inFlow: false
-        color: "white"
-        animate: to: color: color
+        color: color
+        animators: "color shadow"
         padding: 3
         radius: 2
-        shadow: offsetY: 2, blur: 8, color: "#0002" unless selected
+        shadow: blur: 8, color: "#0002", offset: y: 2  unless buttonDown || selected
       if emojiText = emojiMap[category]
         Element
           size: 100
@@ -105,9 +111,10 @@ module.exports = SubMapFactory = createWithPostCreate class SubMap extends FluxC
 
     Element
       size: ww:1, hch:1
-      margin: 5
+      # margin: 5
       clip: true
       childrenLayout: "column"
+      animators: size: voidValue: ww: 1, h: 0
 
       Element
         size: ww:1, hch:1

@@ -40,41 +40,37 @@ module.exports = createWithPostCreate class App extends Component
       # on: ready: @ready
       RectangleElement inFlow: false, color: "#f9f9f9"
 
-      PagingScrollElement
-        location: ww: .5
-        axis: "topCenter"
-        size: ps: 1, max: w: 600
+      Element
+        size: ps: 1
+        padding: 5
+        childrenLayout: "column"
+        childrenAlignment: "bottomCenter"
+        # on: ready: @initialContentReady
+        # Element
+        #   size: h: canvasSize?.y - initialContentSize?.y - 10|| 0
+        #   RectangleElement color: "red"
+        # Element
+        #   size: ww:1, hch:1
+        #   childrenLayout: "row"
+        #   childrenAlignment: "center"
 
-        Element
-          size: ww:1, hch:1
-          padding: 5
-          childrenLayout: "column"
-          # on: ready: @initialContentReady
-          # Element
-          #   size: h: canvasSize?.y - initialContentSize?.y - 10|| 0
-          #   RectangleElement color: "red"
-          Element
-            size: ww:1, hch:1
-            childrenLayout: "row"
-            childrenAlignment: "center"
+        #   TextElement textStyle,
+        #     size: cs: 1
+        #     padding: 10
+        #     fontSize: 12
 
-            TextElement textStyle,
-              size: cs: 1
-              padding: 10
-              fontSize: 12
+        #     text: """
 
-              text: """
+        #       Needs list and App by
+        #       Shane Brinkman-Davis Delamore
+        #       v#{Neptune.Nvc.version}
 
-                Needs list and App by
-                Shane Brinkman-Davis Delamore
-                v#{Neptune.Nvc.version}
+        #       Emotion lists:
+        #       NVC Content
+        #       (c) 2005 by Center for Nonviolent Communication
+        #       Website: www.cnvc.org Email: cnvc@cnvc.org
+        #       Phone: +1.505-244-4041
 
-                Emotion lists:
-                NVC Content
-                (c) 2005 by Center for Nonviolent Communication
-                Website: www.cnvc.org Email: cnvc@cnvc.org
-                Phone: +1.505-244-4041
+        #       """
 
-                """
-
-          ShowMap map: Nvc.core
+        ShowMap map: Nvc.core
