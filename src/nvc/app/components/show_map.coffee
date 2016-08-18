@@ -55,9 +55,11 @@ MapLine = createFluxComponentFactory
     Element
       size: wcw:1, hch: 1
       on:
-        pointerClick: @drillIn
-        pointerDown:  @buttonDown
-        pointerUp:    @buttonUp
+        pointerUpInside:  @drillIn
+        pointerDown:      @buttonDown
+        pointerUp:        @buttonUp
+        pointerOut:       @buttonUp
+        pointerIn:        @buttonDown
       RectangleElement
         inFlow: false
         color: color
