@@ -544,10 +544,32 @@
 	If native promises are supported, they are used,
 	otherwise a polyfill is used.
 
-	TODO: ES6 says Promises are designed to be extensible:
+	TODO:
+	  ES6 says Promises are designed to be extensible:
 	  http://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects
 
+	  If I properly extend Promise, will my new methods be available on all promise objects... ???
+	    At least all promises chained off of one created using my Promise class... ???
+
 	  But I had problems doing that. Maybe it's how CoffeeScript extends things?
+
+	TODO:
+	  I want a way to do 'then' and 'catch' without effecting any following 'thens' or 'caches'
+
+	  It's easy to implement, but what to call it? Leaning towards tapThen. If I had Ruby's 'tap', then
+	  I could do this effectively with:
+
+	    .tap (a) -> a.then ->
+	    but
+	    .tapThen ->
+	    is even nicer
+
+	  Will it be available on returned promises?
+	    (see ES6 Promise extension above)
+
+	  tapThen: (successF, failF) ->
+	    @then successF, failF
+	    @ # return the current promise, not the one returned from the then-call above
 	 */
 
 	module.exports = ArtPromise = (function() {
@@ -2102,6 +2124,12 @@
 	    return arrayWithElementMoved(array, from, to);
 	  };
 
+	  ArrayExtensions.arrayWithElementReplaced = function(array, value, index) {
+	    array = array.slice();
+	    array[index] = value;
+	    return array;
+	  };
+
 	  ArrayExtensions.stableSort = function(array, compare) {
 	    var a, b, i, length, notSorted, p, ref1;
 	    compare || (compare = function(a, b) {
@@ -3594,9 +3622,11 @@
 	  hasProp = {}.hasOwnProperty;
 
 	module.exports = Ruby = (function() {
+	  var rubyTrue;
+
 	  function Ruby() {}
 
-	  Ruby.rubyTrue = function(a) {
+	  Ruby.rubyTrue = rubyTrue = function(a) {
 	    return a !== void 0 && a !== null && a !== false;
 	  };
 
@@ -3605,17 +3635,39 @@
 	  };
 
 	  Ruby.rubyOr = function(a, b) {
-	    if (a != null) {
-	      return a;
+	    var i, len;
+	    if (arguments.length === 2) {
+	      if (rubyTrue(a)) {
+	        return a;
+	      } else {
+	        return b;
+	      }
 	    } else {
-	      return b;
+	      for (i = 0, len = arguments.length; i < len; i++) {
+	        a = arguments[i];
+	        if (rubyTrue(a)) {
+	          break;
+	        }
+	      }
+	      return a;
 	    }
 	  };
 
 	  Ruby.rubyAnd = function(a, b) {
-	    if (a != null) {
-	      return b;
+	    var i, len;
+	    if (arguments.length === 2) {
+	      if (rubyTrue(a)) {
+	        return b;
+	      } else {
+	        return a;
+	      }
 	    } else {
+	      for (i = 0, len = arguments.length; i < len; i++) {
+	        a = arguments[i];
+	        if (!rubyTrue(a)) {
+	          break;
+	        }
+	      }
 	      return a;
 	    }
 	  };
@@ -6604,7 +6656,7 @@
 	        keyCount++;
 	        maxKeyLength = max(maxKeyLength, key.length);
 	        inspectedValue = formatMultilineSubStructure(value, formattedInspectRecursive(value, maxLineLength));
-	        if (key.match(/[:\n]/)) {
+	        if (!key.match(/^[_a-zA-Z[_a-zA-Z0-9]*$/)) {
 	          key = inspect(key);
 	        }
 	        inspectedLength += inspectedValue.length + key.length + 2;
@@ -10632,7 +10684,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.23.0"
+		"version": "0.25.0"
 	};
 
 /***/ },
@@ -27290,7 +27342,7 @@
 /* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BaseObject, EventedObject, Events, Foundation, PersistantAnimator, capitalize, inspectedObjectLiteral, isFunction, isPlainObject, isString, log, plainObjectsDeepEq,
+	var BaseObject, EventedObject, Events, Foundation, PersistantAnimator, capitalize, eq, inspectedObjectLiteral, isFunction, isPlainObject, isString, log, plainObjectsDeepEq, rubyOr,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -27298,7 +27350,7 @@
 
 	Events = __webpack_require__(157);
 
-	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, capitalize = Foundation.capitalize, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isPlainObject = Foundation.isPlainObject;
+	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, capitalize = Foundation.capitalize, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isPlainObject = Foundation.isPlainObject, eq = Foundation.eq, rubyOr = Foundation.rubyOr;
 
 	EventedObject = Events.EventedObject;
 
@@ -27666,7 +27718,7 @@
 	    this._element = null;
 	    this._animate = options.animate;
 	    this._continuous = options.continuous;
-	    this._voidValue = options.voidValue;
+	    this._voidValue = rubyOr(options.voidValue, options.toFromVoid, options.fromToVoid, options["void"]);
 	    this._toVoid = options.toVoid;
 	    this._fromVoid = options.fromVoid;
 	    if (options != null ? options.on : void 0) {
@@ -27765,15 +27817,15 @@
 	    return this._active = false;
 	  };
 
-	  PersistantAnimator.prototype.animateAbsoluteTime = function(_element, _currentValue, _toValue, _currentSecond) {
+	  PersistantAnimator.prototype.animateAbsoluteTime = function(_element, _currentValue, toValue, _currentSecond) {
 	    var animationSeconds, newValue;
 	    this._element = _element;
 	    this._currentValue = _currentValue;
-	    this._toValue = _toValue;
 	    this._currentSecond = _currentSecond;
-	    if (!this._active) {
+	    if (!(this._active && eq(toValue, this._toValue))) {
 	      this._activate();
 	    }
+	    this._toValue = toValue;
 	    animationSeconds = this.getAnimationSeconds();
 	    newValue = this.animate();
 	    if (this._active) {
@@ -30847,12 +30899,32 @@
 	    scrollPosition: {
 	      "default": 0,
 	      postSetter: function(position) {
+	        var axis;
 	        this.onNextReady((function(_this) {
 	          return function() {
 	            return _this._updateAtStartAndAtEnd();
 	          };
 	        })(this));
-	        return this._scrollContents.setLocation(this.newPoint(position));
+
+	        /*
+	        NOTES on childrenAlignment:
+	          This doesn't work yet.
+	        
+	          This needs to update whenever the size of children or parent changes.
+	        
+	          This code only updates when scrollPosition changes.
+	         */
+	        if (this._scrollContents.getCurrentSize().lte(this.getCurrentSize())) {
+	          axis = this._scrollContents.setAxis(this.getPendingChildrenAlignment());
+	          this._scrollContents.setLocation({
+	            ww: axis.x,
+	            hh: axis.y
+	          });
+	          return this.newPoint(position);
+	        } else {
+	          this._scrollContents.setAxis(0);
+	          return this._scrollContents.setLocation(this.newPoint(position));
+	        }
 	      }
 	    }
 	  });
@@ -31982,7 +32054,7 @@
 
 	module.exports = {
 		"name": "art-engine",
-		"version": "1.7.5",
+		"version": "1.9.0",
 		"description": "art-engine",
 		"main": "index.coffee",
 		"dependencies": {
@@ -37518,6 +37590,10 @@
 	    return fluxStore.update(this._name, key, fluxRecord);
 	  };
 
+	  FluxModel.prototype.fluxStoreGet = function(key) {
+	    return fluxStore.get(this._name, key);
+	  };
+
 	  FluxModel.prototype.toFluxKey = function(key) {
 	    if (!isString(key)) {
 	      throw "FluxModel " + this.name + ": Must implement custom toFluxKey for non-string fluxKeys like: " + (inspect(key));
@@ -38742,7 +38818,7 @@
 
 	module.exports = {
 		"name": "art-flux",
-		"version": "0.1.1",
+		"version": "0.2.0",
 		"description": "art-flux",
 		"main": "index.coffee",
 		"dependencies": {
@@ -40061,10 +40137,20 @@
 	      buttonDown: false
 	    });
 	  },
+	  mouseIn: function() {
+	    return this.setState({
+	      mouseIn: true
+	    });
+	  },
+	  mouseOut: function() {
+	    return this.setState({
+	      mouseIn: false
+	    });
+	  },
 	  render: function() {
-	    var buttonDown, category, color, emojiText, indent, ref1, selected, subMap, subtext;
+	    var buttonDown, category, color, emojiText, indent, mouseIn, ref1, ref2, selected, subMap, subtext;
 	    ref1 = this.props, category = ref1.category, subMap = ref1.subMap, selected = ref1.selected, color = ref1.color, indent = ref1.indent;
-	    buttonDown = this.state.buttonDown;
+	    ref2 = this.state, buttonDown = ref2.buttonDown, mouseIn = ref2.mouseIn;
 	    color = selected ? StyleProps.primaryColor : "white";
 	    indent || (indent = 0);
 	    subtext = subtextMap[category];
@@ -40073,26 +40159,40 @@
 	        wcw: 1,
 	        hch: 1
 	      },
+	      cursor: "pointer",
 	      on: {
 	        pointerUpInside: this.drillIn,
 	        pointerDown: this.buttonDown,
 	        pointerUp: this.buttonUp,
 	        pointerOut: this.buttonUp,
-	        pointerIn: this.buttonDown
+	        pointerIn: this.buttonDown,
+	        mouseIn: this.mouseIn,
+	        mouseOut: this.mouseOut
 	      }
 	    }, RectangleElement({
 	      inFlow: false,
 	      color: color,
-	      animators: "color shadow",
+	      animators: {
+	        color: {},
+	        shadow: {
+	          duration: .3
+	        }
+	      },
 	      padding: 3,
 	      radius: 2,
-	      shadow: !(buttonDown || selected) ? {
+	      shadow: buttonDown || selected ? null : mouseIn ? {
+	        blur: 16,
+	        color: "#0006",
+	        offset: {
+	          y: 2
+	        }
+	      } : {
 	        blur: 8,
 	        color: "#0002",
 	        offset: {
 	          y: 2
 	        }
-	      } : void 0
+	      }
 	    }), (emojiText = emojiMap[category]) ? Element({
 	      size: 100,
 	      padding: 18
