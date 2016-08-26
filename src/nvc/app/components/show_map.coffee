@@ -43,10 +43,12 @@ MapLine = createFluxComponentFactory
 
   buttonDown: -> @setState buttonDown: true
   buttonUp: -> @setState buttonDown: false
+  mouseIn: -> @setState mouseIn: true
+  mouseOut: -> @setState mouseIn: false
 
   render: ->
     {category, subMap, selected, color, indent} = @props
-    {buttonDown} = @state
+    {buttonDown, mouseIn} = @state
     color = if selected then StyleProps.primaryColor else "white"
     indent ||= 0
 
@@ -54,19 +56,30 @@ MapLine = createFluxComponentFactory
 
     Element
       size: wcw:1, hch: 1
+      cursor: "pointer"
       on:
         pointerUpInside:  @drillIn
         pointerDown:      @buttonDown
         pointerUp:        @buttonUp
         pointerOut:       @buttonUp
         pointerIn:        @buttonDown
+        mouseIn:          @mouseIn
+        mouseOut:         @mouseOut
       RectangleElement
         inFlow: false
         color: color
-        animators: "color shadow"
+        animators:
+          color: {}
+          shadow: duration: .5
         padding: 3
         radius: 2
-        shadow: blur: 8, color: "#0002", offset: y: 2  unless buttonDown || selected
+        shadow:
+          if buttonDown || selected
+            null
+          else if mouseIn
+            blur: 16, color: "#0006", offset: y: 2
+          else
+            blur: 8, color: "#0002", offset: y: 2
       if emojiText = emojiMap[category]
         Element
           size: 100
