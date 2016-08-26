@@ -70,7 +70,7 @@ MapLine = createFluxComponentFactory
         color: color
         animators:
           color: {}
-          shadow: duration: .5
+          shadow: duration: .3
         padding: 3
         radius: 2
         shadow:
