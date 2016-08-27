@@ -11,6 +11,7 @@ sbdNeedsList =
       sustanence:             "air, food, water"
       health:                 "wellbeing, wellness, healing, regeneration, rejuvenation"
       energy:                 "rest, restoration, sleep, vitality"
+
     environment:              "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter"
     safety:                   "violence, accidents, illness, disasters"
     security:                 "stability predictability sustainability"
@@ -30,7 +31,6 @@ sbdNeedsList =
                               sexual-connection, embracing, touch, openness, closeness,
                               communication, communion, companionship, friendship, relationship,
                               intimacy, mourning, partnership, mutuality, balance"
-
       community:
         belonging:            "accepted, acknowledged, included, equal"
         participation:        "collaboration, cooperation, service, sharing"
@@ -51,20 +51,15 @@ sbdNeedsList =
     "self-expression":        "creativity, creation, imagination, invention, innovation, actualization, realization"
     "self-respect":           "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy"
 
-    meaning:                  "perspective, learning, awareness, celebration, depth, discovery,
-                              exploration, legacy, quality, spirituality, unity, oneness, beauty"
-
-    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility"
-
-    engagement:               "flow, gratitude, practice"
-
     autonomy:                 "challenge, choice, empowerment, enablement, flexibility, freedom,
                               intention, liberty, limitless, possibility, potential, responsibility"
-
+    engagement:               "flow, gratitude, practice"
+    mastery:                  "competence, effectiveness, efficiency, skill"
+    meaning:                  "perspective, learning, awareness, celebration, depth, discovery,
+                              exploration, legacy, quality, spirituality, unity, oneness, beauty"
+    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility"
     purpose:                  "contribution, dedication, dreams, enrichment, impact, importance,
                               inspiration, to-matter, passion, significance, vision"
-
-    mastery:                  "competence, effectiveness, efficiency, skill"
 
 # TODO: use babelbridge to write a parser
 
