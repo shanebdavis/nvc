@@ -187,7 +187,7 @@ module.exports = class Nvc extends HotStyleProps
       compassionate
       friendly
       loving
-      open hearted
+      open-hearted
       sympathetic
       tender
       warm
@@ -285,7 +285,7 @@ module.exports = class Nvc extends HotStyleProps
     peaceful:
       wordsArray """
       calm
-      clear headed
+      clear-headed
       comfortable
       centered
       content
