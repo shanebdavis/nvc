@@ -7,11 +7,11 @@ splitOnLines = (str) -> str.split "\n"
 
 sbdNeedsList =
   surviving:
-    "body":
+    body:
       sustanence:             "air, food, water"
-      "health":               "wellbeing, wellness, healing, regeneration, rejuvenation"
-      "energy":               "rest, restoration, sleep, vitality"
-    "environment":            "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter"
+      health:                 "wellbeing, wellness, healing, regeneration, rejuvenation"
+      energy:                 "rest, restoration, sleep, vitality"
+    environment:              "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter"
     safety:                   "violence, accidents, illness, disasters"
     security:                 "stability predictability sustainability"
     procreation:              "sexual-release children"
