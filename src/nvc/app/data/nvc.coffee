@@ -26,7 +26,10 @@ sbdNeedsList =
     play:                     "adventure, excitement, fantasy, fun, humor, joy, laughter"
 
     social:
-      bonding:                "common-experience, common-interests, common-values, connection, hug, sexual-connection, embracing, touch, openness, closeness, communication, communion, companionship, friendship, relationship, intimacy, mourning, partnership, mutuality, balance"
+      bonding:                "common-experience, common-interests, common-values, connection, hug,
+                              sexual-connection, embracing, touch, openness, closeness,
+                              communication, communion, companionship, friendship, relationship,
+                              intimacy, mourning, partnership, mutuality, balance"
 
       community:
         belonging:            "accepted, acknowledged, included, equal"
@@ -36,7 +39,8 @@ sbdNeedsList =
       reciprocity:
         nurturing:            "care, feedback, help, kindness, support, affection"
         understanding:        "listening, empathy, knowing, seeing"
-        compassion:           "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
+        compassion:           "attention, consideration, forgiveness, presence, respect, tenderness,
+                              vulnerability, love"
 
       safety:                 "consistency, honesty, justice, reassurance, trust privacy"
 
@@ -47,13 +51,19 @@ sbdNeedsList =
     "self-expression":        "creativity, creation, imagination, invention, innovation, actualization, realization"
     "self-respect":           "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy"
 
-    meaning:                  "perspective, learning, awareness, celebration, depth, discovery, exploration, legacy, quality, spirituality, unity, oneness, beauty"
+    meaning:                  "perspective, learning, awareness, celebration, depth, discovery,
+                              exploration, legacy, quality, spirituality, unity, oneness, beauty"
 
     peace:                    "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility"
 
     engagement:               "flow, gratitude, practice"
-    autonomy:                 "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility"
-    purpose:                  "contribution, dedication, dreams, enrichment, impact, importance, inspiration, to-matter, passion, significance, vision"
+
+    autonomy:                 "challenge, choice, empowerment, enablement, flexibility, freedom,
+                              intention, liberty, limitless, possibility, potential, responsibility"
+
+    purpose:                  "contribution, dedication, dreams, enrichment, impact, importance,
+                              inspiration, to-matter, passion, significance, vision"
+
     mastery:                  "competence, effectiveness, efficiency, skill"
 
 # TODO: use babelbridge to write a parser
