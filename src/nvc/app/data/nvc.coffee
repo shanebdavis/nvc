@@ -45,7 +45,7 @@ sbdNeedsList =
       safety:                 "consistency, honesty, justice, reassurance, trust privacy"
 
   transcending:
-    "self-acceptance":        "allowing, approval, empathy, love, compassion, caring honesty"
+    "self-acceptance":        "allowing, approval, empathy, love, compassion, caring honesty, trust"
     "self-awareness":         "consciousness, discovery, knowledge"
     "self-growth":            "evolution, integration, development, improvement"
     "self-expression":        "creativity, creation, imagination, invention, innovation, actualization, realization"
