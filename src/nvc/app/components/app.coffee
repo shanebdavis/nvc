@@ -5,10 +5,9 @@ Namespace = require './namespace'
 ShowMap = require './show_map'
 {Nvc} = require '../data'
 
-{log, inspect, createWithPostCreate} = Foundation
+{log, inspect, defineModule} = Foundation
 
 {
-  createComponentFactory
   CanvasElement
   RectangleElement
   PagingScrollElement
@@ -19,7 +18,7 @@ ShowMap = require './show_map'
 
 {textStyle} = Neptune.Nvc.App.Styles.StyleProps
 
-module.exports = createWithPostCreate class App extends Component
+defineModule module, class App extends Component
   module: module
 
   @stateFields
@@ -39,6 +38,14 @@ module.exports = createWithPostCreate class App extends Component
       childrenLayout: "column"
       # on: ready: @ready
       RectangleElement inFlow: false, color: "#f9f9f9"
+
+      TextElement
+        size: ww:1
+        align: "center"
+        fontFamily: "arial"
+        color: "#0004"
+        padding: 10
+        text: "by Shane Brinkman-Davis Delamore"
 
       Element
         size: ps: 1
