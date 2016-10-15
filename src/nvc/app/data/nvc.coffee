@@ -52,7 +52,7 @@ sbdNeedsList =
                         realization"
 
     "self-respect":     "responsiblity, authenticity, courageousness, dignity, honorablity, honesty,
-                        integrity, worthyness"
+                        integrity, worthiness"
 
     autonomy:           "challenge, choice, empowerment, enablement, flexibility, freedom,
                         intention, liberty, limitless, possibility, potential, responsibility"
