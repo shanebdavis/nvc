@@ -12550,7 +12550,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.1.1"
+		"version": "0.2.1"
 	};
 
 /***/ },
@@ -42594,7 +42594,7 @@
 /* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, log, sbdNeedsList, splitOnLines, wordsArray,
+	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, sbdNeedsList, splitOnLines, wordsArray,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -42602,7 +42602,7 @@
 
 	HotStyleProps = __webpack_require__(278).HotStyleProps;
 
-	log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap;
+	defineModule = Foundation.defineModule, log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap;
 
 	splitOnLines = function(str) {
 	  return str.split("\n");
@@ -42648,7 +42648,7 @@
 	    "self-awareness": "consciousness, discovery, knowledge",
 	    "self-growth": "evolution, integration, development, improvement",
 	    "self-expression": "creativity, creation, imagination, invention, innovation, actualization, realization",
-	    "self-respect": "responsiblity, authenticity, courageousness, dignity, honorablity, honesty, integrity, worthyness",
+	    "self-respect": "responsiblity, authenticity, courageousness, dignity, honorablity, honesty, integrity, worthiness",
 	    autonomy: "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
 	    engagement: "flow, gratitude, practice",
 	    mastery: "competent, effective, efficient, skillfull",
@@ -42658,7 +42658,7 @@
 	  }
 	};
 
-	module.exports = Nvc = (function(superClass) {
+	defineModule(module, Nvc = (function(superClass) {
 	  extend(Nvc, superClass);
 
 	  function Nvc() {
@@ -42720,8 +42720,9 @@
 
 	  return Nvc;
 
-	})(HotStyleProps);
+	})(HotStyleProps));
 
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(91)(module)))
 
 /***/ },
 /* 328 */
@@ -42815,8 +42816,10 @@
 	      inFlow: false,
 	      color: "#f9f9f9"
 	    }), TextElement({
+	      inFlow: false,
 	      size: {
-	        ww: 1
+	        ww: 1,
+	        hch: 1
 	      },
 	      align: "center",
 	      fontFamily: "arial",
