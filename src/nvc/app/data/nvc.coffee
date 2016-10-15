@@ -8,58 +8,65 @@ splitOnLines = (str) -> str.split "\n"
 sbdNeedsList =
   surviving:
     body:
-      sustanence:             "air, food, water"
-      health:                 "wellbeing, wellness, healing, regeneration, rejuvenation"
-      energy:                 "rest, restoration, sleep, vitality"
+      sustanence:       "air, food, water"
+      health:           "wellbeing, wellness, healing, regeneration, rejuvenation"
+      energy:           "rest, restoration, sleep, vitality"
 
-    environment:              "temperature, warmth, coolness, humidity, toxin-free, pathogen-free, clothes, shelter"
-    safety:                   "violence, accidents, illness, disasters"
-    security:                 "stability predictability sustainability"
-    procreation:              "sexual-release children"
+    environment:        "temperature, humidity, atmosphere, clothing, shelter"
+    safety:             "violence, accidents, illness, disasters"
+    security:           "stability predictability sustainability"
+    procreation:        "sexual-release children"
 
   thriving:
     pleasure:
-      senses:                 "music, food, fragrance, texture, art touch, smell, hear, taste, see"
-      body:                   "eroticisim, exercise, fitness, movement, dance, sex"
-      variety:                "newness, novelty"
-      comfort:                "quiet, space, sanctuary, ergonomics, leisure, time"
+      senses:           "sight, smell, touch, sound, taste, music, food, fragrance, texture, beauty"
+      body:             "eroticisim, exercise, fitness, movement, dance, sex"
+      variety:          "newness, novelty"
+      comfort:          "quiet, space, sanctuary, ergonomics, leisure, time"
 
-    play:                     "adventure, excitement, fantasy, fun, humor, joy, laughter"
+    play:               "adventure, excitement, fantasy, fun, humor, joy, laughter"
 
     social:
-      bonding:                "common-experience, common-interests, common-values, connection, hug,
-                              sexual-connection, embracing, touch, openness, closeness,
-                              communication, communion, companionship, friendship, relationship,
-                              intimacy, mourning, partnership, mutuality, balance"
+      bonding:          "common-experience, common-interests, common-values, connection, hug,
+                        sexual-connection, embracing, touch, openness, closeness,
+                        communication, communion, companionship, friendship, relationship,
+                        intimacy, mourning, partnership, mutuality, balance"
       community:
-        belonging:            "accepted, acknowledged, included, equal"
-        participation:        "collaboration, cooperation, service, sharing"
-        appriciation:         "valued, recognized, wanted"
+        belonging:      "accepted, acknowledged, included, equal"
+        participation:  "collaboration, cooperation, service, sharing"
+        appriciation:   "valued, recognized, wanted"
 
       reciprocity:
-        nurturing:            "care, feedback, help, kindness, support, affection"
-        understanding:        "listening, empathy, knowing, seeing"
-        compassion:           "attention, consideration, forgiveness, presence, respect, tenderness,
-                              vulnerability, love"
+        nurturing:      "care, feedback, help, kindness, support, affection"
+        understanding:  "listening, empathy, knowing, seeing"
+        compassion:     "attention, consideration, forgiveness, presence, respect, tenderness,
+                        vulnerability, love"
 
-      safety:                 "consistency, honesty, justice, reassurance, trust privacy"
+      safety:           "consistency, honesty, justice, reassurance, trust privacy"
 
   transcending:
-    "self-acceptance":        "allowing, approval, empathy, love, compassion, caring honesty, trust"
-    "self-awareness":         "consciousness, discovery, knowledge"
-    "self-growth":            "evolution, integration, development, improvement"
-    "self-expression":        "creativity, creation, imagination, invention, innovation, actualization, realization"
-    "self-respect":           "esteem, responsible, authentic, courageous, dignified, honorable, integrity, worthy"
+    "self-acceptance":  "allowing, approval, empathy, love, compassion, caring honesty, trust"
+    "self-awareness":   "consciousness, discovery, knowledge"
+    "self-growth":      "evolution, integration, development, improvement"
+    "self-expression":  "creativity, creation, imagination, invention, innovation, actualization,
+                        realization"
 
-    autonomy:                 "challenge, choice, empowerment, enablement, flexibility, freedom,
-                              intention, liberty, limitless, possibility, potential, responsibility"
-    engagement:               "flow, gratitude, practice"
-    mastery:                  "competence, effectiveness, efficiency, skill"
-    meaning:                  "perspective, learning, awareness, celebration, depth, discovery,
-                              exploration, legacy, quality, spirituality, unity, oneness, beauty"
-    peace:                    "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility"
-    purpose:                  "contribution, dedication, dreams, enrichment, impact, importance,
-                              inspiration, to-matter, passion, significance, vision"
+    "self-respect":     "responsiblity, authenticity, courageousness, dignity, honorablity, honesty,
+                        integrity, worthyness"
+
+    autonomy:           "challenge, choice, empowerment, enablement, flexibility, freedom,
+                        intention, liberty, limitless, possibility, potential, responsibility"
+
+    engagement:         "flow, gratitude, practice"
+    mastery:            "competent, effective, efficient, skillfull"
+    meaning:            "perspective, learning, awareness, celebration, depth, discovery,
+                        exploration, legacy, quality, spirituality"
+
+    peace:              "ease, balance, clarity, faith, grace, harmony, hope, order, structure,
+                        tranquility, beauty, unity, oneness"
+
+    purpose:            "contribution, dedication, dreams, enrichment, impact, importance,
+                        inspiration, to-matter, passion, significance, vision"
 
 # TODO: use babelbridge to write a parser
 
