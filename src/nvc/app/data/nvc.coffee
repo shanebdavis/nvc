@@ -1,7 +1,7 @@
 Foundation = require 'art-foundation'
 {HotStyleProps} = require 'art-react'
 
-{log, arrayToFalseMap, wordsArray, deepMap} = Foundation
+{defineModule, log, arrayToFalseMap, wordsArray, deepMap} = Foundation
 
 splitOnLines = (str) -> str.split "\n"
 
@@ -73,7 +73,7 @@ sbdNeedsList =
 
 
 
-module.exports = class Nvc extends HotStyleProps
+defineModule module, class Nvc extends HotStyleProps
   @categories: ["needs", "posEmotions" ,"negEmotions"]
   @needs: deepMap sbdNeedsList, (el) -> el.match /[-_0-9a-z]+/gi
 

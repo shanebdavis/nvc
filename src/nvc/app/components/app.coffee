@@ -40,7 +40,8 @@ defineModule module, class App extends Component
       RectangleElement inFlow: false, color: "#f9f9f9"
 
       TextElement
-        size: ww:1
+        inFlow: false
+        size: ww:1, hch:1
         align: "center"
         fontFamily: "arial"
         color: "#0004"
