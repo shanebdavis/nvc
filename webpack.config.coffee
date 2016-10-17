@@ -3,4 +3,4 @@ module.exports = (require "art-foundation/configure_webpack")
   outputPath: "cordova/www"
   package:
     dependencies:
-      "art-suite":      "git://github.com/Imikimi-LLC/art-suite.git"
+      "art-suite":      "git://github.com/imikimi/art-suite.git"
