@@ -5,6 +5,12 @@ Foundation = require 'art-foundation'
 
 splitOnLines = (str) -> str.split "\n"
 
+###
+ unsorted needs:
+
+   quality
+   mourning
+###
 sbdNeedsList =
   surviving:
     body:
@@ -27,10 +33,12 @@ sbdNeedsList =
     play:               "adventure, excitement, fantasy, fun, humor, joy, laughter"
 
     social:
-      bonding:          "common-experience, common-interests, common-values, connection, hug,
-                        sexual-connection, embracing, touch, openness, closeness,
-                        communication, communion, companionship, friendship, relationship,
-                        intimacy, mourning, partnership, mutuality, balance"
+      bonding:
+        sharing:        "experiences, interests, values"
+        physical:       "embracing touch hug sexual-connection"
+        closeness:      "openness communication, communion, companionship,
+                        friendship, intimacy, free-to-be-oneself"
+        mutuality:      "partnership, balance"
       community:
         belonging:      "accepted, acknowledged, included, equal"
         participation:  "collaboration, cooperation, service, sharing"
@@ -57,10 +65,10 @@ sbdNeedsList =
     autonomy:           "challenge, choice, empowerment, enablement, flexibility, freedom,
                         intention, liberty, limitless, possibility, potential, responsibility"
 
-    engagement:         "flow, gratitude, practice"
-    mastery:            "competent, effective, efficient, skillfull"
+    engagement:         "flow, gratitude, practice, mindfulness"
+    mastery:            "competent, effective, efficient, skillfull, masterful, improving"
     meaning:            "perspective, learning, awareness, celebration, depth, discovery,
-                        exploration, legacy, quality, spirituality"
+                        exploration, legacy, spirituality"
 
     peace:              "ease, balance, clarity, faith, grace, harmony, hope, order, structure,
                         tranquility, beauty, unity, oneness"
