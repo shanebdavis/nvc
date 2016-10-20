@@ -12637,7 +12637,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.1.1"
+		"version": "1.1.2"
 	};
 
 /***/ },
@@ -12648,9 +12648,9 @@
 	  Main: __webpack_require__(116)
 	});
 
-	__webpack_require__(336);
-
 	__webpack_require__(332);
+
+	__webpack_require__(336);
 
 	__webpack_require__(329);
 
@@ -12691,7 +12691,7 @@
 
 	__webpack_require__(329);
 
-	App = __webpack_require__(336).App;
+	App = __webpack_require__(332).App;
 
 	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
 
@@ -42716,8 +42716,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(330).addModules({
-	  NavState: __webpack_require__(331),
-	  Selected: __webpack_require__(335)
+	  Selected: __webpack_require__(331)
 	});
 
 
@@ -42747,32 +42746,26 @@
 /* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, Data, Flux, Foundation, NavState, arrayWith, defineModule, log,
+	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, Selected, arrayWith, defineModule, log, ref,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Foundation = __webpack_require__(19);
+	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState;
 
-	Flux = __webpack_require__(302);
+	defineModule(module, Selected = (function(superClass) {
+	  extend(Selected, superClass);
 
-	Data = __webpack_require__(332);
-
-	defineModule = Foundation.defineModule, arrayWith = Foundation.arrayWith, log = Foundation.log;
-
-	ApplicationState = Flux.ApplicationState;
-
-	defineModule(module, NavState = (function(superClass) {
-	  extend(NavState, superClass);
-
-	  function NavState() {
-	    return NavState.__super__.constructor.apply(this, arguments);
+	  function Selected() {
+	    return Selected.__super__.constructor.apply(this, arguments);
 	  }
 
-	  NavState.stateFields({
-	    context: ""
-	  });
+	  Selected.persistant();
 
-	  return NavState;
+	  Selected.prototype.toggle = function(key) {
+	    return this.setState(key, !this.state[key]);
+	  };
+
+	  return Selected;
 
 	})(ApplicationState));
 
@@ -42783,12 +42776,293 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(333).addModules({
-	  Nvc: __webpack_require__(334)
+	  App: __webpack_require__(334),
+	  Button: __webpack_require__(344),
+	  CategoryButton: __webpack_require__(339),
+	  LeafButton: __webpack_require__(345),
+	  ShowMap: __webpack_require__(335)
 	});
 
 
 /***/ },
 /* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, Components,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	App = __webpack_require__(115);
+
+	module.exports = App.Components || App.addNamespace('Components', Components = (function(superClass) {
+	  extend(Components, superClass);
+
+	  function Components() {
+	    return Components.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Components;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	React = __webpack_require__(281);
+
+	Namespace = __webpack_require__(333);
+
+	ShowMap = __webpack_require__(335);
+
+	Nvc = __webpack_require__(336).Nvc;
+
+	version = __webpack_require__(113).version;
+
+	ref = __webpack_require__(120), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
+
+	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
+
+	defineModule(module, App = (function(superClass) {
+	  extend(App, superClass);
+
+	  function App() {
+	    return App.__super__.constructor.apply(this, arguments);
+	  }
+
+	  App.subscriptions("selected.selected");
+
+	  App.stateFields({
+	    canvasSize: null,
+	    initialContentSize: null
+	  });
+
+	  App.prototype.ready = function(arg) {
+	    var target;
+	    target = arg.target;
+	    return this.canvasSize = target.currentSize;
+	  };
+
+	  App.prototype.initialContentReady = function(arg) {
+	    var target;
+	    target = arg.target;
+	    return this.initialContentSize || (this.initialContentSize = target.currentSize);
+	  };
+
+	  App.prototype.render = function() {
+	    var canvasSize, initialContentSize, name, ref1, selected, selectedNames;
+	    ref1 = this.state, canvasSize = ref1.canvasSize, initialContentSize = ref1.initialContentSize;
+	    selectedNames = (function() {
+	      var ref2, results;
+	      ref2 = this.selected || {};
+	      results = [];
+	      for (name in ref2) {
+	        selected = ref2[name];
+	        if (selected) {
+	          results.push(name);
+	        }
+	      }
+	      return results;
+	    }).call(this);
+	    return CanvasElement({
+	      canvasId: "artCanvas",
+	      childrenLayout: "column"
+	    }, RectangleElement({
+	      inFlow: false,
+	      color: "#f9f9f9"
+	    }), PagingScrollElement({
+	      startAtEnd: true
+	    }, Element({
+	      size: {
+	        ww: 1,
+	        hch: 1
+	      },
+	      padding: 5,
+	      childrenLayout: "column"
+	    }, TextElement({
+	      size: {
+	        ww: 1,
+	        hch: 1
+	      },
+	      align: "center",
+	      fontFamily: "arial",
+	      color: "#0004",
+	      padding: 10,
+	      text: "Needs and Emptions v" + version + " by Shane Brinkman-Davis Delamore"
+	    }), ShowMap({
+	      path: [],
+	      map: merge(Nvc.core, (selectedNames.length > 0) && {
+	        selected: selectedNames
+	      })
+	    }))));
+	  };
+
+	  return App;
+
+	})(FluxComponent));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 335 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	React = __webpack_require__(281);
+
+	Atomic = __webpack_require__(125);
+
+	Nvc = __webpack_require__(336).Nvc;
+
+	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
+
+	point = Atomic.point;
+
+	arrayWith = Foundation.arrayWith, defineModule = Foundation.defineModule, log = Foundation.log, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, capitalize = Foundation.capitalize, peek = Foundation.peek, arrayWith = Foundation.arrayWith, eq = Foundation.eq, createWithPostCreate = Foundation.createWithPostCreate;
+
+	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
+
+	CategoryButton = __webpack_require__(339);
+
+	LeafButton = __webpack_require__(345);
+
+	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
+
+	textStyle = StyleProps.textStyle;
+
+	Nvc = __webpack_require__(336).Nvc;
+
+	defineModule(module, function() {
+	  var SubMap, SubMapFactory;
+	  return SubMapFactory = createWithPostCreate(SubMap = (function(superClass) {
+	    extend(SubMap, superClass);
+
+	    function SubMap() {
+	      return SubMap.__super__.constructor.apply(this, arguments);
+	    }
+
+	    SubMap.stateFields({
+	      subKey: null
+	    });
+
+	    SubMap.prototype.drillIn = function(subKey1) {
+	      this.subKey = subKey1;
+	    };
+
+	    SubMap.prototype.render = function() {
+	      var axisTypes, k, key, map, name, path, ref1, subKey, subMap, v;
+	      ref1 = this.props, map = ref1.map, key = ref1.key, path = ref1.path;
+	      subKey = this.subKey;
+	      subMap = map[subKey];
+	      axisTypes = {
+	        left: point(1, 0),
+	        right: point(-1, 0)
+	      };
+	      return Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        clip: true,
+	        childrenLayout: "column",
+	        animators: {
+	          size: {
+	            voidValue: {
+	              ww: 1,
+	              h: 0
+	            }
+	          }
+	        }
+	      }, Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        cacheDraw: true,
+	        childrenLayout: "column",
+	        margin: 10
+	      }, path.length >= 1 && RectangleElement({
+	        color: "#0001",
+	        margin: 10,
+	        size: {
+	          ww: 1,
+	          h: 2
+	        }
+	      }), Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        childrenAlignment: "bottomCenter",
+	        childrenLayout: "flow"
+	      }, (function() {
+	        var i, j, len, len1, ref2, ref3, results, results1;
+	        if (isPlainObject(map)) {
+	          ref2 = Object.keys(map).sort();
+	          results = [];
+	          for (i = 0, len = ref2.length; i < len; i++) {
+	            k = ref2[i];
+	            v = map[k];
+	            results.push(CategoryButton({
+	              key: k,
+	              category: k,
+	              subMap: v,
+	              selected: k === subKey,
+	              drillIn: this.drillIn
+	            }));
+	          }
+	          return results;
+	        } else {
+	          ref3 = map.sort();
+	          results1 = [];
+	          for (j = 0, len1 = ref3.length; j < len1; j++) {
+	            name = ref3[j];
+	            results1.push(LeafButton({
+	              key: name,
+	              name: name,
+	              parentName: key,
+	              path: path
+	            }));
+	          }
+	          return results1;
+	        }
+	      }).call(this))), subMap && SubMapFactory({
+	        key: "subMap:" + subKey,
+	        map: subMap,
+	        path: arrayWith(path, subKey)
+	      }));
+	    };
+
+	    return SubMap;
+
+	  })(FluxComponent));
+	});
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 336 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(337).addModules({
+	  Nvc: __webpack_require__(338)
+	});
+
+
+/***/ },
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Data,
@@ -42810,7 +43084,7 @@
 
 
 /***/ },
-/* 334 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, sbdNeedsList, splitOnLines, wordsArray,
@@ -42957,325 +43231,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 335 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, Selected, arrayWith, defineModule, log, ref,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState;
-
-	defineModule(module, Selected = (function(superClass) {
-	  extend(Selected, superClass);
-
-	  function Selected() {
-	    return Selected.__super__.constructor.apply(this, arguments);
-	  }
-
-	  log({
-	    persistant: Selected.persistant
-	  });
-
-	  Selected.persistant();
-
-	  Selected.prototype.toggle = function(key, context) {
-	    context || (context = this.models.navState.context);
-	    return this.setState(key, this.state[key] ? false : context || true);
-	  };
-
-	  return Selected;
-
-	})(ApplicationState));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 336 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(337).addModules({
-	  App: __webpack_require__(338),
-	  Button: __webpack_require__(345),
-	  CategoryButton: __webpack_require__(340),
-	  LeafButton: __webpack_require__(346),
-	  ShowMap: __webpack_require__(339)
-	});
-
-
-/***/ },
-/* 337 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var App, Components,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Components || App.addNamespace('Components', Components = (function(superClass) {
-	  extend(Components, superClass);
-
-	  function Components() {
-	    return Components.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Components;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 338 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	React = __webpack_require__(281);
-
-	Namespace = __webpack_require__(337);
-
-	ShowMap = __webpack_require__(339);
-
-	Nvc = __webpack_require__(332).Nvc;
-
-	version = __webpack_require__(113).version;
-
-	ref = __webpack_require__(120), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
-
-	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
-
-	defineModule(module, App = (function(superClass) {
-	  extend(App, superClass);
-
-	  function App() {
-	    return App.__super__.constructor.apply(this, arguments);
-	  }
-
-	  App.subscriptions("selected.selected");
-
-	  App.stateFields({
-	    canvasSize: null,
-	    initialContentSize: null
-	  });
-
-	  App.prototype.ready = function(arg) {
-	    var target;
-	    target = arg.target;
-	    return this.canvasSize = target.currentSize;
-	  };
-
-	  App.prototype.initialContentReady = function(arg) {
-	    var target;
-	    target = arg.target;
-	    return this.initialContentSize || (this.initialContentSize = target.currentSize);
-	  };
-
-	  App.prototype.render = function() {
-	    var canvasSize, initialContentSize, name, ref1, selected, selectedNames;
-	    ref1 = this.state, canvasSize = ref1.canvasSize, initialContentSize = ref1.initialContentSize;
-	    selectedNames = (function() {
-	      var ref2, results;
-	      ref2 = this.selected || {};
-	      results = [];
-	      for (name in ref2) {
-	        selected = ref2[name];
-	        if (selected) {
-	          results.push(name);
-	        }
-	      }
-	      return results;
-	    }).call(this);
-	    return CanvasElement({
-	      canvasId: "artCanvas",
-	      childrenLayout: "column"
-	    }, RectangleElement({
-	      inFlow: false,
-	      color: "#f9f9f9"
-	    }), PagingScrollElement({
-	      startAtEnd: true
-	    }, Element({
-	      size: {
-	        ww: 1,
-	        hch: 1
-	      },
-	      padding: 5,
-	      childrenLayout: "column"
-	    }, TextElement({
-	      size: {
-	        ww: 1,
-	        hch: 1
-	      },
-	      align: "center",
-	      fontFamily: "arial",
-	      color: "#0004",
-	      padding: 10,
-	      text: "Needs and Emptions v" + version + " by Shane Brinkman-Davis Delamore"
-	    }), ShowMap({
-	      path: [],
-	      map: merge(Nvc.core, (selectedNames.length > 0) && {
-	        selected: selectedNames
-	      })
-	    }))));
-	  };
-
-	  return App;
-
-	})(FluxComponent));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
 /* 339 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	React = __webpack_require__(281);
-
-	Atomic = __webpack_require__(125);
-
-	Nvc = __webpack_require__(332).Nvc;
-
-	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
-
-	point = Atomic.point;
-
-	arrayWith = Foundation.arrayWith, defineModule = Foundation.defineModule, log = Foundation.log, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, capitalize = Foundation.capitalize, peek = Foundation.peek, arrayWith = Foundation.arrayWith, eq = Foundation.eq, createWithPostCreate = Foundation.createWithPostCreate;
-
-	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
-
-	CategoryButton = __webpack_require__(340);
-
-	LeafButton = __webpack_require__(346);
-
-	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
-
-	textStyle = StyleProps.textStyle;
-
-	Nvc = __webpack_require__(332).Nvc;
-
-	defineModule(module, function() {
-	  var SubMap, SubMapFactory;
-	  return SubMapFactory = createWithPostCreate(SubMap = (function(superClass) {
-	    extend(SubMap, superClass);
-
-	    function SubMap() {
-	      return SubMap.__super__.constructor.apply(this, arguments);
-	    }
-
-	    SubMap.stateFields({
-	      subKey: null
-	    });
-
-	    SubMap.prototype.drillIn = function(subKey1) {
-	      this.subKey = subKey1;
-	      if (Nvc.Core[this.subKey]) {
-	        return this.models.navState.context = this.subKey;
-	      }
-	    };
-
-	    SubMap.prototype.render = function() {
-	      var axisTypes, k, key, map, name, path, ref1, subKey, subMap, v;
-	      ref1 = this.props, map = ref1.map, key = ref1.key, path = ref1.path;
-	      subKey = this.subKey;
-	      subMap = map[subKey];
-	      axisTypes = {
-	        left: point(1, 0),
-	        right: point(-1, 0)
-	      };
-	      return Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        clip: true,
-	        childrenLayout: "column",
-	        animators: {
-	          size: {
-	            voidValue: {
-	              ww: 1,
-	              h: 0
-	            }
-	          }
-	        }
-	      }, Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        cacheDraw: true,
-	        childrenLayout: "column",
-	        margin: 10
-	      }, key && RectangleElement({
-	        color: "#0001",
-	        margin: 10,
-	        size: {
-	          ww: 1,
-	          h: 2
-	        }
-	      }), Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        childrenAlignment: "bottomCenter",
-	        childrenLayout: "flow"
-	      }, (function() {
-	        var i, j, len, len1, ref2, ref3, results, results1;
-	        if (isPlainObject(map)) {
-	          ref2 = Object.keys(map).sort();
-	          results = [];
-	          for (i = 0, len = ref2.length; i < len; i++) {
-	            k = ref2[i];
-	            v = map[k];
-	            results.push(CategoryButton({
-	              key: k,
-	              category: k,
-	              subMap: v,
-	              selected: k === subKey,
-	              drillIn: this.drillIn
-	            }));
-	          }
-	          return results;
-	        } else {
-	          ref3 = map.sort();
-	          results1 = [];
-	          for (j = 0, len1 = ref3.length; j < len1; j++) {
-	            name = ref3[j];
-	            results1.push(LeafButton({
-	              key: name,
-	              name: name,
-	              parentName: key,
-	              path: path
-	            }));
-	          }
-	          return results1;
-	        }
-	      }).call(this))), subMap && SubMapFactory({
-	        key: subKey,
-	        map: subMap,
-	        path: arrayWith(path, subKey)
-	      }));
-	    };
-
-	    return SubMap;
-
-	  })(FluxComponent));
-	});
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Button, Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
@@ -43286,9 +43242,9 @@
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(341).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
 
-	Button = __webpack_require__(345);
+	Button = __webpack_require__(344);
 
 	defineModule(module, function() {
 	  var CategoryButton, emojiMap, subtextMap;
@@ -43343,23 +43299,23 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 341 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342);
+	module.exports = __webpack_require__(341);
 
 
 /***/ },
-/* 342 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(343).addModules({
-	  PointerActionsMixin: __webpack_require__(344)
+	module.exports = __webpack_require__(342).addModules({
+	  PointerActionsMixin: __webpack_require__(343)
 	});
 
 
 /***/ },
-/* 343 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Mixins, React,
@@ -43381,7 +43337,7 @@
 
 
 /***/ },
-/* 344 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var defineModule,
@@ -43472,7 +43428,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 345 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref, rgbColor,
@@ -43481,7 +43437,7 @@
 
 	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log, rgbColor = ref.rgbColor;
 
-	PointerActionsMixin = __webpack_require__(341).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
@@ -43603,7 +43559,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 346 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Button, Element, FillElement, FluxComponent, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
@@ -43615,9 +43571,9 @@
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(341).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
 
-	Button = __webpack_require__(345);
+	Button = __webpack_require__(344);
 
 	defineModule(module, function() {
 	  var LeafButton;
@@ -43632,9 +43588,9 @@
 
 	    LeafButton.subscriptions({
 	      selected: getSelectedKey = function(arg) {
-	        var name, parentName, path;
-	        parentName = arg.parentName, name = arg.name, path = arg.path;
-	        if (parentName !== "selected") {
+	        var name, path;
+	        name = arg.name, path = arg.path;
+	        if (path[0] !== "selected") {
 	          return (path.join(' > ')) + " > " + name;
 	        } else {
 	          return name;
