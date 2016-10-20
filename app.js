@@ -12637,7 +12637,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.1.2"
+		"version": "1.1.3"
 	};
 
 /***/ },
@@ -41706,7 +41706,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.1"
+		"version": "1.2.2"
 	};
 
 /***/ },
@@ -43117,13 +43117,13 @@
 	      energy: "rest, restoration, sleep, vitality"
 	    },
 	    environment: "temperature, humidity, atmosphere, clothing, shelter",
-	    safety: "violence, accidents, illness, disasters",
+	    "physical-safety": "violence, accidents, illness, disasters",
 	    security: "stability predictability sustainability",
 	    procreation: "sexual-release children"
 	  },
 	  thriving: {
 	    pleasure: {
-	      senses: "sight, smell, touch, sound, taste, music, food, fragrance, texture, beauty",
+	      senses: "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink",
 	      body: "eroticisim, exercise, fitness, movement, dance, sex",
 	      variety: "newness, novelty",
 	      comfort: "quiet, space, sanctuary, ergonomics, leisure, time"
@@ -43146,7 +43146,7 @@
 	        understanding: "listening, empathy, knowing, seeing, respect",
 	        compassion: "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
 	      },
-	      safety: "consistency, honesty, justice, reassurance, trust privacy"
+	      "social-safety": "consistency, honesty, justice, reassurance, trust privacy"
 	    }
 	  },
 	  transcending: {
