@@ -21,6 +21,8 @@ defineModule module, ->
         size: wcw:1, hch: 1
         cursor: "pointer"
         on: @buttonHandlers
+        animators: size: toFrom: hch: 1, w: 0
+        clip: true
         RectangleElement
           inFlow: false
           color: color
@@ -31,7 +33,7 @@ defineModule module, ->
           radius: if small then 100 else 2
           shadow:
             if @pointerIsDown || (selected && !@hover)
-              blur: 4, color: "#0001", offset: y: 1
+              blur: 4, color: "#0002", offset: y: 1
             else if @hover
               blur: 12, color: "#0004", offset: y: 2
             else

@@ -9,6 +9,7 @@ defineModule module, ->
     needs: "🌳"
     negEmotions: "☹️"
     posEmotions: "😀"
+    selected: "💡"
 
   subtextMap =
     needs: "needs"
@@ -17,6 +18,7 @@ defineModule module, ->
     surviving: "animal"
     thriving: "mamal"
     transcending: "human"
+    selected: "my selection"
 
   class CategoryButton extends Component
 

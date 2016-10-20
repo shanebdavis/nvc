@@ -1,8 +1,8 @@
 {defineModule, rgbColor, HotStyleProps} = require 'art-suite'
 defineModule module, class StyleProps extends HotStyleProps
 
-  @primaryColor: rgbColor "#8ebdf6"
-  @leafColor:    rgbColor "#fff9ad"
+  @primaryColor: a = rgbColor "#8ebdf6"
+  @leafColor:    a.blend "white", .75
 
   @textStyle:
     color: "#000a"

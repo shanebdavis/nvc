@@ -5,21 +5,22 @@ Namespace = require './namespace'
 ShowMap = require './ShowMap'
 {Nvc} = require '../data'
 
-{log, inspect, defineModule} = Foundation
-
 {
+  w, log, inspect, defineModule, merge
+
   CanvasElement
   RectangleElement
   PagingScrollElement
   TextElement
   Element
   Component
-} = React
+  FluxComponent
+} = require 'art-suite'
 
 {textStyle} = Neptune.Nvc.App.Styles.StyleProps
 
-defineModule module, class App extends Component
-  module: module
+defineModule module, class App extends FluxComponent
+  @subscriptions "selected.selected"
 
   @stateFields
     canvasSize: null
@@ -33,6 +34,9 @@ defineModule module, class App extends Component
 
   render: ->
     {canvasSize, initialContentSize} = @state
+    selectedNames = for name, selected of @selected || {} when selected
+      name
+
     CanvasElement
       canvasId: "artCanvas"
       childrenLayout: "column"
@@ -81,4 +85,4 @@ defineModule module, class App extends Component
 
         #       """
 
-        ShowMap map: Nvc.core
+        ShowMap map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
