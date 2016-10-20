@@ -19,13 +19,13 @@ sbdNeedsList =
       energy:           "rest, restoration, sleep, vitality"
 
     environment:        "temperature, humidity, atmosphere, clothing, shelter"
-    safety:             "violence, accidents, illness, disasters"
+    "physical-safety":  "violence, accidents, illness, disasters"
     security:           "stability predictability sustainability"
     procreation:        "sexual-release children"
 
   thriving:
     pleasure:
-      senses:           "sight, smell, touch, sound, taste, music, food, fragrance, texture, beauty"
+      senses:           "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink"
       body:             "eroticisim, exercise, fitness, movement, dance, sex"
       variety:          "newness, novelty"
       comfort:          "quiet, space, sanctuary, ergonomics, leisure, time"
@@ -50,7 +50,7 @@ sbdNeedsList =
         compassion:     "attention, consideration, forgiveness, presence, respect, tenderness,
                         vulnerability, love"
 
-      safety:           "consistency, honesty, justice, reassurance, trust privacy"
+      "social-safety":  "consistency, honesty, justice, reassurance, trust privacy"
 
   transcending:
     "self-acceptance":  "allowing, approval, empathy, love, compassion, caring honesty, trust"
