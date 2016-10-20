@@ -3,5 +3,6 @@
 
 module.exports = require './namespace'
 .addModules
-  App:     require './app'     
-  ShowMap: require './show_map'
+  App:            require './app'           
+  CategoryButton: require './CategoryButton'
+  ShowMap:        require './show_map'      

@@ -46,7 +46,7 @@ sbdNeedsList =
 
       reciprocity:
         nurturing:      "care, feedback, help, kindness, support, affection"
-        understanding:  "listening, empathy, knowing, seeing"
+        understanding:  "listening, empathy, knowing, seeing, respect"
         compassion:     "attention, consideration, forgiveness, presence, respect, tenderness,
                         vulnerability, love"
 
