@@ -6,15 +6,31 @@ Button = require './Button'
 defineModule module, ->
 
   class LeafButton extends PointerActionsMixin FluxComponent
-    @subscriptions selected: ({name}) -> name
+    @subscriptions selected: getSelectedKey = ({parentName, name, path}) ->
 
-    action: -> @models.selected.toggle @props.name
+      if parentName != "selected"
+        "#{path.join ' > '} > #{name}"
+      else name
+
+    action: ->
+      @models.selected.toggle getSelectedKey @props
 
     render: ->
-      {name} = @props
+      {name, parentName} = @props
+
+      if name.match /\ >\ /
+        [first, middle..., secondToLast, last] = name.split " > "
+        first = switch first
+          when "needs" then "🌳"
+          when "negEmotions" then "☹️"
+          when "posEmotions" then "😀"
+          else first
+        name = "#{first} #{secondToLast} > #{last}"
+
+
       Button
         color:    StyleProps.leafColor
         text:     name
-        small: true
+        small:    true
         selected: @selected
-        action: @action
+        action:   @action

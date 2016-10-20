@@ -5,7 +5,7 @@ Atomic = require 'art-atomic'
 {createFluxComponentFactory, FluxComponent} = require 'art-flux'
 
 {point} = Atomic
-{defineModule, log, inspect, isPlainObject, capitalize, peek, arrayWith, eq, createWithPostCreate} = Foundation
+{arrayWith, defineModule, log, inspect, isPlainObject, capitalize, peek, arrayWith, eq, createWithPostCreate} = Foundation
 
 {
   createComponentFactory
@@ -24,6 +24,8 @@ LeafButton = require './LeafButton'
 {StyleProps} = Neptune.Nvc.App.Styles
 {textStyle} = StyleProps
 
+{Nvc} = require '../data'
+
 defineModule module, ->
 
   SubMapFactory = createWithPostCreate class SubMap extends FluxComponent
@@ -32,9 +34,10 @@ defineModule module, ->
       subKey: null
 
     drillIn: (@subKey)->
+      @models.navState.context = @subKey if Nvc.Core[@subKey]
 
     render: ->
-      {map, key} = @props
+      {map, key, path} = @props
       {subKey} = @
       subMap = map[subKey]
 
@@ -64,6 +67,7 @@ defineModule module, ->
                 for k in Object.keys(map).sort()
                   v = map[k]
                   CategoryButton
+                    key: k
                     category: k
                     subMap: v
                     selected: k == subKey
@@ -72,6 +76,9 @@ defineModule module, ->
             else
               for name in map.sort()
                 LeafButton
+                  key: name
                   name: name
+                  parentName: key
+                  path: path
 
-        subMap && SubMapFactory key: subKey, map: subMap
+        subMap && SubMapFactory key: subKey, map: subMap, path: arrayWith path, subKey

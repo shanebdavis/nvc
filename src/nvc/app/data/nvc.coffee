@@ -476,7 +476,7 @@ defineModule module, class Nvc extends HotStyleProps
       disheartened
       forlorn
       gloomy
-      heavy hearted
+      heavy-hearted
       hopeless
       melancholy
       unhappy

@@ -7,10 +7,4 @@ Data = require '../data'
 
 defineModule module, class NavState extends ApplicationState
   @stateFields
-    currentPath: []
-
-  drillIn: (name, map, depth) ->
-    {currentPath} = @
-    if depth?
-      currentPath = currentPath.slice 0, depth
-    @currentPath = arrayWith currentPath, name:name, map:map
+    context: ""
