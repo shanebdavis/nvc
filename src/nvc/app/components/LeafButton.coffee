@@ -6,9 +6,9 @@ Button = require './Button'
 defineModule module, ->
 
   class LeafButton extends PointerActionsMixin FluxComponent
-    @subscriptions selected: getSelectedKey = ({parentName, name, path}) ->
+    @subscriptions selected: getSelectedKey = ({name, path}) ->
 
-      if parentName != "selected"
+      if path[0] != "selected"
         "#{path.join ' > '} > #{name}"
       else name
 

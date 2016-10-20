@@ -34,7 +34,6 @@ defineModule module, ->
       subKey: null
 
     drillIn: (@subKey)->
-      @models.navState.context = @subKey if Nvc.Core[@subKey]
 
     render: ->
       {map, key, path} = @props
@@ -57,7 +56,7 @@ defineModule module, ->
           cacheDraw: true
           childrenLayout: "column"
           margin: 10
-          key && RectangleElement color: "#0001", margin: 10, size: ww: 1, h: 2
+          path.length >= 1 && RectangleElement color: "#0001", margin: 10, size: ww: 1, h: 2
 
           Element
             size: ww:1, hch:1
@@ -81,4 +80,4 @@ defineModule module, ->
                   parentName: key
                   path: path
 
-        subMap && SubMapFactory key: subKey, map: subMap, path: arrayWith path, subKey
+        subMap && SubMapFactory key: "subMap:#{subKey}", map: subMap, path: arrayWith path, subKey
