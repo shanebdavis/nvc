@@ -12637,7 +12637,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.1.0"
+		"version": "1.1.1"
 	};
 
 /***/ },
@@ -43096,13 +43096,15 @@
 	    }, RectangleElement({
 	      inFlow: false,
 	      color: "#f9f9f9"
-	    }), Element({
+	    }), PagingScrollElement({
+	      startAtEnd: true
+	    }, Element({
 	      size: {
-	        ps: 1
+	        ww: 1,
+	        hch: 1
 	      },
 	      padding: 5,
-	      childrenLayout: "column",
-	      childrenAlignment: "bottomCenter"
+	      childrenLayout: "column"
 	    }, TextElement({
 	      size: {
 	        ww: 1,
@@ -43118,7 +43120,7 @@
 	      map: merge(Nvc.core, (selectedNames.length > 0) && {
 	        selected: selectedNames
 	      })
-	    })));
+	    }))));
 	  };
 
 	  return App;
