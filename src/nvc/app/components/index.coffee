@@ -4,5 +4,7 @@
 module.exports = require './namespace'
 .addModules
   App:            require './app'           
+  Button:         require './Button'        
   CategoryButton: require './CategoryButton'
-  ShowMap:        require './show_map'      
+  LeafButton:     require './LeafButton'    
+  ShowMap:        require './ShowMap'       

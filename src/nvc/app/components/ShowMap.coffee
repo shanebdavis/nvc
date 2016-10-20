@@ -19,6 +19,7 @@ Atomic = require 'art-atomic'
 } = React
 
 CategoryButton = require './CategoryButton'
+LeafButton = require './LeafButton'
 
 {StyleProps} = Neptune.Nvc.App.Styles
 {textStyle} = StyleProps
@@ -55,28 +56,22 @@ defineModule module, ->
           margin: 10
           key && RectangleElement color: "#0001", margin: 10, size: ww: 1, h: 2
 
-          if isPlainObject map
-            Element
-              size: ww:1, hch:1
-              childrenAlignment: "bottomCenter"
-              childrenLayout: "flow"
-              for k in Object.keys(map).sort()
-                v = map[k]
-                CategoryButton
-                  category: k
-                  subMap: v
-                  selected: k == subKey
-                  drillIn: @drillIn
+          Element
+            size: ww:1, hch:1
+            childrenAlignment: "bottomCenter"
+            childrenLayout: "flow"
+            if isPlainObject map
+                for k in Object.keys(map).sort()
+                  v = map[k]
+                  CategoryButton
+                    category: k
+                    subMap: v
+                    selected: k == subKey
+                    drillIn: @drillIn
 
-          else
-            Element
-              size: ww:1, hch:1
-              childrenLayout: "row"
-              childrenAlignment: "center"
-              TextElement textStyle,
-                padding: 10
-                size: ww:1, hch:1
-                text: map.sort?().join(', ') || map
-                align: "center"
+            else
+              for name in map.sort()
+                LeafButton
+                  name: name
 
         subMap && SubMapFactory key: subKey, map: subMap

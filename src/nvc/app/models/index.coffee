@@ -4,3 +4,4 @@
 module.exports = require './namespace'
 .addModules
   NavState: require './nav_state'
+  Selected: require './Selected' 

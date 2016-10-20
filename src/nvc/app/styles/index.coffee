@@ -3,4 +3,4 @@
 
 module.exports = require './namespace'
 .addModules
-  StyleProps: require './style_props'
+  StyleProps: require './StyleProps'

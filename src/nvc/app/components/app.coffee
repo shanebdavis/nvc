@@ -2,7 +2,7 @@ Foundation = require 'art-foundation'
 React = require 'art-react'
 Namespace = require './namespace'
 
-ShowMap = require './show_map'
+ShowMap = require './ShowMap'
 {Nvc} = require '../data'
 
 {log, inspect, defineModule} = Foundation
