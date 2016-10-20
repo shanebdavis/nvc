@@ -44,19 +44,21 @@ defineModule module, class App extends FluxComponent
       # on: ready: @ready
       RectangleElement inFlow: false, color: "#f9f9f9"
 
-      Element
-        size: ps: 1
-        padding: 5
-        childrenLayout: "column"
-        childrenAlignment: "bottomCenter"
+      PagingScrollElement
+        startAtEnd: true
 
-        TextElement
-          # inFlow: false
-          size: ww:1, hch:1
-          align: "center"
-          fontFamily: "arial"
-          color: "#0004"
-          padding: 10
-          text: "Needs and Emptions v#{version} by Shane Brinkman-Davis Delamore"
+        Element
+          size: ww: 1, hch:1
+          padding: 5
+          childrenLayout: "column"
 
-        ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
+          TextElement
+            # inFlow: false
+            size: ww:1, hch:1
+            align: "center"
+            fontFamily: "arial"
+            color: "#0004"
+            padding: 10
+            text: "Needs and Emptions v#{version} by Shane Brinkman-Davis Delamore"
+
+          ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
