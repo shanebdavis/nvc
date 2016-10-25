@@ -11,6 +11,8 @@ FullScreenApp.init
   link:
     "apple-touch-icon":           href: "/assets/needs256.png"
     "apple-touch-startup-image":  href: "/assets/loading320x480.png"
+    # evidently apple-touch-startup-image has been broken since iOS9
+    # https://forums.developer.apple.com/thread/23924
 .then -> App().instantiateAsTopComponent()
 .catch (e) ->
   log.error "Failed to init NVC app", e
