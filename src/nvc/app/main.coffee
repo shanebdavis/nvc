@@ -4,7 +4,8 @@ require './models'
 {App} = require './components'
 {FullScreenApp, log} = require 'art-suite'
 
-FullScreenApp.init title: AppNamespace.namespace.name
+FullScreenApp.init
+  title: "Needs & Emotions"
 .then -> App().instantiateAsTopComponent()
 .catch (e) ->
   log.error "Failed to init NVC app", e

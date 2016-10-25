@@ -59,6 +59,6 @@ defineModule module, class App extends FluxComponent
             fontFamily: "arial"
             color: "#0004"
             padding: 10
-            text: "Needs and Emptions v#{version} by Shane Brinkman-Davis Delamore"
+            text: "Needs and Emotions v#{version} by Shane Brinkman-Davis Delamore"
 
           ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
