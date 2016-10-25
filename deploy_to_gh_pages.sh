@@ -2,9 +2,11 @@
 webpack
 git commit cordova/www/app.js -m "updated cordova/www/app.js"
 cp cordova/www/app.js gh_pages_transfer/
+cp -R assets gh_pages_transfer/
 if git checkout gh-pages; then
-  cp gh_pages_transfer/app.js .
-  git add app.js
+  cp -R gh_pages_transfer/assets .
+  uglifyjs gh_pages_transfer/app.js > ./app.js
+  git add app.js assets
   git commit -m "deploy"
   git push
   git checkout master
