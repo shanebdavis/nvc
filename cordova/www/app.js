@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.1"
+		"version": "1.2.5"
 	};
 
 /***/ },
@@ -12742,7 +12742,19 @@
 	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
 
 	FullScreenApp.init({
-	  title: "Needs & Emotions"
+	  title: "Needs",
+	  meta: {
+	    "apple-mobile-web-app-status-bar-style": "default"
+	  },
+	  manifest: "assets/needs.manifest",
+	  link: {
+	    "apple-touch-icon": {
+	      href: "/assets/needs256.png"
+	    },
+	    "apple-touch-startup-image": {
+	      href: "/assets/loading320x480.png"
+	    }
+	  }
 	}).then(function() {
 	  return App().instantiateAsTopComponent();
 	})["catch"](function(e) {
@@ -34820,13 +34832,13 @@
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Foundation, FullScreenApp, Meta, Promise, log, parseQuery;
+	var Foundation, FullScreenApp, Link, Meta, Promise, log, merge, parseQuery, ref;
 
 	Foundation = __webpack_require__(19);
 
-	Promise = Foundation.Promise, parseQuery = Foundation.parseQuery, log = Foundation.log;
+	merge = Foundation.merge, Promise = Foundation.Promise, parseQuery = Foundation.parseQuery, log = Foundation.log;
 
-	Meta = Foundation.Browser.DomElementFactories.Meta;
+	ref = Foundation.Browser.DomElementFactories, Meta = ref.Meta, Link = ref.Link;
 
 	module.exports = FullScreenApp = (function() {
 	  function FullScreenApp() {}
@@ -34873,21 +34885,12 @@
 	  };
 
 	  FullScreenApp.writeDom = function(arg) {
-	    var content, fontFamilies, fontFamily, fontFamilyInits, html, name, nameContentMetas, newLine, scriptLinks, scriptUrl, scripts, sheetUrl, styleSheetLinks, styleSheets, title;
-	    title = arg.title, styleSheets = arg.styleSheets, scripts = arg.scripts, fontFamilies = arg.fontFamilies;
+	    var content, fontFamilies, fontFamily, fontFamilyInits, html, i, info, len, link, manifest, meta, name, nameContentMetas, newLine, ref1, rel, scriptLinks, scriptUrl, scripts, sheetUrl, styleSheets, title;
+	    title = arg.title, styleSheets = arg.styleSheets, scripts = arg.scripts, fontFamilies = arg.fontFamilies, meta = arg.meta, link = arg.link, manifest = arg.manifest;
 	    document.title = title || "Art App";
 	    scripts || (scripts = []);
 	    styleSheets || (styleSheets = []);
 	    fontFamilies || (fontFamilies = []);
-	    styleSheetLinks = (function() {
-	      var i, len, results;
-	      results = [];
-	      for (i = 0, len = styleSheets.length; i < len; i++) {
-	        sheetUrl = styleSheets[i];
-	        results.push("<link rel='stylesheet' href='" + sheetUrl + "' />");
-	      }
-	      return results;
-	    })();
 	    scriptLinks = (function() {
 	      var i, len, results;
 	      results = [];
@@ -34919,12 +34922,12 @@
 	      return results;
 	    })();
 	    newLine = "\n    ";
-	    nameContentMetas = {
+	    nameContentMetas = merge({
 	      "viewport": "user-scalable=no, width=device-width, initial-scale=1.0",
 	      "apple-mobile-web-app-capable": "yes",
 	      "apple-mobile-web-app-status-bar-style": "black-translucent",
 	      "format-detection": "telephone=no"
-	    };
+	    }, meta);
 	    document.head.appendChild(Meta({
 	      charset: "utf-8"
 	    }));
@@ -34939,7 +34942,21 @@
 	        content: content
 	      }));
 	    }
-	    html = "<html>\n  <head>\n    " + (styleSheetLinks.join(newLine)) + "\n  </head>\n\n  <style>\n    html {\n      height: 100%;\n    }\n    body {\n      padding: 0px;\n      margin: 0px;\n      background-color: #eee;\n      overflow: hidden;\n      font-size: 0px;\n      height: 100%;\n    }\n  </style>\n\n  <body>\n    " + (fontFamilyInits.join(newLine)) + "\n    " + (scriptLinks.join(newLine)) + "\n  </body>\n</html>";
+	    for (i = 0, len = styleSheets.length; i < len; i++) {
+	      sheetUrl = styleSheets[i];
+	      document.head.appendChild(Link({
+	        rel: 'stylesheet',
+	        href: sheetUrl
+	      }));
+	    }
+	    ref1 = link || {};
+	    for (rel in ref1) {
+	      info = ref1[rel];
+	      document.head.appendChild(Link({
+	        rel: rel
+	      }, info));
+	    }
+	    html = "<html " + (manifest ? "manifest='" + manifest + "'" : "") + ">\n\n  <style>\n    html {\n      height: 100%;\n    }\n    body {\n      padding: 0px;\n      margin: 0px;\n      background-color: #eee;\n      overflow: hidden;\n      font-size: 0px;\n      height: 100%;\n    }\n  </style>\n\n  <body>\n    " + (fontFamilyInits.join(newLine)) + "\n    " + (scriptLinks.join(newLine)) + "\n  </body>\n</html>";
 	    return document.write(html);
 	  };
 
