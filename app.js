@@ -627,7 +627,7 @@
 	      results = [];
 	      for (i = 0, len = _words.length; i < len; i++) {
 	        word = _words[i];
-	        results.push(word.match(/[A-Z]+[a-z0-9]*|[a-z0-9]+/g));
+	        results.push(word.match(/(?:[A-Z]{2,}(?![a-z]))|[A-Z][a-z0-9]*|[a-z0-9]+/g));
 	      }
 	      return results;
 	    })();
@@ -984,7 +984,7 @@
 
 	module.exports = {
 		"name": "neptune-namespaces",
-		"version": "1.5.1",
+		"version": "1.5.2",
 		"description": "Generate index.coffee and namespace.coffee files from directory structures",
 		"scripts": {
 			"test": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register -w"
@@ -1288,6 +1288,19 @@
 	    return containsPromises;
 	  };
 
+	  ArtPromise.withCallback = function(startPromiseBodyFunction) {
+	    return new Promise(function(resolve, reject) {
+	      var callback;
+	      callback = function(err, data) {
+	        if (err) {
+	          return reject(err);
+	        }
+	        return resolve(data);
+	      };
+	      return startPromiseBodyFunction(callback);
+	    });
+	  };
+
 	  noop = function(a) {
 	    return a;
 	  };
@@ -1509,9 +1522,9 @@
 	    this.resolve = this.reject = null;
 	    this._nativePromise = null;
 	    this._nativePromise = new Promise((function(_this) {
-	      return function(resolve, reject) {
-	        _this.resolve = resolve;
-	        _this.reject = reject;
+	      return function(resolve1, reject1) {
+	        _this.resolve = resolve1;
+	        _this.reject = reject1;
 	        return typeof _function === "function" ? _function(_this.resolve, _this.reject) : void 0;
 	      };
 	    })(this));
@@ -9439,9 +9452,9 @@
 /* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {var Promise, defineModule, isWebWorker, log, ref, workerRpc;
+	/* WEBPACK VAR INJECTION */(function(module, global) {var Promise, defineModule, isWebWorker, log, objectKeyCount, ref, workerRpc;
 
-	ref = __webpack_require__(24), defineModule = ref.defineModule, Promise = ref.Promise, log = ref.log;
+	ref = __webpack_require__(24), defineModule = ref.defineModule, Promise = ref.Promise, log = ref.log, objectKeyCount = ref.objectKeyCount;
 
 	isWebWorker = __webpack_require__(88).isWebWorker;
 
@@ -9460,8 +9473,40 @@
 	 */
 
 	defineModule(module, function() {
-	  var AsyncLocalStorage, localStorage;
+	  var AsyncLocalStorage, LocalStorageShimForNode, localStorage;
 	  localStorage = global.localStorage;
+	  localStorage || (localStorage = LocalStorageShimForNode = (function() {
+	    function LocalStorageShimForNode() {}
+
+	    LocalStorageShimForNode.store = {};
+
+	    LocalStorageShimForNode.getItem = function(k) {
+	      return LocalStorageShimForNode.store[k];
+	    };
+
+	    LocalStorageShimForNode.setItem = function(k, v) {
+	      return LocalStorageShimForNode.store[k] = v;
+	    };
+
+	    LocalStorageShimForNode.removeItem = function(k) {
+	      return delete LocalStorageShimForNode.store[k];
+	    };
+
+	    LocalStorageShimForNode.clear = function() {
+	      return LocalStorageShimForNode.store = {};
+	    };
+
+	    LocalStorageShimForNode.key = function(i) {
+	      return Object.keys(LocalStorageShimForNode.store)[i];
+	    };
+
+	    LocalStorageShimForNode.getLength = function() {
+	      return objectKeyCount(LocalStorageShimForNode.store);
+	    };
+
+	    return LocalStorageShimForNode;
+
+	  })());
 	  if (isWebWorker) {
 	    return workerRpc.bindWithPromises({
 	      localStorage: ["getItem", "setItem", "removeItem", "clear", "key"]
@@ -10503,11 +10548,11 @@
 /* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Promise, RestClient, StandardLib, isNumber, merge, present, timeout;
+	var Promise, RestClient, StandardLib, isNumber, log, merge, present, timeout;
 
 	StandardLib = __webpack_require__(24);
 
-	present = StandardLib.present, Promise = StandardLib.Promise, merge = StandardLib.merge, isNumber = StandardLib.isNumber, timeout = StandardLib.timeout;
+	present = StandardLib.present, Promise = StandardLib.Promise, merge = StandardLib.merge, isNumber = StandardLib.isNumber, timeout = StandardLib.timeout, log = StandardLib.log;
 
 	module.exports = RestClient = (function() {
 	  function RestClient() {}
@@ -10659,6 +10704,7 @@
 	  IN:
 	    options:
 	      verb: "GET", "PUT", "POST"
+	      method: alias for verb
 	  
 	      data: data to restRequest - passed to xmlHttpRequest.restRequest
 	  
@@ -10690,11 +10736,12 @@
 	   */
 
 	  RestClient.restRequest = function(options) {
-	    var data, formData, headers, k, onProgress, responseType, showProgressAfter, specifiedVerb, url, v, verb;
-	    verb = options.verb, url = options.url, data = options.data, headers = options.headers, onProgress = options.onProgress, responseType = options.responseType, formData = options.formData, showProgressAfter = options.showProgressAfter;
+	    var data, formData, headers, k, method, onProgress, responseType, showProgressAfter, specifiedVerb, url, v, verb;
+	    verb = options.verb, method = options.method, url = options.url, data = options.data, headers = options.headers, onProgress = options.onProgress, responseType = options.responseType, formData = options.formData, showProgressAfter = options.showProgressAfter;
 	    if (!isNumber(showProgressAfter)) {
 	      showProgressAfter = 100;
 	    }
+	    verb || (verb = method);
 	    if (!(verb = RestClient.legalVerbs[specifiedVerb = verb])) {
 	      throw new Error("invalid verb: " + specifiedVerb);
 	    }
@@ -10805,14 +10852,13 @@
 	  };
 
 	  RestClient.restJsonRequest = function(options) {
-	    return this.restRequest(merge({
+	    return this.restRequest(merge(options, {
 	      responseType: "json",
 	      headers: merge({
 	        Accept: 'application/json'
 	      }, options != null ? options.headers : void 0),
-	      verb: "get",
 	      data: (options != null ? options.data : void 0) && JSON.stringify(options.data)
-	    }, options));
+	    }));
 	  };
 
 	  return RestClient;
@@ -12081,7 +12127,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.19.0"
+		"version": "1.20.1"
 	};
 
 /***/ },
@@ -12637,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.1.3"
+		"version": "1.2.0"
 	};
 
 /***/ },
@@ -12648,11 +12694,11 @@
 	  Main: __webpack_require__(116)
 	});
 
-	__webpack_require__(332);
+	__webpack_require__(351);
 
-	__webpack_require__(336);
+	__webpack_require__(355);
 
-	__webpack_require__(329);
+	__webpack_require__(348);
 
 	__webpack_require__(117);
 
@@ -12689,9 +12735,9 @@
 
 	__webpack_require__(117);
 
-	__webpack_require__(329);
+	__webpack_require__(348);
 
-	App = __webpack_require__(332).App;
+	App = __webpack_require__(351).App;
 
 	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
 
@@ -12756,7 +12802,7 @@
 
 	  StyleProps.primaryColor = a = rgbColor("#8ebdf6");
 
-	  StyleProps.leafColor = a.blend("white", .75);
+	  StyleProps.leafColor = a;
 
 	  StyleProps.textStyle = {
 	    color: "#000a",
@@ -12832,18 +12878,20 @@
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Atomic, Canvas, Engine, Flux, Foundation, React, merge;
+	var ArtEry, ArtEryFlux, Atomic, Canvas, Engine, Flux, Foundation, React, merge;
 
 	merge = (Foundation = __webpack_require__(19)).merge;
 
 	module.exports = [
-	  merge(Foundation, Atomic = __webpack_require__(125), Canvas = __webpack_require__(137), Engine = __webpack_require__(152), React = __webpack_require__(281), Flux = __webpack_require__(302), {
+	  merge(Foundation, Atomic = __webpack_require__(125), Canvas = __webpack_require__(137), Engine = __webpack_require__(152), React = __webpack_require__(281), Flux = __webpack_require__(302), ArtEry = __webpack_require__(329), ArtEryFlux = __webpack_require__(343), {
 	    Foundation: Foundation,
 	    Atomic: Atomic,
 	    Canvas: Canvas,
 	    Engine: Engine,
 	    React: React,
-	    Flux: Flux
+	    Flux: Flux,
+	    ArtEry: ArtEry,
+	    Ery: ArtEry
 	  })
 	];
 
@@ -42715,13 +42763,1997 @@
 /* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(330).addModules({
-	  Selected: __webpack_require__(331)
-	});
+	module.exports = __webpack_require__(330);
 
 
 /***/ },
 /* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(331).includeInNamespace(__webpack_require__(333)).addModules({
+	  ArtEryBaseObject: __webpack_require__(336),
+	  Config: __webpack_require__(337),
+	  Filter: __webpack_require__(338),
+	  Pipeline: __webpack_require__(342),
+	  PipelineRegistry: __webpack_require__(334),
+	  Request: __webpack_require__(339),
+	  RequestResponseBase: __webpack_require__(340),
+	  Response: __webpack_require__(341),
+	  Session: __webpack_require__(335)
+	});
+
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Ery,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(332);
+
+	module.exports = Art.Ery || Art.addNamespace('Ery', Ery = (function(superClass) {
+	  extend(Ery, superClass);
+
+	  function Ery() {
+	    return Ery.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Ery;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Neptune,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Neptune = __webpack_require__(4);
+
+	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
+	  extend(Art, superClass);
+
+	  function Art() {
+	    return Art.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Art;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = [
+	  {
+	    pipelines: (__webpack_require__(334)).pipelines,
+	    session: (__webpack_require__(335)).singleton
+	  }, __webpack_require__(337)
+	];
+
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, PipelineRegistry, decapitalize, defineModule, inspect, isClass, log, ref,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(19), defineModule = ref.defineModule, log = ref.log, BaseObject = ref.BaseObject, decapitalize = ref.decapitalize, isClass = ref.isClass, inspect = ref.inspect;
+
+	defineModule(module, PipelineRegistry = (function(superClass) {
+	  var pipelines;
+
+	  extend(PipelineRegistry, superClass);
+
+	  function PipelineRegistry() {
+	    return PipelineRegistry.__super__.constructor.apply(this, arguments);
+	  }
+
+	  PipelineRegistry.pipelines = pipelines = {};
+
+	  PipelineRegistry.register = function(PipelineClass) {
+	    var _aliases, alias, singleton;
+	    singleton = PipelineClass.singleton, _aliases = PipelineClass._aliases;
+	    _aliases && (function() {
+	      var i, len, results;
+	      results = [];
+	      for (i = 0, len = _aliases.length; i < len; i++) {
+	        alias = _aliases[i];
+	        results.push(pipelines[alias] = singleton);
+	      }
+	      return results;
+	    })();
+	    return pipelines[singleton.name] = singleton;
+	  };
+
+	  PipelineRegistry._reset = function() {
+	    var i, k, len, ref1, results;
+	    ref1 = Object.keys(pipelines);
+	    results = [];
+	    for (i = 0, len = ref1.length; i < len; i++) {
+	      k = ref1[i];
+	      results.push(delete pipelines[k]);
+	    }
+	    return results;
+	  };
+
+	  return PipelineRegistry;
+
+	})(BaseObject));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 335 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BaseObject, EventedMixin, Foundation, JsonStore, Session, Validator, inspect, isObject, isString, log, merge, plainObjectsDeepEq,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	EventedMixin = __webpack_require__(168).EventedMixin;
+
+	BaseObject = Foundation.BaseObject, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, JsonStore = Foundation.JsonStore;
+
+	module.exports = Session = (function(superClass) {
+	  var jsonStore, jsonStoreKey;
+
+	  extend(Session, superClass);
+
+	  jsonStore = new JsonStore;
+
+	  jsonStoreKey = "Art.Ery.Session.data";
+
+
+	  /*
+	  A global singleton Session is provided and used by default.
+	  Or multiple instances can be created and passed to the
+	  constructor of each Pipeline for per-pipeline custom sessions.
+	   */
+
+	  Session.singletonClass();
+
+	  Session.property("data signature");
+
+	  function Session(_data) {
+	    this._data = _data != null ? _data : {};
+	    Session.__super__.constructor.apply(this, arguments);
+	    this._signature = "";
+	  }
+
+	  Session.prototype.loadSession = function() {
+	    return this._sessionLoadPromise = jsonStore.getItem(jsonStoreKey).then((function(_this) {
+	      return function(data) {
+	        log({
+	          jsonStoreItem: {
+	            key: jsonStoreKey,
+	            data: data
+	          }
+	        });
+	        if (data) {
+	          return _this.data = data;
+	        }
+	      };
+	    })(this));
+	  };
+
+	  Session.getter("sessionLoadPromise", {
+	    inspectedObjects: function() {
+	      return this._data;
+	    }
+	  });
+
+	  Session.setter({
+	    data: function(v) {
+	      if (!plainObjectsDeepEq(v, this._data)) {
+	        this.queueEvent("change", {
+	          data: v
+	        });
+	      }
+	      return jsonStore.setItem(jsonStoreKey, this._data = v);
+	    }
+	  });
+
+	  Session.prototype.reset = function() {
+	    return this.data = {};
+	  };
+
+	  return Session;
+
+	})(EventedMixin(__webpack_require__(336)));
+
+
+/***/ },
+/* 336 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, defineModule, ref,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(19), BaseObject = ref.BaseObject, defineModule = ref.defineModule;
+
+	ArtEry = __webpack_require__(331);
+
+	defineModule(module, ArtEryBaseObject = (function(superClass) {
+	  extend(ArtEryBaseObject, superClass);
+
+	  function ArtEryBaseObject() {
+	    return ArtEryBaseObject.__super__.constructor.apply(this, arguments);
+	  }
+
+	  ArtEryBaseObject.abstractClass();
+
+	  ArtEryBaseObject.getter({
+	    productionEnvironment: function() {
+	      return false;
+	    },
+	    pipelines: function() {
+	      return ArtEry.pipelines;
+	    }
+	  });
+
+	  return ArtEryBaseObject;
+
+	})(BaseObject));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 337 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, Config, defineModule, mergeInto, ref,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(19), defineModule = ref.defineModule, mergeInto = ref.mergeInto, BaseObject = ref.BaseObject;
+
+	defineModule(module, Config = (function(superClass) {
+	  extend(Config, superClass);
+
+	  function Config() {
+	    return Config.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Config.classProperty({
+	    tableNamePrefix: ""
+	  });
+
+	  Config.getPrefixedTableName = function(tableName) {
+	    return "" + (this.getTableNamePrefix()) + tableName;
+	  };
+
+	  Config.configure = function(config) {
+	    if (config == null) {
+	      config = {};
+	    }
+	    return Config.tableNamePrefix = config.tableNamePrefix || Config.getTableNamePrefix();
+	  };
+
+	  return Config;
+
+	})(BaseObject));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 338 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Filter, Foundation, Promise, Request, Response, defineModule, failure, getInspectedObjects, isPlainObject, log, merge, mergeInto, shallowClone, success,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Request = __webpack_require__(339);
+
+	Response = __webpack_require__(341);
+
+	getInspectedObjects = Foundation.getInspectedObjects, defineModule = Foundation.defineModule, BaseObject = Foundation.BaseObject, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, mergeInto = Foundation.mergeInto, merge = Foundation.merge, shallowClone = Foundation.shallowClone, CommunicationStatus = Foundation.CommunicationStatus;
+
+	success = CommunicationStatus.success, failure = CommunicationStatus.failure;
+
+	defineModule(module, Filter = (function(superClass) {
+	  extend(Filter, superClass);
+
+	  Filter.filterLocation = "server";
+
+	  Filter.extendableProperty({
+	    beforeFilters: {},
+	    afterFilters: {},
+	    fields: {}
+	  });
+
+	  Filter.fields = Filter.extendFields;
+
+
+	  /*
+	  IN: requestType, requestFilter
+	  IN: map from requestTypes to requestFilters
+	  
+	  requestFilter: (request) ->
+	    IN: Request instance
+	    OUT: return a Promise returning one of the list below OR just return one of the list below:
+	      Request instance
+	      Response instance
+	      anythingElse -> toResponse anythingElse
+	  
+	    To reject a request:
+	    - throw an error
+	    - return a rejected promise
+	    - or create a Response object with the appropriate fields
+	   */
+
+	  Filter.before = function(a, b) {
+	    if (a) {
+	      return this.extendBeforeFilters(a, b);
+	    }
+	  };
+
+	  Filter.prototype.before = function(a, b) {
+	    if (a) {
+	      return this.extendBeforeFilters(a, b);
+	    }
+	  };
+
+
+	  /*
+	  IN: requestType, responseFilter
+	  IN: map from requestTypes to responseFilter
+	  
+	  responseFilter: (response) ->
+	    IN: Response instance
+	    OUT: return a Promise returning one of the list below OR just return one of the list below:
+	      Response instance
+	      anythingElse -> toResponse anythingElse
+	  
+	    To reject a request:
+	    - throw an error
+	    - return a rejected promise
+	    - or create a Response object with the appropriate fields
+	   */
+
+	  Filter.after = function(a, b) {
+	    if (a) {
+	      return this.extendAfterFilters(a, b);
+	    }
+	  };
+
+	  Filter.prototype.after = function(a, b) {
+	    if (a) {
+	      return this.extendAfterFilters(a, b);
+	    }
+	  };
+
+	  function Filter(options) {
+	    if (options == null) {
+	      options = {};
+	    }
+	    Filter.__super__.constructor.apply(this, arguments);
+	    this.serverSideOnly = options.serverSideOnly, this.clientSideOnly = options.clientSideOnly, this.name = options.name;
+	    this.name || (this.name = this["class"].getName());
+	    this.after(options.after);
+	    this.before(options.before);
+	  }
+
+	  Filter.property("name", {
+	    serverSideOnly: false,
+	    clientSideOnly: false
+	  });
+
+	  Filter.prototype.toString = function() {
+	    return this.getName();
+	  };
+
+	  Filter.prototype.getBeforeFilter = function(requestType) {
+	    return this.beforeFilters[requestType] || this.beforeFilters.all;
+	  };
+
+	  Filter.prototype.getAfterFilter = function(requestType) {
+	    return this.afterFilters[requestType] || this.afterFilters.all;
+	  };
+
+	  Filter.prototype.processBefore = function(request) {
+	    return this._processFilter(request, this.getBeforeFilter(request.type));
+	  };
+
+	  Filter.prototype.processAfter = function(response) {
+	    return this._processFilter(response, this.getAfterFilter(response.type));
+	  };
+
+
+	  /*
+	  OUT:
+	    promise.then (successful Request or Response instance) ->
+	    .catch (failingResponse) ->
+	   */
+
+	  Filter.prototype._processFilter = function(responseOrRequest, filterFunction) {
+	    return Promise.then((function(_this) {
+	      return function() {
+	        if (filterFunction) {
+	          responseOrRequest.addFilterLog(_this);
+	          return filterFunction.call(_this, responseOrRequest);
+	        } else {
+	          return responseOrRequest;
+	        }
+	      };
+	    })(this)).then((function(_this) {
+	      return function(result) {
+	        return responseOrRequest.next(result);
+	      };
+	    })(this))["catch"]((function(_this) {
+	      return function(error) {
+	        var ref;
+	        log.error("Error Applying Filter", {
+	          filter: _this,
+	          pipeline: (ref = responseOrRequest.pipeline) != null ? ref.name : void 0,
+	          responseOrRequest: responseOrRequest,
+	          error: error
+	        });
+	        return responseOrRequest.next(error, failure);
+	      };
+	    })(this));
+	  };
+
+	  return Filter;
+
+	})(__webpack_require__(336)));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 339 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ArtEry, BaseObject, CommunicationStatus, Foundation, Request, RestClient, Validator, arrayWith, failure, inspect, isObject, isString, log, merge, missing, present, success, validStatus, validator, w,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	present = Foundation.present, BaseObject = Foundation.BaseObject, RestClient = Foundation.RestClient, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, CommunicationStatus = Foundation.CommunicationStatus, arrayWith = Foundation.arrayWith, w = Foundation.w;
+
+	ArtEry = __webpack_require__(331);
+
+	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure, validStatus = CommunicationStatus.validStatus;
+
+	validator = new Validator({
+	  type: w("required string"),
+	  pipeline: {
+	    required: {
+	      "instanceof": Neptune.Art.Ery.Pipeline
+	    }
+	  },
+	  session: w("required object"),
+	  data: "object",
+	  key: "string",
+	  originatedOnServer: "boolean"
+	});
+
+	module.exports = Request = (function(superClass) {
+	  var getRestClientParamsForArtEryRequest, restMap;
+
+	  extend(Request, superClass);
+
+	  function Request(options) {
+	    Request.__super__.constructor.apply(this, arguments);
+	    validator.preCreateSync(options, {
+	      context: "Request options"
+	    });
+	    this.type = options.type, this.key = options.key, this.pipeline = options.pipeline, this.session = options.session, this.data = options.data, this.originatedOnServer = options.originatedOnServer, this.originatedOnClient = options.originatedOnClient, this.sessionSignature = options.sessionSignature;
+	  }
+
+	  Request.property("type key pipeline session data originatedOnServer sessionSignature");
+
+	  Request.prototype.toString = function() {
+	    return "ArtEry.Request(" + this.type + " key: " + this.key + ", hasData: " + (!!this.data) + ")";
+	  };
+
+	  Request.prototype.requireServerOrigin = function(message) {
+	    if (message == null) {
+	      message = "(no further explanation)";
+	    }
+	    if (!this.originatedOnServer) {
+	      throw this.failure({
+	        data: {
+	          message: this.type + "-request: originatedOnServer required " + (message || "")
+	        }
+	      });
+	    }
+	    return this;
+	  };
+
+	  Request.getter({
+	    request: function() {
+	      return this;
+	    },
+	    props: function() {
+	      return {
+	        pipeline: this.pipeline,
+	        type: this.type,
+	        key: this.key,
+	        session: this.session,
+	        data: this.data,
+	        filterLog: this.filterLog,
+	        originatedOnServer: this.originatedOnServer
+	      };
+	    },
+	    urlKeyClause: function() {
+	      if (present(this.key)) {
+	        return "/" + this.key;
+	      } else {
+	        return "";
+	      }
+	    }
+	  });
+
+	  Request.prototype.getRestRequestUrl = function(server) {
+	    return server + "/" + this.pipeline.name + this.urlKeyClause;
+	  };
+
+	  Request.prototype.getNonRestRequestUrl = function(server) {
+	    return server + "/" + this.pipeline.name + "-" + this.type + this.urlKeyClause;
+	  };
+
+	  restMap = {
+	    get: "get",
+	    create: "post",
+	    update: "put",
+	    "delete": "delete"
+	  };
+
+	  Request.getRestClientParamsForArtEryRequest = getRestClientParamsForArtEryRequest = function(arg) {
+	    var data, key, method, restPath, server, type, url, urlKeyClause;
+	    server = arg.server, restPath = arg.restPath, type = arg.type, key = arg.key, data = arg.data;
+	    urlKeyClause = present(key) ? "/" + key : "";
+	    server || (server = "");
+	    url = (method = restMap[type]) ? "" + server + restPath + urlKeyClause : (method = "post", "" + server + restPath + "-" + type + urlKeyClause);
+	    return {
+	      method: method,
+	      url: url,
+	      data: data
+	    };
+	  };
+
+	  Request.prototype.sendRemoteRequest = function() {
+	    var remoteRequestOptions;
+	    remoteRequestOptions = getRestClientParamsForArtEryRequest({
+	      restPath: this.pipeline.restPath,
+	      server: this.pipeline.remoteServer,
+	      type: this.type,
+	      key: this.key,
+	      data: {
+	        data: this.data,
+	        session: this.session,
+	        sessionSignature: this.sessionSignature
+	      }
+	    });
+	    return RestClient.restJsonRequest(remoteRequestOptions)["catch"]((function(_this) {
+	      return function(error) {
+	        return _this.failure({
+	          error: error
+	        });
+	      };
+	    })(this)).then((function(_this) {
+	      return function(remoteResponseOptions) {
+	        var data, filterLog, session, sessionSignature, status;
+	        data = remoteResponseOptions.data, status = remoteResponseOptions.status, filterLog = remoteResponseOptions.filterLog, session = remoteResponseOptions.session, sessionSignature = remoteResponseOptions.sessionSignature;
+	        return _this._toResponse(status, {
+	          data: data,
+	          filterLog: filterLog,
+	          session: session,
+	          sessionSignature: sessionSignature,
+	          remoteRequest: remoteRequestOptions,
+	          remoteResponse: remoteResponseOptions
+	        });
+	      };
+	    })(this));
+	  };
+
+	  return Request;
+
+	})(__webpack_require__(340));
+
+
+/***/ },
+/* 340 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, CommunicationStatus, RequestResponseBase, arrayWith, defineModule, failure, inspect, inspectedObjectLiteral, isJsonType, isPlainObject, isString, log, merge, missing, ref, success, toInspectedObjects,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(19), BaseObject = ref.BaseObject, CommunicationStatus = ref.CommunicationStatus, log = ref.log, arrayWith = ref.arrayWith, defineModule = ref.defineModule, merge = ref.merge, isJsonType = ref.isJsonType, isString = ref.isString, isPlainObject = ref.isPlainObject, inspect = ref.inspect, inspectedObjectLiteral = ref.inspectedObjectLiteral, toInspectedObjects = ref.toInspectedObjects;
+
+	ArtEry = __webpack_require__(331);
+
+	ArtEryBaseObject = __webpack_require__(336);
+
+	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure;
+
+	defineModule(module, RequestResponseBase = (function(superClass) {
+	  extend(RequestResponseBase, superClass);
+
+	  function RequestResponseBase(options) {
+	    RequestResponseBase.__super__.constructor.apply(this, arguments);
+	    this.filterLog = options.filterLog;
+	  }
+
+	  RequestResponseBase.property("filterLog");
+
+	  RequestResponseBase.prototype.addFilterLog = function(filter) {
+	    return this._filterLog = arrayWith(this._filterLog, filter);
+	  };
+
+	  RequestResponseBase.getter({
+	    inspectedObjects: function() {
+	      var obj;
+	      return (
+	        obj = {},
+	        obj["" + this["class"].namespacePath] = toInspectedObjects(this.props),
+	        obj
+	      );
+	    }
+	  });
+
+
+	  /*
+	  IN: data can be a plainObject or a promise returning a plainObject
+	  OUT: promise.then (newRequestWithNewData) ->
+	   */
+
+	  RequestResponseBase.prototype.withData = function(data) {
+	    return Promise.resolve(data).then((function(_this) {
+	      return function(resolvedData) {
+	        return new _this["class"](merge(_this.props, {
+	          data: resolvedData
+	        }));
+	      };
+	    })(this));
+	  };
+
+
+	  /*
+	  IN: data can be a plainObject or a promise returning a plainObject
+	  OUT: promise.then (newRequestWithNewData) ->
+	   */
+
+	  RequestResponseBase.prototype.withMergedData = function(data) {
+	    return Promise.resolve(data).then((function(_this) {
+	      return function(resolvedData) {
+	        return new _this["class"](merge(_this.props, {
+	          data: merge(_this.data, resolvedData)
+	        }));
+	      };
+	    })(this));
+	  };
+
+	  RequestResponseBase.prototype.next = function(data, status) {
+	    if (status == null) {
+	      status = success;
+	    }
+	    return Promise.resolve(data).then((function(_this) {
+	      return function(data) {
+	        var responseProps;
+	        responseProps = !data ? (status = missing, {
+	          data: {
+	            message: "missing response"
+	          }
+	        }) : isJsonType(data) ? {
+	          data: data
+	        } : data;
+	        return _this._toResponse(status, responseProps);
+	      };
+	    })(this));
+	  };
+
+	  RequestResponseBase.prototype.success = function(responseProps) {
+	    return this._toResponse(success, responseProps);
+	  };
+
+	  RequestResponseBase.prototype.missing = function(responseProps) {
+	    return this._toResponse(missing, responseProps);
+	  };
+
+	  RequestResponseBase.prototype.failure = function(responseProps) {
+	    return this._toResponse(failure, responseProps);
+	  };
+
+
+	  /*
+	  IN:
+	    responseProps: (optionally Promise returning:)
+	      an object which is directly passed into the Response constructor
+	      OR instanceof RequestResponseBase
+	      OR anything else:
+	        considered internal error, but it will create a valid, failing Response object
+	  OUT:
+	    promise.then (response) ->
+	    .catch -> # should never happen
+	   */
+
+	  RequestResponseBase.prototype._toResponse = function(status, responseProps) {
+	    return Promise.resolve(responseProps)["catch"]((function(_this) {
+	      return function(e) {
+	        status = failure;
+	        return e;
+	      };
+	    })(this)).then((function(_this) {
+	      return function(responseProps) {
+	        var message, response;
+	        if (responseProps == null) {
+	          responseProps = {};
+	        }
+	        if (responseProps instanceof RequestResponseBase) {
+	          return responseProps;
+	        }
+	        if (isString(responseProps)) {
+	          responseProps = {
+	            message: responseProps
+	          };
+	        }
+	        if (!isPlainObject(responseProps)) {
+	          status = failure;
+	          message = null;
+	          responseProps = {
+	            data: {
+	              message: responseProps instanceof Error ? (log.error(message = "Internal Error: ArtEry.RequestResponseBase#_toResponse received Error instance", _this, responseProps), message) : log.error("Internal Error: ArtEry.RequestResponseBase#_toResponse expecting responseProps or error", responseProps)
+	            }
+	          };
+	        }
+	        response = new ArtEry.Response(merge({
+	          request: _this.request,
+	          status: status
+	        }, responseProps));
+	        if (status === success) {
+	          return Promise.resolve(response);
+	        } else {
+	          return Promise.reject(response);
+	        }
+	      };
+	    })(this));
+	  };
+
+	  return RequestResponseBase;
+
+	})(ArtEryBaseObject));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 341 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BaseObject, CommunicationStatus, Foundation, Request, Response, Validator, arrayWith, failure, formattedInspect, inspect, isJsonType, isPlainObject, log, merge, missing, responseValidator, success, w,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Request = __webpack_require__(339);
+
+	BaseObject = Foundation.BaseObject, arrayWith = Foundation.arrayWith, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, Validator = Foundation.Validator, merge = Foundation.merge, isJsonType = Foundation.isJsonType, formattedInspect = Foundation.formattedInspect, w = Foundation.w;
+
+	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure;
+
+	responseValidator = new Validator({
+	  request: w("required", {
+	    "instanceof": Request
+	  }),
+	  status: w("required communicationStatus"),
+	  data: {
+	    validate: function(a) {
+	      return a === void 0 || isJsonType(a);
+	    }
+	  },
+	  session: "object"
+	});
+
+	module.exports = Response = (function(superClass) {
+	  extend(Response, superClass);
+
+	  function Response(options) {
+	    var ref;
+	    Response.__super__.constructor.apply(this, arguments);
+	    responseValidator.preCreateSync(options, {
+	      context: "Response options"
+	    });
+	    this.request = options.request, this.status = options.status, this.data = (ref = options.data) != null ? ref : {}, this.session = options.session, this.sessionSignature = options.sessionSignature, this.error = options.error, this.remoteRequest = options.remoteRequest, this.remoteResponse = options.remoteResponse;
+	    this.session || (this.session = this.request.session);
+	  }
+
+	  Response.prototype.isResponse = true;
+
+	  Response.prototype.toString = function() {
+	    return "ArtEry.Response(" + this.type + ": " + this.status + "): " + this.message;
+	  };
+
+	  Response.property("request status data session sessionSignature error remoteResponse remoteRequest");
+
+	  Response.getter({
+	    type: function() {
+	      return this.request.type;
+	    },
+	    originatedOnServer: function() {
+	      return this.request.originatedOnServer;
+	    },
+	    beforeFilterLog: function() {
+	      return this.request.filterLog;
+	    },
+	    afterFilterLog: function() {
+	      return this.filterLog;
+	    },
+	    message: function() {
+	      var ref;
+	      return (ref = this.data) != null ? ref.message : void 0;
+	    },
+	    isSuccessful: function() {
+	      return this._status === success;
+	    },
+	    notSuccessful: function() {
+	      return this._status !== success;
+	    },
+	    props: function() {
+	      return {
+	        request: this.request,
+	        status: this.status,
+	        data: this.data,
+	        session: this.session,
+	        filterLog: this.filterLog,
+	        remoteRequest: this.remoteRequest,
+	        remoteResponse: this.remoteResponse
+	      };
+	    },
+	    plainObjectsResponse: function() {
+	      var out, ref;
+	      out = {
+	        status: this.status,
+	        data: this.data,
+	        session: this.session
+	      };
+	      if (((ref = this.filterLog) != null ? ref.length : void 0) > 0) {
+	        out.filterLog = this.filterLog;
+	      }
+	      return out;
+	    }
+	  });
+
+	  return Response;
+
+	})(__webpack_require__(340));
+
+
+/***/ },
+/* 342 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Config, Filter, Foundation, Pipeline, PipelineRegistry, Promise, Request, Response, Session, Validator, arrayToTruthMap, compactFlatten, decapitalize, defineModule, escapeRegExp, failure, inspect, inspectedObjectLiteral, isClass, isFunction, isPlainArray, isPlainObject, isString, log, lowerCamelCase, merge, mergeInto, missing, newObjectFromEach, normalizeFieldProps, peek, reverseForEach, success,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty,
+	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+	Foundation = __webpack_require__(19);
+
+	Response = __webpack_require__(341);
+
+	Request = __webpack_require__(339);
+
+	Filter = __webpack_require__(338);
+
+	Session = __webpack_require__(335);
+
+	Config = __webpack_require__(337);
+
+	PipelineRegistry = __webpack_require__(334);
+
+	newObjectFromEach = Foundation.newObjectFromEach, compactFlatten = Foundation.compactFlatten, BaseObject = Foundation.BaseObject, reverseForEach = Foundation.reverseForEach, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect, isString = Foundation.isString, isClass = Foundation.isClass, isFunction = Foundation.isFunction, inspect = Foundation.inspect, CommunicationStatus = Foundation.CommunicationStatus, merge = Foundation.merge, isPlainArray = Foundation.isPlainArray, decapitalize = Foundation.decapitalize, defineModule = Foundation.defineModule, Validator = Foundation.Validator, mergeInto = Foundation.mergeInto, arrayToTruthMap = Foundation.arrayToTruthMap, lowerCamelCase = Foundation.lowerCamelCase, peek = Foundation.peek, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, escapeRegExp = Foundation.escapeRegExp;
+
+	normalizeFieldProps = Validator.normalizeFieldProps;
+
+	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure;
+
+	defineModule(module, Pipeline = (function(superClass) {
+	  var instantiateFilter, noOptions, preprocessFilter;
+
+	  extend(Pipeline, superClass);
+
+	  Pipeline.register = function() {
+	    this.singletonClass();
+	    return PipelineRegistry.register(this);
+	  };
+
+	  Pipeline.abstractClass();
+
+	  Pipeline.postCreateConcreteClass = function(arg) {
+	    var hotReloaded;
+	    hotReloaded = arg.hotReloaded;
+	    if (!hotReloaded) {
+	      this.register();
+	    }
+	    this._defineQueryHandlers();
+	    this._initClientApiRequest();
+	    this._initFields();
+	    return Pipeline.__super__.constructor.postCreateConcreteClass.apply(this, arguments);
+	  };
+
+	  Pipeline.instantiateFilter = instantiateFilter = function(filter) {
+	    if (isClass(filter)) {
+	      return new filter;
+	    } else if (isFunction(filter)) {
+	      return filter(this);
+	    } else if (filter instanceof Filter) {
+	      return filter;
+	    } else if (isPlainObject(filter)) {
+	      return new Filter(filter);
+	    } else {
+	      throw "invalid filter: " + (inspect(filter)) + " " + (filter instanceof Filter);
+	    }
+	  };
+
+	  Pipeline.extendableProperty({
+	    queries: {},
+	    filters: [],
+	    handlers: {},
+	    clientApiMethodList: [],
+	    fields: {}
+	  });
+
+	  Pipeline.getAliases = function() {
+	    return this._aliases || {};
+	  };
+
+
+	  /*
+	  INPUT: zero or more strings or arrays of strings
+	    - arbitrary nesting of arrays is OK
+	    - nulls are OK, they are ignored
+	  OUTPUT: null
+	  
+	  NOTE: @aliases can only be called once
+	  
+	  example:
+	    class Post extends Pipeline
+	      @aliases "chapterPost"
+	  
+	  purpose:
+	    - used by ArtEryFluxComponent to make model aliases
+	      (see FluxModel.aliases)
+	   */
+
+	  Pipeline.aliases = function() {
+	    this._aliases = newObjectFromEach(arguments, function(map, k, v) {
+	      return map[lowerCamelCase(v)] = true;
+	    });
+	    return this;
+	  };
+
+	  preprocessFilter = function(filter) {
+	    var f, i, len, results;
+	    if (isPlainArray(filter)) {
+	      results = [];
+	      for (i = 0, len = filter.length; i < len; i++) {
+	        f = filter[i];
+	        if (f) {
+	          results.push(instantiateFilter(f));
+	        }
+	      }
+	      return results;
+	    } else {
+	      return instantiateFilter(filter);
+	    }
+	  };
+
+	  Pipeline.query = function(queries) {
+	    return this.extendQueries(queries);
+	  };
+
+	  Pipeline.handler = function(handlers) {
+	    return this.extendHandlers(handlers);
+	  };
+
+	  Pipeline.filter = function(filter) {
+	    return this.extendFilters(preprocessFilter(filter));
+	  };
+
+	  Pipeline.getter({
+	    aliases: function() {
+	      return Object.keys(this["class"].getAliases());
+	    },
+	    inspectedObjects: function() {
+	      return inspectedObjectLiteral(this.name);
+	    },
+	    isRemoteClient: function() {
+	      return this.remoteServer;
+	    },
+	    remoteServer: function() {
+	      var apiRoot, domain, port, protocol, ref, ret;
+	      if (!this.remoteServerInfo) {
+	        return;
+	      }
+	      ref = this.remoteServerInfo, domain = ref.domain, port = ref.port, apiRoot = ref.apiRoot, protocol = ref.protocol;
+	      protocol || (protocol = "http");
+	      ret = protocol + "://" + domain;
+	      if (port) {
+	        ret += ":" + port;
+	      }
+	      return ret;
+	    },
+	    apiRoot: function() {
+	      var r, ref;
+	      if (r = (ref = this.remoteServerInfo) != null ? ref.apiRoot : void 0) {
+	        return "/" + r;
+	      } else {
+	        return "";
+	      }
+	    },
+	    restPath: function() {
+	      return this._restPath || (this._restPath = this.apiRoot + "/" + this.name);
+	    },
+	    restPathRegex: function() {
+	      return this._restPathRegex || (this._restPathRegex = RegExp("^" + (escapeRegExp(this.restPath)) + "(?:-([a-z0-9_]+))?(?:\\/([-_.a-z0-9]+))?", "i"));
+	    }
+	  });
+
+	  function Pipeline(_options) {
+	    this._options = _options != null ? _options : {};
+	    Pipeline.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Pipeline.getter("options", {
+	    tableName: function() {
+	      return Config.getPrefixedTableName(this.name);
+	    },
+	    normalizedFields: function() {
+	      var k, nf, ref, v;
+	      nf = {};
+	      ref = this.fields;
+	      for (k in ref) {
+	        v = ref[k];
+	        nf[k] = normalizeFieldProps(v);
+	      }
+	      return nf;
+	    }
+	  });
+
+	  Pipeline.getter({
+	    name: function() {
+	      return this._name || (this._name = this._options.name || decapitalize(this["class"].getName()));
+	    },
+	    session: function() {
+	      return this._session || (this._session = this._options.session || Session.singleton);
+	    },
+	    handlerRequestTypesMap: function(into) {
+	      if (into == null) {
+	        into = {};
+	      }
+	      mergeInto(into, this.handlers);
+	      return into;
+	    },
+	    filterRequestTypesMap: function(into) {
+	      var filter, i, len, ref;
+	      if (into == null) {
+	        into = {};
+	      }
+	      ref = this.filters;
+	      for (i = 0, len = ref.length; i < len; i++) {
+	        filter = ref[i];
+	        mergeInto(into, filter.beforeFilters);
+	      }
+	      return into;
+	    },
+	    requestTypesMap: function(into) {
+	      if (into == null) {
+	        into = {};
+	      }
+	      return this.getHandlerRequestTypesMap(this.getFilterRequestTypesMap(into));
+	    },
+	    requestTypes: function() {
+	      return Object.keys(this.requestTypesMap);
+	    },
+	    beforeFilters: function() {
+	      return this._beforeFilters || (this._beforeFilters = this.filters.slice().reverse());
+	    },
+	    afterFilters: function() {
+	      return this.filters;
+	    }
+	  });
+
+	  Pipeline.prototype.getBeforeFiltersFor = function(type) {
+	    var filter, i, len, ref, results;
+	    ref = this.beforeFilters;
+	    results = [];
+	    for (i = 0, len = ref.length; i < len; i++) {
+	      filter = ref[i];
+	      if (filter.getBeforeFilter(type)) {
+	        results.push(filter);
+	      }
+	    }
+	    return results;
+	  };
+
+	  Pipeline.prototype.getAfterFiltersFor = function(type) {
+	    var filter, i, len, ref, results;
+	    ref = this.afterFilters;
+	    results = [];
+	    for (i = 0, len = ref.length; i < len; i++) {
+	      filter = ref[i];
+	      if (filter.getAfterFilter(type)) {
+	        results.push(filter);
+	      }
+	    }
+	    return results;
+	  };
+
+
+	  /*
+	  OVERRIDE
+	  OUT: queryModelName:
+	    query: (queryKey, pipeline) -> array of plain objects
+	   */
+
+	  Pipeline.prototype.getAutoDefinedQueries = function() {
+	    return {};
+	  };
+
+	  Pipeline.prototype.getPipelineReport = function() {
+	    return {
+	      tableName: this.tableName,
+	      fields: newObjectFromEach(this.fields, function(fieldProps) {
+	        return newObjectFromEach(Object.keys(fieldProps).sort(), function(out, index, k) {
+	          var v;
+	          v = fieldProps[k];
+	          if (!(k === "preprocess" || k === "validate" || k === "fieldType")) {
+	            return out[k] = v;
+	          }
+	        });
+	      }),
+	      requests: newObjectFromEach(this.requestTypes, (function(_this) {
+	        return function(type) {
+	          var filter;
+	          return inspectedObjectLiteral(compactFlatten([
+	            (function() {
+	              var i, len, ref, results;
+	              ref = this.getBeforeFiltersFor(type);
+	              results = [];
+	              for (i = 0, len = ref.length; i < len; i++) {
+	                filter = ref[i];
+	                results.push(filter.getName());
+	              }
+	              return results;
+	            }).call(_this), _this.handlers[type] ? "[" + type + "-handler]" : void 0, (function() {
+	              var i, len, ref, results;
+	              ref = this.getAfterFiltersFor(type);
+	              results = [];
+	              for (i = 0, len = ref.length; i < len; i++) {
+	                filter = ref[i];
+	                results.push(filter.getName());
+	              }
+	              return results;
+	            }).call(_this)
+	          ]).join(' > '));
+	        };
+	      })(this))
+	    };
+	  };
+
+	  Pipeline.prototype.getApiReport = function(options) {
+	    var server;
+	    if (options == null) {
+	      options = {};
+	    }
+	    server = options.server;
+	    return newObjectFromEach(this.requestTypes, (function(_this) {
+	      return function(type) {
+	        var method, obj, ref, url;
+	        ref = Request.getRestClientParamsForArtEryRequest({
+	          server: _this.remoteServer || server,
+	          type: type,
+	          restPath: _this.restPath
+	        }), method = ref.method, url = ref.url;
+	        return (
+	          obj = {},
+	          obj["" + (method.toLocaleUpperCase())] = url,
+	          obj
+	        );
+	      };
+	    })(this));
+	  };
+
+
+	  /*
+	  handlers are merely the "pearl" filter - the action that happens
+	   - after all before-filters and
+	   - before all after-filters
+	  
+	  IN: map from request-types to request handlers:
+	    (request) -> request OR response OR result which will be converted to a response
+	   */
+
+	  Pipeline.handlers = Pipeline.extendHandlers;
+
+	  Pipeline._defineQueryHandlers = function() {
+	    var k, ref, results, v;
+	    ref = this.getQueries();
+	    results = [];
+	    for (k in ref) {
+	      v = ref[k];
+	      results.push(this.extendHandlers(k, (function() {
+	        if (isFunction(v)) {
+	          return v;
+	        } else {
+	          v = v.query;
+	          if (!isFunction(v)) {
+	            throw new Error("query delaration must be a function or have a 'query' property that is a function");
+	          }
+	          return v;
+	        }
+	      })()));
+	    }
+	    return results;
+	  };
+
+	  Pipeline.prototype._applyBeforeFilters = function(request) {
+	    var applyNextFilter, filterIndex, filters;
+	    filters = this.getBeforeFiltersFor(request.type);
+	    filterIndex = 0;
+	    applyNextFilter = function(partiallyBeforeFilteredRequest) {
+	      if (partiallyBeforeFilteredRequest.isResponse || filterIndex >= filters.length) {
+	        return Promise.resolve(partiallyBeforeFilteredRequest);
+	      } else {
+	        return filters[filterIndex++].processBefore(partiallyBeforeFilteredRequest).then(function(result) {
+	          return applyNextFilter(result);
+	        });
+	      }
+	    };
+	    return applyNextFilter(request);
+	  };
+
+	  Pipeline.prototype._applyHandler = function(request) {
+	    var handler, message;
+	    if (request.isResponse) {
+	      return request;
+	    }
+	    if (this.isRemoteClient && !request.originatedOnClient) {
+	      return request.sendRemoteRequest(this.remoteServer);
+	    } else if (handler = this.handlers[request.type]) {
+	      request.addFilterLog(request.type + "-handler");
+	      return request.next(handler.call(this, request));
+	    } else {
+	      message = "no Handler for request type: " + request.type;
+	      log.error(message, {
+	        request: request
+	      });
+	      return request.missing({
+	        data: {
+	          message: message
+	        }
+	      });
+	    }
+	  };
+
+	  Pipeline.prototype._applyAfterFilters = function(response) {
+	    var applyNextFilter, filterIndex, filters;
+	    filters = this.getAfterFiltersFor(response.type);
+	    filterIndex = 0;
+	    applyNextFilter = function(partiallyAfterFilteredReponse) {
+	      if (partiallyAfterFilteredReponse.notSuccessful || filterIndex >= filters.length) {
+	        return Promise.resolve(partiallyAfterFilteredReponse);
+	      } else {
+	        return filters[filterIndex++].processAfter(partiallyAfterFilteredReponse).then(function(result) {
+	          return applyNextFilter(result);
+	        });
+	      }
+	    };
+	    return applyNextFilter(response);
+	  };
+
+	  Pipeline.prototype._processRequest = function(request) {
+	    if (isPlainObject(request)) {
+	      request = new Request(merge(request, {
+	        pipeline: this
+	      }));
+	    }
+	    return this._applyBeforeFilters(request).then((function(_this) {
+	      return function(request) {
+	        return _this._applyHandler(request);
+	      };
+	    })(this)).then((function(_this) {
+	      return function(response) {
+	        return _this._applyAfterFilters(response);
+	      };
+	    })(this))["catch"]((function(_this) {
+	      return function(error) {
+	        log.error({
+	          Pipeline_processRequest: {
+	            error: error
+	          }
+	        });
+	        return request.next(error);
+	      };
+	    })(this));
+	  };
+
+
+	  /*
+	  options
+	    all the Request options are valid here
+	    returnResponseObject: true [default: false]
+	      if true, the response object is returned, otherwise, just the data field is returned.
+	   */
+
+	  noOptions = {};
+
+	  Pipeline.prototype._processClientRequest = function(type, options) {
+	    var returnResponseObject;
+	    if (options == null) {
+	      options = noOptions;
+	    }
+	    returnResponseObject = options.returnResponseObject;
+	    if (isString(options)) {
+	      options = {
+	        key: options
+	      };
+	    }
+	    return this._processRequest(new Request(merge(options, {
+	      type: type,
+	      pipeline: this,
+	      session: this.session.data,
+	      sessionSignature: this.session.signature
+	    }))).then((function(_this) {
+	      return function(response) {
+	        var data, session, sessionSignature, status;
+	        status = response.status, data = response.data, session = response.session, sessionSignature = response.sessionSignature;
+	        if (status === success) {
+	          if (session) {
+	            _this.session.data = session;
+	            _this.session.signature = sessionSignature;
+	          }
+	          if (returnResponseObject) {
+	            return response;
+	          } else {
+	            return data;
+	          }
+	        } else {
+	          throw response;
+	        }
+	      };
+	    })(this));
+	  };
+
+	  Pipeline._clientApiRequest = function(requestType) {
+	    var base;
+	    if (indexOf.call(this.getClientApiMethodList(), requestType) < 0) {
+	      this.extendClientApiMethodList(requestType);
+	    }
+	    return (base = this.prototype)[requestType] || (base[requestType] = function(options) {
+	      return this._processClientRequest(requestType, options);
+	    });
+	  };
+
+	  Pipeline._initClientApiRequest = function() {
+	    var handler, name, ref, results;
+	    ref = this.getHandlers();
+	    results = [];
+	    for (name in ref) {
+	      handler = ref[name];
+	      results.push(this._clientApiRequest(name));
+	    }
+	    return results;
+	  };
+
+	  Pipeline._initFields = function() {
+	    var filter, i, len, ref, results;
+	    ref = this.getFilters();
+	    results = [];
+	    for (i = 0, len = ref.length; i < len; i++) {
+	      filter = ref[i];
+	      results.push(this.extendFields(filter.fields));
+	    }
+	    return results;
+	  };
+
+	  return Pipeline;
+
+	})(__webpack_require__(336)));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 343 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(344);
+
+
+/***/ },
+/* 344 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(345).addModules({
+	  ArtEryFluxModel: __webpack_require__(346),
+	  ArtEryQueryFluxModel: __webpack_require__(347)
+	});
+
+
+/***/ },
+/* 345 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ery, Flux,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Ery = __webpack_require__(331);
+
+	module.exports = Ery.Flux || Ery.addNamespace('Flux', Flux = (function(superClass) {
+	  extend(Flux, superClass);
+
+	  function Flux() {
+	    return Flux.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Flux;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 346 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryFluxModel, ArtEryQueryFluxModel, CommunicationStatus, Flux, FluxModel, Foundation, Promise, arrayWith, arrayWithElementReplaced, createWithPostCreate, decapitalize, defineModule, eq, failure, fastBind, formattedInspect, inspect, isFunction, isString, log, merge, missing, models, pending, select, success, upperCamelCase,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Flux = Neptune.Art.Flux;
+
+	if (!Flux) {
+	  throw new Error("Neptune.Art.Flux not loaded. Please pre-require Flux or Flux/web_worker.");
+	}
+
+	ArtEry = __webpack_require__(329);
+
+	ArtEryQueryFluxModel = __webpack_require__(347);
+
+	log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, select = Foundation.select, isString = Foundation.isString, isFunction = Foundation.isFunction, fastBind = Foundation.fastBind, decapitalize = Foundation.decapitalize, merge = Foundation.merge, Promise = Foundation.Promise, eq = Foundation.eq, upperCamelCase = Foundation.upperCamelCase, arrayWith = Foundation.arrayWith, arrayWithElementReplaced = Foundation.arrayWithElementReplaced, formattedInspect = Foundation.formattedInspect, defineModule = Foundation.defineModule, createWithPostCreate = Foundation.createWithPostCreate, inspect = Foundation.inspect;
+
+	missing = CommunicationStatus.missing, failure = CommunicationStatus.failure, success = CommunicationStatus.success, pending = CommunicationStatus.pending;
+
+	FluxModel = Flux.FluxModel, models = Flux.models;
+
+	defineModule(module, ArtEryFluxModel = (function(superClass) {
+	  var createModel;
+
+	  extend(ArtEryFluxModel, superClass);
+
+	  ArtEryFluxModel.abstractClass();
+
+	  createModel = function(name, pipeline, aliases) {
+	    var AnonymouseArtErtFluxModel, klass;
+	    klass = createWithPostCreate(AnonymouseArtErtFluxModel = (function(superClass1) {
+	      extend(AnonymouseArtErtFluxModel, superClass1);
+
+	      function AnonymouseArtErtFluxModel() {
+	        return AnonymouseArtErtFluxModel.__super__.constructor.apply(this, arguments);
+	      }
+
+	      AnonymouseArtErtFluxModel._name = upperCamelCase(name);
+
+	      AnonymouseArtErtFluxModel.pipeline(pipeline);
+
+	      if (aliases) {
+	        AnonymouseArtErtFluxModel.aliases(aliases);
+	      }
+
+	      return AnonymouseArtErtFluxModel;
+
+	    })(ArtEryFluxModel));
+	    return klass.singleton;
+	  };
+
+	  ArtEryFluxModel.defineModelsForAllPipelines = function() {
+	    var aliases, name, pipeline, ref, results;
+	    ref = ArtEry.pipelines;
+	    results = [];
+	    for (name in ref) {
+	      pipeline = ref[name];
+	      if (aliases = pipeline.aliases) {
+	        name = pipeline.getName();
+	        if (!models[name]) {
+	          results.push(createModel(name, pipeline, aliases));
+	        } else {
+	          results.push(void 0);
+	        }
+	      } else {
+	        results.push(createModel(name, pipeline));
+	      }
+	    }
+	    return results;
+	  };
+
+	  ArtEryFluxModel.pipeline = function(_pipeline1) {
+	    this._pipeline = _pipeline1;
+	    return this._pipeline;
+	  };
+
+	  function ArtEryFluxModel() {
+	    ArtEryFluxModel.__super__.constructor.apply(this, arguments);
+	    this._updateSerializers = {};
+	    this._pipeline = this["class"]._pipeline;
+	    this._queryModels = {};
+	    this.queries(this._pipeline.queries);
+	    this._bindPipelineMethods();
+	  }
+
+	  ArtEryFluxModel.prototype._bindPipelineMethods = function() {
+	    var abstractPrototype, k, ref, results, v;
+	    abstractPrototype = this._pipeline["class"].getAbstractPrototype();
+	    ref = this._pipeline;
+	    results = [];
+	    for (k in ref) {
+	      v = ref[k];
+	      if (!this[k] && !abstractPrototype[k] && isFunction(v)) {
+	        results.push(this[k] = fastBind(v, this));
+	      }
+	    }
+	    return results;
+	  };
+
+	  ArtEryFluxModel.prototype.keyFromData = function(data) {
+	    var base, ret;
+	    ret = (typeof (base = this._pipeline).keyFromData === "function" ? base.keyFromData(data) : void 0) || data.id;
+	    if (!ret) {
+	      throw new Error("keyFromData: failed to generate a key from: @_pipeline.keyFromData?(data) || data.id)");
+	    }
+	    return ret;
+	  };
+
+	  ArtEryFluxModel.prototype.keysEqual = function(a, b) {
+	    return eq(this.keyFromData(a), this.keyFromData(b));
+	  };
+
+
+	  /*
+	  TODO:
+	  queries need to go through an ArtEry pipeline.
+	  queries should be invoked with that ArtEry pipeline as @
+	  every record returned should get sent through the after-pipeline
+	  as-if it were a "get" request
+	   */
+
+	  ArtEryFluxModel.prototype.queries = function(map, ignoreAlreadyDefinedWarning) {
+	    var modelName, options, results;
+	    results = [];
+	    for (modelName in map) {
+	      options = map[modelName];
+	      results.push(this.defineQuery(modelName, options, ignoreAlreadyDefinedWarning));
+	    }
+	    return results;
+	  };
+
+	  ArtEryFluxModel.prototype.defineQuery = function(modelName, options, ignoreAlreadyDefinedWarning) {
+	    var ArtEryQueryFluxModelChild, _pipeline, recordsModel;
+	    if (this._queryModels[modelName]) {
+	      if (!ignoreAlreadyDefinedWarning) {
+	        console.warn("query already defined! " + (this.getName()) + ": " + modelName);
+	      }
+	      return;
+	    }
+	    _pipeline = this._pipeline;
+	    recordsModel = this;
+	    if (isFunction(options)) {
+	      options = {
+	        query: options
+	      };
+	    }
+	    if (!isFunction(options.query)) {
+	      throw new Error("query required");
+	    }
+	    return this._queryModels[modelName] = new (ArtEryQueryFluxModelChild = (function(superClass1) {
+	      var k, v;
+
+	      extend(ArtEryQueryFluxModelChild, superClass1);
+
+	      function ArtEryQueryFluxModelChild() {
+	        return ArtEryQueryFluxModelChild.__super__.constructor.apply(this, arguments);
+	      }
+
+	      ArtEryQueryFluxModelChild._name = upperCamelCase(modelName);
+
+	      for (k in options) {
+	        v = options[k];
+	        ArtEryQueryFluxModelChild.prototype[k] = v;
+	      }
+
+	      ArtEryQueryFluxModelChild.prototype._pipeline = _pipeline;
+
+	      ArtEryQueryFluxModelChild.prototype._recordsModel = recordsModel;
+
+	      ArtEryQueryFluxModelChild.prototype.query = function(key) {
+	        return this._pipeline[modelName]({
+	          key: key
+	        });
+	      };
+
+	      return ArtEryQueryFluxModelChild;
+
+	    })(ArtEryQueryFluxModel));
+	  };
+
+
+	  /*
+	  IN: key: string
+	  OUT:
+	    promise.then (data) ->
+	    promise.catch (response with .status and .error) ->
+	   */
+
+	  ArtEryFluxModel.prototype.load = function(key) {
+	    if (!isString(key)) {
+	      throw new Error("invalid key: " + (inspect(key)));
+	    }
+	    this._getUpdateSerializer(key).updateFluxStore((function(_this) {
+	      return function() {
+	        return _this._pipeline.get({
+	          key: key
+	        });
+	      };
+	    })(this));
+	    return false;
+	  };
+
+	  ArtEryFluxModel.prototype.create = function(data) {
+	    return this._pipeline.create({
+	      data: data
+	    }).then((function(_this) {
+	      return function(data) {
+	        _this.updateFluxStore(_this.keyFromData(data), {
+	          status: success,
+	          data: data
+	        });
+	        return data;
+	      };
+	    })(this));
+	  };
+
+
+	  /*
+	  Purpose:
+	    Allows multiple in-flight updates to update the flux-store with every success or failure
+	    to the current-best-known state of the remote record.
+	  Usage:
+	    updateSerializer = @_getUpdateSerializer key
+	    updateSerializer.updateFluxStore (accumulatedSuccessfulUpdatesToData) =>
+	      return updated data
+	    Effects:
+	      - after the returned, updated data is resolved, @updateFluxStore is called
+	      - calls to updateFluxStore are serialized:
+	        - each is executed and fluxStore is updated before the next
+	  
+	  Internal Notes:
+	    - auto vivifies
+	    When allDone:
+	    - removed from @_updateSerializers
+	   */
+
+	  ArtEryFluxModel.prototype._getUpdateSerializer = function(key) {
+	    var updateSerializer;
+	    if (!(updateSerializer = this._updateSerializers[key])) {
+	      updateSerializer = new Promise.Serializer;
+	      updateSerializer.then((function(_this) {
+	        return function() {
+	          var ref;
+	          return (ref = _this.fluxStoreGet(key)) != null ? ref.data : void 0;
+	        };
+	      })(this));
+	      updateSerializer.updateFluxStore = (function(_this) {
+	        return function(updateFunction) {
+	          updateSerializer.then(function(data) {
+	            return Promise.then(function() {
+	              return updateFunction(data);
+	            }).then(function(data) {
+	              return {
+	                status: success,
+	                data: data
+	              };
+	            })["catch"](function(e) {
+	              if (data) {
+	                return {
+	                  status: success,
+	                  data: data
+	                };
+	              } else {
+	                return {
+	                  status: e.status
+	                };
+	              }
+	            }).then(function(fluxRecord) {
+	              _this.updateFluxStore(key, fluxRecord);
+	              return data;
+	            });
+	          });
+	          return updateSerializer;
+	        };
+	      })(this);
+	    }
+	    updateSerializer.allDonePromise().then((function(_this) {
+	      return function(accumulatedSuccessfulUpdatesToData) {
+	        return delete _this._updateSerializers[key];
+	      };
+	    })(this));
+	    return updateSerializer;
+	  };
+
+	  ArtEryFluxModel.prototype._updateQueries = function(updatedRecord) {
+	    var modelName, queryModel, ref;
+	    ref = this._queryModels;
+	    for (modelName in ref) {
+	      queryModel = ref[modelName];
+	      queryModel.localUpdate(updatedRecord);
+	    }
+	    return null;
+	  };
+
+	  ArtEryFluxModel.prototype.fluxStoreEntryUpdated = function(arg) {
+	    var dataChanged, fluxRecord, key, previousFluxRecord;
+	    key = arg.key, fluxRecord = arg.fluxRecord, previousFluxRecord = arg.previousFluxRecord, dataChanged = arg.dataChanged;
+	    if (dataChanged && fluxRecord.status === success) {
+	      return this._updateQueries(fluxRecord.data);
+	    }
+	  };
+
+	  ArtEryFluxModel.prototype._optimisticallyUpdateFluxStore = function(key, fieldsToUpdate) {
+	    return this.updateFluxStore(key, (function(_this) {
+	      return function(oldFluxRecord) {
+	        return merge(oldFluxRecord, {
+	          data: merge(oldFluxRecord != null ? oldFluxRecord.data : void 0, fieldsToUpdate)
+	        });
+	      };
+	    })(this));
+	  };
+
+	  ArtEryFluxModel.prototype.update = function(key, updatedFields) {
+	    if (!isString(key)) {
+	      throw new Error("invalid key: " + (inspect(key)));
+	    }
+
+	    /*
+	    creating a Promise here because we have two promise paths
+	    path 1: the caller of this update wants to know when this specific update
+	      succeeds or fails.
+	    path 2: the updateSerializer must continue whether or not
+	     */
+	    return new Promise((function(_this) {
+	      return function(resolve, reject) {
+	        return _this._getUpdateSerializer(key).updateFluxStore(function(accumulatedSuccessfulUpdatesToData) {
+
+	          /*
+	          NOTE if this update fails:
+	          
+	            The FluxStore record gets rolled back to the version just before this
+	            update was called. All pending updates after this one will be 'lost'
+	            in the fluxStore UNTIL, and if, those pending updates succeed. As they
+	            succeed, the fluxStore will be updated.
+	          
+	            So, technically, it isn't the MOST accurate representation if a
+	            previous update failed, but it will be resolved to the most accurate
+	            representation once all updates have completed or failed.
+	           */
+	          var ret;
+	          ret = _this._pipeline.update({
+	            key: key,
+	            data: updatedFields
+	          }).then(function() {
+	            return merge(accumulatedSuccessfulUpdatesToData, updatedFields);
+	          });
+	          ret.then(resolve, reject);
+	          return ret;
+
+	          /*
+	          NOTE: this could be done more cleanly with tapThen (see Art.Foundation.Promise)
+	          
+	          @_pipeline.update key, updatedFields
+	          .then -> merge accumulatedSuccessfulUpdatesToData, updatedFields
+	          .tapThen resolve, reject
+	           */
+	        });
+	      };
+	    })(this));
+	  };
+
+	  return ArtEryFluxModel;
+
+	})(FluxModel));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 347 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryQueryFluxModel, CommunicationStatus, Flux, FluxModel, Foundation, Promise, arrayWith, arrayWithElementReplaced, decapitalize, defineModule, eq, failure, formattedInspect, isFunction, isString, log, merge, missing, pending, propsEq, select, success, upperCamelCase,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Flux = Neptune.Art.Flux;
+
+	ArtEry = __webpack_require__(329);
+
+	log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, select = Foundation.select, isString = Foundation.isString, isFunction = Foundation.isFunction, decapitalize = Foundation.decapitalize, merge = Foundation.merge, Promise = Foundation.Promise, eq = Foundation.eq, upperCamelCase = Foundation.upperCamelCase, arrayWith = Foundation.arrayWith, arrayWithElementReplaced = Foundation.arrayWithElementReplaced, formattedInspect = Foundation.formattedInspect, propsEq = Foundation.propsEq, defineModule = Foundation.defineModule;
+
+	missing = CommunicationStatus.missing, failure = CommunicationStatus.failure, success = CommunicationStatus.success, pending = CommunicationStatus.pending;
+
+	FluxModel = Flux.FluxModel;
+
+	defineModule(module, ArtEryQueryFluxModel = (function(superClass) {
+	  extend(ArtEryQueryFluxModel, superClass);
+
+	  ArtEryQueryFluxModel.abstractClass();
+
+
+	  /*
+	  This class is designed to be extended with overrides:
+	   */
+
+	  function ArtEryQueryFluxModel() {
+	    ArtEryQueryFluxModel.__super__.constructor.call(this, null);
+	    this.register();
+	  }
+
+	  ArtEryQueryFluxModel.prototype.loadData = function(key) {
+	    return Promise.resolve(this.query(key, this.pipeline)).then((function(_this) {
+	      return function(data) {
+	        return _this.localSort(data);
+	      };
+	    })(this));
+	  };
+
+	  ArtEryQueryFluxModel.setter("recordsModel pipeline");
+
+	  ArtEryQueryFluxModel.getter("recordsModel pipeline");
+
+
+	  /*
+	  OVERRIDE
+	  IN: will be the key (returned from fromFluxKey)
+	  OUT: array of singleModel records
+	    OR promise.then (arrayOfRecords) ->
+	  TODO:
+	    In the future we may wish to return other things beyond the array of records.
+	    Example:
+	      DynamoDb returns data for "getting the next page of records" in addition to the records.
+	      DynamoDb also returns other interesting stats about the query.
+	  
+	    If an array is returned, it will always be records. However, if an object is
+	    returned, then one of the fields will be records - and will go through the return
+	    pipeline, but the rest will be left untouched and placed in the FluxRecord's data field.
+	    Or should they be put in an auxiliary field???
+	   */
+
+	  ArtEryQueryFluxModel.prototype.query = function(key) {
+	    return [];
+	  };
+
+
+	  /*
+	  OVERRIDE
+	  IN: single record
+	  OUT: string key for the query results that should contain this record
+	   */
+
+	  ArtEryQueryFluxModel.prototype.queryKeyFromRecord = function(record) {
+	    return "";
+	  };
+
+
+	  /*
+	  OVERRIDE
+	  override for to sort records when updating local query data in response to local record changes
+	   */
+
+	  ArtEryQueryFluxModel.prototype.localSort = function(queryData) {
+	    return queryData;
+	  };
+
+
+	  /*
+	  OVERRIDE
+	  override for custom merge
+	  This implementation is a streight-up merge using @recordsModel.keysEqual
+	  
+	  IN:
+	    previousQueryData: array of records or null
+	    updatedRecordData: single record or null
+	  OUT: return preciousQueryData if nothing changed, else return a new array
+	   */
+
+	  ArtEryQueryFluxModel.prototype.localMerge = function(previousQueryData, updatedRecordData) {
+	    var currentRecordData, i, j, len;
+	    if (!updatedRecordData) {
+	      return previousQueryData;
+	    }
+	    if (!((previousQueryData != null ? previousQueryData.length : void 0) > 0)) {
+	      return [updatedRecordData];
+	    }
+	    for (i = j = 0, len = previousQueryData.length; j < len; i = ++j) {
+	      currentRecordData = previousQueryData[i];
+	      if (this.recordsModel.keysEqual(currentRecordData, updatedRecordData)) {
+	        if (propsEq(currentRecordData, updatedRecordData)) {
+	          return null;
+	        }
+	        return arrayWithElementReplaced(previousQueryData, updatedRecordData, i);
+	      }
+	    }
+	    return arrayWith(previousQueryData, updatedRecordData);
+	  };
+
+
+	  /*
+	  OVERRIDE
+	  localUpdate gets called whenever whenever a fluxStore entry is created or updated for the recordsModel.
+	  
+	  Can override for custom behavior!
+	  
+	  This implementation assumes there is only one possible query any particular record will belong to,
+	  and it assumes the queryKey can be computed via @queryKeyFromRecord.
+	  
+	  NOTE: @queryKeyFromRecord must be implemented!
+	   */
+
+	  ArtEryQueryFluxModel.prototype.localUpdate = function(updatedRecordData) {
+	    var fluxRecord, mergeResult, queryKey;
+	    if (!updatedRecordData) {
+	      return;
+	    }
+	    queryKey = typeof this.queryKeyFromRecord === "function" ? this.queryKeyFromRecord(updatedRecordData) : void 0;
+	    if (!isString(queryKey)) {
+	      throw new Error("invalid queryKey from " + (formattedInspect(updatedRecordData)));
+	    }
+	    if (!(fluxRecord = this.fluxStoreGet(queryKey))) {
+	      return;
+	    }
+	    if (mergeResult = this.localMerge(fluxRecord.data, updatedRecordData)) {
+	      return this.updateFluxStore(queryKey, {
+	        data: this.localSort(mergeResult)
+	      });
+	    }
+	  };
+
+	  return ArtEryQueryFluxModel;
+
+	})(FluxModel));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(349).addModules({
+	  Selected: __webpack_require__(350)
+	});
+
+
+/***/ },
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Models,
@@ -42743,14 +44775,30 @@
 
 
 /***/ },
-/* 331 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, Selected, arrayWith, defineModule, log, ref,
+	/* WEBPACK VAR INJECTION */(function(module) {var A, ApplicationState, Selected, arrayWith, compactFlatten, defineModule, log, merge, newObjectFromEach, ref, sendEmail, timeout,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState;
+	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState, compactFlatten = ref.compactFlatten, newObjectFromEach = ref.newObjectFromEach, merge = ref.merge, timeout = ref.timeout;
+
+	A = __webpack_require__(19).Browser.DomElementFactories.A;
+
+	sendEmail = function(arg) {
+	  var address, body, link, params, subject;
+	  address = arg.address, subject = arg.subject, body = arg.body;
+	  link = "mailto:" + (address || "");
+	  params = compactFlatten([subject && ("subject=" + (encodeURIComponent(subject))), body && ("body=" + (encodeURIComponent(body)))]);
+	  if (params.length > 0) {
+	    link += "?" + (params.join('&'));
+	  }
+	  return A({
+	    href: link,
+	    target: "black"
+	  }).click();
+	};
 
 	defineModule(module, Selected = (function(superClass) {
 	  extend(Selected, superClass);
@@ -42762,7 +44810,23 @@
 	  Selected.persistant();
 
 	  Selected.prototype.toggle = function(key) {
-	    return this.setState(key, !this.state[key]);
+	    var obj;
+	    return this.replaceState(log(this.state[key] ? newObjectFromEach(this.state, function(out, k, v) {
+	      if (v && k !== key) {
+	        return out[k] = true;
+	      }
+	    }) : merge((
+	      obj = {},
+	      obj["" + key] = true,
+	      obj
+	    ), this.state)));
+	  };
+
+	  Selected.prototype.email = function() {
+	    return sendEmail({
+	      subject: "Needs and Emotions",
+	      body: Object.keys(this.savableState).sort().join('\n')
+	    });
 	  };
 
 	  return Selected;
@@ -42772,20 +44836,20 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 332 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(333).addModules({
-	  App: __webpack_require__(334),
-	  Button: __webpack_require__(344),
-	  CategoryButton: __webpack_require__(339),
-	  LeafButton: __webpack_require__(345),
-	  ShowMap: __webpack_require__(335)
+	module.exports = __webpack_require__(352).addModules({
+	  App: __webpack_require__(353),
+	  Button: __webpack_require__(363),
+	  CategoryButton: __webpack_require__(358),
+	  LeafButton: __webpack_require__(364),
+	  ShowMap: __webpack_require__(354)
 	});
 
 
 /***/ },
-/* 333 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Components,
@@ -42807,7 +44871,7 @@
 
 
 /***/ },
-/* 334 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
@@ -42818,11 +44882,11 @@
 
 	React = __webpack_require__(281);
 
-	Namespace = __webpack_require__(333);
+	Namespace = __webpack_require__(352);
 
-	ShowMap = __webpack_require__(335);
+	ShowMap = __webpack_require__(354);
 
-	Nvc = __webpack_require__(336).Nvc;
+	Nvc = __webpack_require__(355).Nvc;
 
 	version = __webpack_require__(113).version;
 
@@ -42911,10 +44975,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 335 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, Button, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -42924,7 +44988,7 @@
 
 	Atomic = __webpack_require__(125);
 
-	Nvc = __webpack_require__(336).Nvc;
+	Nvc = __webpack_require__(355).Nvc;
 
 	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
 
@@ -42934,15 +44998,17 @@
 
 	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
 
-	CategoryButton = __webpack_require__(339);
+	CategoryButton = __webpack_require__(358);
 
-	LeafButton = __webpack_require__(345);
+	LeafButton = __webpack_require__(364);
+
+	Button = __webpack_require__(363);
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
 	textStyle = StyleProps.textStyle;
 
-	Nvc = __webpack_require__(336).Nvc;
+	Nvc = __webpack_require__(355).Nvc;
 
 	defineModule(module, function() {
 	  var SubMap, SubMapFactory;
@@ -43008,7 +45074,7 @@
 	        childrenAlignment: "bottomCenter",
 	        childrenLayout: "flow"
 	      }, (function() {
-	        var i, j, len, len1, ref2, ref3, results, results1;
+	        var i, len, ref2, results;
 	        if (isPlainObject(map)) {
 	          ref2 = Object.keys(map).sort();
 	          results = [];
@@ -43025,18 +45091,40 @@
 	          }
 	          return results;
 	        } else {
-	          ref3 = map.sort();
-	          results1 = [];
-	          for (j = 0, len1 = ref3.length; j < len1; j++) {
-	            name = ref3[j];
-	            results1.push(LeafButton({
-	              key: name,
-	              name: name,
-	              parentName: key,
-	              path: path
-	            }));
-	          }
-	          return results1;
+	          log({
+	            key: key
+	          });
+	          return [
+	            key.match(/selected/) ? Element({
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              },
+	              childrenLayout: "row",
+	              childrenAlignment: "center"
+	            }, Button({
+	              text: "email list",
+	              action: this.models.selected.email,
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              }
+	            })) : void 0, (function() {
+	              var j, len1, ref3, results1;
+	              ref3 = map.sort();
+	              results1 = [];
+	              for (j = 0, len1 = ref3.length; j < len1; j++) {
+	                name = ref3[j];
+	                results1.push(LeafButton({
+	                  key: name,
+	                  name: name,
+	                  parentName: key,
+	                  path: path
+	                }));
+	              }
+	              return results1;
+	            })()
+	          ];
 	        }
 	      }).call(this))), subMap && SubMapFactory({
 	        key: "subMap:" + subKey,
@@ -43053,16 +45141,16 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 336 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(337).addModules({
-	  Nvc: __webpack_require__(338)
+	module.exports = __webpack_require__(356).addModules({
+	  Nvc: __webpack_require__(357)
 	});
 
 
 /***/ },
-/* 337 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Data,
@@ -43084,7 +45172,7 @@
 
 
 /***/ },
-/* 338 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, sbdNeedsList, splitOnLines, wordsArray,
@@ -43231,7 +45319,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 339 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Button, Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
@@ -43242,9 +45330,9 @@
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
 
-	Button = __webpack_require__(344);
+	Button = __webpack_require__(363);
 
 	defineModule(module, function() {
 	  var CategoryButton, emojiMap, subtextMap;
@@ -43299,23 +45387,23 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 340 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(341);
+	module.exports = __webpack_require__(360);
 
 
 /***/ },
-/* 341 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342).addModules({
-	  PointerActionsMixin: __webpack_require__(343)
+	module.exports = __webpack_require__(361).addModules({
+	  PointerActionsMixin: __webpack_require__(362)
 	});
 
 
 /***/ },
-/* 342 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Mixins, React,
@@ -43337,7 +45425,7 @@
 
 
 /***/ },
-/* 343 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var defineModule,
@@ -43428,7 +45516,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 344 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref, rgbColor,
@@ -43437,7 +45525,7 @@
 
 	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log, rgbColor = ref.rgbColor;
 
-	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
@@ -43559,7 +45647,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 345 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Button, Element, FillElement, FluxComponent, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
@@ -43571,9 +45659,9 @@
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(340).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
 
-	Button = __webpack_require__(344);
+	Button = __webpack_require__(363);
 
 	defineModule(module, function() {
 	  var LeafButton;
