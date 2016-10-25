@@ -20,6 +20,7 @@ Atomic = require 'art-atomic'
 
 CategoryButton = require './CategoryButton'
 LeafButton = require './LeafButton'
+Button = require './Button'
 
 {StyleProps} = Neptune.Nvc.App.Styles
 {textStyle} = StyleProps
@@ -73,11 +74,20 @@ defineModule module, ->
                     drillIn: @drillIn
 
             else
-              for name in map.sort()
-                LeafButton
-                  key: name
-                  name: name
-                  parentName: key
-                  path: path
+              log key:key
+              [
+                if key.match /selected/
+                  Element
+                    size: ww:1, hch:1
+                    childrenLayout: "row"
+                    childrenAlignment: "center"
+                    Button text: "email list", action: @models.selected.email, size: ww:1, hch:1
+                for name in map.sort()
+                  LeafButton
+                    key: name
+                    name: name
+                    parentName: key
+                    path: path
+              ]
 
         subMap && SubMapFactory key: "subMap:#{subKey}", map: subMap, path: arrayWith path, subKey

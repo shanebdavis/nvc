@@ -2,7 +2,7 @@
 defineModule module, class StyleProps extends HotStyleProps
 
   @primaryColor: a = rgbColor "#8ebdf6"
-  @leafColor:    a.blend "white", .75
+  @leafColor:    a #.blend "white", .75
 
   @textStyle:
     color: "#000a"
