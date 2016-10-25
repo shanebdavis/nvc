@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.0"
+		"version": "1.2.1"
 	};
 
 /***/ },
@@ -12742,7 +12742,7 @@
 	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
 
 	FullScreenApp.init({
-	  title: AppNamespace.namespace.name
+	  title: "Needs & Emotions"
 	}).then(function() {
 	  return App().instantiateAsTopComponent();
 	})["catch"](function(e) {
@@ -44959,7 +44959,7 @@
 	      fontFamily: "arial",
 	      color: "#0004",
 	      padding: 10,
-	      text: "Needs and Emptions v" + version + " by Shane Brinkman-Davis Delamore"
+	      text: "Needs and Emotions v" + version + " by Shane Brinkman-Davis Delamore"
 	    }), ShowMap({
 	      path: [],
 	      map: merge(Nvc.core, (selectedNames.length > 0) && {
