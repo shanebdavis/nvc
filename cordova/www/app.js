@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.6"
+		"version": "1.2.7"
 	};
 
 /***/ },
@@ -41426,7 +41426,7 @@
 /* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, BaseObject, CommunicationStatus, FluxCore, FluxModel, FluxStore, Foundation, Unique, clone, defineModule, failure, fluxStore, isPlainObject, isString, log, merge, mergeInto, missing, objectWithout, pending, propsEq, success,
+	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, BaseObject, CommunicationStatus, FluxCore, FluxModel, FluxStore, Foundation, Unique, clone, defineModule, failure, fluxStore, isPlainObject, isString, log, merge, mergeInto, missing, pending, propsEq, success,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -41434,7 +41434,7 @@
 
 	FluxCore = __webpack_require__(307);
 
-	clone = Foundation.clone, objectWithout = Foundation.objectWithout, BaseObject = Foundation.BaseObject, log = Foundation.log, isString = Foundation.isString, isPlainObject = Foundation.isPlainObject, merge = Foundation.merge, propsEq = Foundation.propsEq, mergeInto = Foundation.mergeInto, Unique = Foundation.Unique, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
+	clone = Foundation.clone, BaseObject = Foundation.BaseObject, log = Foundation.log, isString = Foundation.isString, isPlainObject = Foundation.isPlainObject, merge = Foundation.merge, propsEq = Foundation.propsEq, mergeInto = Foundation.mergeInto, Unique = Foundation.Unique, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
 	FluxStore = FluxCore.FluxStore, FluxModel = FluxCore.FluxModel;
 
@@ -41662,7 +41662,10 @@
 
 	  ApplicationState.prototype.load = function(key, callback) {
 	    var fluxRecord;
-	    fluxRecord = this.state.hasOwnProperty(key) ? {
+	    fluxRecord = key === this.name ? {
+	      status: success,
+	      data: this.savableState
+	    } : this.state.hasOwnProperty(key) ? {
 	      status: success,
 	      data: this.state[key]
 	    } : {
@@ -41684,7 +41687,7 @@
 	  ApplicationState.prototype._loadFromLocalStorage = function() {
 	    var data, v;
 	    if (this["class"]._persistant) {
-	      data = localStorage.getItem(this.name);
+	      data = localStorage.getItem(this.localStorageKey);
 	      if (data) {
 	        v = JSON.parse(data);
 	      }
@@ -41696,33 +41699,29 @@
 	  };
 
 	  ApplicationState.prototype._updateAllState = function(state) {
-	    var newState, obj, oldState;
-	    oldState = state || this.state;
-	    newState = merge(oldState, (
-	      obj = {},
-	      obj["" + this.name] = objectWithout(oldState, this.name),
-	      obj
-	    ));
-	    if (!state) {
-	      this.state = newState;
-	      this.load(this.name);
+	    if (state == null) {
+	      state = this.state;
 	    }
-	    return newState;
+	    this.state = state;
+	    this.load(this.name);
+	    return state;
 	  };
 
 	  ApplicationState.getter({
 	    savableState: function() {
-	      return objectWithout(this.state, this.name);
+	      return merge(this.state);
+	    },
+	    localStorageKey: function() {
+	      return "ApplicationState:" + this.name;
 	    }
 	  });
 
 	  ApplicationState.prototype._saveToLocalStorage = function(state) {
-	    var v;
 	    if (state == null) {
 	      state = this.state;
 	    }
 	    if (this["class"]._persistant) {
-	      return localStorage.setItem(this.name, v = JSON.stringify(this.savableState));
+	      return localStorage.setItem(this.localStorageKey, JSON.stringify(this.savableState));
 	    }
 	  };
 
@@ -45244,7 +45243,7 @@
 	      community: {
 	        belonging: "accepted, acknowledged, included, equal",
 	        participation: "collaboration, cooperation, service, sharing",
-	        appriciation: "valued, recognized, wanted"
+	        appreciation: "valued, recognized, wanted"
 	      },
 	      reciprocity: {
 	        nurturing: "care, feedback, help, kindness, support, affection",
@@ -45259,7 +45258,7 @@
 	    "self-awareness": "consciousness, discovery, knowledge",
 	    "self-growth": "evolution, integration, development, improvement",
 	    "self-expression": "creativity, creation, imagination, invention, innovation, actualization, realization",
-	    "self-respect": "responsiblity, authenticity, courageousness, dignity, honorablity, honesty, integrity, worthiness",
+	    "self-respect": "responsiblity, authenticity, confidence, courageousness, dignity, honorablity, honesty, integrity, worthiness",
 	    autonomy: "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
 	    engagement: "flow, gratitude, practice, mindfulness",
 	    mastery: "competent, effective, efficient, skillfull, masterful, improving",
