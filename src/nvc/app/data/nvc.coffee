@@ -42,7 +42,7 @@ sbdNeedsList =
       community:
         belonging:      "accepted, acknowledged, included, equal"
         participation:  "collaboration, cooperation, service, sharing"
-        appriciation:   "valued, recognized, wanted"
+        appreciation:   "valued, recognized, wanted"
 
       reciprocity:
         nurturing:      "care, feedback, help, kindness, support, affection"
@@ -59,7 +59,7 @@ sbdNeedsList =
     "self-expression":  "creativity, creation, imagination, invention, innovation, actualization,
                         realization"
 
-    "self-respect":     "responsiblity, authenticity, courageousness, dignity, honorablity, honesty,
+    "self-respect":     "responsiblity, authenticity, confidence, courageousness, dignity, honorablity, honesty,
                         integrity, worthiness"
 
     autonomy:           "challenge, choice, empowerment, enablement, flexibility, freedom,
