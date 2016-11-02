@@ -35,7 +35,7 @@ sbdNeedsList =
     social:
       bonding:
         sharing:        "experiences, interests, values"
-        physical:       "embracing touch hug sexual-connection"
+        physical:       "cuddling touch hugs sexual-connection"
         closeness:      "openness communication, communion, companionship,
                         friendship, intimacy, free-to-be-oneself"
         mutuality:      "partnership, balance"
