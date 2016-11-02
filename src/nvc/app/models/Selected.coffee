@@ -30,3 +30,5 @@ defineModule module, class Selected extends ApplicationState
     sendEmail
       subject: "Needs and Emotions"
       body: Object.keys(@savableState).sort().join '\n'
+
+  reset: -> @resetState()

@@ -82,6 +82,7 @@ defineModule module, ->
                     childrenLayout: "row"
                     childrenAlignment: "center"
                     Button text: "email list", action: @models.selected.email, size: ww:1, hch:1
+                    Button text: "reset", action: @models.selected.reset, size: ww:1, hch:1
                 for name in map.sort()
                   LeafButton
                     key: name
