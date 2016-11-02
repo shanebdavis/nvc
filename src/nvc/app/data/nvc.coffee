@@ -27,7 +27,7 @@ sbdNeedsList =
     pleasure:
       senses:           "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink"
       body:             "eroticisim, exercise, fitness, movement, dance, sex"
-      variety:          "newness, novelty"
+      variety:          "variety, novelty"
       comfort:          "quiet, space, sanctuary, ergonomics, leisure, time"
 
     play:               "adventure, excitement, fantasy, fun, humor, joy, laughter"
@@ -47,7 +47,7 @@ sbdNeedsList =
       reciprocity:
         nurturing:      "care, feedback, help, kindness, support, affection"
         understanding:  "listening, empathy, knowing, seeing, respect"
-        compassion:     "attention, consideration, forgiveness, presence, respect, tenderness,
+        compassion:     "attention, consideration, forgiveness, presence, tenderness,
                         vulnerability, love"
 
       "social-safety":  "consistency, honesty, justice, reassurance, trust privacy"
