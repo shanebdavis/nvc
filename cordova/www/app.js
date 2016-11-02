@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.7"
+		"version": "1.3.1"
 	};
 
 /***/ },
@@ -14530,7 +14530,7 @@
 /* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Atomic, AtomicBase, Foundation, Point, Rectangle, bound, ceil, floatEq, floor, isArray, isFunction, isNumber, isString, log, max, min, point, round, stringToNumberArray,
+	var Atomic, AtomicBase, Foundation, Point, Rectangle, bound, ceil, floatEq, floatEq0, floor, isArray, isFunction, isNumber, isString, log, max, min, point, round, stringToNumberArray,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
@@ -14542,7 +14542,7 @@
 
 	Point = __webpack_require__(132);
 
-	max = Foundation.max, min = Foundation.min, bound = Foundation.bound, round = Foundation.round, floatEq = Foundation.floatEq, floor = Foundation.floor, ceil = Foundation.ceil, round = Foundation.round, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray;
+	max = Foundation.max, min = Foundation.min, bound = Foundation.bound, round = Foundation.round, floatEq = Foundation.floatEq, floor = Foundation.floor, ceil = Foundation.ceil, round = Foundation.round, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray, floatEq0 = Foundation.floatEq0;
 
 	point = Point.point;
 
@@ -14915,15 +14915,17 @@
 	  };
 
 	  Rectangle.prototype.grow = function(a, b) {
-	    var gx, gy;
+	    var x, y;
 	    if (a instanceof Point) {
-	      gx = a.x;
-	      gy = a.y;
+	      x = a.x, y = a.y;
 	    } else {
-	      gx = a;
-	      gy = b != null ? b : a;
+	      x = a;
+	      y = b != null ? b : a;
 	    }
-	    return this["with"](this.x - gx, this.y - gy, this.w + 2 * gx, this.h + 2 * gy);
+	    if (floatEq0(x) && floatEq0(y)) {
+	      return this;
+	    }
+	    return this["with"](this.x - x, this.y - y, this.w + 2 * x, this.h + 2 * y);
 	  };
 
 	  Rectangle.nothing = Object.freeze(new Rectangle(0, 0, 0, 0));
@@ -15663,7 +15665,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "0.5.0"
+		"version": "0.5.1"
 	};
 
 /***/ },
@@ -34825,7 +34827,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.15.1"
+		"version": "1.16.0"
 	};
 
 /***/ },
@@ -39513,7 +39515,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.1.0"
+		"version": "1.2.0"
 	};
 
 /***/ },
@@ -41635,7 +41637,7 @@
 	  };
 
 	  ApplicationState.prototype.resetState = function() {
-	    return this.replaceState(this._getInitialState());
+	    return this.replaceState(this._getInitialState(false));
 	  };
 
 
@@ -41651,11 +41653,10 @@
 	    ref = this.state;
 	    for (k in ref) {
 	      v = ref[k];
-	      if (!(!newState.hasOwnProperty(k))) {
-	        continue;
+	      if (!newState.hasOwnProperty(k)) {
+	        this._removeFromFluxStore(k);
+	        delete this.state[k];
 	      }
-	      this._removeFromFluxStore(k);
-	      delete this.state[k];
 	    }
 	    return this.setState(newState);
 	  };
@@ -41725,8 +41726,11 @@
 	    }
 	  };
 
-	  ApplicationState.prototype._getInitialState = function() {
-	    return this._updateAllState(merge(this.getInitialState(), this["class"]._stateFields, (function() {
+	  ApplicationState.prototype._getInitialState = function(loadFromLocalStorage) {
+	    if (loadFromLocalStorage == null) {
+	      loadFromLocalStorage = true;
+	    }
+	    return this._updateAllState(merge(this.getInitialState(), this["class"]._stateFields, loadFromLocalStorage && (function() {
 	      try {
 	        return this._loadFromLocalStorage();
 	      } catch (error) {}
@@ -41770,7 +41774,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.2.2"
+		"version": "1.2.4"
 	};
 
 /***/ },
@@ -44845,6 +44849,10 @@
 	    });
 	  };
 
+	  Selected.prototype.reset = function() {
+	    return this.resetState();
+	  };
+
 	  return Selected;
 
 	})(ApplicationState));
@@ -45125,6 +45133,13 @@
 	                ww: 1,
 	                hch: 1
 	              }
+	            }), Button({
+	              text: "reset",
+	              action: this.models.selected.reset,
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              }
 	            })) : void 0, (function() {
 	              var j, len1, ref3, results1;
 	              ref3 = map.sort();
@@ -45229,14 +45244,14 @@
 	    pleasure: {
 	      senses: "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink",
 	      body: "eroticisim, exercise, fitness, movement, dance, sex",
-	      variety: "newness, novelty",
+	      variety: "variety, novelty",
 	      comfort: "quiet, space, sanctuary, ergonomics, leisure, time"
 	    },
 	    play: "adventure, excitement, fantasy, fun, humor, joy, laughter",
 	    social: {
 	      bonding: {
 	        sharing: "experiences, interests, values",
-	        physical: "embracing touch hug sexual-connection",
+	        physical: "cuddling touch hugs sexual-connection",
 	        closeness: "openness communication, communion, companionship, friendship, intimacy, free-to-be-oneself",
 	        mutuality: "partnership, balance"
 	      },
@@ -45248,7 +45263,7 @@
 	      reciprocity: {
 	        nurturing: "care, feedback, help, kindness, support, affection",
 	        understanding: "listening, empathy, knowing, seeing, respect",
-	        compassion: "attention, consideration, forgiveness, presence, respect, tenderness, vulnerability, love"
+	        compassion: "attention, consideration, forgiveness, presence, tenderness, vulnerability, love"
 	      },
 	      "social-safety": "consistency, honesty, justice, reassurance, trust privacy"
 	    }
@@ -45490,7 +45505,7 @@
 	      };
 
 	      PointerActionsMixin.getter({
-	        buttonHandlers: function() {
+	        buttonHandlers: function(customAction) {
 	          return {
 
 	            /*
@@ -45512,7 +45527,7 @@
 	            pointerUp: this.pointerUp,
 	            pointerCancel: this.pointerUp,
 	            pointerOut: this.pointerUp,
-	            pointerUpInside: this.doAction
+	            pointerUpInside: customAction || this.doAction
 	          };
 	        },
 	        hoverHandlers: function() {
