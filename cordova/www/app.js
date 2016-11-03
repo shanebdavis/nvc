@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.4.2"
+		"version": "1.4.4"
 	};
 
 /***/ },
@@ -44975,7 +44975,7 @@
 
 	  Selected.prototype.email = function() {
 	    return sendEmail({
-	      subject: "Needs and Emotions",
+	      subject: "Needs and Emotions (v" + Neptune.Nvc.version + ")",
 	      body: Object.keys(this.savableState).sort().join('\n')
 	    });
 	  };
@@ -45407,16 +45407,16 @@
 	    }
 	  },
 	  transcending: {
-	    self_acceptance: "Accept and love oneself fully.\n\nAllow, approve, care, have empathy and compassion for oneself.\n\nBe honest with, and trust oneself.",
-	    self_awareness: "Know oneself at ever deeper levels.",
+	    self_acceptance: "Accept and love oneself\n\nAllow, approve, care, have empathy and compassion for oneself\n\nTrust and honest with oneself",
+	    self_awareness: "Know oneself at ever deeper levels.\n\nNeeds and emotional awareness\n\nKnow one's genius, strengths and weaknesses\n\nKnow what does and doesn't work fulfilling one's own needs.",
 	    self_growth: "Intentionally and continually improve oneself.",
 	    self_expression: "Create and be creative.\n\nImagine, innovate and invent.\n\nActualize and realize ones dreams fully.",
 	    self_respect: "Respect oneself and be worthy of others' respect.\n\nIngredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity",
-	    autonomy: "Feeling enabled, empowered and challenged. Feeling free to make ones own choices. Given complete flexibility. Feeling limitless, full of possibility and full of potential.",
-	    engagement: "Regularly engaging in flow, mindfulness and gratitude.",
+	    autonomy: "Feeling enabled, empowered and challenged.\n\nFeeling free to make ones own choices. Given complete flexibility.\n\nFeeling limitless, full of possibility and full of potential.",
+	    engagement: "Plenty of flow, mindfulness and gratitude.",
 	    mastery: "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful.",
 	    meaning: "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery, exploration, legacy and spirituality.",
-	    peace: "A feeling of ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility, beauty, unity and oneness with the universe.",
+	    peace: "Complete ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility, beauty, unity and oneness with the universe.",
 	    purpose: "Have a greater purpose.\n\nHave impact, importance, do something that matters, and contribute something of significance.\n\nHave dedication, inspiration, passion and vision.\n\nDream vividly of a better world and a better life."
 	  }
 	};
