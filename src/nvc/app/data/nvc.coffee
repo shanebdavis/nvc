@@ -29,52 +29,79 @@ sbdNeedsList =
 
   thriving:
     enjoyment:
-      senses:           "Pleasure of the senses: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink"
-      body:             "Exercise, fitness, movement, dance, sex or eroticism."
-      variety:          "Variety is the spice of life."
-      comfort:          "Quiet, space, sanctuary, ergonomics, leisure and time."
+      senses:           "All five senses are simulated and alive: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink"
+      body:             "Plenty of Exercise, fitness, movement, dance, sex or eroticism."
+      variety:          "Plenty of variety and novelty."
+      comfort:          "Plenty of quiet, space, sanctuary, ergonomics, leisure and time."
 
       play:             "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 
     social:
-      sharing:          "experiences, interests, values"
-      physical_bonding: "Hugs, touch, cuddles and sexual-connection."
-      closeness:        "Close relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
-                        and feeling free to be 100% oneself in the presence of others."
-      balance:          "A sense of balance in understanding and effort in our relationships."
+      sharing:          "For each important experience, interest and value, having plenty of people whole understand and share ones passions."
+      physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection."
+      closeness:        "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
+                        and feeling free to be 100% oneself with those people."
+      balance:          "All important relationships are balanced and mutual."
       belonging:        "Accepted, acknowledged, included and equal."
-      participation:    "Collaboration, cooperation, service and sharing."
+      participation:    "Plenty of collaboration, cooperation, opportunities for service and sharing."
       appreciation:     "Valued, recognized, and wanted."
 
-      nurturing:        "Giving and receiving: care, help, kindness, affection, support and supportive feedback."
-      understanding:    "Understanding and being understood: empathized, heard, known, seen and respected."
-      compassion:               "Giving and receiving compassion: attention, consideration, forgiveness, presence, tenderness,
-                                vulnerability and love."
+      nurturing:        "Receiving all the care, help, kindness, affection, support and helpful feedback one needs."
+      understanding:    "Feeling completely understood by those who matter: empathized, heard, known, seen and respected."
+      compassion:       "Receiving all the attention, consideration, forgiveness, presence, tenderness,
+                        vulnerability and love one needs."
 
-      social_safety:    "The need for consistency, honesty, justice, privacy, reassurance, and trust in our relationships."
+      social_safety:    "All important relationships are reliable, honest, and full of mutual trust.\n\nAll relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe."
 
   transcending:
-    self_acceptance:    "Accept and love oneself fully. Allow, approve, care, have empathy and compassion for oneself. Be honest with, and trust oneself."
+    self_acceptance:
+      """
+      Accept and love oneself fully.
+
+      Allow, approve, care, have empathy and compassion for oneself.
+
+      Be honest with, and trust oneself.
+      """
+
     self_awareness:     "Know oneself at ever deeper levels."
     self_growth:        "Intentionally and continually improve oneself."
-    self_expression:    "Create and be creative. Imagine, innovate and invent. Actualize and realize ones dreams fully."
+    self_expression:
+      """
+      Create and be creative.
 
-    self_respect:       "Respect oneself and be worthy of others' respect: responsible, authentic, confident, courageous, dignified, honorable, honest,
-                        worthy and always acting with integrity."
+      Imagine, innovate and invent.
 
-    autonomy:           "Feeling enabled, empowered and challenged. Feeling free to make our own choices. Given complete flexibility.
+      Actualize and realize ones dreams fully.
+      """
+
+    self_respect:
+      """
+      Respect oneself and be worthy of others' respect.
+
+      Ingredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity
+      """
+
+    autonomy:           "Feeling enabled, empowered and challenged. Feeling free to make ones own choices. Given complete flexibility.
                         Feeling limitless, full of possibility and full of potential."
 
     engagement:         "Regularly engaging in flow, mindfulness and gratitude."
-    mastery:            "Competent, efficient and effective. Constantly improving, feeling more and more skillful and masterful."
-    meaning:            "Understanding, deepening that understanding and celebrating life, the universe and everything. Ingredients: perspective, awareness, celebration, deepening, discovery,
+    mastery:            "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful."
+    meaning:            "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery,
                         exploration, legacy and spirituality."
 
     peace:              "A feeling of ease, balance, clarity, faith, grace, harmony, hope, order, structure,
-                        tranquility, beauty, unity and oneness."
+                        tranquility, beauty, unity and oneness with the universe."
 
-    purpose:            "Having a greater purpose. To have impact, importance,
-                        do something that matters, and contribute something of significance. To have dedication, inspiration, passion and vision. To have dream vividly of something better. "
+    purpose:
+      """
+      Have a greater purpose.
+
+      Have impact, importance, do something that matters, and contribute something of significance.
+
+      Have dedication, inspiration, passion and vision.
+
+      Dream vividly of a better world and a better life.
+      """
 
 # TODO: use babelbridge to write a parser
 
