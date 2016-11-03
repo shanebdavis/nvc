@@ -56,14 +56,23 @@ sbdNeedsList =
   transcending:
     self_acceptance:
       """
-      Accept and love oneself fully.
+      Accept and love oneself
 
-      Allow, approve, care, have empathy and compassion for oneself.
+      Allow, approve, care, have empathy and compassion for oneself
 
-      Be honest with, and trust oneself.
+      Trust and honest with oneself
       """
 
-    self_awareness:     "Know oneself at ever deeper levels."
+    self_awareness:
+      """
+      Know oneself at ever deeper levels.
+
+      Needs and emotional awareness
+
+      Know one's genius, strengths and weaknesses
+
+      Know what does and doesn't work fulfilling one's own needs.
+      """
     self_growth:        "Intentionally and continually improve oneself."
     self_expression:
       """
@@ -81,15 +90,21 @@ sbdNeedsList =
       Ingredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity
       """
 
-    autonomy:           "Feeling enabled, empowered and challenged. Feeling free to make ones own choices. Given complete flexibility.
-                        Feeling limitless, full of possibility and full of potential."
+    autonomy:
+      """
+      Feeling enabled, empowered and challenged.
 
-    engagement:         "Regularly engaging in flow, mindfulness and gratitude."
+      Feeling free to make ones own choices. Given complete flexibility.
+
+      Feeling limitless, full of possibility and full of potential.
+      """
+
+    engagement:         "Plenty of flow, mindfulness and gratitude."
     mastery:            "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful."
     meaning:            "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery,
                         exploration, legacy and spirituality."
 
-    peace:              "A feeling of ease, balance, clarity, faith, grace, harmony, hope, order, structure,
+    peace:              "Complete ease, balance, clarity, faith, grace, harmony, hope, order, structure,
                         tranquility, beauty, unity and oneness with the universe."
 
     purpose:
