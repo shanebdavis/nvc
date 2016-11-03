@@ -30,7 +30,7 @@ defineModule module, class Selected extends ApplicationState
 
   email: ->
     sendEmail
-      subject: "Needs and Emotions"
+      subject: "Needs and Emotions (v#{Neptune.Nvc.version})"
       body: Object.keys(@savableState).sort().join '\n'
 
   reset: -> @resetState()
