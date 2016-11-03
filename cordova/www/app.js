@@ -12683,7 +12683,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.3.1"
+		"version": "1.4.0"
 	};
 
 /***/ },
@@ -12694,11 +12694,11 @@
 	  Main: __webpack_require__(116)
 	});
 
-	__webpack_require__(351);
-
 	__webpack_require__(355);
 
-	__webpack_require__(348);
+	__webpack_require__(359);
+
+	__webpack_require__(352);
 
 	__webpack_require__(117);
 
@@ -12735,9 +12735,9 @@
 
 	__webpack_require__(117);
 
-	__webpack_require__(348);
+	__webpack_require__(352);
 
-	App = __webpack_require__(351).App;
+	App = __webpack_require__(355).App;
 
 	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
 
@@ -12895,7 +12895,7 @@
 	merge = (Foundation = __webpack_require__(19)).merge;
 
 	module.exports = [
-	  merge(Foundation, Atomic = __webpack_require__(125), Canvas = __webpack_require__(137), Engine = __webpack_require__(152), React = __webpack_require__(281), Flux = __webpack_require__(302), ArtEry = __webpack_require__(329), ArtEryFlux = __webpack_require__(343), {
+	  merge(Foundation, Atomic = __webpack_require__(125), Canvas = __webpack_require__(137), Engine = __webpack_require__(152), React = __webpack_require__(281), Flux = __webpack_require__(302), ArtEry = __webpack_require__(329), ArtEryFlux = __webpack_require__(343), __webpack_require__(348), {
 	    Foundation: Foundation,
 	    Atomic: Atomic,
 	    Canvas: Canvas,
@@ -44767,674 +44767,20 @@
 /* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(349).addModules({
-	  Selected: __webpack_require__(350)
-	});
+	module.exports = __webpack_require__(349);
 
 
 /***/ },
 /* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var App, Models,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Models || App.addNamespace('Models', Models = (function(superClass) {
-	  extend(Models, superClass);
-
-	  function Models() {
-	    return Models.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Models;
-
-	})(Neptune.Base));
+	module.exports = __webpack_require__(350).addModules({
+	  PointerActionsMixin: __webpack_require__(351)
+	});
 
 
 /***/ },
 /* 350 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var A, ApplicationState, Selected, arrayWith, compactFlatten, defineModule, log, merge, newObjectFromEach, ref, sendEmail, timeout,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState, compactFlatten = ref.compactFlatten, newObjectFromEach = ref.newObjectFromEach, merge = ref.merge, timeout = ref.timeout;
-
-	A = __webpack_require__(19).Browser.DomElementFactories.A;
-
-	sendEmail = function(arg) {
-	  var address, body, link, params, subject;
-	  address = arg.address, subject = arg.subject, body = arg.body;
-	  link = "mailto:" + (address || "");
-	  params = compactFlatten([subject && ("subject=" + (encodeURIComponent(subject))), body && ("body=" + (encodeURIComponent(body)))]);
-	  if (params.length > 0) {
-	    link += "?" + (params.join('&'));
-	  }
-	  return A({
-	    href: link,
-	    target: "black"
-	  }).click();
-	};
-
-	defineModule(module, Selected = (function(superClass) {
-	  extend(Selected, superClass);
-
-	  function Selected() {
-	    return Selected.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Selected.persistant();
-
-	  Selected.prototype.toggle = function(key) {
-	    var obj;
-	    return this.replaceState(log(this.state[key] ? newObjectFromEach(this.state, function(out, k, v) {
-	      if (v && k !== key) {
-	        return out[k] = true;
-	      }
-	    }) : merge((
-	      obj = {},
-	      obj["" + key] = true,
-	      obj
-	    ), this.state)));
-	  };
-
-	  Selected.prototype.email = function() {
-	    return sendEmail({
-	      subject: "Needs and Emotions",
-	      body: Object.keys(this.savableState).sort().join('\n')
-	    });
-	  };
-
-	  Selected.prototype.reset = function() {
-	    return this.resetState();
-	  };
-
-	  return Selected;
-
-	})(ApplicationState));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 351 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(352).addModules({
-	  App: __webpack_require__(353),
-	  Button: __webpack_require__(363),
-	  CategoryButton: __webpack_require__(358),
-	  LeafButton: __webpack_require__(364),
-	  ShowMap: __webpack_require__(354)
-	});
-
-
-/***/ },
-/* 352 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var App, Components,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Components || App.addNamespace('Components', Components = (function(superClass) {
-	  extend(Components, superClass);
-
-	  function Components() {
-	    return Components.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Components;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 353 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	React = __webpack_require__(281);
-
-	Namespace = __webpack_require__(352);
-
-	ShowMap = __webpack_require__(354);
-
-	Nvc = __webpack_require__(355).Nvc;
-
-	version = __webpack_require__(113).version;
-
-	ref = __webpack_require__(120), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
-
-	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
-
-	defineModule(module, App = (function(superClass) {
-	  extend(App, superClass);
-
-	  function App() {
-	    return App.__super__.constructor.apply(this, arguments);
-	  }
-
-	  App.subscriptions("selected.selected");
-
-	  App.stateFields({
-	    canvasSize: null,
-	    initialContentSize: null
-	  });
-
-	  App.prototype.ready = function(arg) {
-	    var target;
-	    target = arg.target;
-	    return this.canvasSize = target.currentSize;
-	  };
-
-	  App.prototype.initialContentReady = function(arg) {
-	    var target;
-	    target = arg.target;
-	    return this.initialContentSize || (this.initialContentSize = target.currentSize);
-	  };
-
-	  App.prototype.render = function() {
-	    var canvasSize, initialContentSize, name, ref1, selected, selectedNames;
-	    ref1 = this.state, canvasSize = ref1.canvasSize, initialContentSize = ref1.initialContentSize;
-	    selectedNames = (function() {
-	      var ref2, results;
-	      ref2 = this.selected || {};
-	      results = [];
-	      for (name in ref2) {
-	        selected = ref2[name];
-	        if (selected) {
-	          results.push(name);
-	        }
-	      }
-	      return results;
-	    }).call(this);
-	    return CanvasElement({
-	      canvasId: "artCanvas",
-	      childrenLayout: "column"
-	    }, RectangleElement({
-	      inFlow: false,
-	      color: "#f9f9f9"
-	    }), PagingScrollElement({
-	      startAtEnd: true
-	    }, Element({
-	      size: {
-	        ww: 1,
-	        hch: 1
-	      },
-	      padding: 5,
-	      childrenLayout: "column"
-	    }, TextElement({
-	      size: {
-	        ww: 1,
-	        hch: 1
-	      },
-	      align: "center",
-	      fontFamily: "arial",
-	      color: "#0004",
-	      padding: 10,
-	      text: "Needs and Emotions v" + version + " by Shane Brinkman-Davis Delamore"
-	    }), ShowMap({
-	      path: [],
-	      map: merge(Nvc.core, (selectedNames.length > 0) && {
-	        selected: selectedNames
-	      })
-	    }))));
-	  };
-
-	  return App;
-
-	})(FluxComponent));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 354 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, Button, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, log, peek, point, ref, textStyle,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	React = __webpack_require__(281);
-
-	Atomic = __webpack_require__(125);
-
-	Nvc = __webpack_require__(355).Nvc;
-
-	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
-
-	point = Atomic.point;
-
-	arrayWith = Foundation.arrayWith, defineModule = Foundation.defineModule, log = Foundation.log, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, capitalize = Foundation.capitalize, peek = Foundation.peek, arrayWith = Foundation.arrayWith, eq = Foundation.eq, createWithPostCreate = Foundation.createWithPostCreate;
-
-	createComponentFactory = React.createComponentFactory, Component = React.Component, Element = React.Element, CanvasElement = React.CanvasElement, RectangleElement = React.RectangleElement, TextElement = React.TextElement, OutlineElement = React.OutlineElement, FillElement = React.FillElement;
-
-	CategoryButton = __webpack_require__(358);
-
-	LeafButton = __webpack_require__(364);
-
-	Button = __webpack_require__(363);
-
-	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
-
-	textStyle = StyleProps.textStyle;
-
-	Nvc = __webpack_require__(355).Nvc;
-
-	defineModule(module, function() {
-	  var SubMap, SubMapFactory;
-	  return SubMapFactory = createWithPostCreate(SubMap = (function(superClass) {
-	    extend(SubMap, superClass);
-
-	    function SubMap() {
-	      return SubMap.__super__.constructor.apply(this, arguments);
-	    }
-
-	    SubMap.stateFields({
-	      subKey: null
-	    });
-
-	    SubMap.prototype.drillIn = function(subKey1) {
-	      this.subKey = subKey1;
-	    };
-
-	    SubMap.prototype.render = function() {
-	      var axisTypes, k, key, map, name, path, ref1, subKey, subMap, v;
-	      ref1 = this.props, map = ref1.map, key = ref1.key, path = ref1.path;
-	      subKey = this.subKey;
-	      subMap = map[subKey];
-	      axisTypes = {
-	        left: point(1, 0),
-	        right: point(-1, 0)
-	      };
-	      return Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        clip: true,
-	        childrenLayout: "column",
-	        animators: {
-	          size: {
-	            voidValue: {
-	              ww: 1,
-	              h: 0
-	            }
-	          }
-	        }
-	      }, Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        cacheDraw: true,
-	        childrenLayout: "column",
-	        margin: 10
-	      }, path.length >= 1 && RectangleElement({
-	        color: "#0001",
-	        margin: 10,
-	        size: {
-	          ww: 1,
-	          h: 2
-	        }
-	      }), Element({
-	        size: {
-	          ww: 1,
-	          hch: 1
-	        },
-	        childrenAlignment: "bottomCenter",
-	        childrenLayout: "flow"
-	      }, (function() {
-	        var i, len, ref2, results;
-	        if (isPlainObject(map)) {
-	          ref2 = Object.keys(map).sort();
-	          results = [];
-	          for (i = 0, len = ref2.length; i < len; i++) {
-	            k = ref2[i];
-	            v = map[k];
-	            results.push(CategoryButton({
-	              key: k,
-	              category: k,
-	              subMap: v,
-	              selected: k === subKey,
-	              drillIn: this.drillIn
-	            }));
-	          }
-	          return results;
-	        } else {
-	          log({
-	            key: key
-	          });
-	          return [
-	            key.match(/selected/) ? Element({
-	              size: {
-	                ww: 1,
-	                hch: 1
-	              },
-	              childrenLayout: "row",
-	              childrenAlignment: "center"
-	            }, Button({
-	              text: "email list",
-	              action: this.models.selected.email,
-	              size: {
-	                ww: 1,
-	                hch: 1
-	              }
-	            }), Button({
-	              text: "reset",
-	              action: this.models.selected.reset,
-	              size: {
-	                ww: 1,
-	                hch: 1
-	              }
-	            })) : void 0, (function() {
-	              var j, len1, ref3, results1;
-	              ref3 = map.sort();
-	              results1 = [];
-	              for (j = 0, len1 = ref3.length; j < len1; j++) {
-	                name = ref3[j];
-	                results1.push(LeafButton({
-	                  key: name,
-	                  name: name,
-	                  parentName: key,
-	                  path: path
-	                }));
-	              }
-	              return results1;
-	            })()
-	          ];
-	        }
-	      }).call(this))), subMap && SubMapFactory({
-	        key: "subMap:" + subKey,
-	        map: subMap,
-	        path: arrayWith(path, subKey)
-	      }));
-	    };
-
-	    return SubMap;
-
-	  })(FluxComponent));
-	});
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 355 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(356).addModules({
-	  Nvc: __webpack_require__(357)
-	});
-
-
-/***/ },
-/* 356 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var App, Data,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Data || App.addNamespace('Data', Data = (function(superClass) {
-	  extend(Data, superClass);
-
-	  function Data() {
-	    return Data.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Data;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 357 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, sbdNeedsList, splitOnLines, wordsArray,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	HotStyleProps = __webpack_require__(281).HotStyleProps;
-
-	defineModule = Foundation.defineModule, log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap;
-
-	splitOnLines = function(str) {
-	  return str.split("\n");
-	};
-
-
-	/*
-	 unsorted needs:
-
-	   quality
-	   mourning
-	 */
-
-	sbdNeedsList = {
-	  surviving: {
-	    body: {
-	      sustanence: "air, food, water",
-	      health: "wellbeing, wellness, healing, regeneration, rejuvenation",
-	      energy: "rest, restoration, sleep, vitality"
-	    },
-	    environment: "temperature, humidity, atmosphere, clothing, shelter",
-	    "physical-safety": "violence, accidents, illness, disasters",
-	    security: "stability predictability sustainability",
-	    procreation: "sexual-release children"
-	  },
-	  thriving: {
-	    pleasure: {
-	      senses: "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink",
-	      body: "eroticisim, exercise, fitness, movement, dance, sex",
-	      variety: "variety, novelty",
-	      comfort: "quiet, space, sanctuary, ergonomics, leisure, time"
-	    },
-	    play: "adventure, excitement, fantasy, fun, humor, joy, laughter",
-	    social: {
-	      bonding: {
-	        sharing: "experiences, interests, values",
-	        physical: "cuddling touch hugs sexual-connection",
-	        closeness: "openness communication, communion, companionship, friendship, intimacy, free-to-be-oneself",
-	        mutuality: "partnership, balance"
-	      },
-	      community: {
-	        belonging: "accepted, acknowledged, included, equal",
-	        participation: "collaboration, cooperation, service, sharing",
-	        appreciation: "valued, recognized, wanted"
-	      },
-	      reciprocity: {
-	        nurturing: "care, feedback, help, kindness, support, affection",
-	        understanding: "listening, empathy, knowing, seeing, respect",
-	        compassion: "attention, consideration, forgiveness, presence, tenderness, vulnerability, love"
-	      },
-	      "social-safety": "consistency, honesty, justice, reassurance, trust privacy"
-	    }
-	  },
-	  transcending: {
-	    "self-acceptance": "allowing, approval, empathy, love, compassion, caring honesty, trust",
-	    "self-awareness": "consciousness, discovery, knowledge",
-	    "self-growth": "evolution, integration, development, improvement",
-	    "self-expression": "creativity, creation, imagination, invention, innovation, actualization, realization",
-	    "self-respect": "responsiblity, authenticity, confidence, courageousness, dignity, honorablity, honesty, integrity, worthiness",
-	    autonomy: "challenge, choice, empowerment, enablement, flexibility, freedom, intention, liberty, limitless, possibility, potential, responsibility",
-	    engagement: "flow, gratitude, practice, mindfulness",
-	    mastery: "competent, effective, efficient, skillfull, masterful, improving",
-	    meaning: "perspective, learning, awareness, celebration, depth, discovery, exploration, legacy, spirituality",
-	    peace: "ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility, beauty, unity, oneness",
-	    purpose: "contribution, dedication, dreams, enrichment, impact, importance, inspiration, to-matter, passion, significance, vision"
-	  }
-	};
-
-	defineModule(module, Nvc = (function(superClass) {
-	  extend(Nvc, superClass);
-
-	  function Nvc() {
-	    return Nvc.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Nvc.categories = ["needs", "posEmotions", "negEmotions"];
-
-	  Nvc.needs = deepMap(sbdNeedsList, function(el) {
-	    return el.match(/[-_0-9a-z]+/gi);
-	  });
-
-	  Nvc.nvcNeeds = {
-	    "connection a-h": wordsArray("acceptance\naffection\nappreciation\nbelonging\ncooperation\ncommunication\ncloseness\ncommunity\ncompanionship\ncompassion\nconsideration\nconsistency\nempathy"),
-	    "connection i-z": wordsArray("inclusion\nintimacy\nlove\nmutuality\nnurturing\nrespect\nself-respect\nsafety\nsecurity\nstability\nsupport\nto know\nto be known\nto see\nto be seen\nto understand\nto be understood\ntrust\nwarmth"),
-	    "physical well being": wordsArray("air\nfood\nmovement/exercise\nrest/sleep\nsexual expression\nsafety\nshelter\ntouch\nwater"),
-	    honesty: wordsArray("authenticity\nintegrity\npresence"),
-	    play: wordsArray("joy\nhumor"),
-	    peace: wordsArray("beauty\ncommunion\nease\nequality\nharmony\ninspiration\norder"),
-	    autonomy: wordsArray("choice\nfreedom\nindependence\nspace\nspontaneity"),
-	    meaning: wordsArray("awareness\ncelebration of life\nchallenge\nclarity\ncompetence\nconsciousness\ncontribution\ncreativity\ndiscovery\nefficacy\neffectiveness\ngrowth\nhope\nlearning\nmourning\nparticipation\npurpose\nself-expression\nstimulation\nto matter\nunderstanding")
-	  };
-
-	  Nvc.posEmotions = {
-	    affectionate: wordsArray("compassionate\nfriendly\nloving\nopen-hearted\nsympathetic\ntender\nwarm"),
-	    engaged: wordsArray("absorbed\nalert\ncurious\nengrossed\nenchanted\nentranced\nfascinated\ninterested\nintrigued\ninvolved\nspellbound\nstimulated"),
-	    hopeful: wordsArray("expectant\nencouraged\noptimistic"),
-	    confident: wordsArray("empowered\nopen\nproud\nsafe\nsecure"),
-	    excited: wordsArray("amazed\nanimated\nardent\naroused\nastonished\ndazzled\neager\nenergetic\nenthusiastic\ngiddy\ninvigorated\nlively\npassionate\nsurprised\nvibrant"),
-	    grateful: wordsArray("appreciative\nmoved\nthankful\ntouched"),
-	    inspired: wordsArray("amazed\nawed\nwonder"),
-	    joyful: wordsArray("amused\ndelighted\nglad\nhappy\njubilant\npleased\ntickled"),
-	    exhilarated: wordsArray("blissful\necstatic\nelated\nenthralled\nexuberant\nradiant\nrapturous\nthrilled"),
-	    peaceful: wordsArray("calm\nclear-headed\ncomfortable\ncentered\ncontent\nequanimous\nfulfilled\nmellow\nquiet\nrelaxed\nrelieved\nsatisfied\nserene\nstill\ntranquil\ntrusting")
-	  };
-
-	  Nvc.negEmotions = {
-	    afraid: wordsArray("apprehensive\ndread\nforeboding\nfrightened\nmistrustful\npanicked\npetrified\nscared\nsuspicious\nterrified\nwary\nworried"),
-	    annoyed: wordsArray("aggravated\ndismayed\ndisgruntled\ndispleased\nexasperated\nfrustrated\nimpatient\nirritated\nirked"),
-	    angry: wordsArray("enraged\nfurious\nincensed\nindignant\nirate\nlivid\noutraged\nresentful"),
-	    aversion: wordsArray("animosity\nappalled\ncontempt\ndisgusted\ndislike\nhate\nhorrified\nhostile\nrepulsed"),
-	    confused: wordsArray("ambivalent\nbaffled\nbewildered\ndazed\nhesitant\nlost\nmystified\nperplexed\npuzzled\ntorn"),
-	    disconnected: wordsArray("alienated\naloof\napathetic\nbored\ncold\ndetached\ndistant\ndistracted\nindifferent\nnumb\nremoved\nuninterested\nwithdrawn"),
-	    disquiet: wordsArray("agitated\nalarmed\ndiscombobulated\ndisconcerted\ndisturbed\nperturbed\nrattled\nrestless\nshocked\nstartled\nsurprised\ntroubled\nturbulent\nturmoil\nuncomfortable\nuneasy\nunnerved\nunsettled\nupset"),
-	    embarrassed: wordsArray("ashamed\nchagrined\nflustered\nguilty\nmortified\nself-conscious"),
-	    fatigue: wordsArray("beat\nburnt-out\ndepleted\nexhausted\nlethargic\nlistless\nsleepy\ntired\nweary\nworn-out"),
-	    pain: wordsArray("agony\nanguished\nbereaved\ndevastated\ngrief\nheartbroken\nhurt\nlonely\nmiserable\nregretful\nremorseful"),
-	    sad: wordsArray("depressed\ndejected\ndespair\ndespondent\ndisappointed\ndiscouraged\ndisheartened\nforlorn\ngloomy\nheavy-hearted\nhopeless\nmelancholy\nunhappy\nwretched"),
-	    tense: wordsArray("anxious\ncranky\ndistressed\ndistraught\nedgy\nfidgety\nfrazzled\nirritable\njittery\nnervous\noverwhelmed\nrestless\nstressed out"),
-	    vulnerable: wordsArray("fragile\nguarded\nhelpless\ninsecure\nleery\nreserved\nsensitive\nshaky"),
-	    yearning: wordsArray("envious\njealous\nlonging\nnostalgic\npining\nwistful")
-	  };
-
-	  Nvc.core = {
-	    needs: Nvc.needs,
-	    posEmotions: Nvc.posEmotions,
-	    negEmotions: Nvc.negEmotions
-	  };
-
-	  return Nvc;
-
-	})(HotStyleProps));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 358 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var Button, Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
-
-	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
-
-	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
-
-	Button = __webpack_require__(363);
-
-	defineModule(module, function() {
-	  var CategoryButton, emojiMap, subtextMap;
-	  emojiMap = {
-	    needs: "🌳",
-	    negEmotions: "☹️",
-	    posEmotions: "😀",
-	    selected: "💡"
-	  };
-	  subtextMap = {
-	    needs: "needs",
-	    negEmotions: "emotions",
-	    posEmotions: "emotions",
-	    surviving: "animal",
-	    thriving: "mamal",
-	    transcending: "human",
-	    selected: "my selection"
-	  };
-	  return CategoryButton = (function(superClass) {
-	    extend(CategoryButton, superClass);
-
-	    function CategoryButton() {
-	      return CategoryButton.__super__.constructor.apply(this, arguments);
-	    }
-
-	    CategoryButton.prototype.doAction = function() {
-	      var category, drillIn, ref1, subMap;
-	      ref1 = this.props, category = ref1.category, subMap = ref1.subMap, drillIn = ref1.drillIn;
-	      if (subMap) {
-	        return drillIn(category, subMap);
-	      }
-	    };
-
-	    CategoryButton.prototype.render = function() {
-	      var category, ref1, selected;
-	      ref1 = this.props, category = ref1.category, selected = ref1.selected;
-	      return Button({
-	        selected: selected,
-	        color: StyleProps.primaryColor,
-	        emoji: emojiMap[category],
-	        text: category,
-	        subtext: subtextMap[category],
-	        action: this.doAction
-	      });
-	    };
-
-	    return CategoryButton;
-
-	  })(Component);
-	});
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
-/* 359 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(360);
-
-
-/***/ },
-/* 360 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(361).addModules({
-	  PointerActionsMixin: __webpack_require__(362)
-	});
-
-
-/***/ },
-/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Mixins, React,
@@ -45456,7 +44802,7 @@
 
 
 /***/ },
-/* 362 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var defineModule,
@@ -45547,6 +44893,667 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(353).addModules({
+	  Selected: __webpack_require__(354)
+	});
+
+
+/***/ },
+/* 353 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, Models,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	App = __webpack_require__(115);
+
+	module.exports = App.Models || App.addNamespace('Models', Models = (function(superClass) {
+	  extend(Models, superClass);
+
+	  function Models() {
+	    return Models.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Models;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var A, ApplicationState, Selected, arrayWith, compactFlatten, defineModule, log, merge, newObjectFromEach, ref, sendEmail, timeout,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState, compactFlatten = ref.compactFlatten, newObjectFromEach = ref.newObjectFromEach, merge = ref.merge, timeout = ref.timeout;
+
+	A = __webpack_require__(19).Browser.DomElementFactories.A;
+
+	sendEmail = function(arg) {
+	  var address, body, link, params, subject;
+	  address = arg.address, subject = arg.subject, body = arg.body;
+	  link = "mailto:" + (address || "");
+	  params = compactFlatten([subject && ("subject=" + (encodeURIComponent(subject))), body && ("body=" + (encodeURIComponent(body)))]);
+	  if (params.length > 0) {
+	    link += "?" + (params.join('&'));
+	  }
+	  return A({
+	    href: link,
+	    target: "black"
+	  }).click();
+	};
+
+	defineModule(module, Selected = (function(superClass) {
+	  extend(Selected, superClass);
+
+	  function Selected() {
+	    return Selected.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Selected.persistant();
+
+	  Selected.prototype.toggle = function(key) {
+	    var obj, result;
+	    result = false;
+	    this.replaceState(this.state[key] ? newObjectFromEach(this.state, function(out, k, v) {
+	      if (v && k !== key) {
+	        return out[k] = true;
+	      }
+	    }) : (result = true, merge((
+	      obj = {},
+	      obj["" + key] = true,
+	      obj
+	    ), this.state)));
+	    return result;
+	  };
+
+	  Selected.prototype.email = function() {
+	    return sendEmail({
+	      subject: "Needs and Emotions",
+	      body: Object.keys(this.savableState).sort().join('\n')
+	    });
+	  };
+
+	  Selected.prototype.reset = function() {
+	    return this.resetState();
+	  };
+
+	  return Selected;
+
+	})(ApplicationState));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 355 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(356).addModules({
+	  App: __webpack_require__(357),
+	  Button: __webpack_require__(363),
+	  CategoryButton: __webpack_require__(362),
+	  LeafButton: __webpack_require__(364),
+	  ShowMap: __webpack_require__(358)
+	});
+
+
+/***/ },
+/* 356 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, Components,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	App = __webpack_require__(115);
+
+	module.exports = App.Components || App.addNamespace('Components', Components = (function(superClass) {
+	  extend(Components, superClass);
+
+	  function Components() {
+	    return Components.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Components;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 357 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	React = __webpack_require__(281);
+
+	Namespace = __webpack_require__(356);
+
+	ShowMap = __webpack_require__(358);
+
+	Nvc = __webpack_require__(359).Nvc;
+
+	version = __webpack_require__(113).version;
+
+	ref = __webpack_require__(120), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
+
+	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
+
+	defineModule(module, App = (function(superClass) {
+	  extend(App, superClass);
+
+	  function App() {
+	    return App.__super__.constructor.apply(this, arguments);
+	  }
+
+	  App.subscriptions("selected.selected");
+
+	  App.stateFields({
+	    canvasSize: null,
+	    initialContentSize: null
+	  });
+
+	  App.prototype.ready = function(arg) {
+	    var target;
+	    target = arg.target;
+	    return this.canvasSize = target.currentSize;
+	  };
+
+	  App.prototype.initialContentReady = function(arg) {
+	    var target;
+	    target = arg.target;
+	    return this.initialContentSize || (this.initialContentSize = target.currentSize);
+	  };
+
+	  App.prototype.render = function() {
+	    var canvasSize, initialContentSize, name, ref1, selected, selectedNames;
+	    ref1 = this.state, canvasSize = ref1.canvasSize, initialContentSize = ref1.initialContentSize;
+	    selectedNames = (function() {
+	      var ref2, results;
+	      ref2 = this.selected || {};
+	      results = [];
+	      for (name in ref2) {
+	        selected = ref2[name];
+	        if (selected) {
+	          results.push(name);
+	        }
+	      }
+	      return results;
+	    }).call(this);
+	    return CanvasElement({
+	      canvasId: "artCanvas",
+	      childrenLayout: "column"
+	    }, RectangleElement({
+	      inFlow: false,
+	      color: "#f9f9f9"
+	    }), PagingScrollElement({
+	      startAtEnd: true
+	    }, Element({
+	      size: {
+	        ww: 1,
+	        hch: 1
+	      },
+	      padding: 5,
+	      childrenLayout: "column"
+	    }, TextElement({
+	      size: {
+	        ww: 1,
+	        hch: 1
+	      },
+	      align: "center",
+	      fontFamily: "arial",
+	      color: "#0004",
+	      padding: 10,
+	      text: "Needs and Emotions v" + version + " by Shane Brinkman-Davis Delamore"
+	    }), ShowMap({
+	      path: [],
+	      map: merge(Nvc.core, (selectedNames.length > 0) && {
+	        selected: selectedNames
+	      })
+	    }))));
+	  };
+
+	  return App;
+
+	})(FluxComponent));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 358 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, Button, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, arrayWithout, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, isString, log, peek, point, ref, ref1, textStyle,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	React = __webpack_require__(281);
+
+	Atomic = __webpack_require__(125);
+
+	Nvc = __webpack_require__(359).Nvc;
+
+	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
+
+	ref1 = __webpack_require__(120), point = ref1.point, arrayWith = ref1.arrayWith, defineModule = ref1.defineModule, log = ref1.log, inspect = ref1.inspect, isPlainObject = ref1.isPlainObject, capitalize = ref1.capitalize, peek = ref1.peek, arrayWith = ref1.arrayWith, eq = ref1.eq, createWithPostCreate = ref1.createWithPostCreate, isString = ref1.isString, createComponentFactory = ref1.createComponentFactory, Component = ref1.Component, Element = ref1.Element, CanvasElement = ref1.CanvasElement, RectangleElement = ref1.RectangleElement, TextElement = ref1.TextElement, OutlineElement = ref1.OutlineElement, FillElement = ref1.FillElement, arrayWithout = ref1.arrayWithout;
+
+	CategoryButton = __webpack_require__(362);
+
+	LeafButton = __webpack_require__(364);
+
+	Button = __webpack_require__(363);
+
+	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
+
+	textStyle = StyleProps.textStyle;
+
+	Nvc = __webpack_require__(359).Nvc;
+
+	defineModule(module, function() {
+	  var SubMap, SubMapFactory;
+	  return SubMapFactory = createWithPostCreate(SubMap = (function(superClass) {
+	    extend(SubMap, superClass);
+
+	    function SubMap() {
+	      return SubMap.__super__.constructor.apply(this, arguments);
+	    }
+
+	    SubMap.stateFields({
+	      subKey: null
+	    });
+
+	    SubMap.prototype.drillIn = function(subKey1) {
+	      this.subKey = subKey1;
+	    };
+
+	    SubMap.prototype.render = function() {
+	      var axisTypes, key, map, name, path, ref2, subKey, subMap, v;
+	      ref2 = this.props, map = ref2.map, key = ref2.key, path = ref2.path;
+	      subKey = this.subKey;
+	      subMap = map[subKey];
+	      axisTypes = {
+	        left: point(1, 0),
+	        right: point(-1, 0)
+	      };
+	      return Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        clip: true,
+	        childrenLayout: "column",
+	        animators: {
+	          size: {
+	            voidValue: {
+	              ww: 1,
+	              h: 0
+	            }
+	          }
+	        }
+	      }, Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        cacheDraw: true,
+	        childrenLayout: "column",
+	        childrenAlignment: "center",
+	        margin: 10
+	      }, path.length >= 1 && RectangleElement({
+	        color: "#0001",
+	        margin: 10,
+	        size: {
+	          ww: 1,
+	          h: 2
+	        }
+	      }), isString(map) ? [
+	        TextElement(StyleProps.textStyle, {
+	          size: {
+	            ww: 1,
+	            hch: 1
+	          },
+	          align: "center",
+	          text: map,
+	          padding: 10
+	        }), LeafButton({
+	          text: "select: " + (peek(path)),
+	          selectedText: "selected: " + (peek(path)),
+	          path: path
+	        })
+	      ] : Element({
+	        size: {
+	          ww: 1,
+	          hch: 1
+	        },
+	        childrenAlignment: "bottomCenter",
+	        childrenLayout: "flow"
+	      }, (function() {
+	        var i, len, ref3, results;
+	        if (key != null ? key.match(/selected/) : void 0) {
+	          return [
+	            Element({
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              },
+	              childrenLayout: "row",
+	              childrenAlignment: "center"
+	            }, Button({
+	              text: "email list",
+	              action: this.models.selected.email,
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              }
+	            }), Button({
+	              text: "reset",
+	              action: this.models.selected.reset,
+	              size: {
+	                ww: 1,
+	                hch: 1
+	              }
+	            })), (function() {
+	              var i, len, ref3, results;
+	              ref3 = map.sort();
+	              results = [];
+	              for (i = 0, len = ref3.length; i < len; i++) {
+	                name = ref3[i];
+	                results.push(LeafButton({
+	                  key: name,
+	                  name: name,
+	                  parentName: key,
+	                  path: path
+	                }));
+	              }
+	              return results;
+	            })()
+	          ];
+	        } else if (isPlainObject(map)) {
+	          ref3 = Object.keys(map).sort();
+	          results = [];
+	          for (i = 0, len = ref3.length; i < len; i++) {
+	            name = ref3[i];
+	            v = map[name];
+	            results.push(CategoryButton({
+	              key: name,
+	              category: name,
+	              subMap: v,
+	              selected: name === subKey,
+	              drillIn: this.drillIn
+	            }));
+	          }
+	          return results;
+	        }
+	      }).call(this))), subMap && SubMapFactory({
+	        key: "subMap:" + subKey,
+	        map: subMap,
+	        path: arrayWith(path, subKey)
+	      }));
+	    };
+
+	    return SubMap;
+
+	  })(FluxComponent));
+	});
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 359 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(360).addModules({
+	  Nvc: __webpack_require__(361)
+	});
+
+
+/***/ },
+/* 360 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, Data,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	App = __webpack_require__(115);
+
+	module.exports = App.Data || App.addNamespace('Data', Data = (function(superClass) {
+	  extend(Data, superClass);
+
+	  function Data() {
+	    return Data.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Data;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 361 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, normalizeList, sbdNeedsList, splitOnLines, w, wordsArray,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	HotStyleProps = __webpack_require__(281).HotStyleProps;
+
+	defineModule = Foundation.defineModule, log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap, w = Foundation.w;
+
+	splitOnLines = function(str) {
+	  return str.split("\n");
+	};
+
+	normalizeList = function(string) {
+	  var list;
+	  list = w(string);
+	  list.sort();
+	  return list.join(', ');
+	};
+
+
+	/*
+	 unsorted needs:
+
+	   quality
+	   mourning
+	 */
+
+	sbdNeedsList = {
+	  surviving: {
+	    metabolism: "Plenty of air, food, water and sleep.",
+	    health: "Feeling 100% well, or healing and on the way to full recovery.",
+	    energy: "Rested, restored, energized and vital.",
+	    environment: "Comfortable temperature, humidity, atmosphere, clothing and shelter.",
+	    "physical-safety": "Living free from violence, accidents, illness and disasters.",
+	    security: "Life is stable, predictable, and sustainable.",
+	    procreation: "The need to have children."
+	  },
+	  thriving: {
+	    enjoyment: {
+	      senses: "Pleasure of the senses: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink",
+	      body: "Exercise, fitness, movement, dance, sex or eroticism.",
+	      variety: "Variety is the spice of life.",
+	      comfort: "Quiet, space, sanctuary, ergonomics, leisure and time.",
+	      play: "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
+	    },
+	    social: {
+	      sharing: "experiences, interests, values",
+	      physical_bonding: "Hugs, touch, cuddles and sexual-connection.",
+	      closeness: "Close relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship, and feeling free to be 100% oneself in the presence of others.",
+	      balance: "A sense of balance in understanding and effort in our relationships.",
+	      belonging: "Accepted, acknowledged, included and equal.",
+	      participation: "Collaboration, cooperation, service and sharing.",
+	      appreciation: "Valued, recognized, and wanted.",
+	      nurturing: "Giving and receiving: care, help, kindness, affection, support and supportive feedback.",
+	      understanding: "Understanding and being understood: empathized, heard, known, seen and respected.",
+	      compassion: "Giving and receiving compassion: attention, consideration, forgiveness, presence, tenderness, vulnerability and love.",
+	      social_safety: "The need for consistency, honesty, justice, privacy, reassurance, and trust in our relationships."
+	    }
+	  },
+	  transcending: {
+	    self_acceptance: "Accept and love oneself fully. Allow, approve, care, have empathy and compassion for oneself. Be honest with, and trust oneself.",
+	    self_awareness: "Know oneself at ever deeper levels.",
+	    self_growth: "Intentionally and continually improve oneself.",
+	    self_expression: "Create and be creative. Imagine, innovate and invent. Actualize and realize ones dreams fully.",
+	    self_respect: "Respect oneself and be worthy of others' respect: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy and always acting with integrity.",
+	    autonomy: "Feeling enabled, empowered and challenged. Feeling free to make our own choices. Given complete flexibility. Feeling limitless, full of possibility and full of potential.",
+	    engagement: "Regularly engaging in flow, mindfulness and gratitude.",
+	    mastery: "Competent, efficient and effective. Constantly improving, feeling more and more skillful and masterful.",
+	    meaning: "Understanding, deepening that understanding and celebrating life, the universe and everything. Ingredients: perspective, awareness, celebration, deepening, discovery, exploration, legacy and spirituality.",
+	    peace: "A feeling of ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility, beauty, unity and oneness.",
+	    purpose: "Having a greater purpose. To have impact, importance, do something that matters, and contribute something of significance. To have dedication, inspiration, passion and vision. To have dream vividly of something better. "
+	  }
+	};
+
+	defineModule(module, Nvc = (function(superClass) {
+	  extend(Nvc, superClass);
+
+	  function Nvc() {
+	    return Nvc.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Nvc.categories = ["needs", "posEmotions", "negEmotions"];
+
+	  Nvc.needs = sbdNeedsList;
+
+	  Nvc.nvcNeeds = {
+	    "connection a-h": "acceptance affection appreciation belonging cooperation communication closeness community companionship compassion consideration consistency empathy",
+	    "connection i-z": "inclusion intimacy love mutuality nurturing respect self-respect safety security stability support to know to be known to see to be seen to understand to be understood trust warmth",
+	    "physical well being": "air food movement/exercise rest/sleep sexual expression safety shelter touch water",
+	    honesty: "authenticity integrity presence",
+	    play: "joy humor",
+	    peace: "beauty communion ease equality harmony inspiration order",
+	    autonomy: "choice freedom independence space spontaneity",
+	    meaning: "awareness celebration of life challenge clarity competence consciousness contribution creativity discovery efficacy effectiveness growth hope learning mourning participation purpose self-expression stimulation to matter understanding"
+	  };
+
+	  Nvc.posEmotions = {
+	    affectionate: normalizeList("compassionate friendly loving open-hearted sympathetic tender warm"),
+	    engaged: normalizeList("absorbed alert curious engrossed enchanted entranced fascinated interested intrigued involved spellbound stimulated"),
+	    hopeful: normalizeList("expectant encouraged optimistic"),
+	    confident: normalizeList("empowered open proud safe secure"),
+	    excited: normalizeList("amazed animated ardent aroused astonished dazzled eager energetic enthusiastic giddy invigorated lively passionate surprised vibrant"),
+	    grateful: normalizeList("appreciative moved thankful touched"),
+	    inspired: normalizeList("amazed awed wonder"),
+	    joyful: normalizeList("amused delighted glad happy jubilant pleased tickled"),
+	    exhilarated: normalizeList("blissful ecstatic elated enthralled exuberant radiant rapturous thrilled"),
+	    peaceful: normalizeList("calm clear-headed comfortable centered content equanimous fulfilled mellow quiet relaxed relieved satisfied serene still tranquil trusting")
+	  };
+
+	  Nvc.negEmotions = {
+	    afraid: normalizeList("apprehensive dread foreboding frightened mistrustful panicked petrified scared suspicious terrified wary worried"),
+	    annoyed: normalizeList("aggravated dismayed disgruntled displeased exasperated frustrated impatient irritated irked"),
+	    angry: normalizeList("enraged furious incensed indignant irate livid outraged resentful"),
+	    aversion: normalizeList("animosity appalled contempt disgusted dislike hate horrified hostile repulsed"),
+	    confused: normalizeList("ambivalent baffled bewildered dazed hesitant lost mystified perplexed puzzled torn"),
+	    disconnected: normalizeList("alienated aloof apathetic bored cold detached distant distracted indifferent numb removed uninterested withdrawn"),
+	    disquiet: normalizeList("agitated alarmed discombobulated disconcerted disturbed perturbed rattled restless shocked startled surprised troubled turbulent turmoil uncomfortable uneasy unnerved unsettled upset"),
+	    embarrassed: normalizeList("ashamed chagrined flustered guilty mortified self-conscious"),
+	    fatigue: normalizeList("beat burnt-out depleted exhausted lethargic listless sleepy tired weary worn-out"),
+	    pain: normalizeList("agony anguished bereaved devastated grief heartbroken hurt lonely miserable regretful remorseful"),
+	    sad: normalizeList("depressed dejected despair despondent disappointed discouraged disheartened forlorn gloomy heavy-hearted hopeless melancholy unhappy wretched"),
+	    tense: normalizeList("anxious cranky distressed distraught edgy fidgety frazzled irritable jittery nervous overwhelmed restless stressed out"),
+	    vulnerable: normalizeList("fragile guarded helpless insecure leery reserved sensitive shaky"),
+	    yearning: normalizeList("envious jealous longing nostalgic pining wistful")
+	  };
+
+	  Nvc.core = {
+	    needs: Nvc.needs,
+	    posEmotions: Nvc.posEmotions,
+	    negEmotions: Nvc.negEmotions
+	  };
+
+	  return Nvc;
+
+	})(HotStyleProps));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 362 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var Button, Component, Element, FillElement, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
+
+	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
+
+	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
+
+	Button = __webpack_require__(363);
+
+	defineModule(module, function() {
+	  var CategoryButton, emojiMap, subtextMap;
+	  emojiMap = {
+	    needs: "🌳",
+	    negEmotions: "☹️",
+	    posEmotions: "😀",
+	    selected: "💡"
+	  };
+	  subtextMap = {
+	    needs: "needs",
+	    negEmotions: "emotions",
+	    posEmotions: "emotions",
+	    surviving: "animal",
+	    thriving: "mamal",
+	    transcending: "human",
+	    selected: "my selection"
+	  };
+	  return CategoryButton = (function(superClass) {
+	    extend(CategoryButton, superClass);
+
+	    function CategoryButton() {
+	      return CategoryButton.__super__.constructor.apply(this, arguments);
+	    }
+
+	    CategoryButton.prototype.doAction = function() {
+	      var category, drillIn, ref1, subMap;
+	      ref1 = this.props, category = ref1.category, subMap = ref1.subMap, drillIn = ref1.drillIn;
+	      if (subMap) {
+	        return drillIn(category, subMap);
+	      }
+	    };
+
+	    CategoryButton.prototype.render = function() {
+	      var category, ref1, selected;
+	      ref1 = this.props, category = ref1.category, selected = ref1.selected;
+	      return Button({
+	        selected: selected,
+	        color: StyleProps.primaryColor,
+	        emoji: emojiMap[category],
+	        text: category,
+	        subtext: subtextMap[category],
+	        action: this.doAction
+	      });
+	    };
+
+	    return CategoryButton;
+
+	  })(Component);
+	});
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
 /* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -45556,7 +45563,7 @@
 
 	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log, rgbColor = ref.rgbColor;
 
-	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
@@ -45613,7 +45620,10 @@
 	            duration: .3
 	          }
 	        },
-	        padding: 3,
+	        padding: {
+	          v: 5,
+	          h: 3
+	        },
 	        radius: small ? 100 : 2,
 	        shadow: this.pointerIsDown || (selected && !this.hover) ? {
 	          blur: 4,
@@ -45653,8 +45663,8 @@
 	          cs: 1
 	        },
 	        align: "centerCenter",
-	        text: text,
-	        padding: small ? 15 : 20
+	        text: text.replace(/_/g, ' '),
+	        padding: small ? 18 : 23
 	      }), subtext && TextElement(StyleProps.textStyle, {
 	        fontSize: 10,
 	        location: {
@@ -45690,7 +45700,7 @@
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(359).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
 
 	Button = __webpack_require__(363);
 
@@ -45707,10 +45717,14 @@
 
 	    LeafButton.subscriptions({
 	      selected: getSelectedKey = function(arg) {
-	        var name, path;
+	        var name, out, path;
 	        name = arg.name, path = arg.path;
 	        if (path[0] !== "selected") {
-	          return (path.join(' > ')) + " > " + name;
+	          out = path.join(' > ');
+	          if (name) {
+	            out += " > " + name;
+	          }
+	          return out;
 	        } else {
 	          return name;
 	        }
@@ -45718,13 +45732,14 @@
 	    });
 
 	    LeafButton.prototype.action = function() {
-	      return this.models.selected.toggle(getSelectedKey(this.props));
+	      var selected;
+	      return selected = this.models.selected.toggle(getSelectedKey(this.props));
 	    };
 
 	    LeafButton.prototype.render = function() {
-	      var first, i, last, middle, name, parentName, ref1, ref2, secondToLast;
-	      ref1 = this.props, name = ref1.name, parentName = ref1.parentName;
-	      if (name.match(/\ >\ /)) {
+	      var first, i, last, middle, name, parentName, ref1, ref2, secondToLast, selectedText, text;
+	      ref1 = this.props, name = ref1.name, parentName = ref1.parentName, text = ref1.text, selectedText = ref1.selectedText;
+	      if (name != null ? name.match(/\ >\ /) : void 0) {
 	        ref2 = name.split(" > "), first = ref2[0], middle = 4 <= ref2.length ? slice.call(ref2, 1, i = ref2.length - 2) : (i = 1, []), secondToLast = ref2[i++], last = ref2[i++];
 	        first = (function() {
 	          switch (first) {
@@ -45742,7 +45757,7 @@
 	      }
 	      return Button({
 	        color: StyleProps.leafColor,
-	        text: name,
+	        text: (this.selected && selectedText) || text || name,
 	        small: true,
 	        selected: this.selected,
 	        action: this.action
