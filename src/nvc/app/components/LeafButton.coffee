@@ -9,16 +9,18 @@ defineModule module, ->
     @subscriptions selected: getSelectedKey = ({name, path}) ->
 
       if path[0] != "selected"
-        "#{path.join ' > '} > #{name}"
+        out = path.join ' > '
+        out += " > #{name}" if name
+        out
       else name
 
     action: ->
-      @models.selected.toggle getSelectedKey @props
+      selected = @models.selected.toggle getSelectedKey @props
 
     render: ->
-      {name, parentName} = @props
+      {name, parentName, text, selectedText} = @props
 
-      if name.match /\ >\ /
+      if name?.match /\ >\ /
         [first, middle..., secondToLast, last] = name.split " > "
         first = switch first
           when "needs" then "🌳"
@@ -30,7 +32,7 @@ defineModule module, ->
 
       Button
         color:    StyleProps.leafColor
-        text:     name
+        text:     (@selected && selectedText) || text || name
         small:    true
         selected: @selected
         action:   @action

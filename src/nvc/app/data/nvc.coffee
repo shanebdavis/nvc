@@ -1,9 +1,14 @@
 Foundation = require 'art-foundation'
 {HotStyleProps} = require 'art-react'
 
-{defineModule, log, arrayToFalseMap, wordsArray, deepMap} = Foundation
+{defineModule, log, arrayToFalseMap, wordsArray, deepMap, w} = Foundation
 
 splitOnLines = (str) -> str.split "\n"
+
+normalizeList = (string) ->
+  list = w string
+  list.sort()
+  list.join ', '
 
 ###
  unsorted needs:
@@ -13,68 +18,63 @@ splitOnLines = (str) -> str.split "\n"
 ###
 sbdNeedsList =
   surviving:
-    body:
-      sustanence:       "air, food, water"
-      health:           "wellbeing, wellness, healing, regeneration, rejuvenation"
-      energy:           "rest, restoration, sleep, vitality"
+    metabolism:         "Plenty of air, food, water and sleep."
+    health:             "Feeling 100% well, or healing and on the way to full recovery."
+    energy:             "Rested, restored, energized and vital."
 
-    environment:        "temperature, humidity, atmosphere, clothing, shelter"
-    "physical-safety":  "violence, accidents, illness, disasters"
-    security:           "stability predictability sustainability"
-    procreation:        "sexual-release children"
+    environment:        "Comfortable temperature, humidity, atmosphere, clothing and shelter."
+    "physical-safety":  "Living free from violence, accidents, illness and disasters."
+    security:           "Life is stable, predictable, and sustainable."
+    procreation:        "The need to have children."
 
   thriving:
-    pleasure:
-      senses:           "sight-beauty smell-fragrance touch-texture sound-music taste-food-drink"
-      body:             "eroticisim, exercise, fitness, movement, dance, sex"
-      variety:          "variety, novelty"
-      comfort:          "quiet, space, sanctuary, ergonomics, leisure, time"
+    enjoyment:
+      senses:           "Pleasure of the senses: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink"
+      body:             "Exercise, fitness, movement, dance, sex or eroticism."
+      variety:          "Variety is the spice of life."
+      comfort:          "Quiet, space, sanctuary, ergonomics, leisure and time."
 
-    play:               "adventure, excitement, fantasy, fun, humor, joy, laughter"
+      play:             "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 
     social:
-      bonding:
-        sharing:        "experiences, interests, values"
-        physical:       "cuddling touch hugs sexual-connection"
-        closeness:      "openness communication, communion, companionship,
-                        friendship, intimacy, free-to-be-oneself"
-        mutuality:      "partnership, balance"
-      community:
-        belonging:      "accepted, acknowledged, included, equal"
-        participation:  "collaboration, cooperation, service, sharing"
-        appreciation:   "valued, recognized, wanted"
+      sharing:          "experiences, interests, values"
+      physical_bonding: "Hugs, touch, cuddles and sexual-connection."
+      closeness:        "Close relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
+                        and feeling free to be 100% oneself in the presence of others."
+      balance:          "A sense of balance in understanding and effort in our relationships."
+      belonging:        "Accepted, acknowledged, included and equal."
+      participation:    "Collaboration, cooperation, service and sharing."
+      appreciation:     "Valued, recognized, and wanted."
 
-      reciprocity:
-        nurturing:      "care, feedback, help, kindness, support, affection"
-        understanding:  "listening, empathy, knowing, seeing, respect"
-        compassion:     "attention, consideration, forgiveness, presence, tenderness,
-                        vulnerability, love"
+      nurturing:        "Giving and receiving: care, help, kindness, affection, support and supportive feedback."
+      understanding:    "Understanding and being understood: empathized, heard, known, seen and respected."
+      compassion:               "Giving and receiving compassion: attention, consideration, forgiveness, presence, tenderness,
+                                vulnerability and love."
 
-      "social-safety":  "consistency, honesty, justice, reassurance, trust privacy"
+      social_safety:    "The need for consistency, honesty, justice, privacy, reassurance, and trust in our relationships."
 
   transcending:
-    "self-acceptance":  "allowing, approval, empathy, love, compassion, caring honesty, trust"
-    "self-awareness":   "consciousness, discovery, knowledge"
-    "self-growth":      "evolution, integration, development, improvement"
-    "self-expression":  "creativity, creation, imagination, invention, innovation, actualization,
-                        realization"
+    self_acceptance:    "Accept and love oneself fully. Allow, approve, care, have empathy and compassion for oneself. Be honest with, and trust oneself."
+    self_awareness:     "Know oneself at ever deeper levels."
+    self_growth:        "Intentionally and continually improve oneself."
+    self_expression:    "Create and be creative. Imagine, innovate and invent. Actualize and realize ones dreams fully."
 
-    "self-respect":     "responsiblity, authenticity, confidence, courageousness, dignity, honorablity, honesty,
-                        integrity, worthiness"
+    self_respect:       "Respect oneself and be worthy of others' respect: responsible, authentic, confident, courageous, dignified, honorable, honest,
+                        worthy and always acting with integrity."
 
-    autonomy:           "challenge, choice, empowerment, enablement, flexibility, freedom,
-                        intention, liberty, limitless, possibility, potential, responsibility"
+    autonomy:           "Feeling enabled, empowered and challenged. Feeling free to make our own choices. Given complete flexibility.
+                        Feeling limitless, full of possibility and full of potential."
 
-    engagement:         "flow, gratitude, practice, mindfulness"
-    mastery:            "competent, effective, efficient, skillfull, masterful, improving"
-    meaning:            "perspective, learning, awareness, celebration, depth, discovery,
-                        exploration, legacy, spirituality"
+    engagement:         "Regularly engaging in flow, mindfulness and gratitude."
+    mastery:            "Competent, efficient and effective. Constantly improving, feeling more and more skillful and masterful."
+    meaning:            "Understanding, deepening that understanding and celebrating life, the universe and everything. Ingredients: perspective, awareness, celebration, deepening, discovery,
+                        exploration, legacy and spirituality."
 
-    peace:              "ease, balance, clarity, faith, grace, harmony, hope, order, structure,
-                        tranquility, beauty, unity, oneness"
+    peace:              "A feeling of ease, balance, clarity, faith, grace, harmony, hope, order, structure,
+                        tranquility, beauty, unity and oneness."
 
-    purpose:            "contribution, dedication, dreams, enrichment, impact, importance,
-                        inspiration, to-matter, passion, significance, vision"
+    purpose:            "Having a greater purpose. To have impact, importance,
+                        do something that matters, and contribute something of significance. To have dedication, inspiration, passion and vision. To have dream vividly of something better. "
 
 # TODO: use babelbridge to write a parser
 
@@ -83,11 +83,11 @@ sbdNeedsList =
 
 defineModule module, class Nvc extends HotStyleProps
   @categories: ["needs", "posEmotions" ,"negEmotions"]
-  @needs: deepMap sbdNeedsList, (el) -> el.match /[-_0-9a-z]+/gi
+  @needs: sbdNeedsList #deepMap sbdNeedsList, (el) -> el.match /[-_0-9a-z]+/gi
 
   @nvcNeeds:
     "connection a-h":
-      wordsArray """
+      "
       acceptance
       affection
       appreciation
@@ -101,9 +101,9 @@ defineModule module, class Nvc extends HotStyleProps
       consideration
       consistency
       empathy
-      """
+      "
     "connection i-z":
-      wordsArray """
+      "
       inclusion
       intimacy
       love
@@ -123,10 +123,10 @@ defineModule module, class Nvc extends HotStyleProps
       to be understood
       trust
       warmth
-      """
+      "
 
     "physical well being":
-      wordsArray """
+      "
       air
       food
       movement/exercise
@@ -136,23 +136,23 @@ defineModule module, class Nvc extends HotStyleProps
       shelter
       touch
       water
-      """
+      "
 
     honesty:
-      wordsArray """
+      "
       authenticity
       integrity
       presence
-      """
+      "
 
     play:
-      wordsArray """
+      "
       joy
       humor
-      """
+      "
 
     peace:
-      wordsArray """
+      "
       beauty
       communion
       ease
@@ -160,19 +160,19 @@ defineModule module, class Nvc extends HotStyleProps
       harmony
       inspiration
       order
-      """
+      "
 
     autonomy:
-      wordsArray """
+      "
       choice
       freedom
       independence
       space
       spontaneity
-      """
+      "
 
     meaning:
-      wordsArray """
+      "
       awareness
       celebration of life
       challenge
@@ -194,11 +194,11 @@ defineModule module, class Nvc extends HotStyleProps
       stimulation
       to matter
       understanding
-      """
+      "
 
   @posEmotions:
     affectionate:
-      wordsArray """
+      normalizeList "
       compassionate
       friendly
       loving
@@ -206,10 +206,10 @@ defineModule module, class Nvc extends HotStyleProps
       sympathetic
       tender
       warm
-      """
+      "
 
     engaged:
-      wordsArray """
+      normalizeList "
       absorbed
       alert
       curious
@@ -222,26 +222,26 @@ defineModule module, class Nvc extends HotStyleProps
       involved
       spellbound
       stimulated
-      """
+      "
 
     hopeful:
-      wordsArray """
+      normalizeList "
       expectant
       encouraged
       optimistic
-      """
+      "
 
     confident:
-      wordsArray """
+      normalizeList "
       empowered
       open
       proud
       safe
       secure
-      """
+      "
 
     excited:
-      wordsArray """
+      normalizeList "
       amazed
       animated
       ardent
@@ -257,25 +257,25 @@ defineModule module, class Nvc extends HotStyleProps
       passionate
       surprised
       vibrant
-      """
+      "
 
     grateful:
-      wordsArray """
+      normalizeList "
       appreciative
       moved
       thankful
       touched
-      """
+      "
 
     inspired:
-      wordsArray """
+      normalizeList "
       amazed
       awed
       wonder
-      """
+      "
 
     joyful:
-      wordsArray """
+      normalizeList "
       amused
       delighted
       glad
@@ -283,10 +283,10 @@ defineModule module, class Nvc extends HotStyleProps
       jubilant
       pleased
       tickled
-      """
+      "
 
     exhilarated:
-      wordsArray """
+      normalizeList "
       blissful
       ecstatic
       elated
@@ -295,10 +295,10 @@ defineModule module, class Nvc extends HotStyleProps
       radiant
       rapturous
       thrilled
-      """
+      "
 
     peaceful:
-      wordsArray """
+      normalizeList "
       calm
       clear-headed
       comfortable
@@ -315,11 +315,11 @@ defineModule module, class Nvc extends HotStyleProps
       still
       tranquil
       trusting
-      """
+      "
 
   @negEmotions:
     afraid:
-      wordsArray """
+      normalizeList "
       apprehensive
       dread
       foreboding
@@ -332,10 +332,10 @@ defineModule module, class Nvc extends HotStyleProps
       terrified
       wary
       worried
-      """
+      "
 
     annoyed:
-      wordsArray """
+      normalizeList "
       aggravated
       dismayed
       disgruntled
@@ -345,10 +345,10 @@ defineModule module, class Nvc extends HotStyleProps
       impatient
       irritated
       irked
-      """
+      "
 
     angry:
-      wordsArray """
+      normalizeList "
       enraged
       furious
       incensed
@@ -357,10 +357,10 @@ defineModule module, class Nvc extends HotStyleProps
       livid
       outraged
       resentful
-      """
+      "
 
     aversion:
-      wordsArray """
+      normalizeList "
       animosity
       appalled
       contempt
@@ -370,10 +370,10 @@ defineModule module, class Nvc extends HotStyleProps
       horrified
       hostile
       repulsed
-      """
+      "
 
     confused:
-      wordsArray """
+      normalizeList "
       ambivalent
       baffled
       bewildered
@@ -384,10 +384,10 @@ defineModule module, class Nvc extends HotStyleProps
       perplexed
       puzzled
       torn
-      """
+      "
 
     disconnected:
-      wordsArray """
+      normalizeList "
       alienated
       aloof
       apathetic
@@ -401,10 +401,10 @@ defineModule module, class Nvc extends HotStyleProps
       removed
       uninterested
       withdrawn
-      """
+      "
 
     disquiet:
-      wordsArray """
+      normalizeList "
       agitated
       alarmed
       discombobulated
@@ -424,20 +424,20 @@ defineModule module, class Nvc extends HotStyleProps
       unnerved
       unsettled
       upset
-      """
+      "
 
     embarrassed:
-      wordsArray """
+      normalizeList "
       ashamed
       chagrined
       flustered
       guilty
       mortified
       self-conscious
-      """
+      "
 
     fatigue:
-      wordsArray """
+      normalizeList "
       beat
       burnt-out
       depleted
@@ -448,10 +448,10 @@ defineModule module, class Nvc extends HotStyleProps
       tired
       weary
       worn-out
-      """
+      "
 
     pain:
-      wordsArray """
+      normalizeList "
       agony
       anguished
       bereaved
@@ -463,10 +463,10 @@ defineModule module, class Nvc extends HotStyleProps
       miserable
       regretful
       remorseful
-      """
+      "
 
     sad:
-      wordsArray """
+      normalizeList "
       depressed
       dejected
       despair
@@ -481,10 +481,10 @@ defineModule module, class Nvc extends HotStyleProps
       melancholy
       unhappy
       wretched
-      """
+      "
 
     tense:
-      wordsArray """
+      normalizeList "
       anxious
       cranky
       distressed
@@ -498,10 +498,10 @@ defineModule module, class Nvc extends HotStyleProps
       overwhelmed
       restless
       stressed out
-      """
+      "
 
     vulnerable:
-      wordsArray """
+      normalizeList "
       fragile
       guarded
       helpless
@@ -510,17 +510,17 @@ defineModule module, class Nvc extends HotStyleProps
       reserved
       sensitive
       shaky
-      """
+      "
 
     yearning:
-      wordsArray """
+      normalizeList "
       envious
       jealous
       longing
       nostalgic
       pining
       wistful
-      """
+      "
 
   @core:
     needs: @needs

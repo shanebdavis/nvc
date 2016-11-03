@@ -29,7 +29,7 @@ defineModule module, ->
           animators:
             color: {}
             shadow: duration: .3
-          padding: 3
+          padding: v: 5, h: 3
           radius: if small then 100 else 2
           shadow:
             if @pointerIsDown || (selected && !@hover)
@@ -53,8 +53,8 @@ defineModule module, ->
           TextElement StyleProps.textStyle,
             size: cs:1
             align: "centerCenter"
-            text: text
-            padding: if small then 15 else 20
+            text: text.replace /_/g, ' '
+            padding: if small then 18 else 23
 
         subtext &&
           TextElement StyleProps.textStyle,

@@ -18,12 +18,14 @@ defineModule module, class Selected extends ApplicationState
   @persistant()
 
   toggle: (key) ->
-
-    @replaceState log if @state[key]
+    result = false
+    @replaceState if @state[key]
       newObjectFromEach @state, (out, k, v) ->
         out[k] = true if v && k != key
     else
+      result = true
       merge "#{key}": true, @state
+    result
 
 
   email: ->
