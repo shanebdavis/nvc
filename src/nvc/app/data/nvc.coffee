@@ -25,19 +25,19 @@ sbdNeedsList =
     environment:        "Comfortable temperature, humidity, atmosphere, clothing and shelter."
     "physical-safety":  "Living free from violence, accidents, illness and disasters."
     security:           "Life is stable, predictable, and sustainable."
-    procreation:        "The need to have children."
+    procreation:        "Have, or are working on having all the children one wants."
 
   thriving:
     enjoyment:
       senses:           "All five senses are simulated and alive: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink"
-      body:             "Plenty of Exercise, fitness, movement, dance, sex or eroticism."
+      body:             "Plenty of Exercise, fitness, movement, dance, sex and eroticism."
       variety:          "Plenty of variety and novelty."
       comfort:          "Plenty of quiet, space, sanctuary, ergonomics, leisure and time."
 
       play:             "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 
     social:
-      sharing:          "For each important experience, interest and value, having plenty of people whole understand and share ones passions."
+      sharing:          "For each important experience, interest and value, having plenty of people who understand and share ones passions."
       physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection."
       closeness:        "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
                         and feeling free to be 100% oneself with those people."
