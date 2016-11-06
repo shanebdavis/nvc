@@ -141,7 +141,9 @@ sbdNeedsList =
                         """
 
     peace:              "Complete ease, balance, clarity, faith, grace, sanctuary, harmony, hope, order, structure,
-                        tranquility, beauty, unity and oneness with the universe."
+                        tranquility, unity and oneness with the universe."
+
+    beauty:             "My life is beautiful. My home, workplace, city, public spaces, people, landscape, and personal possessions all stimulate my sense of beauty."
 
     purpose:            """
                         Have a greater purpose.
