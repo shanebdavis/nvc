@@ -18,7 +18,7 @@ normalizeList = (string) ->
 ###
 sbdNeedsList =
   surviving:
-    sustenance:         "Getting all the healthy food and clean water the body needs."
+    sustenance:         "Getting all the healthy food and clean water my body needs."
     sleep:              """
                         Getting pleanty of sleep. Waking every day fully rested and alive.
 
@@ -57,9 +57,9 @@ sbdNeedsList =
   thriving:
     enjoyment:
       pleasure:         """
-                        Plenty of Exercise, fitness, movement, dance, sex and eroticism. All five senses are simulated and alive.
+                        Plenty of beautiful sights, lovely fragrances, pleasurable textures, wonderful music, exhilarating exercise, erotic sex, movement, dance, delicious food and drink.
 
-                        Pleasurable stimulation: beautiful sights, lovely fragrances, pleasurable textures, calming or energizing or inspiring music, delicious food and drink
+                        All five senses are simulated and alive.
                         """
       variety:          "Plenty of variety and novelty."
       leisure:          "Plenty of quiet, relaxing, comfortable, space and time."
@@ -607,14 +607,16 @@ defineModule module, class Nvc extends HotStyleProps
     negEmotions: @negEmotions
 
   @getNotSelectedStatement: (path) ->
+    last = peek(path).replace /_/g, ' '
     if path[0] == "needs"
-      "I have all the #{peek path} I need."
+      "I have all the #{last} I need."
     else
       "I am feeling neutral."
 
   @getSelectedStatement: (path) ->
+    last = peek(path).replace /_/g, ' '
     if path[0] == "needs"
-      "I need more #{peek path}."
+      "I need more #{last}."
     else
-      "I am feeling #{peek path}."
+      "I am feeling #{last}."
 
