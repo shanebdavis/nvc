@@ -3,6 +3,8 @@
 {PointerActionsMixin} = require 'art-react/mixins'
 Button = require './Button'
 
+{getSelectedStatement} = Neptune.Nvc.Data.Nvc
+
 defineModule module, ->
 
   class LeafButton extends PointerActionsMixin FluxComponent
@@ -21,13 +23,13 @@ defineModule module, ->
       {name, parentName, text, selectedText} = @props
 
       if name?.match /\ >\ /
-        [first, middle..., secondToLast, last] = name.split " > "
+        [first, middle..., last] = path = name.split " > "
         first = switch first
           when "needs" then "🌳"
           when "negEmotions" then "☹️"
           when "posEmotions" then "😀"
           else first
-        name = "#{first} #{secondToLast} > #{last}"
+        name = "#{first} #{getSelectedStatement path}"
 
 
       Button

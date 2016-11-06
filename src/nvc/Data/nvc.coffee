@@ -1,7 +1,7 @@
 Foundation = require 'art-foundation'
 {HotStyleProps} = require 'art-react'
 
-{defineModule, log, arrayToFalseMap, wordsArray, deepMap, w} = Foundation
+{defineModule, log, arrayToFalseMap, wordsArray, deepMap, w, peek} = Foundation
 
 splitOnLines = (str) -> str.split "\n"
 
@@ -18,21 +18,51 @@ normalizeList = (string) ->
 ###
 sbdNeedsList =
   surviving:
-    metabolism:         "Plenty of air, food, water and sleep."
+    sustenance:         "Getting all the healthy food and clean water the body needs."
+    sleep:              """
+                        Getting pleanty of sleep. Waking every day fully rested and alive.
+
+                        adult: 7.5 to 9 hours
+                        teen: 9 to 9.5 hours
+                        """
+
+    comfortable_climate:
+                        """
+                        At work, at home and everywhere in between:
+
+                        Cozy and warm when it's cold outside,
+                        Shady and cool when it's hot,
+                        Dry and clean when it's wet,
+                        Moist and refreshed when it's dry.
+                        """
+                        # "clothing and shelter."
+
     health:             "Feeling 100% well, or healing and on the way to full recovery."
     energy:             "Rested, restored, energized and vital."
-
-    environment:        "Comfortable temperature, humidity, atmosphere, clothing and shelter."
-    "physical-safety":  "Living free from violence, accidents, illness and disasters."
+    physical_safety:    "Living free from violence, accidents, illness and disasters."
     security:           "Life is stable, predictable, and sustainable."
-    procreation:        "Have, or are working on having all the children one wants."
+    children:           "Have, or are working on having all the children one wants."
+    ergonomics:         """
+                        All the built-things around me support my body's health and comfort. Examples:
+
+                        bathroom: toilet, sink, shower, bathtub
+                        clothing: shoes, underwear, coat, hat, glasses
+                        creation: writing and art tools
+                        exercise: equipment, shoes, clothing
+                        kitchen: counters, cabinetts, tools
+                        rest: couch, bed, pillows
+                        work: chair, desk, keyboard, monitor
+                        """
 
   thriving:
     enjoyment:
-      senses:           "All five senses are simulated and alive: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink"
-      body:             "Plenty of Exercise, fitness, movement, dance, sex and eroticism."
+      pleasure:         """
+                        Plenty of Exercise, fitness, movement, dance, sex and eroticism. All five senses are simulated and alive.
+
+                        Pleasurable stimulation: beautiful sights, lovely fragrances, pleasurable textures, calming or energizing or inspiring music, delicious food and drink
+                        """
       variety:          "Plenty of variety and novelty."
-      comfort:          "Plenty of quiet, space, sanctuary, ergonomics, leisure and time."
+      leisure:          "Plenty of quiet, relaxing, comfortable, space and time."
 
       play:             "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 
@@ -41,7 +71,7 @@ sbdNeedsList =
       physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection."
       closeness:        "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
                         and feeling free to be 100% oneself with those people."
-      balance:          "All important relationships are balanced and mutual."
+      social_balance:   "All important relationships are balanced and mutual."
       belonging:        "Accepted, acknowledged, included and equal."
       participation:    "Plenty of collaboration, cooperation, opportunities for service and sharing."
       appreciation:     "Valued, recognized, and wanted."
@@ -51,72 +81,77 @@ sbdNeedsList =
       compassion:       "Receiving all the attention, consideration, forgiveness, presence, tenderness,
                         vulnerability and love one needs."
 
-      social_safety:    "All important relationships are reliable, honest, and full of mutual trust.\n\nAll relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe."
+      social_safety:    """
+                        All important relationships are reliable, honest, and full of mutual trust.
+
+                        All relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe.
+                        """
 
   transcending:
-    self_acceptance:
-      """
-      Accept and love oneself
+    self_acceptance:    """
+                        Accept and love oneself
 
-      Allow, approve, care, have empathy and compassion for oneself
+                        Allow, approve, care, have empathy and compassion for oneself
 
-      Trust and honest with oneself
-      """
+                        Trust and honest with oneself
+                        """
 
-    self_awareness:
-      """
-      Know oneself at ever deeper levels.
+    self_awareness:     """
+                        Know oneself at ever deeper levels.
 
-      Needs and emotional awareness
+                        Needs and emotional awareness
 
-      Know one's genius, strengths and weaknesses
+                        Know one's genius, strengths and weaknesses
 
-      Know what does and doesn't work fulfilling one's own needs.
-      """
+                        Know what does and doesn't work fulfilling one's own needs.
+                        """
+
     self_growth:        "Intentionally and continually improve oneself."
-    self_expression:
-      """
-      Create and be creative.
 
-      Imagine, innovate and invent.
+    self_expression:    """
+                        Create and be creative.
 
-      Actualize and realize ones dreams fully.
-      """
+                        Imagine, innovate and invent.
 
-    self_respect:
-      """
-      Respect oneself and be worthy of others' respect.
+                        Actualize and realize ones dreams fully.
+                        """
 
-      Ingredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity
-      """
+    self_respect:       """
+                        Respect oneself and be worthy of others' respect.
 
-    autonomy:
-      """
-      Feeling enabled, empowered and challenged.
+                        Ingredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity
+                        """
 
-      Feeling free to make ones own choices. Given complete flexibility.
+    autonomy:           """
+                        Feeling enabled, empowered and challenged.
 
-      Feeling limitless, full of possibility and full of potential.
-      """
+                        Feeling free to make ones own choices and be spontaneous. Given complete flexibility.
+
+                        Feeling limitless, full of possibility and full of potential.
+                        """
 
     engagement:         "Plenty of flow, mindfulness and gratitude."
-    mastery:            "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful."
-    meaning:            "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery,
-                        exploration, legacy and spirituality."
 
-    peace:              "Complete ease, balance, clarity, faith, grace, harmony, hope, order, structure,
+    mastery:            "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful."
+
+    meaning:            """
+                        Ever deepening understanding and celebration of life, the universe and everything.
+
+                        Ingredients: perspective, awareness, celebration, deepening, discovery, exploration, legacy and spirituality.
+                        """
+
+    peace:              "Complete ease, balance, clarity, faith, grace, sanctuary, harmony, hope, order, structure,
                         tranquility, beauty, unity and oneness with the universe."
 
-    purpose:
-      """
-      Have a greater purpose.
+    purpose:            """
+                        Have a greater purpose.
 
-      Have impact, importance, do something that matters, and contribute something of significance.
+                        Have impact, importance, do something that matters, and contribute something of significance.
 
-      Have dedication, inspiration, passion and vision.
+                        Have dedication, inspiration, passion and vision.
 
-      Dream vividly of a better world and a better life.
-      """
+                        Dream vividly of a better world and a better life.
+                        """
 
 # TODO: use babelbridge to write a parser
 
@@ -478,7 +513,7 @@ defineModule module, class Nvc extends HotStyleProps
       self-conscious
       "
 
-    fatigue:
+    fatigued:
       normalizeList "
       beat
       burnt-out
@@ -568,3 +603,16 @@ defineModule module, class Nvc extends HotStyleProps
     needs: @needs
     posEmotions: @posEmotions
     negEmotions: @negEmotions
+
+  @getNotSelectedStatement: (path) ->
+    if path[0] == "needs"
+      "I have all the #{peek path} I need."
+    else
+      "I am feeling neutral."
+
+  @getSelectedStatement: (path) ->
+    if path[0] == "needs"
+      "I need more #{peek path}."
+    else
+      "I am feeling #{peek path}."
+

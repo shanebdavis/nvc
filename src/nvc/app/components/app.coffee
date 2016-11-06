@@ -3,7 +3,7 @@ React = require 'art-react'
 Namespace = require './namespace'
 
 ShowMap = require './ShowMap'
-{Nvc} = require '../data'
+{Nvc} = Neptune.Nvc.Data
 {version} = require '../../../../package.json'
 
 {

@@ -5,6 +5,5 @@ module.exports = require './namespace'
 .addModules
   Main: require './main'
 require './components'
-require './data'
 require './models'
 require './styles'

@@ -3,4 +3,5 @@
 
 module.exports = require './namespace'
 .includeInNamespace require './_nvc'
+require './Data'
 require './app'

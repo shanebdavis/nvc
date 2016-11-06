@@ -1,7 +1,7 @@
 Foundation = require 'art-foundation'
 React = require 'art-react'
 Atomic = require 'art-atomic'
-{Nvc} = require '../data'
+{Nvc} = Neptune.Nvc.Data
 {createFluxComponentFactory, FluxComponent} = require 'art-flux'
 
 {
@@ -26,7 +26,7 @@ Button = require './Button'
 {StyleProps} = Neptune.Nvc.App.Styles
 {textStyle} = StyleProps
 
-{Nvc} = require '../data'
+{Nvc} = Neptune.Nvc.Data
 
 defineModule module, ->
 
@@ -69,9 +69,16 @@ defineModule module, ->
                 text: map
                 padding: 10
               LeafButton
-                text: "select: #{peek path}"
-                selectedText: "selected: #{peek path}"
                 path: path
+                if path[0] == "needs"
+                  text: "I have all the #{peek path} I need."
+                  selectedText: "I need more #{peek path}."
+                else #if path[0] == "posEmotions"
+                  text: "I am feeling neutral."
+                  selectedText: "I am feeling #{peek path}."
+                # else
+                #   text: "I am not feeling #{peek path}."
+                #   selectedText: "I am feeling #{peek path}."
             ]
           else
             Element
