@@ -60,7 +60,9 @@
 
 	module.exports = __webpack_require__(3).includeInNamespace(__webpack_require__(18));
 
-	__webpack_require__(114);
+	__webpack_require__(113);
+
+	__webpack_require__(294);
 
 
 /***/ },
@@ -993,6 +995,7 @@
 		"license": "MIT",
 		"preferGlobal": true,
 		"bin": {
+			"nn": "./neptune-namespaces",
 			"neptune-namespaces": "./neptune-namespaces"
 		},
 		"repository": {
@@ -1023,9 +1026,11 @@
 
 	log = __webpack_require__(19).log;
 
+	__webpack_require__(113);
+
 	module.exports = [
 	  log({
-	    "package": _package = __webpack_require__(113),
+	    "package": _package = __webpack_require__(293),
 	    version: _package.version
 	  })
 	];
@@ -11589,13 +11594,13 @@
 /* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BaseObject, Promise, StandardLib, Validator, emailRegexp, formattedInspect, isBoolean, isHexColor, isId, isNumber, isPlainArray, isPlainObject, isString, log, merge, mergeIntoUnless, present, select, shallowClone, validStatus, w,
+	var BaseObject, Promise, StandardLib, Validator, emailRegexp, formattedInspect, isBoolean, isFunction, isHexColor, isId, isNumber, isPlainArray, isPlainObject, isString, log, merge, mergeIntoUnless, present, select, shallowClone, validStatus, w,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
 	StandardLib = __webpack_require__(24);
 
-	merge = StandardLib.merge, log = StandardLib.log, BaseObject = StandardLib.BaseObject, shallowClone = StandardLib.shallowClone, isNumber = StandardLib.isNumber, isString = StandardLib.isString, isPlainObject = StandardLib.isPlainObject, isPlainArray = StandardLib.isPlainArray, Promise = StandardLib.Promise, isBoolean = StandardLib.isBoolean, formattedInspect = StandardLib.formattedInspect, present = StandardLib.present, select = StandardLib.select, emailRegexp = StandardLib.emailRegexp, mergeIntoUnless = StandardLib.mergeIntoUnless, w = StandardLib.w;
+	merge = StandardLib.merge, log = StandardLib.log, BaseObject = StandardLib.BaseObject, shallowClone = StandardLib.shallowClone, isNumber = StandardLib.isNumber, isString = StandardLib.isString, isPlainObject = StandardLib.isPlainObject, isPlainArray = StandardLib.isPlainArray, Promise = StandardLib.Promise, isBoolean = StandardLib.isBoolean, formattedInspect = StandardLib.formattedInspect, present = StandardLib.present, select = StandardLib.select, emailRegexp = StandardLib.emailRegexp, mergeIntoUnless = StandardLib.mergeIntoUnless, w = StandardLib.w, isFunction = StandardLib.isFunction;
 
 	validStatus = __webpack_require__(96).validStatus;
 
@@ -11709,6 +11714,11 @@
 	      validate: function(a) {
 	        return isPlainArray(a);
 	      }
+	    },
+	    "function": {
+	      validate: function(a) {
+	        return isFunction(a);
+	      }
 	    }
 	  };
 
@@ -11814,6 +11824,9 @@
 	      preprocess: function(v) {
 	        return v.trim();
 	      }
+	    },
+	    "function": {
+	      dataType: "function"
 	    }
 	  };
 
@@ -12655,6235 +12668,345 @@
 
 /***/ },
 /* 113 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
-		"dependencies": {
-			"art-suite": "git://github.com/imikimi/art-suite.git",
-			"chai": "^3.5.0",
-			"coffee-loader": "^0.7.2",
-			"coffee-script": "^1.11.1",
-			"css-loader": "^0.23.1",
-			"json-loader": "^0.5.4",
-			"mocha": "^2.5.3",
-			"neptune-namespaces": "^1.5.0",
-			"script-loader": "^0.7.0",
-			"sourcemapped-stacktrace": "^1.1.3",
-			"style-loader": "^0.13.1",
-			"webpack": "^1.13.2",
-			"webpack-dev-server": "^1.16.2"
-		},
-		"license": "ISC",
-		"name": "nvc_app",
-		"scripts": {
-			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
-			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
-			"nn": "neptune-namespaces --std",
-			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
-			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
-		},
-		"version": "1.4.4"
-	};
+	module.exports = __webpack_require__(114).addModules({
+	  Nvc: __webpack_require__(115)
+	});
+
 
 /***/ },
 /* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(115).addModules({
-	  Main: __webpack_require__(116)
-	});
+	var Data, Nvc,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
 
-	__webpack_require__(355);
+	Nvc = __webpack_require__(3);
 
-	__webpack_require__(359);
+	module.exports = Nvc.Data || Nvc.addNamespace('Data', Data = (function(superClass) {
+	  extend(Data, superClass);
 
-	__webpack_require__(352);
+	  function Data() {
+	    return Data.__super__.constructor.apply(this, arguments);
+	  }
 
-	__webpack_require__(117);
+	  return Data;
+
+	})(Neptune.Base));
 
 
 /***/ },
 /* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var App, Nvc,
+	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, normalizeList, peek, sbdNeedsList, splitOnLines, w, wordsArray,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Nvc = __webpack_require__(3);
+	Foundation = __webpack_require__(19);
 
-	module.exports = Nvc.App || Nvc.addNamespace('App', App = (function(superClass) {
-	  extend(App, superClass);
+	HotStyleProps = __webpack_require__(116).HotStyleProps;
 
-	  function App() {
-	    return App.__super__.constructor.apply(this, arguments);
-	  }
+	defineModule = Foundation.defineModule, log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap, w = Foundation.w, peek = Foundation.peek;
 
-	  return App;
+	splitOnLines = function(str) {
+	  return str.split("\n");
+	};
 
-	})(Neptune.Base));
+	normalizeList = function(string) {
+	  var list;
+	  list = w(string);
+	  list.sort();
+	  return list.join(', ');
+	};
 
 
-/***/ },
-/* 116 */
-/***/ function(module, exports, __webpack_require__) {
+	/*
+	 unsorted needs:
 
-	var App, AppNamespace, FullScreenApp, log, ref;
+	   quality
+	   mourning
+	 */
 
-	AppNamespace = __webpack_require__(115);
-
-	__webpack_require__(117);
-
-	__webpack_require__(352);
-
-	App = __webpack_require__(355).App;
-
-	ref = __webpack_require__(120), FullScreenApp = ref.FullScreenApp, log = ref.log;
-
-	FullScreenApp.init({
-	  title: "Needs",
-	  meta: {
-	    "apple-mobile-web-app-status-bar-style": "default"
+	sbdNeedsList = {
+	  surviving: {
+	    sustenance: "Getting all the healthy food and clean water the body needs.",
+	    sleep: "Getting pleanty of sleep. Waking every day fully rested and alive.\n\nadult: 7.5 to 9 hours\nteen: 9 to 9.5 hours",
+	    comfortable_climate: "At work, at home and everywhere in between:\n\nCozy and warm when it's cold outside,\nShady and cool when it's hot,\nDry and clean when it's wet,\nMoist and refreshed when it's dry.",
+	    health: "Feeling 100% well, or healing and on the way to full recovery.",
+	    energy: "Rested, restored, energized and vital.",
+	    physical_safety: "Living free from violence, accidents, illness and disasters.",
+	    security: "Life is stable, predictable, and sustainable.",
+	    children: "Have, or are working on having all the children one wants.",
+	    ergonomics: "All the built-things around me support my body's health and comfort. Examples:\n\nbathroom: toilet, sink, shower, bathtub\nclothing: shoes, underwear, coat, hat, glasses\ncreation: writing and art tools\nexercise: equipment, shoes, clothing\nkitchen: counters, cabinetts, tools\nrest: couch, bed, pillows\nwork: chair, desk, keyboard, monitor"
 	  },
-	  manifest: "assets/needs.manifest",
-	  link: {
-	    "apple-touch-icon": {
-	      href: "assets/needs256.png"
+	  thriving: {
+	    enjoyment: {
+	      pleasure: "Plenty of Exercise, fitness, movement, dance, sex and eroticism. All five senses are simulated and alive.\n\nPleasurable stimulation: beautiful sights, lovely fragrances, pleasurable textures, calming or energizing or inspiring music, delicious food and drink",
+	      variety: "Plenty of variety and novelty.",
+	      leisure: "Plenty of quiet, relaxing, comfortable, space and time.",
+	      play: "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 	    },
-	    "apple-touch-startup-image": {
-	      href: "assets/loading320x480.png"
+	    social: {
+	      sharing: "For each important experience, interest and value, having plenty of people who understand and share ones passions.",
+	      physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection.",
+	      closeness: "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship, and feeling free to be 100% oneself with those people.",
+	      social_balance: "All important relationships are balanced and mutual.",
+	      belonging: "Accepted, acknowledged, included and equal.",
+	      participation: "Plenty of collaboration, cooperation, opportunities for service and sharing.",
+	      appreciation: "Valued, recognized, and wanted.",
+	      nurturing: "Receiving all the care, help, kindness, affection, support and helpful feedback one needs.",
+	      understanding: "Feeling completely understood by those who matter: empathized, heard, known, seen and respected.",
+	      compassion: "Receiving all the attention, consideration, forgiveness, presence, tenderness, vulnerability and love one needs.",
+	      social_safety: "All important relationships are reliable, honest, and full of mutual trust.\n\nAll relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe."
 	    }
+	  },
+	  transcending: {
+	    self_acceptance: "Accept and love oneself\n\nAllow, approve, care, have empathy and compassion for oneself\n\nTrust and honest with oneself",
+	    self_awareness: "Know oneself at ever deeper levels.\n\nNeeds and emotional awareness\n\nKnow one's genius, strengths and weaknesses\n\nKnow what does and doesn't work fulfilling one's own needs.",
+	    self_growth: "Intentionally and continually improve oneself.",
+	    self_expression: "Create and be creative.\n\nImagine, innovate and invent.\n\nActualize and realize ones dreams fully.",
+	    self_respect: "Respect oneself and be worthy of others' respect.\n\nIngredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity",
+	    autonomy: "Feeling enabled, empowered and challenged.\n\nFeeling free to make ones own choices and be spontaneous. Given complete flexibility.\n\nFeeling limitless, full of possibility and full of potential.",
+	    engagement: "Plenty of flow, mindfulness and gratitude.",
+	    mastery: "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful.",
+	    meaning: "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery, exploration, legacy and spirituality.",
+	    peace: "Complete ease, balance, clarity, faith, grace, sanctuary, harmony, hope, order, structure, tranquility, unity and oneness with the universe.",
+	    beauty: "My life is beautiful. My home, workplace, city, public spaces, people, landscape, and personal possessions all stimulate my sense of beauty.",
+	    purpose: "Have a greater purpose.\n\nHave impact, importance, do something that matters, and contribute something of significance.\n\nHave dedication, inspiration, passion and vision.\n\nDream vividly of a better world and a better life."
 	  }
-	}).then(function() {
-	  return App().instantiateAsTopComponent();
-	})["catch"](function(e) {
-	  return log.error("Failed to init NVC app", e);
-	});
+	};
 
+	defineModule(module, Nvc = (function(superClass) {
+	  extend(Nvc, superClass);
 
-/***/ },
-/* 117 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(118).addModules({
-	  StyleProps: __webpack_require__(119)
-	});
-
-
-/***/ },
-/* 118 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var App, Styles,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Styles || App.addNamespace('Styles', Styles = (function(superClass) {
-	  extend(Styles, superClass);
-
-	  function Styles() {
-	    return Styles.__super__.constructor.apply(this, arguments);
+	  function Nvc() {
+	    return Nvc.__super__.constructor.apply(this, arguments);
 	  }
 
-	  return Styles;
+	  Nvc.categories = ["needs", "posEmotions", "negEmotions"];
 
-	})(Neptune.Base));
+	  Nvc.needs = sbdNeedsList;
 
-
-/***/ },
-/* 119 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var HotStyleProps, StyleProps, defineModule, ref, rgbColor,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	ref = __webpack_require__(120), defineModule = ref.defineModule, rgbColor = ref.rgbColor, HotStyleProps = ref.HotStyleProps;
-
-	defineModule(module, StyleProps = (function(superClass) {
-	  var a;
-
-	  extend(StyleProps, superClass);
-
-	  function StyleProps() {
-	    return StyleProps.__super__.constructor.apply(this, arguments);
-	  }
-
-	  StyleProps.primaryColor = a = rgbColor("#8ebdf6");
-
-	  StyleProps.leafColor = a;
-
-	  StyleProps.textStyle = {
-	    color: "#000a",
-	    fontFamily: "sans-serif",
-	    fontSize: 18
+	  Nvc.nvcNeeds = {
+	    "connection a-h": "acceptance affection appreciation belonging cooperation communication closeness community companionship compassion consideration consistency empathy",
+	    "connection i-z": "inclusion intimacy love mutuality nurturing respect self-respect safety security stability support to know to be known to see to be seen to understand to be understood trust warmth",
+	    "physical well being": "air food movement/exercise rest/sleep sexual expression safety shelter touch water",
+	    honesty: "authenticity integrity presence",
+	    play: "joy humor",
+	    peace: "beauty communion ease equality harmony inspiration order",
+	    autonomy: "choice freedom independence space spontaneity",
+	    meaning: "awareness celebration of life challenge clarity competence consciousness contribution creativity discovery efficacy effectiveness growth hope learning mourning participation purpose self-expression stimulation to matter understanding"
 	  };
 
-	  return StyleProps;
+	  Nvc.posEmotions = {
+	    affectionate: normalizeList("compassionate friendly loving open-hearted sympathetic tender warm"),
+	    engaged: normalizeList("absorbed alert curious engrossed enchanted entranced fascinated interested intrigued involved spellbound stimulated"),
+	    hopeful: normalizeList("expectant encouraged optimistic"),
+	    confident: normalizeList("empowered open proud safe secure"),
+	    excited: normalizeList("amazed animated ardent aroused astonished dazzled eager energetic enthusiastic giddy invigorated lively passionate surprised vibrant"),
+	    grateful: normalizeList("appreciative moved thankful touched"),
+	    inspired: normalizeList("amazed awed wonder"),
+	    joyful: normalizeList("amused delighted glad happy jubilant pleased tickled"),
+	    exhilarated: normalizeList("blissful ecstatic elated enthralled exuberant radiant rapturous thrilled"),
+	    peaceful: normalizeList("calm clear-headed comfortable centered content equanimous fulfilled mellow quiet relaxed relieved satisfied serene still tranquil trusting")
+	  };
+
+	  Nvc.negEmotions = {
+	    afraid: normalizeList("apprehensive dread foreboding frightened mistrustful panicked petrified scared suspicious terrified wary worried"),
+	    annoyed: normalizeList("aggravated dismayed disgruntled displeased exasperated frustrated impatient irritated irked"),
+	    angry: normalizeList("enraged furious incensed indignant irate livid outraged resentful"),
+	    aversion: normalizeList("animosity appalled contempt disgusted dislike hate horrified hostile repulsed"),
+	    confused: normalizeList("ambivalent baffled bewildered dazed hesitant lost mystified perplexed puzzled torn"),
+	    disconnected: normalizeList("alienated aloof apathetic bored cold detached distant distracted indifferent numb removed uninterested withdrawn"),
+	    disquiet: normalizeList("agitated alarmed discombobulated disconcerted disturbed perturbed rattled restless shocked startled surprised troubled turbulent turmoil uncomfortable uneasy unnerved unsettled upset"),
+	    embarrassed: normalizeList("ashamed chagrined flustered guilty mortified self-conscious"),
+	    fatigued: normalizeList("beat burnt-out depleted exhausted lethargic listless sleepy tired weary worn-out"),
+	    pain: normalizeList("agony anguished bereaved devastated grief heartbroken hurt lonely miserable regretful remorseful"),
+	    sad: normalizeList("depressed dejected despair despondent disappointed discouraged disheartened forlorn gloomy heavy-hearted hopeless melancholy unhappy wretched"),
+	    tense: normalizeList("anxious cranky distressed distraught edgy fidgety frazzled irritable jittery nervous overwhelmed restless stressed out"),
+	    vulnerable: normalizeList("fragile guarded helpless insecure leery reserved sensitive shaky"),
+	    yearning: normalizeList("envious jealous longing nostalgic pining wistful")
+	  };
+
+	  Nvc.core = {
+	    needs: Nvc.needs,
+	    posEmotions: Nvc.posEmotions,
+	    negEmotions: Nvc.negEmotions
+	  };
+
+	  Nvc.getNotSelectedStatement = function(path) {
+	    if (path[0] === "needs") {
+	      return "I have all the " + (peek(path)) + " I need.";
+	    } else {
+	      return "I am feeling neutral.";
+	    }
+	  };
+
+	  Nvc.getSelectedStatement = function(path) {
+	    if (path[0] === "needs") {
+	      return "I need more " + (peek(path)) + ".";
+	    } else {
+	      return "I am feeling " + (peek(path)) + ".";
+	    }
+	  };
+
+	  return Nvc;
 
 	})(HotStyleProps));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 120 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(121);
+	module.exports = __webpack_require__(117);
 
 
 /***/ },
-/* 121 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(122).includeInNamespace(__webpack_require__(124));
-
-
-/***/ },
-/* 122 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Suite,
+	var Aim, CanvasElement, Element, ElementFactory, Engine, FullScreenApp, React, log,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(123);
+	log = __webpack_require__(19).log;
 
-	module.exports = Art.Suite || Art.addNamespace('Suite', Suite = (function(superClass) {
-	  extend(Suite, superClass);
+	Engine = __webpack_require__(118);
 
-	  function Suite() {
-	    return Suite.__super__.constructor.apply(this, arguments);
-	  }
+	React = __webpack_require__(274);
 
-	  return Suite;
+	ElementFactory = Engine.ElementFactory, Element = Engine.Element, CanvasElement = Engine.CanvasElement, FullScreenApp = Engine.FullScreenApp;
 
-	})(Neptune.Base));
+	module.exports = React;
 
+	Aim = __webpack_require__(291);
 
-/***/ },
-/* 123 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Neptune,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Neptune = __webpack_require__(4);
-
-	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
-	  extend(Art, superClass);
-
-	  function Art() {
-	    return Art.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Art;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 124 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ArtEry, ArtEryFlux, Atomic, Canvas, Engine, Flux, Foundation, React, merge;
-
-	merge = (Foundation = __webpack_require__(19)).merge;
-
-	module.exports = [
-	  merge(Foundation, Atomic = __webpack_require__(125), Canvas = __webpack_require__(137), Engine = __webpack_require__(152), React = __webpack_require__(281), Flux = __webpack_require__(302), ArtEry = __webpack_require__(329), ArtEryFlux = __webpack_require__(343), __webpack_require__(348), {
-	    Foundation: Foundation,
-	    Atomic: Atomic,
-	    Canvas: Canvas,
-	    Engine: Engine,
-	    React: React,
-	    Flux: Flux,
-	    ArtEry: ArtEry,
-	    Ery: ArtEry
-	  })
-	];
-
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(126);
-
-
-/***/ },
-/* 126 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(127).includeInNamespace(__webpack_require__(129)).addModules({
-	  Base: __webpack_require__(131),
-	  Color: __webpack_require__(130),
-	  Matrix: __webpack_require__(134),
-	  Perimeter: __webpack_require__(135),
-	  Point: __webpack_require__(132),
-	  Rectangle: __webpack_require__(133)
-	});
-
-
-/***/ },
-/* 127 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Atomic,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Art = __webpack_require__(128);
-
-	module.exports = Art.Atomic || Art.addNamespace('Atomic', Atomic = (function(superClass) {
-	  extend(Atomic, superClass);
-
-	  function Atomic() {
-	    return Atomic.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Atomic;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 128 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Neptune,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Neptune = __webpack_require__(4);
-
-	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
-	  extend(Art, superClass);
-
-	  function Art() {
-	    return Art.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Art;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 129 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Color, Matrix, Perimeter, Point, Rectangle, _package;
-
-	Color = __webpack_require__(130);
-
-	Point = __webpack_require__(132);
-
-	Rectangle = __webpack_require__(133);
-
-	Matrix = __webpack_require__(134);
-
-	Perimeter = __webpack_require__(135);
-
-	module.exports = [
-	  [Color, "newColor", "color", "hslColor", "rgbColor", "colorNames", "colorNamesMap"], [Point, "point", "point0", "point1", "isPoint", "pointWithAspectRatioAndArea"], [Rectangle, "rect", "nothing", "everything"], [Matrix, "matrix", "identityMatrix"], [Perimeter, "perimeter", "perimeter0"], {
-	    "package": _package = __webpack_require__(136),
-	    version: _package.version
-	  }
-	];
-
-
-/***/ },
-/* 130 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AtomicBase, Color, Foundation, abs, bound, colorFloatEq, float32Eq, float32Eq0, hex16ColorRegex, hex256ColorRegex, inspect, isString, log, max, min, modulo, pad, parseRGBColorComponent, rgbColorRegex, rgbaColorRegex,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	AtomicBase = __webpack_require__(131);
-
-	inspect = Foundation.inspect, bound = Foundation.bound, modulo = Foundation.modulo, pad = Foundation.pad, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, float32Eq = Foundation.float32Eq, isString = Foundation.isString, log = Foundation.log, hex16ColorRegex = Foundation.hex16ColorRegex, hex256ColorRegex = Foundation.hex256ColorRegex, rgbColorRegex = Foundation.rgbColorRegex, rgbaColorRegex = Foundation.rgbaColorRegex, float32Eq0 = Foundation.float32Eq0;
-
-	colorFloatEq = float32Eq;
-
-	parseRGBColorComponent = function(str) {
-	  var percentIndex;
-	  if ((percentIndex = str.indexOf('%')) !== -1) {
-	    return (str.slice(0, percentIndex) | 0) * .01;
-	  } else {
-	    return (str | 0) * 1 / 255;
-	  }
-	};
-
-	module.exports = Color = (function(superClass) {
-	  var colorNames, colorNamesMap, hexString, hslColor, k, parseCache, rgbColor, v, withSat, zeroString;
-
-	  extend(Color, superClass);
-
-	  function Color() {
-	    return Color.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Color.defineAtomicClass({
-	    fieldNames: "r g b a",
-	    constructorFunctionName: "rgbColor"
-	  });
-
-	  Color.colorNames = colorNames = ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'DarkOrange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGray', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen'];
-
-	  Color.colorNamesMap = colorNamesMap = {
-	    transparent: "rgba(0,0,0,0)",
-	    aliceblue: "#f0f8ff",
-	    antiquewhite: "#faebd7",
-	    aqua: "#00ffff",
-	    aquamarine: "#7fffd4",
-	    azure: "#f0ffff",
-	    beige: "#f5f5dc",
-	    bisque: "#ffe4c4",
-	    black: "#000000",
-	    blanchedalmond: "#ffebcd",
-	    blue: "#0000ff",
-	    blueviolet: "#8a2be2",
-	    brown: "#a52a2a",
-	    burlywood: "#deb887",
-	    cadetblue: "#5f9ea0",
-	    chartreuse: "#7fff00",
-	    chocolate: "#d2691e",
-	    coral: "#ff7f50",
-	    cornflowerblue: "#6495ed",
-	    cornsilk: "#fff8dc",
-	    crimson: "#dc143c",
-	    cyan: "#00ffff",
-	    darkblue: "#00008b",
-	    darkcyan: "#008b8b",
-	    darkgoldenrod: "#b8860b",
-	    darkgrey: "#a9a9a9",
-	    darkgray: "#a9a9a9",
-	    darkgreen: "#006400",
-	    darkkhaki: "#bdb76b",
-	    darkmagenta: "#8b008b",
-	    darkolivegreen: "#556b2f",
-	    darkorange: "#ff8c00",
-	    darkorchid: "#9932cc",
-	    darkred: "#8b0000",
-	    darksalmon: "#e9967a",
-	    darkseagreen: "#8fbc8f",
-	    darkslateblue: "#483d8b",
-	    darkslategrey: "#2f4f4f",
-	    darkslategray: "#2f4f4f",
-	    darkturquoise: "#00ced1",
-	    darkviolet: "#9400d3",
-	    deeppink: "#ff1493",
-	    deepskyblue: "#00bfff",
-	    dimgrey: "#696969",
-	    dimgray: "#696969",
-	    dodgerblue: "#1e90ff",
-	    firebrick: "#b22222",
-	    floralwhite: "#fffaf0",
-	    forestgreen: "#228b22",
-	    fuchsia: "#ff00ff",
-	    gainsboro: "#dcdcdc",
-	    ghostwhite: "#f8f8ff",
-	    gold: "#ffd700",
-	    goldenrod: "#daa520",
-	    grey: "#808080",
-	    gray: "#808080",
-	    green: "#008000",
-	    greenyellow: "#adff2f",
-	    honeydew: "#f0fff0",
-	    hotpink: "#ff69b4",
-	    indianred: "#cd5c5c",
-	    indigo: "#4b0082",
-	    ivory: "#fffff0",
-	    khaki: "#f0e68c",
-	    lavender: "#e6e6fa",
-	    lavenderblush: "#fff0f5",
-	    lawngreen: "#7cfc00",
-	    lemonchiffon: "#fffacd",
-	    lightblue: "#add8e6",
-	    lightcoral: "#f08080",
-	    lightcyan: "#e0ffff",
-	    lightgoldenrodyellow: "#fafad2",
-	    lightgrey: "#d3d3d3",
-	    lightgray: "#d3d3d3",
-	    lightgreen: "#90ee90",
-	    lightpink: "#ffb6c1",
-	    lightsalmon: "#ffa07a",
-	    lightseagreen: "#20b2aa",
-	    lightskyblue: "#87cefa",
-	    lightslategrey: "#778899",
-	    lightslategray: "#778899",
-	    lightsteelblue: "#b0c4de",
-	    lightyellow: "#ffffe0",
-	    lime: "#00ff00",
-	    limegreen: "#32cd32",
-	    linen: "#faf0e6",
-	    magenta: "#ff00ff",
-	    maroon: "#800000",
-	    mediumaquamarine: "#66cdaa",
-	    mediumblue: "#0000cd",
-	    mediumorchid: "#ba55d3",
-	    mediumpurple: "#9370db",
-	    mediumseagreen: "#3cb371",
-	    mediumslateblue: "#7b68ee",
-	    mediumspringgreen: "#00fa9a",
-	    mediumturquoise: "#48d1cc",
-	    mediumvioletred: "#c71585",
-	    midnightblue: "#191970",
-	    mintcream: "#f5fffa",
-	    mistyrose: "#ffe4e1",
-	    moccasin: "#ffe4b5",
-	    navajowhite: "#ffdead",
-	    navy: "#000080",
-	    oldlace: "#fdf5e6",
-	    olive: "#808000",
-	    olivedrab: "#6b8e23",
-	    orange: "#ffa500",
-	    orangered: "#ff4500",
-	    orchid: "#da70d6",
-	    palegoldenrod: "#eee8aa",
-	    palegreen: "#98fb98",
-	    paleturquoise: "#afeeee",
-	    palevioletred: "#db7093",
-	    papayawhip: "#ffefd5",
-	    peachpuff: "#ffdab9",
-	    peru: "#cd853f",
-	    pink: "#ffc0cb",
-	    plum: "#dda0dd",
-	    powderblue: "#b0e0e6",
-	    purple: "#800080",
-	    red: "#ff0000",
-	    rosybrown: "#bc8f8f",
-	    royalblue: "#4169e1",
-	    saddlebrown: "#8b4513",
-	    salmon: "#fa8072",
-	    sandybrown: "#f4a460",
-	    seagreen: "#2e8b57",
-	    seashell: "#fff5ee",
-	    sienna: "#a0522d",
-	    silver: "#c0c0c0",
-	    skyblue: "#87ceeb",
-	    slateblue: "#6a5acd",
-	    slategrey: "#708090",
-	    slategray: "#708090",
-	    snow: "#fffafa",
-	    springgreen: "#00ff7f",
-	    steelblue: "#4682b4",
-	    tan: "#d2b48c",
-	    teal: "#008080",
-	    thistle: "#d8bfd8",
-	    tomato: "#ff6347",
-	    turquoise: "#40e0d0",
-	    violet: "#ee82ee",
-	    wheat: "#f5deb3",
-	    white: "#ffffff",
-	    whitesmoke: "#f5f5f5",
-	    yellow: "#ffff00",
-	    yellowgreen: "#9acd32"
-	  };
-
-	  Color.parseCache = parseCache = {};
-
-	  Color.rgbColor = rgbColor = function(a, b, c, d) {
-	    var clr;
-	    if ((b == null) && (a instanceof Color)) {
-	      return a;
-	    }
-	    if (isString(a) && (clr = colorNamesMap[a] || parseCache[a])) {
-	      return clr;
-	    }
-	    return new Color(a, b, c, d);
-	  };
-
-	  Color.newColor = rgbColor;
-
-	  Color.color = function(a, b, c, d) {
-	    log.error("Atomic.color DEPRICATED. Use rgbColor.");
-	    return rgbColor(a, b, c, d);
-	  };
-
-	  Color.hslColor = hslColor = function(h, s, l, a) {
-	    var f, p, phase, q, t;
-	    if (a == null) {
-	      a = 1;
-	    }
-	    if (h instanceof Color) {
-	      return h;
-	    }
-	    h = modulo(h, 1);
-	    phase = h * 6 | 0;
-	    f = h * 6 - phase;
-	    p = l * (1 - s);
-	    q = l * (1 - f * s);
-	    t = l * (1 - (1 - f) * s);
-	    h = colorFloatEq(h, 1) ? 1 : h % 1;
-	    switch (phase % 6) {
-	      case 0:
-	        return new Color(l, t, p, a, h, s, l);
-	      case 1:
-	        return new Color(q, l, p, a, h, s, l);
-	      case 2:
-	        return new Color(p, l, t, a, h, s, l);
-	      case 3:
-	        return new Color(p, q, l, a, h, s, l);
-	      case 4:
-	        return new Color(t, p, l, a, h, s, l);
-	      case 5:
-	        return new Color(l, p, q, a, h, s, l);
-	    }
-	  };
-
-	  Color.parse = function(string, existing) {
-	    if (existing == null) {
-	      existing = null;
-	    }
-	    if (existing) {
-	      throw new Error("existing feature is no longer supported");
-	    }
-	    return new Artomic.Color(string);
-	  };
-
-	  Color.prototype._initFromObject = function(obj) {
-	    return this.r = obj.r, this.g = obj.g, this.b = obj.b, this.a = obj.a, obj;
-	  };
-
-	  Color.prototype._initFromString = function(string) {
-	    var a, b, clr, elements, g, lcString, match, r, x;
-	    this.initProperties();
-	    parseCache[string] = this;
-	    if (match = string.match(hex16ColorRegex)) {
-	      x = match[0], r = match[1], g = match[2], b = match[3], a = match[4];
-	      if (!a) {
-	        this._htmlColorString = string;
-	      }
-	      a || (a = "f");
-	      this.r = parseInt(r, 16) / 15;
-	      this.g = parseInt(g, 16) / 15;
-	      this.b = parseInt(b, 16) / 15;
-	      return this.a = parseInt(a, 16) / 15;
-	    } else if (match = string.match(hex256ColorRegex)) {
-	      x = match[0], r = match[1], g = match[2], b = match[3], a = match[4];
-	      if (!a) {
-	        this._htmlColorString = string;
-	      }
-	      a || (a = "ff");
-	      this.r = parseInt(r, 16) / 255;
-	      this.g = parseInt(g, 16) / 255;
-	      this.b = parseInt(b, 16) / 255;
-	      return this.a = parseInt(a, 16) / 255;
-	    } else if (elements = string.match(rgbColorRegex)) {
-	      this._htmlColorString = string;
-	      this.a = 1;
-	      this.r = parseRGBColorComponent(elements[1]);
-	      this.g = parseRGBColorComponent(elements[2]);
-	      return this.b = parseRGBColorComponent(elements[3]);
-	    } else if (elements = string.match(rgbaColorRegex)) {
-	      this._htmlColorString = string;
-	      this.r = parseRGBColorComponent(elements[1]);
-	      this.g = parseRGBColorComponent(elements[2]);
-	      this.b = parseRGBColorComponent(elements[3]);
-	      return this.a = elements[4] - 0;
-	    } else if (/^[a-z]+$/i.test(lcString = string.toLowerCase())) {
-	      if (!(clr = colorNamesMap[lcString])) {
-	        return this.log({
-	          parseError: this.parseError = "WARNING: Color.parse failure. Unknown rgbColor name: " + (inspect(string))
-	        });
-	      }
-	      this._htmlColorString = clr._htmlColorString;
-	      this.r = clr.r;
-	      this.g = clr.g;
-	      this.b = clr.b;
-	      return this.a = clr.a;
-	    } else {
-	      return this.log({
-	        parseError: this.parseError = "WARNING: Color.parse failure for " + (inspect(string))
-	      });
-	    }
-	  };
-
-	  Color.prototype.initProperties = function() {
-	    this.r = this.g = this.b = 0;
-	    this.a = 1;
-	    this._hue = this._saturation = this._lightness = null;
-	    this.parseError = null;
-	    return this._htmlColorString = null;
-	  };
-
-	  Color.prototype._init = function(a, b, c, d, h, s, l) {
-	    this.initProperties();
-	    if (h != null) {
-	      this._hue = h - 0;
-	    }
-	    if (s != null) {
-	      this._saturation = s - 0;
-	    }
-	    if (l != null) {
-	      this._lightness = l - 0;
-	    }
-	    if (a == null) {
-	      this.r = this.g = this.b = 0;
-	      return this.a = 1;
-	    } else if (b == null) {
-	      if (a > 1) {
-	        a /= 255;
-	      }
-	      this.r = this.g = this.b = a - 0;
-	      return this.a = 1 - 0;
-	    } else if (c != null) {
-	      this.r = a - 0;
-	      this.g = b - 0;
-	      this.b = c - 0;
-	      return this.a = d != null ? d - 0 : 1;
-	    }
-	  };
-
-	  Color.prototype.interpolate = function(toColor, p) {
-	    var a, b, g, oneMinusP, r, ref;
-	    ref = this, r = ref.r, g = ref.g, b = ref.b, a = ref.a;
-	    toColor = rgbColor(toColor);
-	    if (float32Eq0(a)) {
-	      r = toColor.r, g = toColor.g, b = toColor.b;
-	    }
-	    if (float32Eq0(toColor.a)) {
-	      toColor = this.withAlpha(0);
-	    }
-	    oneMinusP = 1 - p;
-	    return new Color(toColor.r * p + r * oneMinusP, toColor.g * p + g * oneMinusP, toColor.b * p + b * oneMinusP, toColor.a * p + a * oneMinusP);
-	  };
-
-	  Color.prototype.blend = function(color, amount) {
-	    var a, b, g, r, ref;
-	    color = rgbColor(color);
-	    ref = this, r = ref.r, g = ref.g, b = ref.b, a = ref.a;
-	    switch (false) {
-	      case amount == null:
-	        return new Color((color.r - r) * amount + r, (color.g - g) * amount + g, (color.b - b) * amount + b, (color.a - a) * amount + a);
-	      case !colorFloatEq(color.a, 1):
-	        return color;
-	      case !colorFloatEq(color.a, 0):
-	        return this;
-	      default:
-	        amount = color.a;
-	        return new Color((color.r - r) * amount + r, (color.g - g) * amount + g, (color.b - b) * amount + b, (1 - a) * amount + a);
-	    }
-	  };
-
-	  Color.prototype.withAlpha = function(a) {
-	    return new Color(this.r, this.g, this.b, a);
-	  };
-
-	  Color.prototype.withLightness = function(v) {
-	    return hslColor(this.h, this.s, v, this.a);
-	  };
-
-	  Color.prototype.withHue = function(v) {
-	    return hslColor(v, this.s, this.l, this.a);
-	  };
-
-	  Color.prototype.withSat = withSat = function(v) {
-	    return hslColor(this.h, v, this.l, this.a);
-	  };
-
-	  Color.prototype.withSaturation = withSat;
-
-	  Color.prototype.withChannel = function(c, v) {
-	    switch (c) {
-	      case "r":
-	      case "red":
-	        return new Color(v, this.g, this.b, this.a);
-	      case "g":
-	      case "green":
-	        return new Color(this.r, v, this.b, this.a);
-	      case "b":
-	      case "blue":
-	        return new Color(this.r, this.g, v, this.a);
-	      case "h":
-	      case "hue":
-	        return hslColor(v, this.s, this.l, this.a);
-	      case "s":
-	      case "sat":
-	      case "saturation":
-	        return hslColor(this.h, v, this.l, this.a);
-	      case "l":
-	      case "lightness":
-	        return this.withLightness(v);
-	      case "a":
-	      case "alpha":
-	        return this.withAlpha(v);
-	      default:
-	        throw new Error("invalid channel: " + (inspect(c)));
-	    }
-	  };
-
-	  Color.prototype.withChannels = function(c) {
-	    var a, b, g, h, l, r, s;
-	    if (c.h || c.s || c.l) {
-	      h = c.h != null ? c.h : this.h;
-	      s = c.s != null ? c.s : this.s;
-	      l = c.l != null ? c.l : this.l;
-	      a = c.a != null ? c.a : this.a;
-	      return hslColor(h, s, l, a);
-	    } else {
-	      r = c.r != null ? c.r : this.r;
-	      g = c.g != null ? c.g : this.g;
-	      b = c.b != null ? c.b : this.b;
-	      a = c.a != null ? c.a : this.a;
-	      return new Color(r, g, b, a);
-	    }
-	  };
-
-	  zeroString = "0";
-
-	  hexString = function(number, length) {
-	    if (length == null) {
-	      length = 2;
-	    }
-	    return pad(number.toString(16), length, zeroString, true);
-	  };
-
-	  Color.getter({
-	    arrayRGB: function() {
-	      return [this.r, this.g, this.b];
-	    },
-	    rgbSum: function() {
-	      return this.r + this.g + this.b;
-	    },
-	    rgbSquaredSum: function() {
-	      return this.r * this.r + this.g * this.g + this.b * this.b;
-	    },
-	    clamped: function() {
-	      return new Color(bound(0, this.r, 1), bound(0, this.g, 1), bound(0, this.b, 1), bound(0, this.a, 1));
-	    },
-	    r256: function() {
-	      return bound(0, Math.round(this.r * 255), 255);
-	    },
-	    g256: function() {
-	      return bound(0, Math.round(this.g * 255), 255);
-	    },
-	    b256: function() {
-	      return bound(0, Math.round(this.b * 255), 255);
-	    },
-	    a256: function() {
-	      return bound(0, Math.round(this.a * 255), 255);
-	    },
-	    r16: function() {
-	      return bound(0, Math.round(this.r * 15), 15);
-	    },
-	    g16: function() {
-	      return bound(0, Math.round(this.g * 15), 15);
-	    },
-	    b16: function() {
-	      return bound(0, Math.round(this.b * 15), 15);
-	    },
-	    a16: function() {
-	      return bound(0, Math.round(this.a * 15), 15);
-	    },
-	    h256: function() {
-	      return bound(0, Math.round(this.h * 255), 255);
-	    },
-	    s256: function() {
-	      return bound(0, Math.round(this.s * 255), 255);
-	    },
-	    b256: function() {
-	      return bound(0, Math.round(this.b * 255), 255);
-	    },
-	    rClamped: function() {
-	      return bound(0, this.r, 1);
-	    },
-	    gClamped: function() {
-	      return bound(0, this.g, 1);
-	    },
-	    bClamped: function() {
-	      return bound(0, this.b, 1);
-	    },
-	    aClamped: function() {
-	      return bound(0, this.a, 1);
-	    },
-	    premultiplied: function() {
-	      return new Color(this.r * this.a, this.g * this.a, this.b * this.a, this.a);
-	    },
-	    demultiplied: function() {
-	      return new Color(this.r / this.a, this.g / this.a, this.b / this.a, this.a);
-	    },
-	    cssString: function() {
-	      return "rgba(" + [this.r256, this.g256, this.b256, this.aClamped].join(', ') + ")";
-	    },
-	    rgbaString: function() {
-	      return "rgbColor(" + [this.r256, this.g256, this.b256, this.a256].join('/255, ') + "/255)";
-	    },
-	    hexString: function() {
-	      return "#" + hexString(this.r256) + hexString(this.g256) + hexString(this.b256);
-	    },
-	    hex16String: function() {
-	      return "#" + hexString(this.r16, 1) + hexString(this.g16, 1) + hexString(this.b16, 1);
-	    },
-	    hslHexString: function() {
-	      return "#" + hexString(this.h256) + hexString(this.s256) + hexString(this.b256);
-	    },
-	    rgbaHexString: function() {
-	      return "#" + this.getRawRgbaHexString();
-	    },
-	    rawRgbaHexString: function() {
-	      return hexString(this.r256) + hexString(this.g256) + hexString(this.b256) + hexString(this.a256);
-	    }
-	  });
-
-	  Color.prototype.inspect = function() {
-	    var a;
-	    a = colorFloatEq(1, this.a) ? this.hexString : this.rgbaHexString;
-	    return "rgbColor('" + a + "')";
-	  };
-
-	  Color.prototype.toString = function() {
-	    return this._htmlColorString || (this._htmlColorString = colorFloatEq(1, this.a) ? this.getHexString() : this.getCssString());
-	  };
-
-	  Color.getter({
-	    plainObjects: function() {
-	      if (this.a < 1) {
-	        return this.rgbaHexString;
-	      } else {
-	        return this.hexString;
-	      }
-	    },
-	    inspectedObjects: function() {
-	      if (colorFloatEq(1, this.a)) {
-	        return this.hexString;
-	      } else {
-	        return this.rgbaHexString;
-	      }
-	    }
-	  });
-
-	  Color.getter({
-	    h: function() {
-	      return this._hue != null ? this._hue : this._hue = this.rgbToHsl() && this._hue;
-	    },
-	    s: function() {
-	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
-	    },
-	    l: function() {
-	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
-	    },
-	    inverseL: function() {
-	      return 1 - this.l;
-	    },
-	    inverseS: function() {
-	      return 1 - this.s;
-	    },
-	    inverseH: function() {
-	      return 1 - this.h;
-	    },
-	    hue: function() {
-	      return this._hue != null ? this._hue : this._hue = this.rgbToHsl() && this._hue;
-	    },
-	    sat: function() {
-	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
-	    },
-	    lit: function() {
-	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
-	    },
-	    saturation: function() {
-	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
-	    },
-	    lightness: function() {
-	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
-	    },
-	    perceptualLightness: function() {
-	      return 0.2126 * this.r + 0.7152 * this.g + 0.0722 * this.b;
-	    },
-	    satLightness: function() {
-	      return (2 - this._saturation) * this._lightness * .5;
-	    }
-	  });
-
-	  Color.perceptualWeights = {
-	    r: 0.2126,
-	    g: 0.7152,
-	    b: 0.0722
-	  };
-
-	  Color.prototype.rgbToHsl = function() {
-	    var b, delta, g, maxRGB, minRGB, r, sixth;
-	    r = this.r;
-	    g = this.g;
-	    b = this.b;
-	    maxRGB = max(r, g, b);
-	    minRGB = min(r, g, b);
-	    delta = maxRGB - minRGB;
-	    sixth = 1.0 / 6.0;
-	    this._lightness = maxRGB;
-	    if (maxRGB === minRGB) {
-	      this._hue = 0;
-	      this._saturation = 0;
-	      return true;
-	    }
-	    if (maxRGB === r) {
-	      if (g >= b) {
-	        this._hue = sixth * ((g - b) / delta);
-	      } else {
-	        this._hue = sixth * ((g - b) / delta) + 1;
-	      }
-	    } else if (maxRGB === g) {
-	      this._hue = sixth * ((b - r) / delta) + 1 / 3;
-	    } else {
-	      this._hue = sixth * ((r - g) / delta) + 2 / 3;
-	    }
-	    this._saturation = 1 - (minRGB / maxRGB);
-	    return true;
-	  };
-
-	  for (k in colorNamesMap) {
-	    v = colorNamesMap[k];
-	    colorNamesMap[k] = rgbColor(v);
-	  }
-
-	  return Color;
-
-	})(AtomicBase);
-
-
-/***/ },
-/* 131 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base, BaseObject, floatEq, inspect, inspectedObjectLiteral, isFunction, isNumber, isPlainArray, isPlainObject, isString, log, lowerCamelCase, ref, stringToNumberArray, upperCamelCase, wordsArray,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	ref = __webpack_require__(19), inspect = ref.inspect, log = ref.log, isNumber = ref.isNumber, isPlainObject = ref.isPlainObject, isPlainArray = ref.isPlainArray, isString = ref.isString, isFunction = ref.isFunction, stringToNumberArray = ref.stringToNumberArray, BaseObject = ref.BaseObject, lowerCamelCase = ref.lowerCamelCase, upperCamelCase = ref.upperCamelCase, inspectedObjectLiteral = ref.inspectedObjectLiteral, floatEq = ref.floatEq, wordsArray = ref.wordsArray, inspect = ref.inspect;
-
-	module.exports = Base = (function(superClass) {
-	  var letterFieldNames, reservedWords;
-
-	  extend(Base, superClass);
-
-
-	  /*
-	  TODO
-	  
-	  All Atomics follow the same pattern:
-	  
-	    A fixed, ordered set of fields
-	    with fixed names
-	    and fixed defaults
-	  
-	  Most functions could be automatically defined given:
-	  
-	    An array of field-names
-	    An array of default values
-	    NOTE: I wish we could just use an object to specifiy those, but
-	      the order is not guaranteed, and we need a fixed order.
-	  
-	  The field-names could be defined with a string.
-	  Zero (0) can be the default default-value
-	  
-	  Point:      @defineAtomic fieldNames: "x y"
-	  Matrix:     @defineAtomic fieldNames: "sx shy tx shx sy ty", defaults: [1, 1]
-	  Rectangle:  @defineAtomic fieldNames: "x y w h"
-	  Perimeter:  @defineAtomic fieldNames: "left right top bottom"
-	  
-	  nonStandardInitializes
-	    Initializing with 1 arg or fields.length args is usually the same for all atomics
-	    But, intializing with a number of args in between tends to vary.
-	    I suggest overrides:
-	    _init0: -> defaults
-	    _init1: (a) -> all fields = a
-	    _init2:
-	    _init3:
-	    _init4:
-	    _init#{n}: -> each field gets set individually
-	  
-	  @defineAtomicClass: ({fieldNames, defaults, aliases}) ->
-	    fields = wordsArray fields if isString fields
-	    @defineSetAll()           # uses fieldNames
-	    @defineInit0()            # uses fieldNames and defaults
-	    @defineInit1()            # uses fieldNames
-	    @defineInterpolate()      # uses fieldNames
-	    @defineComparisonOperators()  # uses fieldNames, defines: eq, gt, lt, gte, lte
-	    @defineMathOperators()        # uses fieldNames, defines: add, sub, mul, div
-	    @defineToArray()          # uses fieldNames
-	    @defineInitFromObject()   # uses fieldNames and aliases
-	    @defineToObject()         # uses fieldNames
-	    @defineGetters()          # uses fieldNames and aliases
-	    @defineInto()             # uses fieldNames
-	    @defineToString()
-	    @defineInspect()
-	    @defineToInspectedObjects()
-	   */
-
-	  Base.prototype._initFromString = function(string) {
-	    return this._init.apply(this, stringToNumberArray(string));
-	  };
-
-	  function Base(a, b, c, d, e, f, g) {
-	    Base.__super__.constructor.apply(this, arguments);
-	    if (isPlainArray(a)) {
-	      this._init.apply(this, a);
-	    } else if (isString(a)) {
-	      this._initFromString(a);
-	    } else if (isPlainObject(a)) {
-	      this._initFromObject(a);
-	    } else if ((a != null) && !isNumber(a) && !(a instanceof Base) && isFunction(a.toString)) {
-	      this._initFromString(a.toString());
-	    } else {
-	      this._init(a, b, c, d, e, f, g);
-	    }
-	  }
-
-	  Base.prototype.compare = function(b) {
-	    if (this.eq(b)) {
-	      return 0;
-	    }
-	    if (this.lte(b)) {
-	      return -1;
-	    }
-	    if (this.gte(b)) {
-	      return 1;
-	    }
-	    return 0/0;
-	  };
-
-	  Base.getConstructorFunctionName = function() {
-	    return this.constructorFunctionName || (this.constructorFunctionName = lowerCamelCase(this.getName()));
-	  };
-
-	  Base.getter({
-	    plainObjects: function() {
-	      return this.toObject();
-	    },
-	    inspectedObjects: function() {
-	      return inspectedObjectLiteral(this["class"].getConstructorFunctionName() + ("(" + (this.toArray().join(', ')) + ")"));
-	    }
-	  });
-
-	  Base.prototype.toPlainStructure = function() {
-	    return this.getPlainObjects();
-	  };
-
-	  Base.prototype.toPlainEvalString = function() {
-	    return inspect(this.getPlainObjects());
-	  };
-
-	  Base.prototype.inspect = function() {
-	    return (this["class"].getConstructorFunctionName()) + "(" + (this.toArray().join(', ')) + ")";
-	  };
-
-	  Base.prototype.toJson = function() {
-	    return this.toString();
-	  };
-
-	  Base.prototype.toString = function(precision) {
-	    var a;
-	    if (precision) {
-	      return "[" + (((function() {
-	        var j, len, ref1, results;
-	        ref1 = this.toArray();
-	        results = [];
-	        for (j = 0, len = ref1.length; j < len; j++) {
-	          a = ref1[j];
-	          results.push(a.toPrecision(precision));
-	        }
-	        return results;
-	      }).call(this)).join(', ')) + "]";
-	    } else {
-	      return "[" + (this.toArray().join(', ')) + "]";
-	    }
-	  };
-
-	  Base.prototype.neq = function(b) {
-	    return !this.eq(b);
-	  };
-
-	  Base.prototype.between = function(a, b) {
-	    return this.gte(a) && this.lte(b);
-	  };
-
-	  Base.prototype.floatEq = floatEq;
-
-	  Base.prototype.isNumber = isNumber;
-
-
-	  /*
-	  for use by extending children classes
-	   */
-
-	  Base.defineAtomicClass = function(arg) {
-	    this.fieldNames = arg.fieldNames, this.constructorFunctionName = arg.constructorFunctionName;
-	    if (isString(this.fieldNames)) {
-	      this.fieldNames = wordsArray(this.fieldNames);
-	    }
-	    this.getConstructorFunctionName();
-	    this._defineCore(this.fieldNames);
-	    this._defineComparisonOperators(this.fieldNames);
-	    return this._defineMathOperators(this.fieldNames);
-
-	    /*
-	    TODO: more standard methods to add:
-	    
-	     * most init can be standardized
-	    _init*
-	    
-	     * more math methods
-	    min max floor ceil average bound round
-	    
-	     * class methods
-	    @isPoint
-	     */
-	  };
-
-	  reservedWords = {
-	    "with": true
-	  };
-
-	  Base._definePrototypeMethodViaEval = function(name, paramsList, body) {
-	    var nameInEval;
-	    nameInEval = reservedWords[name] ? "" : name;
-	    return this.prototype[name] = eval(body = "(\nfunction " + nameInEval + "(" + paramsList + ") {\n" + body + "\n}\n)");
-	  };
-
-
-	  /*
-	  define: eq, lt, gt, lte, gt
-	  With these signatures:
-	  
-	     * provide numbers for all fields to compare
-	    myColor.eq r, g, b, a
-	  
-	     * provide another instance of @class to compare against
-	    myColor.eq myOtherColor
-	   */
-
-	  letterFieldNames = wordsArray("a b c d e f");
-
-	  Base._defineComparisonOperators = function(fieldNames) {
-	    var comparisonOperators, f, functionName, i, operator, params, paramsList, results;
-	    params = letterFieldNames.slice(0, fieldNames.length);
-	    paramsList = params.join(', ');
-	    this._definePrototypeMethodViaEval("eq", paramsList, "if (this === a) return true;\nif (this.isNumber(a)) {\n  return\n  " + (((function() {
-	      var j, len, results;
-	      results = [];
-	      for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
-	        f = fieldNames[i];
-	        results.push("this.floatEq(this." + f + ", " + params[i] + ")");
-	      }
-	      return results;
-	    })()).join(" &&\n  ")) + ";\n} else {\n  return a &&\n  " + (((function() {
-	      var j, len, results;
-	      results = [];
-	      for (j = 0, len = fieldNames.length; j < len; j++) {
-	        f = fieldNames[j];
-	        results.push("this.floatEq(this." + f + ", a." + f + ")");
-	      }
-	      return results;
-	    })()).join(" &&\n  ")) + ";\n}");
-	    comparisonOperators = {
-	      lt: "<",
-	      gt: ">",
-	      lte: "<=",
-	      gte: ">="
-	    };
-	    results = [];
-	    for (functionName in comparisonOperators) {
-	      operator = comparisonOperators[functionName];
-	      results.push(this._definePrototypeMethodViaEval(functionName, paramsList, "if (this.isNumber(a)) {\n  return\n  " + (((function() {
-	        var j, len, results1;
-	        results1 = [];
-	        for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
-	          f = fieldNames[i];
-	          results1.push("this." + f + " " + operator + " " + params[i]);
-	        }
-	        return results1;
-	      })()).join(" &&\n  ")) + ";\n} else {\n  return a &&\n  " + (((function() {
-	        var j, len, results1;
-	        results1 = [];
-	        for (j = 0, len = fieldNames.length; j < len; j++) {
-	          f = fieldNames[j];
-	          results1.push("this." + f + " " + operator + " a." + f);
-	        }
-	        return results1;
-	      })()).join(" &&\n  ")) + ";\n}"));
-	    }
-	    return results;
-	  };
-
-
-	  /*
-	  define: add, sub, mul and div
-	  With these signatures:
-	  
-	    myColor.add r, g, b, a   # 4 numbers
-	  
-	    myColor.add myOtherColor, into # add by component
-	    myColor.add v, into            # one number to add to all
-	  
-	    into is optional. if set:
-	      it should be an instance of @class
-	      into is what is returned; a new instance of @class is not created
-	      into's field are set to the result
-	      NOTE: Atomic classes are designed to be used Pure-Functionally!
-	        SO, only use this if you created 'into' and you are not using it ANYWHERE else.
-	   */
-
-	  Base._defineMathOperators = function(fieldNames) {
-	    var f, functionName, i, mathOperators, operator, params, results;
-	    mathOperators = {
-	      add: "+",
-	      sub: "-",
-	      mul: "*",
-	      div: "/"
-	    };
-	    params = letterFieldNames.slice(0, fieldNames.length);
-	    results = [];
-	    for (functionName in mathOperators) {
-	      operator = mathOperators[functionName];
-	      results.push(this._definePrototypeMethodViaEval(functionName, params.join(', '), "if (this.isNumber(b)) {\n  return this._into(\n  null,\n  " + (((function() {
-	        var j, len, results1;
-	        results1 = [];
-	        for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
-	          f = fieldNames[i];
-	          results1.push("this." + f + " " + operator + " " + params[i]);
-	        }
-	        return results1;
-	      })()).join(",\n  ")) + "\n  );\n} else if (this.isNumber(a)) {\n  return this._into(\n  b,\n  " + (((function() {
-	        var j, len, results1;
-	        results1 = [];
-	        for (j = 0, len = fieldNames.length; j < len; j++) {
-	          f = fieldNames[j];
-	          results1.push("this." + f + " " + operator + " a");
-	        }
-	        return results1;
-	      })()).join(",\n  ")) + "\n  );\n} else {\n  return this._into(\n  b,\n  " + (((function() {
-	        var j, len, results1;
-	        results1 = [];
-	        for (j = 0, len = fieldNames.length; j < len; j++) {
-	          f = fieldNames[j];
-	          results1.push("this." + f + " " + operator + " a." + f);
-	        }
-	        return results1;
-	      })()).join(",\n  ")) + "\n  );\n}"));
-	    }
-	    return results;
-	  };
-
-	  Base._defineCore = function(fields) {
-	    var f, field, fieldList, j, len;
-	    fieldList = fields.join(', ');
-	    this._definePrototypeMethodViaEval("_into", "into, " + fieldList, "if (into === true)\n  into = this;\nelse\n  into = into || new this.class;\nreturn into._setAll(" + fieldList + ");");
-	    this._definePrototypeMethodViaEval("_setAll", fieldList, (((function() {
-	      var j, len, results;
-	      results = [];
-	      for (j = 0, len = fields.length; j < len; j++) {
-	        f = fields[j];
-	        results.push("this." + f + " = " + f);
-	      }
-	      return results;
-	    })()).join(";\n")) + ";\nreturn this;");
-	    this._definePrototypeMethodViaEval("with", fieldList, "if (this.eq(" + fieldList + "))\n  return this;\nelse\n  return new this.class(" + fieldList + ");");
-	    for (j = 0, len = fields.length; j < len; j++) {
-	      field = fields[j];
-	      this._definePrototypeMethodViaEval("with" + (upperCamelCase(field)), field, "return this.with(\n  " + (((function() {
-	        var k, len1, results;
-	        results = [];
-	        for (k = 0, len1 = fields.length; k < len1; k++) {
-	          f = fields[k];
-	          results.push(f === field ? f : "this." + f);
-	        }
-	        return results;
-	      })()).join(",\n  ")) + "\n);");
-	    }
-	    this._definePrototypeMethodViaEval("interpolate", "b, p, into", "var oneMinusP = 1 - p;\nreturn this._into(\ninto,\n" + (((function() {
-	      var k, len1, results;
-	      results = [];
-	      for (k = 0, len1 = fields.length; k < len1; k++) {
-	        f = fields[k];
-	        results.push("b." + f + " * p + this." + f + " * oneMinusP");
-	      }
-	      return results;
-	    })()).join(",\n")) + "\n);");
-	    this._definePrototypeMethodViaEval("toArray", "", "return [" + (((function() {
-	      var k, len1, results;
-	      results = [];
-	      for (k = 0, len1 = fields.length; k < len1; k++) {
-	        f = fields[k];
-	        results.push("this." + f);
-	      }
-	      return results;
-	    })()).join(", ")) + "];");
-	    return this._definePrototypeMethodViaEval("toObject", "", "return {" + (((function() {
-	      var k, len1, results;
-	      results = [];
-	      for (k = 0, len1 = fields.length; k < len1; k++) {
-	        f = fields[k];
-	        results.push(f + ": this." + f);
-	      }
-	      return results;
-	    })()).join(", ")) + "};");
-	  };
-
-	  return Base;
-
-	})(BaseObject);
-
-
-/***/ },
-/* 132 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AtomicBase, Foundation, PI, Point, abs, atan, bound, ceil, floatEq, floor, inspect, inspectedObjectLiteral, isArray, isFunction, isNumber, isString, log, max, min, nearInfinity, round, sqrt, stringToNumberArray,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	AtomicBase = __webpack_require__(131);
-
-	inspect = Foundation.inspect, bound = Foundation.bound, floatEq = Foundation.floatEq, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray, nearInfinity = Foundation.nearInfinity, inspectedObjectLiteral = Foundation.inspectedObjectLiteral;
-
-	abs = Math.abs, sqrt = Math.sqrt, atan = Math.atan, PI = Math.PI, floor = Math.floor, ceil = Math.ceil, round = Math.round, min = Math.min, max = Math.max;
-
-
-	/*
-	point() general point constructor
-
-	IN: (p:Point)
-	OUT: p
-
-	IN: ()
-	IN: ([])
-	OUT: point 0, 0
-
-	IN: (string)
-	OUT: Point.namedPoints[string] || Point.parse string
-
-	IN: (s:number)
-	IN: ([s:number])
-	OUT: new Point s, s
-
-	IN: (x:number, y:number)
-	IN: ([x:number, y:number])
-	OUT: new Point x, y
-
-	IN: ({x:number, y:number})
-	OUT: new Point x || 0, y || 0
-
-	IN: ({aspectRatio: number, area: number})
-	  aspectRatio: number representing: width / height
-	  area: number representing the square-area desired
-	OUT:
-	  a point, p, with:
-	    p.area == o.area
-	    p.aspectRatio == o.aspectRatio
-	 */
-
-	module.exports = Point = (function(superClass) {
-	  var bottomLeft, centerCenter, centerLeft, k, namedPoints, point, point0, point1, pointWithAspectRatioAndArea, ref, topCenter, topRight, v;
-
-	  extend(Point, superClass);
-
-	  function Point() {
-	    return Point.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Point.defineAtomicClass({
-	    fieldNames: "x y"
-	  });
-
-	  Point.isPoint = function(v) {
-	    return v instanceof Point;
-	  };
-
-	  pointWithAspectRatioAndArea = function(arg) {
-	    var area, aspectRatio, sqrtArea;
-	    aspectRatio = arg.aspectRatio, area = arg.area;
-	    sqrtArea = Math.sqrt(area / aspectRatio);
-	    return point(sqrtArea * aspectRatio, sqrtArea);
-	  };
-
-	  Point.point = point = function(a, b) {
-	    var p, x, y;
-	    if (a instanceof Point) {
-	      return a;
-	    }
-	    if (isString(a) && (p = namedPoints[a])) {
-	      return p;
-	    }
-	    if ((a != null ? a.aspectRatio : void 0) && a.area >= 0) {
-	      return pointWithAspectRatioAndArea(a);
-	    }
-	    x = a || 0;
-	    y = b != null ? b : a;
-	    if (point0.eq(x, y)) {
-	      return point0;
-	    }
-	    if (point1.eq(x, y)) {
-	      return point1;
-	    }
-	    return new Point(a, b);
-	  };
-
-	  Point.parse = function(string, existing) {
-	    if (existing) {
-	      throw new Error("existing feature is no longer supported");
-	    }
-	    return new Point(string);
-	  };
-
-	  Point.prototype._init = function(x, y) {
-	    x || (x = 0);
-	    if (y == null) {
-	      y = x;
-	    }
-	    this.x = x - 0;
-	    return this.y = y - 0;
-	  };
-
-	  Point.prototype._initFromObject = function(o) {
-	    this.x = o.x || 0;
-	    return this.y = o.y || 0;
-	  };
-
-	  Point.getter({
-	    top: function() {
-	      return 0;
-	    },
-	    left: function() {
-	      return 0;
-	    },
-	    right: function() {
-	      return this.x;
-	    },
-	    bottom: function() {
-	      return this.y;
-	    },
-	    centerX: function() {
-	      return this.x * .5;
-	    },
-	    centerY: function() {
-	      return this.y * .5;
-	    },
-	    tl: function() {
-	      return point0;
-	    },
-	    tc: function() {
-	      return this.mul(0.5, 0);
-	    },
-	    tr: function() {
-	      return this.mul(1, 0);
-	    },
-	    lc: function() {
-	      return this.mul(0, 0.5);
-	    },
-	    cc: function() {
-	      return this.mul(0.5, 0.5);
-	    },
-	    rc: function() {
-	      return this.mul(1, 0.5);
-	    },
-	    bl: function() {
-	      return this.mul(0, 1);
-	    },
-	    bc: function() {
-	      return this.mul(0.5, 1);
-	    },
-	    br: function() {
-	      return this;
-	    },
-	    ccNeg: function() {
-	      return this.mul(-0.5);
-	    },
-	    topLeft: function() {
-	      return point0;
-	    },
-	    topCenter: function() {
-	      return this.mul(0.5, 0);
-	    },
-	    topRight: function() {
-	      return this.mul(1, 0);
-	    },
-	    centerLeft: function() {
-	      return this.mul(0, 0.5);
-	    },
-	    centerCenter: function() {
-	      return this.mul(0.5, 0.5);
-	    },
-	    centerRight: function() {
-	      return this.mul(1, 0.5);
-	    },
-	    bottomLeft: function() {
-	      return this.mul(0, 1);
-	    },
-	    bottomCenter: function() {
-	      return this.mul(0.5, 1);
-	    },
-	    bottomRight: function() {
-	      return this;
-	    },
-	    w: function() {
-	      return this.x;
-	    },
-	    width: function() {
-	      return this.x;
-	    },
-	    h: function() {
-	      return this.y;
-	    },
-	    height: function() {
-	      return this.y;
-	    },
-	    neg: function() {
-	      return new Point(-this.x, -this.y);
-	    },
-	    inv: function() {
-	      return new Point(1.0 / this.x, 1.0 / this.y);
-	    },
-	    vector: function() {
-	      return [this.x, this.y];
-	    },
-	    magnitudeSquared: function() {
-	      return this.x * this.x + this.y * this.y;
-	    },
-	    magnitude: function() {
-	      return sqrt(this.x * this.x + this.y * this.y);
-	    },
-	    aspectRatio: function() {
-	      return this.x / this.y;
-	    },
-	    absoluteAspectRatio: function() {
-	      return abs(this.x / this.y);
-	    },
-	    swapped: function() {
-	      return point(this.y, this.x);
-	    },
-	    rounded: function() {
-	      return this.round();
-	    },
-	    floored: function() {
-	      return this.floor();
-	    },
-	    ceiled: function() {
-	      return this.ceil();
-	    },
-	    area: function() {
-	      return this.x * this.y;
-	    },
-	    sum: function() {
-	      return this.x + this.y;
-	    },
-	    size: function() {
-	      return this;
-	    },
-	    location: function() {
-	      return point0;
-	    },
-	    abs: function() {
-	      return this["with"](abs(this.x), abs(this.y));
-	    },
-	    unitVector: function() {
-	      var m;
-	      m = 1 / this.magnitude;
-	      return new Point(this.x * m, this.y * m);
-	    },
-	    perpendicularVector: function() {
-	      return new Point(this.y, -this.x);
-	    },
-	    unitPerpendicularVector: function() {
-	      var m;
-	      m = 1 / this.magnitude;
-	      return new Point(this.y * m, -this.x * m);
-	    },
-	    angle: function() {
-	      if (this.x === 0) {
-	        return PI * (this.y > 0 ? .5 : 1.5);
-	      } else {
-	        if (this.x > 0) {
-	          return atan(this.y / this.x);
-	        } else {
-	          return atan(this.y / this.x) + PI;
-	        }
-	      }
-	    },
-	    isInteger: function() {
-	      return floatEq(this.x, this.x | 0) && floatEq(this.y, this.y | 0);
-	    }
-	  });
-
-	  Point.prototype.distance = function(p2) {
-	    return sqrt(this.distanceSquared(p2));
-	  };
-
-	  Point.prototype.distanceSquared = function(p2) {
-	    var x, y;
-	    x = this.x - p2.x;
-	    y = this.y - p2.y;
-	    return x * x + y * y;
-	  };
-
-	  Point.prototype.withArea = function(newArea) {
-	    var area;
-	    area = this.area;
-	    if (!(area > 0 && newArea >= 0)) {
-	      throw new Error("area must be > 0");
-	    }
-	    return this.mul(Math.sqrt(newArea / area));
-	  };
-
-	  Point.prototype.vectorLength = 2;
-
-	  Point.prototype.toIndex = function(lineStride) {
-	    return ~~this.y * lineStride + ~~this.x;
-	  };
-
-	  Point.prototype.contains = function(p) {
-	    return p.x >= 0 && p.y >= 0 && p.x < this.x & p.y < this.y;
-	  };
-
-	  Point.prototype.nearestInsidePoint = function(p) {
-	    return this["with"](bound(0, p.x, this.x), bound(0, p.y, this.y));
-	  };
-
-	  Point.prototype.appendToVector = function(vector) {
-	    var l;
-	    l = vector.length;
-	    vector[l + 1] = this.y;
-	    return vector[l] = this.x;
-	  };
-
-	  Point.prototype.dot = function(p) {
-	    return this.x * p.x + this.y * p.y;
-	  };
-
-	  Point.prototype.cross = function(p) {
-	    return this.x * p.y - this.y * p.x;
-	  };
-
-	  Point.prototype.floor = function() {
-	    return this["with"](floor(this.x), floor(this.y));
-	  };
-
-	  Point.prototype.ceil = function() {
-	    return this["with"](ceil(this.x), ceil(this.y));
-	  };
-
-	  Point.prototype.union = function(b) {
-	    if (b instanceof Point) {
-	      return this.max(b);
-	    } else {
-	      return b.union(this);
-	    }
-	  };
-
-	  Point.prototype.intersection = function(b) {
-	    if (b instanceof Point) {
-	      return this.min(b);
-	    } else {
-	      return b.intersection(this);
-	    }
-	  };
-
-	  Point.prototype.min = function(b) {
-	    if (b == null) {
-	      b = null;
-	    }
-	    if (b) {
-	      return this["with"](min(this.x, b.x), min(this.y, b.y));
-	    } else {
-	      return min(this.x, this.y);
-	    }
-	  };
-
-	  Point.prototype.max = function(b) {
-	    if (b == null) {
-	      b = null;
-	    }
-	    if (b) {
-	      return this["with"](max(this.x, b.x), max(this.y, b.y));
-	    } else {
-	      return max(this.x, this.y);
-	    }
-	  };
-
-	  Point.prototype.average = function(b) {
-	    if (b == null) {
-	      b = null;
-	    }
-	    if (b) {
-	      return this["with"]((this.x + b.x) / 2, (this.y + b.y) / 2);
-	    } else {
-	      return (this.x + this.y) / 2;
-	    }
-	  };
-
-	  Point.prototype.bound = function(a, b) {
-	    return this["with"](bound(a.x, this.x, b.x), bound(a.y, this.y, b.y));
-	  };
-
-	  Point.prototype.round = function(m) {
-	    if (m == null) {
-	      m = 1;
-	    }
-	    return this["with"](round(this.x / m) * m, round(this.y / m) * m);
-	  };
-
-	  Point.prototype.roundOut = function() {
-	    return this.ceil();
-	  };
-
-
-	  /*
-	  OUT:
-	    out.aspectRatio == @aspectRatio
-	    out <= into
-	    out.x == into.x or out.y == into.y
-	  proposed rename: scaledJustLte
-	   */
-
-	  Point.prototype.fitInto = function(into) {
-	    var xr, yr;
-	    xr = into.x / this.x;
-	    yr = into.y / this.y;
-	    return this.mul(min(xr, yr));
-	  };
-
-
-	  /*
-	  OUT:
-	    out.aspectRatio == @aspectRatio
-	    out >= into
-	    out.x == into.x or out.y == into.y
-	  
-	  KEYWORD: I used to call this 'zoom'
-	  proposed rename: scaledJustGte
-	   */
-
-	  Point.prototype.fill = function(into) {
-	    var xr, yr;
-	    xr = into.x / this.x;
-	    yr = into.y / this.y;
-	    return this.mul(max(xr, yr));
-	  };
-
-
-	  /*
-	  OUT:
-	    out.aspectRatio == @aspectRatio
-	    out.area == p.area
-	   */
-
-	  Point.prototype.withSameAreaAs = function(p) {
-	    return this.mul(Math.sqrt(p.area / this.area));
-	  };
-
-	  point0 = Object.freeze(new Point(0));
-
-	  point1 = Object.freeze(new Point(1));
-
-	  topRight = Object.freeze(new Point(1, 0));
-
-	  topCenter = Object.freeze(new Point(0.5, 0));
-
-	  centerLeft = Object.freeze(new Point(0, 0.5));
-
-	  centerCenter = Object.freeze(new Point(0.5));
-
-	  bottomLeft = Object.freeze(new Point(0, 1));
-
-	  Point.namedPoints = namedPoints = {
-	    point0: point0,
-	    point1: point1,
-	    topLeft: point0,
-	    topCenter: topCenter,
-	    topRight: topRight,
-	    centerLeft: centerLeft,
-	    centerCenter: centerCenter,
-	    centerRight: Object.freeze(new Point(1, 0.5)),
-	    bottomLeft: bottomLeft,
-	    bottomCenter: Object.freeze(new Point(0.5, 1)),
-	    bottomRight: point1,
-	    pointNearInfinity: Object.freeze(new Point(nearInfinity)),
-	    left: point0,
-	    center: topCenter,
-	    right: topRight,
-	    top: point0,
-	    bottom: bottomLeft
-	  };
-
-	  ref = Point.namedPoints;
+	React.addElementFactories = function(elementClassNames) {
+	  var factories, k, ref, v;
+	  ref = factories = Aim.createVirtualElementFactories(React.VirtualElementArtEngine, elementClassNames);
 	  for (k in ref) {
 	    v = ref[k];
-	    Point[k] = v;
+	    React[k] || (React[k] = v);
 	  }
-
-	  return Point;
-
-	})(AtomicBase);
-
-
-/***/ },
-/* 133 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Atomic, AtomicBase, Foundation, Point, Rectangle, bound, ceil, floatEq, floatEq0, floor, isArray, isFunction, isNumber, isString, log, max, min, point, round, stringToNumberArray,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	Atomic = __webpack_require__(127);
-
-	AtomicBase = __webpack_require__(131);
-
-	Point = __webpack_require__(132);
-
-	max = Foundation.max, min = Foundation.min, bound = Foundation.bound, round = Foundation.round, floatEq = Foundation.floatEq, floor = Foundation.floor, ceil = Foundation.ceil, round = Foundation.round, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray, floatEq0 = Foundation.floatEq0;
-
-	point = Point.point;
-
-	module.exports = Rectangle = (function(superClass) {
-	  var rect;
-
-	  extend(Rectangle, superClass);
-
-	  function Rectangle() {
-	    return Rectangle.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Rectangle.defineAtomicClass({
-	    fieldNames: "x y w h",
-	    constructorFunctionName: "rect"
-	  });
-
-	  Rectangle.rect = rect = function(a, b, c, d) {
-	    if (a instanceof Rectangle) {
-	      return a;
-	    }
-	    return new Rectangle(a, b, c, d);
-	  };
-
-	  Rectangle.prototype._init = function(a, b, c, d) {
-	    this.x = this.y = this.w = this.h = 0;
-	    if (d != null) {
-	      this.x = a - 0;
-	      this.y = b - 0;
-	      this.w = c - 0;
-	      return this.h = d - 0;
-	    } else if (b != null) {
-	      if (b instanceof Point) {
-	        this.x = a.x;
-	        this.y = a.y;
-	        this.w = b.w;
-	        return this.h = b.h;
-	      } else {
-	        this.w = a - 0;
-	        return this.h = b - 0;
-	      }
-	    } else if (a instanceof Point) {
-	      this.w = a.w;
-	      return this.h = a.h;
-	    } else if (a != null) {
-	      return this.w = this.h = a - 0;
-	    }
-	  };
-
-	  Rectangle.getter({
-	    clone: function() {
-	      return new Rectangle(this.x, this.y, this.w, this.h);
-	    },
-	    location: function() {
-	      return new Point(this.x, this.y);
-	    },
-	    locationMatrix: function() {
-	      return Atomic.Matrix.translateXY(this.x, this.y);
-	    },
-	    size: function() {
-	      return new Point(this.w, this.h);
-	    },
-	    width: function() {
-	      return this.w;
-	    },
-	    height: function() {
-	      return this.h;
-	    },
-	    rounded: function() {
-	      return this["with"](round(this.x), round(this.y), round(this.w), round(this.h));
-	    },
-	    tl: function() {
-	      return new Point(this.x, this.y);
-	    },
-	    tc: function() {
-	      return new Point(this.hCenter, this.y);
-	    },
-	    tr: function() {
-	      return new Point(this.right, this.y);
-	    },
-	    lc: function() {
-	      return new Point(this.x, this.vCenter);
-	    },
-	    cc: function() {
-	      return new Point(this.hCenter, this.vCenter);
-	    },
-	    rc: function() {
-	      return new Point(this.right, this.vCenter);
-	    },
-	    bl: function() {
-	      return new Point(this.x, this.bottom);
-	    },
-	    bc: function() {
-	      return new Point(this.hCenter, this.bottom);
-	    },
-	    br: function() {
-	      return new Point(this.right, this.bottom);
-	    },
-	    topLeft: function() {
-	      return new Point(this.x, this.y);
-	    },
-	    topCenter: function() {
-	      return new Point(this.hCenter, this.y);
-	    },
-	    topRight: function() {
-	      return new Point(this.right, this.y);
-	    },
-	    centerLeft: function() {
-	      return new Point(this.x, this.vCenter);
-	    },
-	    centerCenter: function() {
-	      return new Point(this.hCenter, this.vCenter);
-	    },
-	    centerRight: function() {
-	      return new Point(this.right, this.vCenter);
-	    },
-	    bottomLeft: function() {
-	      return new Point(this.x, this.bottom);
-	    },
-	    bottomCenter: function() {
-	      return new Point(this.hCenter, this.bottom);
-	    },
-	    bottomRight: function() {
-	      return new Point(this.right, this.bottom);
-	    },
-	    locationIsZero: function() {
-	      return floatEq(this.x, 0) && floatEq(this.y, 0);
-	    },
-	    top: function() {
-	      return this.y;
-	    },
-	    left: function() {
-	      return this.x;
-	    },
-	    right: function() {
-	      return this.x + this.w;
-	    },
-	    bottom: function() {
-	      return this.y + this.h;
-	    },
-	    hCenter: function() {
-	      return this.x + this.w * .5;
-	    },
-	    vCenter: function() {
-	      return this.y + this.h * .5;
-	    },
-	    infinite: function() {
-	      return this.w === 2e308 || this.h === 2e308;
-	    },
-	    normalized: function() {
-	      var h, w, x, y;
-	      w = this.w;
-	      h = this.h;
-	      if (w >= 0 && h >= 0) {
-	        return this;
-	      } else {
-	        x = this.x;
-	        y = this.y;
-	        if (w < 0) {
-	          x += w;
-	          w = -w;
-	        }
-	        if (h < 0) {
-	          y += h;
-	          h = -h;
-	        }
-	        return this["with"](x, y, w, h);
-	      }
-	    },
-	    area: function() {
-	      return this.w * this.h;
-	    },
-	    corners: function() {
-	      var bottom, left, right, top;
-	      left = this.left;
-	      top = this.top;
-	      right = this.right;
-	      bottom = this.bottom;
-	      return [new Point(left, top), new Point(right, top), new Point(right, bottom), new Point(left, bottom)];
-	    }
-	  });
-
-	  Rectangle.prototype.withXY = function(x, y) {
-	    if (floatEq(x, this.x) && floatEq(y, this.y)) {
-	      return this;
-	    } else {
-	      return new Rectangle(x, y, this.w, this.h);
-	    }
-	  };
-
-	  Rectangle.prototype.withWH = function(w, h) {
-	    if (floatEq(w, this.w) && floatEq(h, this.h)) {
-	      return this;
-	    } else {
-	      return new Rectangle(this.x, this.y, w, h);
-	    }
-	  };
-
-	  Rectangle.prototype.withLocation = function(v) {
-	    return this.withXY(v.x, v.y);
-	  };
-
-	  Rectangle.prototype.withSize = function(v) {
-	    return this.withWH(v.x, v.y);
-	  };
-
-	  Rectangle.prototype.movedBy = function(d) {
-	    return this.withXY(this.x + d.x, this.y + d.y);
-	  };
-
-	  Rectangle.prototype.nearestInsidePoint = function(p) {
-	    return new Point(bound(this.left, p.x, this.right), bound(this.top, p.y, this.bottom));
-	  };
-
-	  Rectangle.prototype.largestInsideRect = function(ofSize) {
-	    var h, scaler, w;
-	    scaler = min(this.w / ofSize.w, this.h / ofSize.h);
-	    w = ofSize.w * scale;
-	    h = ofSize.h * scale;
-	    return new Rectangle((this.w - w) / 2, (this.h - h) / 2, w, h);
-	  };
-
-	  Rectangle.prototype.overlaps = function(val) {
-	    if (val == null) {
-	      return false;
-	    }
-	    if (val instanceof Point) {
-	      return this.contains(val);
-	    } else if (val instanceof Rectangle) {
-	      return val.getRight() > this.getLeft() && val.getBottom() > this.getTop() && val.getLeft() < this.getRight() && val.getTop() < this.getBottom();
-	    } else {
-	      throw new Error("Invalid arguments for 'overlaps'. Expecting Point or Rectangle. Got: " + val + ".");
-	    }
-	  };
-
-	  Rectangle.prototype.contains = function(val) {
-	    if (val == null) {
-	      return false;
-	    }
-	    if (val instanceof Point) {
-	      return val.x >= this.x && val.y >= this.y && val.x < this.right && val.y < this.bottom;
-	    } else if (val instanceof Rectangle) {
-	      return val.x >= this.x && val.y >= this.y && val.right <= this.right && val.bottom <= this.bottom;
-	    } else {
-	      throw new Error("Invalid arguments for 'contains'. Expecting Point or Rectangle. Got: " + val + ".");
-	    }
-	  };
-
-	  Rectangle.prototype.round = function(m) {
-	    var h, w, x, y;
-	    if (m == null) {
-	      m = 1;
-	    }
-	    x = round(this.x, m);
-	    y = round(this.y, m);
-	    w = round(this.x + this.w, m) - x;
-	    h = round(this.y + this.h, m) - y;
-	    return this["with"](x, y, w, h);
-	  };
-
-	  Rectangle.prototype.roundOut = function(m, k) {
-	    var h, w, x, y;
-	    if (m == null) {
-	      m = 1;
-	    }
-	    if (k == null) {
-	      k = 0;
-	    }
-	    x = floor(this.x + k, m);
-	    y = floor(this.y + k, m);
-	    w = ceil(this.x + this.w - k, m) - x;
-	    h = ceil(this.y + this.h - k, m) - y;
-	    return this["with"](x, y, w, h);
-	  };
-
-	  Rectangle.prototype.roundIn = function(m, k) {
-	    var h, w, x, y;
-	    if (m == null) {
-	      m = 1;
-	    }
-	    if (k == null) {
-	      k = 0;
-	    }
-	    x = ceil(this.x - k, m);
-	    y = ceil(this.y - k, m);
-	    w = floor(this.x + this.w + k, m) - x;
-	    h = floor(this.y + this.h + k, m) - y;
-	    return this["with"](x, y, w, h);
-	  };
-
-	  Rectangle.prototype.union = function(b) {
-	    var h, w, x, y;
-	    if (b == null) {
-	      return this;
-	    }
-	    if (this.getArea() <= 0) {
-	      return b;
-	    }
-	    x = min(this.x, b.left);
-	    y = min(this.y, b.top);
-	    w = max(this.getRight(), b.getRight()) - x;
-	    h = max(this.getBottom(), b.getBottom()) - y;
-	    return this["with"](x, y, w, h);
-	  };
-
-	  Rectangle.prototype.unionInto = function(into) {
-	    var area, h, intoArea, w, x, y;
-	    area = this.getArea();
-	    intoArea = into.getArea();
-	    if (area <= 0 || intoArea === 2e308) {
-	      return into;
-	    }
-	    if (intoArea <= 0 || area === 2e308) {
-	      into.x = this.x;
-	      into.y = this.y;
-	      into.w = this.w;
-	      into.h = this.h;
-	    } else {
-	      x = into.x, y = into.y, w = into.w, h = into.h;
-	      into.x = min(x, this.x);
-	      into.y = min(y, this.y);
-	      into.w = max(x + w, this.x + this.w) - into.x;
-	      into.h = max(y + h, this.y + this.h) - into.y;
-	    }
-	    return into;
-	  };
-
-	  Rectangle.prototype.intersectInto = function(into) {
-	    var area, h, intoArea, w, x, y;
-	    area = this.getArea();
-	    intoArea = into.getArea();
-	    if (intoArea <= 0 || area === 2e308) {
-	      return into;
-	    }
-	    if (area <= 0 || intoArea === 2e308) {
-	      into.x = this.x;
-	      into.y = this.y;
-	      into.w = this.w;
-	      return into.h = this.h;
-	    } else {
-	      x = into.x, y = into.y, w = into.w, h = into.h;
-	      into.x = max(x, this.x);
-	      into.y = max(y, this.y);
-	      into.w = max(0, min(x + w, this.x + this.w) - into.x);
-	      into.h = max(0, min(y + h, this.y + this.h) - into.y);
-	      return into;
-	    }
-	  };
-
-	  Rectangle.prototype.intersection = function(b) {
-	    var h, w, x, y;
-	    if (b == null) {
-	      return this;
-	    }
-	    if (b.getArea() === 2e308 || b.contains(this)) {
-	      return this;
-	    }
-	    if (this.getArea() === 2e308 || this.contains(b)) {
-	      return b;
-	    }
-	    x = max(this.x, b.left);
-	    y = max(this.y, b.top);
-	    w = min(this.getRight(), b.getRight()) - x;
-	    h = min(this.getBottom(), b.getBottom()) - y;
-	    if (w <= 0 || h <= 0) {
-	      return Rectangle.nothing;
-	    } else {
-	      return this["with"](x, y, w, h);
-	    }
-	  };
-
-	  Rectangle.prototype.grow = function(a, b) {
-	    var x, y;
-	    if (a instanceof Point) {
-	      x = a.x, y = a.y;
-	    } else {
-	      x = a;
-	      y = b != null ? b : a;
-	    }
-	    if (floatEq0(x) && floatEq0(y)) {
-	      return this;
-	    }
-	    return this["with"](this.x - x, this.y - y, this.w + 2 * x, this.h + 2 * y);
-	  };
-
-	  Rectangle.nothing = Object.freeze(new Rectangle(0, 0, 0, 0));
-
-	  Rectangle.everything = Object.freeze(new Rectangle(0, 0, 2e308, 2e308));
-
-	  return Rectangle;
-
-	})(AtomicBase);
-
-
-/***/ },
-/* 134 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/*
-
-	With the exception of the setter methods, this is a pure-functional class.
-	 */
-
-	/*
-	Experiment: Instead of storing the matrix as 6 members, use a Float32Array:
-
-	  Bonus: if we order the 6 elements correctly, we can just pass the Float32Array directly to Webgl uniformMatrix3fv
-	  Result:
-	    FF is about 2x as fast with this implementation, but Chrome is about 10x slower (see below)
-	    Sticking with Members implementation for now.
-
-	On my Macbook pro Retina (2.6 GHz Intel Core i7)
-
-	Chrome 29.0.1547.57 (members)
-	  Matrix.translate 14,716,649/s
-	  matrix().translate 8,052,404/s
-	  transform point 3,922,725/s
-	  invert 12,733,472/s
-	  mul 16,146,097/s
-
-	Chrome 29.0.1547.57 (float32Array)
-	  Matrix.translate 926,402/s
-	  matrix().translate 463,791/s
-	  transform point 3,684,177/s
-	  invert 978,248/s
-	  mul 992,078/s
-
-	FF 23.0.1 (members)
-	  Matrix.translate 1,281,078/s
-	  matrix().translate 534,542/s
-	  transform point 768,224/s
-	  invert 1,374,788/s
-	  mul 1,413,206/s
-
-	FF 23.0.1 (float32Array)
-	  Matrix.translate 2,126,281/s
-	  matrix().translate 1,013,548/s
-	  transform point 832,604/s
-	  invert 2,524,903/s
-	  mul 2,669,331/s
-
-	NOTE! the order of the fields in the float32array for Webgl uniformMatrix3fv should be:
-	  @values[0] = @sx
-	  @values[1] = @shy
-	  @values[2] = @tx
-	  @values[3] = @shx
-	  @values[4] = @sy
-	  @values[5] = @ty
-	 */
-	var AtomicBase, Foundation, Matrix, Point, Rectangle, compact, float32Eq, inspect, isNumber, log, point, rect, simplifyNum,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	AtomicBase = __webpack_require__(131);
-
-	Point = __webpack_require__(132);
-
-	Rectangle = __webpack_require__(133);
-
-	point = Point.point;
-
-	rect = Rectangle.rect;
-
-	inspect = Foundation.inspect, simplifyNum = Foundation.simplifyNum, float32Eq = Foundation.float32Eq, compact = Foundation.compact, log = Foundation.log, isNumber = Foundation.isNumber;
-
-	module.exports = Matrix = (function(superClass) {
-	  var cleanInspect, identityMatrix, intermediatResultMatrix, matrix, transform1D;
-
-	  extend(Matrix, superClass);
-
-	  function Matrix() {
-	    return Matrix.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Matrix.defineAtomicClass({
-	    fieldNames: "sx sy shx shy tx ty"
-	  });
-
-	  Matrix.matrix = matrix = function(a, b, c, d, e, f) {
-	    if (a instanceof Matrix) {
-	      return a;
-	    } else if (a === null || a === void 0) {
-	      return identityMatrix;
-	    } else {
-	      return new Matrix(a, b, c, d, e, f);
-	    }
-	  };
-
-	  Matrix._cleanInspect = cleanInspect = function(pointName, s) {
-	    var out, r;
-	    out = pointName ? (r = new RegExp("([0-9])" + pointName, "g"), s.replace(r, "$1 * " + pointName).replace(/-1 \* /g, "-").replace(/\ \+ -/g, " - ").replace(/0\./g, ".")) : s.replace(/-1([A-Za-z]+)/g, "-$1").replace(/\ \+ -/g, " - ").replace(/0\./g, ".");
-	    return out;
-	  };
-
-	  Matrix.translate = function(a, b) {
-	    var x, y;
-	    if (isNumber(b)) {
-	      throw new Error("Matrix.translate no longer accepts two numbers. Use translateXY");
-	    }
-	    if (isNumber(a)) {
-	      x = y = a;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    return Matrix.translateXY(x, y);
-	  };
-
-	  Matrix.translateXY = function(x, y) {
-	    if (x === 0 && y === 0) {
-	      return identityMatrix;
-	    } else {
-	      return new Matrix(1, 1, 0, 0, x, y);
-	    }
-	  };
-
-	  Matrix.scale = function(a, b) {
-	    var x, y;
-	    if (isNumber(b)) {
-	      throw new Error("Matrix.scale no longer accepts two numbers. Use translateXY");
-	    }
-	    if (isNumber(a)) {
-	      x = y = a;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    return Matrix.scaleXY(x, y);
-	  };
-
-	  Matrix.scaleXY = function(sx, sy) {
-	    if (sx === 1 && sy === 1) {
-	      return identityMatrix;
-	    } else {
-	      return new Matrix(sx, sy, 0, 0, 0, 0);
-	    }
-	  };
-
-	  Matrix.rotate = function(radians) {
-	    var cr, sr;
-	    cr = Math.cos(radians);
-	    sr = Math.sin(radians);
-	    if (cr === 1 && sr === 0) {
-	      return identityMatrix;
-	    } else {
-	      return new Matrix(cr, cr, -sr, sr, 0, 0);
-	    }
-	  };
-
-	  Matrix.prototype.initDefaults = function() {
-	    this.sx = this.sy = 1;
-	    this.shy = this.shx = 0;
-	    this.tx = this.ty = 0;
-	    this._exactScale = this._exactScaler = null;
-	    return this;
-	  };
-
-	  Matrix.prototype._init = function(a, b, c, d, e, f) {
-	    this.initDefaults();
-	    if (a == null) {
-	      return;
-	    }
-	    if (a instanceof Point) {
-	      return this._initFromPoint(a);
-	    } else if (a instanceof Matrix) {
-	      return this._initFromMatrix(a);
-	    } else {
-	      this.sx = a - 0;
-	      if (b != null) {
-	        this.sy = b - 0;
-	      }
-	      if (c != null) {
-	        this.shx = c - 0;
-	      }
-	      if (d != null) {
-	        this.shy = d - 0;
-	      }
-	      if (e != null) {
-	        this.tx = e - 0;
-	      }
-	      if (f != null) {
-	        return this.ty = f - 0;
-	      }
-	    }
-	  };
-
-	  Matrix.prototype.getScale = function() {
-	    return this.getS();
-	  };
-
-	  Matrix.getter({
-	    t: function() {
-	      return point(this.tx, this.ty);
-	    },
-	    s: function() {
-	      return point(this.sx, this.sy);
-	    },
-	    sh: function() {
-	      return point(this.shx, this.shy);
-	    },
-	    xsv: function() {
-	      return point(this.sx, this.shx);
-	    },
-	    ysv: function() {
-	      return point(this.sy, this.shy);
-	    },
-	    exactScale: function() {
-	      return this._exactScale || (this._exactScale = point(this.xsv.magnitude, this.ysv.magnitude));
-	    },
-	    exactScaler: function() {
-	      return this._exactScaler || (this._exactScaler = this.exactScale.average());
-	    },
-	    inv: function() {
-	      return this.invert();
-	    },
-	    locationX: function() {
-	      return this.tx;
-	    },
-	    locationY: function() {
-	      return this.ty;
-	    },
-	    scaleX: function() {
-	      return this.sx;
-	    },
-	    scaleY: function() {
-	      return this.sy;
-	    },
-	    location: function() {
-	      return point(this.tx, this.ty);
-	    },
-	    withRoundedTranslation: function() {
-	      if (this.translationIsIntegral) {
-	        return this;
-	      } else {
-	        return new Matrix(this.sx, this.sy, this.shx, this.shy, Math.round(this.tx), Math.round(this.ty));
-	      }
-	    },
-	    angle: function() {
-	      var p1, p2;
-	      p1 = this.transform(Point.point0);
-	      p2 = this.transform(new Point(0, 1));
-	      return (p2.sub(p1)).angle - Math.PI * .5;
-	    },
-	    float32Array: function() {
-	      return this.fillFloat32Array(new Float32Array(9));
-	    },
-	    isIdentity: function() {
-	      return float32Eq(this.sx, 1) && float32Eq(this.sy, 1) && float32Eq(this.shx, 0) && float32Eq(this.shy, 0) && float32Eq(this.tx, 0) && float32Eq(this.ty, 0);
-	    },
-	    isTranslateOnly: function() {
-	      return float32Eq(this.sx, 1) && float32Eq(this.sy, 1) && float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
-	    },
-	    translationIsIntegral: function() {
-	      return float32Eq(this.tx, Math.round(this.tx)) && float32Eq(this.ty, Math.round(this.ty));
-	    },
-	    isIntegerTranslateOnly: function() {
-	      return this.isTranslateOnly && float32Eq(this.tx, this.tx | 0) && float32Eq(this.ty, this.ty | 0);
-	    },
-	    isTranslateAndScaleOnly: function() {
-	      return float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
-	    },
-	    isTranslateAndPositiveScaleOnly: function() {
-	      return this.sx > 0 && this.sy > 0 && float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
-	    }
-	  });
-
-	  Matrix.prototype.fillFloat32Array = function(a) {
-	    a[0] = this.sx;
-	    a[1] = this.shx;
-	    a[2] = this.tx;
-	    a[3] = this.shy;
-	    a[4] = this.sy;
-	    a[5] = this.ty;
-	    return a;
-	  };
-
-	  Matrix.prototype.simplify = function() {
-	    return new Matrix(simplifyNum(this.sx), simplifyNum(this.sy), simplifyNum(this.shx), simplifyNum(this.shy), simplifyNum(this.tx), simplifyNum(this.ty));
-	  };
-
-	  Matrix.prototype.withAngle = function(a) {
-	    return this.rotate(a - this.angle);
-	  };
-
-	  Matrix.prototype.withScale = function(a, b) {
-	    var x, y;
-	    if (isNumber(a)) {
-	      x = a;
-	      y = b != null ? b : x;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    return this.scale(x / this.sx, y / this.sy);
-	  };
-
-	  Matrix.prototype.withLocation = function(a, b) {
-	    var x, y;
-	    if (isNumber(a)) {
-	      x = a;
-	      y = b != null ? b : x;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    if (x === this.tx && y === this.ty) {
-	      return this;
-	    } else {
-	      return new Matrix(this.sx, this.sy, this.shx, this.shy, x, y);
-	    }
-	  };
-
-	  Matrix.prototype.withLocationXY = function(x, y) {
-	    if (x === this.tx && y === this.ty) {
-	      return this;
-	    } else {
-	      return new Matrix(this.sx, this.sy, this.shx, this.shy, x, y);
-	    }
-	  };
-
-
-	  /*
-	  IN:
-	    amount: point or number
-	    into: t/f
-	   */
-
-	  Matrix.prototype.translate = function(amount, into) {
-	    var x, y;
-	    if (isNumber(amount)) {
-	      x = y = amount;
-	    } else {
-	      x = amount.x, y = amount.y;
-	    }
-	    if (isNumber(into)) {
-	      throw new Error("Illegal second input: number (" + into + "). Use translateXY.");
-	    }
-	    return this.translateXY(x, y, into);
-	  };
-
-	  Matrix.prototype.translateXY = function(x, y, into) {
-	    return this._into(into, this.sx, this.sy, this.shx, this.shy, this.tx + x, this.ty + y);
-	  };
-
-	  Matrix.prototype.rotate = function(radians, into) {
-	    var cr, sr;
-	    cr = Math.cos(radians);
-	    sr = Math.sin(radians);
-	    return this._into(into, this.sx * cr - this.shy * sr, this.shx * sr + this.sy * cr, this.shx * cr - this.sy * sr, this.sx * sr + this.shy * cr, this.tx * cr - this.ty * sr, this.tx * sr + this.ty * cr);
-	  };
-
-	  Matrix.prototype.scale = function(a, into) {
-	    var x, y;
-	    if (isNumber(into)) {
-	      throw new Error("Matrix.scale no longer accepts two numbers. Use translateXY");
-	    }
-	    if (isNumber(a)) {
-	      x = y = a;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    return this.scaleXY(x, y, into);
-	  };
-
-	  Matrix.prototype.scaleXY = function(x, y, into) {
-	    return this._into(into, this.sx * x, this.sy * y, this.shx * x, this.shy * y, this.tx * x, this.ty * y);
-	  };
-
-	  Matrix.getter({
-	    determinantReciprocal: function() {
-	      return 1.0 / (this.sx * this.sy - this.shy * this.shx);
-	    }
-	  });
-
-	  Matrix.prototype.invert = function(into) {
-	    var d;
-	    d = this.getDeterminantReciprocal();
-	    return this._into(into, d * this.sy, d * this.sx, d * -this.shx, d * -this.shy, d * (-this.tx * this.sy + this.ty * this.shx), d * (this.tx * this.shy - this.ty * this.sx));
-	  };
-
-	  Matrix.prototype.mul = function(m, into) {
-	    if (isNumber(m)) {
-	      return this._into(into, this.sx * m, this.sy * m, this.shx * m, this.shy * m, this.tx * m, this.ty * m);
-	    } else {
-	      return this._into(into, this.sx * m.sx + this.shy * m.shx, this.shx * m.shy + this.sy * m.sy, this.shx * m.sx + this.sy * m.shx, this.sx * m.shy + this.shy * m.sy, this.tx * m.sx + this.ty * m.shx + m.tx, this.tx * m.shy + this.ty * m.sy + m.ty);
-	    }
-	  };
-
-	  Matrix.prototype.div = function(m, into) {
-	    var multipler;
-	    multipler = isNumber(m) ? 1 / m : m.invert(intermediatResultMatrix);
-	    return this.mul(multipler, into);
-	  };
-
-	  Matrix.prototype.inspectX = function(pointName, nullForZeroString) {
-	    var pn;
-	    pn = pointName;
-	    pointName = pointName ? pointName + "." : "";
-	    if (!(this.sx || this.shx || this.tx)) {
-	      return (!nullForZeroString ? "0" : void 0);
-	    }
-	    return cleanInspect(pn, compact([this.sx === 1 ? pointName + "x" : this.sx ? "" + this.sx + pointName + "x" : void 0, this.shx === 1 ? pointName + "y" : this.shx ? "" + this.shx + pointName + "y" : void 0, this.tx ? "" + this.tx : void 0]).join(" + "));
-	  };
-
-	  Matrix.prototype.inspectY = function(pointName, nullForZeroString) {
-	    var pn;
-	    pn = pointName;
-	    pointName = pointName ? pointName + "." : "";
-	    if (!(this.sy || this.shy || this.ty)) {
-	      return (!nullForZeroString ? "0" : void 0);
-	    }
-	    return cleanInspect(pn, compact([this.sy === 1 ? pointName + "y" : this.sy ? "" + this.sy + pointName + "y" : void 0, this.shy === 1 ? pointName + "x" : this.shy ? "" + this.shy + pointName + "x" : void 0, this.ty ? "" + this.ty : void 0]).join(" + "));
-	  };
-
-	  Matrix.prototype.inspectBoth = function(pointName) {
-	    return "(" + (this.inspectX(pointName)) + ", " + (this.inspectY(pointName)) + ")";
-	  };
-
-	  Matrix.transform1D = transform1D = function(x, y, sx, shx, tx) {
-	    return x * sx + y * shx + tx;
-	  };
-
-
-	  /*
-	  IN: a: Point or any object where .x and .y are numbers
-	  IN: a: x (number; required), b: y (number, default: x)
-	   */
-
-	  Matrix.prototype.transform = function(a, b) {
-	    var x, y;
-	    if (isNumber(a)) {
-	      x = a;
-	      y = b != null ? b : x;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    return new Point(transform1D(x, y, this.sx, this.shx, this.tx), transform1D(y, x, this.sy, this.shy, this.ty));
-	  };
-
-	  Matrix.prototype.transformX = function(x, y) {
-	    return transform1D(x, y, this.sx, this.shx, this.tx);
-	  };
-
-	  Matrix.prototype.transformY = function(x, y) {
-	    return transform1D(y, x, this.sy, this.shy, this.ty);
-	  };
-
-	  Matrix.prototype.inverseTransform = function(a, b) {
-	    var d, shx, shy, sx, sy, tx, ty, x, y;
-	    if (isNumber(a)) {
-	      x = a;
-	      y = b != null ? b : x;
-	    } else {
-	      x = a.x, y = a.y;
-	    }
-	    d = this.getDeterminantReciprocal();
-	    sx = d * this.sy;
-	    sy = d * this.sx;
-	    shx = d * -this.shx;
-	    shy = d * -this.shy;
-	    tx = d * (-this.tx * this.sy + this.ty * this.shx);
-	    ty = d * (this.tx * this.shy - this.ty * this.sx);
-	    return new Point(transform1D(x, y, sx, shx, tx), transform1D(y, x, sy, shy, ty));
-	  };
-
-	  Matrix.prototype.transformVector = function(a, b) {
-	    var dx, dy;
-	    switch ((a != null) && a.constructor) {
-	      case false:
-	        dx = dy = 0;
-	        break;
-	      case Point:
-	        dx = a.x;
-	        dy = a.y;
-	        break;
-	      default:
-	        dx = a;
-	        dy = b;
-	    }
-	    return new Point(dx * this.sx + dy * this.shx, dy * this.sy + dx * this.shy);
-	  };
-
-	  Matrix.prototype.transformDifference = function(v1, v2) {
-	    var dx, dy;
-	    dx = v1.x - v2.x;
-	    dy = v1.y - v2.y;
-	    return new Point(dx * this.sx + dy * this.shx, dy * this.sy + dx * this.shy);
-	  };
-
-	  Matrix.prototype.transformBoundingRect = function(r) {
-	    var bottom, h, left, right, top, w, x, x1, x2, x3, x4, y, y1, y2, y3, y4;
-	    r = rect(r);
-	    if (r.infinite) {
-	      return r;
-	    }
-	    if (this.shx === 0 && this.shy === 0) {
-	      x = r.x * this.sx + this.tx;
-	      y = r.y * this.sy + this.ty;
-	      w = r.w * this.sx;
-	      h = r.h * this.sy;
-	      if (w < 0) {
-	        x += w;
-	        w = -w;
-	      }
-	      if (h < 0) {
-	        y += h;
-	        h = -h;
-	      }
-	    } else {
-	      top = r.x;
-	      left = r.y;
-	      right = r.x + r.w;
-	      bottom = r.y + r.h;
-	      x1 = left * this.sx + top * this.shx + this.tx;
-	      y1 = top * this.sy + left * this.shy + this.ty;
-	      x2 = right * this.sx + top * this.shx + this.tx;
-	      y2 = top * this.sy + right * this.shy + this.ty;
-	      x3 = right * this.sx + bottom * this.shx + this.tx;
-	      y3 = bottom * this.sy + right * this.shy + this.ty;
-	      x4 = left * this.sx + bottom * this.shx + this.tx;
-	      y4 = bottom * this.sy + left * this.shy + this.ty;
-	      x = Math.min(x1, x2, x3, x4);
-	      w = Math.max(x1, x2, x3, x4) - x;
-	      y = Math.min(y1, y2, y3, y4);
-	      h = Math.max(y1, y2, y3, y4) - y;
-	    }
-	    return new Rectangle(x, y, w, h);
-	  };
-
-	  Matrix.identityMatrix = identityMatrix = new Matrix;
-
-	  Matrix.matrix0 = new Matrix(0, 0, 0, 0, 0, 0);
-
-	  intermediatResultMatrix = new Matrix;
-
-	  Matrix.prototype._initFromMatrix = function(m) {
-	    this.sx = m.sx;
-	    this.sy = m.sy;
-	    this.shx = m.shx;
-	    this.shy = m.shy;
-	    this.tx = m.tx;
-	    this.ty = m.ty;
-	    return this;
-	  };
-
-	  Matrix.prototype._initFromPoint = function(p) {
-	    this.tx = p.x;
-	    this.ty = p.y;
-	    return this;
-	  };
-
-	  return Matrix;
-
-	})(AtomicBase);
-
-
-/***/ },
-/* 135 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AtomicBase, Foundation, Perimeter, Point, floatEq, inspect, isPlainObject, isString, log, point,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	AtomicBase = __webpack_require__(131);
-
-	Point = __webpack_require__(132);
-
-	log = Foundation.log, inspect = Foundation.inspect, floatEq = Foundation.floatEq, isPlainObject = Foundation.isPlainObject, isString = Foundation.isString;
-
-	point = Point.point;
-
-	module.exports = Perimeter = (function(superClass) {
-	  var k, namedPerimeters, perimeter, perimeter0, ref, v;
-
-	  extend(Perimeter, superClass);
-
-	  function Perimeter() {
-	    return Perimeter.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Perimeter.defineAtomicClass({
-	    fieldNames: "left right top bottom"
-	  });
-
-	  Perimeter.perimeter = perimeter = function(a, b, c, d) {
-	    var p;
-	    if (a instanceof Perimeter) {
-	      return a;
-	    }
-	    if (isString(a) && (p = namedPerimeters[a])) {
-	      return p;
-	    }
-	    if ((b == null) && (floatEq(a, 0)) || !a) {
-	      return perimeter0;
-	    }
-	    return new Perimeter(a, b, c, d);
-	  };
-
-	  Perimeter.prototype._initFields = function() {
-	    return this.left = this.right = this.top = this.bottom = 0;
-	  };
-
-	  Perimeter.prototype._initFromObject = function(obj) {
-	    this._initFields();
-	    this.left = (obj.left || 0) + (obj.l || 0) + (obj.h || 0) + (obj.horizontal || 0);
-	    this.right = (obj.right || 0) + (obj.r || 0) + (obj.h || 0) + (obj.horizontal || 0);
-	    this.top = (obj.top || 0) + (obj.t || 0) + (obj.v || 0) + (obj.vertical || 0);
-	    return this.bottom = (obj.bottom || 0) + (obj.b || 0) + (obj.v || 0) + (obj.vertical || 0);
-	  };
-
-	  Perimeter.prototype._init = function(a, b, c, d) {
-	    var argLength;
-	    this._initFields();
-	    argLength = a != null ? b != null ? c != null ? d != null ? 4 : 3 : 2 : 1 : 0;
-	    switch (argLength) {
-	      case 0:
-	        return this.left = this.right = this.top = this.bottom = 0;
-	      case 1:
-	        return this.left = this.right = this.top = this.bottom = a;
-	      case 2:
-	        this.left = this.right = a;
-	        return this.top = this.bottom = b;
-	      case 4:
-	        this.left = a;
-	        this.right = b;
-	        this.top = c;
-	        return this.bottom = d;
-	      default:
-	        throw new Error("invalid number of arguments: " + (inspect(arguments)));
-	    }
-	  };
-
-	  Perimeter.getter({
-	    width: function() {
-	      return this.left + this.right;
-	    },
-	    height: function() {
-	      return this.top + this.bottom;
-	    },
-	    w: function() {
-	      return this.left + this.right;
-	    },
-	    h: function() {
-	      return this.top + this.bottom;
-	    }
-	  });
-
-	  Perimeter.prototype.subtractedFromSize = function(size) {
-	    var h, w;
-	    w = this.getWidth();
-	    h = this.getHeight();
-	    if (floatEq(w, 0) && floatEq(h, 0)) {
-	      return size;
-	    } else {
-	      return point(size.x - w, size.y - h);
-	    }
-	  };
-
-	  Perimeter.prototype.addedToSize = function(size) {
-	    var h, w;
-	    w = this.getWidth();
-	    h = this.getHeight();
-	    if (floatEq(w, 0) && floatEq(h, 0)) {
-	      return size;
-	    } else {
-	      return point(size.x + w, size.y + h);
-	    }
-	  };
-
-
-	  /*
-	  Named Instances
-	   */
-
-	  Perimeter.namedPerimeters = namedPerimeters = {
-	    perimeter0: perimeter0 = Object.freeze(new Perimeter(0))
-	  };
-
-	  ref = Perimeter.namedPerimeters;
-	  for (k in ref) {
-	    v = ref[k];
-	    Perimeter[k] = v;
-	  }
-
-	  return Perimeter;
-
-	})(AtomicBase);
-
-
-/***/ },
-/* 136 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
-		"dependencies": {
-			"art-foundation": "git://github.com/imikimi/art-foundation.git",
-			"chai": "^3.5.0",
-			"coffee-loader": "^0.7.2",
-			"coffee-script": "^1.11.1",
-			"css-loader": "^0.23.1",
-			"json-loader": "^0.5.4",
-			"mocha": "^2.5.3",
-			"neptune-namespaces": "^1.5.0",
-			"script-loader": "^0.7.0",
-			"sourcemapped-stacktrace": "^1.1.3",
-			"style-loader": "^0.13.1",
-			"webpack": "^1.13.2",
-			"webpack-dev-server": "^1.16.2"
-		},
-		"description": "atomic data-types such as Color, Point, Rectangle and Matrix",
-		"license": "ISC",
-		"name": "art-atomic",
-		"scripts": {
-			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
-			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
-			"nn": "neptune-namespaces --std",
-			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
-			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
-		},
-		"version": "0.5.1"
+	  return factories;
 	};
 
+	React.VirtualElementArtEngine = (function(superClass) {
+	  extend(VirtualElementArtEngine, superClass);
+
+	  function VirtualElementArtEngine() {
+	    return VirtualElementArtEngine.__super__.constructor.apply(this, arguments);
+	  }
+
+	  VirtualElementArtEngine.prototype._updateElementProps = function(newProps) {
+	    var addedOrChanged, removed;
+	    addedOrChanged = (function(_this) {
+	      return function(k, v) {
+	        return _this.element.setProperty(k, v);
+	      };
+	    })(this);
+	    removed = (function(_this) {
+	      return function(k, v) {
+	        return _this.element.resetProperty(k);
+	      };
+	    })(this);
+	    return this._updateElementPropsHelper(newProps, addedOrChanged, removed);
+	  };
+
+	  VirtualElementArtEngine.prototype._setElementChildren = function(childElements) {
+	    return this.element.setChildren(childElements);
+	  };
+
+	  VirtualElementArtEngine.prototype._newElement = function(elementClassName, props, childElements, bindToOrCreateNewParentElementProps) {
+	    var element;
+	    element = ElementFactory.newElement(this.elementClassName, props, childElements);
+	    if (bindToOrCreateNewParentElementProps) {
+	      if (bindToOrCreateNewParentElementProps instanceof Element) {
+	        bindToOrCreateNewParentElementProps.addChild(element);
+	      } else {
+	        props = merge(bindToOrCreateNewParentElementProps, {
+	          webgl: Browser.Parse.query().webgl === "true",
+	          children: [element]
+	        });
+	        new CanvasElement(props);
+	      }
+	    }
+	    element.creator = this;
+	    return element;
+	  };
+
+	  VirtualElementArtEngine.prototype._newErrorElement = function() {
+	    return this._newElement("RectangleElement", {
+	      key: "ART_REACT_ERROR_CREATING_CHILD_PLACEHOLDER",
+	      color: "orange"
+	    });
+	  };
+
+	  return VirtualElementArtEngine;
+
+	})(React.VirtualElement);
+
+	React.fullScreenReactAppInit = function(a, b) {
+	  var initOptions, topComponent;
+	  initOptions = isPlainObject(a) ? (topComponent = b, a) : (topComponent = a, b || {});
+	  return FullScreenApp.init(initOptions).then(function() {
+	    return Promise.resolve(topComponent).then(function(topComponent) {
+	      return topComponent.instantiateAsTopComponent();
+	    });
+	  })["catch"](function(error) {
+	    return log.error("ArtReact.fullScreenReactAppInit failed", error);
+	  });
+	};
+
+	React.addElementFactories();
+
+
 /***/ },
-/* 137 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(138);
+	module.exports = __webpack_require__(119);
 
 
 /***/ },
-/* 138 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(139).includeInNamespace(__webpack_require__(141)).addModules({
-	  BitmapBase: __webpack_require__(143),
-	  Bitmap: __webpack_require__(144),
-	  GoogleFontLoader: __webpack_require__(148),
-	  GradientFillStyle: __webpack_require__(145),
-	  OriginalStackBlur: __webpack_require__(150),
-	  Paths: __webpack_require__(146),
-	  StackBlurOriginal: __webpack_require__(151),
-	  StackBlur: __webpack_require__(147)
+	module.exports = __webpack_require__(120).includeInNamespace(__webpack_require__(122)).addModules({
+	  FullScreenApp: __webpack_require__(243)
 	});
 
+	__webpack_require__(198);
 
-/***/ },
-/* 139 */
-/***/ function(module, exports, __webpack_require__) {
+	__webpack_require__(123);
 
-	var Art, Canvas,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Art = __webpack_require__(140);
-
-	module.exports = Art.Canvas || Art.addNamespace('Canvas', Canvas = (function(superClass) {
-	  extend(Canvas, superClass);
-
-	  function Canvas() {
-	    return Canvas.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Canvas;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 140 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Neptune,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Neptune = __webpack_require__(4);
-
-	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
-	  extend(Art, superClass);
-
-	  function Art() {
-	    return Art.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Art;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _package;
-
-	module.exports = [
-	  {
-	    "package": _package = __webpack_require__(142),
-	    version: _package.version
-	  }
-	];
-
-
-/***/ },
-/* 142 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
-		"dependencies": {
-			"art-atomic": "git://github.com/imikimi/art-atomic.git",
-			"art-foundation": "git://github.com/imikimi/art-foundation.git",
-			"chai": "^3.5.0",
-			"coffee-loader": "^0.7.2",
-			"coffee-script": "^1.11.1",
-			"css-loader": "^0.23.1",
-			"json-loader": "^0.5.4",
-			"mocha": "^2.5.3",
-			"neptune-namespaces": "^1.5.0",
-			"script-loader": "^0.7.0",
-			"sourcemapped-stacktrace": "^1.1.3",
-			"style-loader": "^0.13.1",
-			"webfontloader": "^1.6.26",
-			"webpack": "^1.13.2",
-			"webpack-dev-server": "^1.16.2"
-		},
-		"license": "ISC",
-		"name": "art-canvas",
-		"scripts": {
-			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
-			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
-			"nn": "neptune-namespaces --std",
-			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
-			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
-		},
-		"version": "1.3.4"
-	};
-
-/***/ },
-/* 143 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Atomic, BaseObject, Binary, BinaryString, BitmapBase, Color, Foundation, Matrix, Point, Rectangle, alphaChannelOffset, floor, inspect, isNumber, isString, log, matrix, nextTick, pixelStep, point, pureMerge, rect, rgbColor, round, toChannelNumberMap,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	Atomic = __webpack_require__(125);
-
-	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, rgbColor = Atomic.rgbColor, Color = Atomic.Color;
-
-	inspect = Foundation.inspect, nextTick = Foundation.nextTick, BaseObject = Foundation.BaseObject, Binary = Foundation.Binary, pureMerge = Foundation.pureMerge, isString = Foundation.isString, isNumber = Foundation.isNumber, log = Foundation.log;
-
-	round = Math.round, floor = Math.floor;
-
-	BinaryString = Binary.BinaryString;
-
-	toChannelNumberMap = {
-	  0: 0,
-	  1: 1,
-	  2: 2,
-	  3: 3,
-	  r: 0,
-	  g: 1,
-	  b: 2,
-	  a: 3,
-	  red: 0,
-	  green: 1,
-	  blue: 2,
-	  alpha: 3
-	};
-
-	alphaChannelOffset = 3;
-
-	pixelStep = 4;
-
-	module.exports = BitmapBase = (function(superClass) {
-	  var calculateBottom, calculateLeft, calculateRight, calculateTop;
-
-	  extend(BitmapBase, superClass);
-
-	  BitmapBase.bitmapsCreated = 0;
-
-	  BitmapBase.prototype.compositeModeSupported = function(mode) {
-	    return this.supportedCompositeModes.indexOf(mode) >= 0;
-	  };
-
-	  BitmapBase.pixelSnapDefault = true;
-
-	  BitmapBase.prototype.defaultColor = rgbColor("black");
-
-	  BitmapBase.prototype.defaultColorString = "black";
-
-	  function BitmapBase(a, b) {
-	    BitmapBase.__super__.constructor.apply(this, arguments);
-	    this._htmlImageElement = null;
-	    this._canvas = null;
-	    this._clippingArea = null;
-	    this._context = null;
-	    this._size = null;
-	    this._lastTransform = null;
-	    this._imageSmoothing = false;
-	    this.pixelSnap = BitmapBase.pixelSnapDefault;
-	    this._pixelsPerPoint = 1;
-	    BitmapBase.bitmapsCreated++;
-	    if (b) {
-	      a = point(a, b);
-	    }
-	    if (a instanceof BitmapBase) {
-	      this.populateClone(this);
-	    } else if (a instanceof HTMLCanvasElement) {
-	      this.initFromCanvas(a);
-	    } else if (a instanceof HTMLImageElement) {
-	      this.initFromImage(a);
-	    } else {
-	      this.initNewCanvas(point(a, b));
-	    }
-	  }
-
-	  BitmapBase.getter({
-	    inspectedObjects: function() {
-	      return this;
-	    },
-	    canvas: function() {
-	      if (!this._canvas) {
-	        if (this._htmlImageElement) {
-	          this.initNewCanvas(this.size);
-	          this.drawBitmap(null, this._htmlImageElement);
-	        } else {
-	          throw new Error("can't get @canvas");
-	        }
-	      }
-	      return this._canvas;
-	    },
-	    bitmapClass: function() {
-	      return this["class"];
-	    },
-	    clippingArea: function() {
-	      return this._clippingArea || (this._clippingArea = rect(this.getSize()));
-	    },
-	    aspectRatio: function() {
-	      return this.getSize().getAspectRatio();
-	    }
-	  });
-
-	  BitmapBase.prototype.shouldPixelSnap = function(where) {
-	    return this.pixelSnap && ((!where) || (where instanceof Point) || where.isTranslateAndPositiveScaleOnly);
-	  };
-
-	  BitmapBase.prototype.pixelSnapWhere = function(where) {
-	    if (where instanceof Point) {
-	      return where.rounded;
-	    } else if (where) {
-	      return where.withRoundedTranslation;
-	    }
-	  };
-
-	  BitmapBase.prototype.pixelSnapRectangle = function(where, r) {
-	    var bottom, h, isx, isy, right, sx, sy, tx, ty, w, x, y;
-	    right = (x = r.x) + (w = r.w);
-	    bottom = (y = r.y) + (h = r.h);
-	    isx = isy = sx = sy = 1;
-	    tx = ty = 0;
-	    if (where instanceof Point) {
-	      tx = where.x;
-	      ty = where.y;
-	    } else if (where) {
-	      tx = where.tx;
-	      ty = where.ty;
-	      sx = where.sx;
-	      isx = 1 / sx;
-	      sy = where.sy;
-	      isy = 1 / sy;
-	    }
-	    x = (Math.round((x * sx) + tx) - tx) * isx;
-	    y = (Math.round((y * sy) + ty) - ty) * isy;
-	    w = (Math.round((right * sx) + tx) - tx) * isx - x;
-	    h = (Math.round((bottom * sy) + ty) - ty) * isy - y;
-	    return rect(x, y, w, h);
-	  };
-
-	  BitmapBase.prototype.pixelSnapAndTransformRectangle = function(where, r) {
-	    var bottom, left, right, top;
-	    if (!r) {
-	      console.error("no r");
-	    }
-	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	    if (where instanceof Point) {
-	      left += where.x;
-	      right += where.x;
-	      top += where.y;
-	      bottom += where.y;
-	    } else if (where) {
-	      left = where.transformX(left, top);
-	      top = where.transformY(left, top);
-	      right = where.transformX(right, bottom);
-	      bottom = where.transformY(right, bottom);
-	    }
-	    left = Math.round(left);
-	    top = Math.round(top);
-	    right = Math.round(right);
-	    bottom = Math.round(bottom);
-	    return rect(left, top, right - left, bottom - top);
-	  };
-
-	  BitmapBase.prototype.clone = function() {
-	    var b;
-	    b = this.newBitmap(this.size);
-	    b.drawBitmap(null, this);
-	    return b;
-	  };
-
-	  BitmapBase.prototype.crop = function(area) {
-	    area || (area = this.getAutoCropRectangle());
-	    area = rect(area).intersection(rect(this.size));
-	    return this.newBitmap(area.size).drawBitmap(Matrix.translateXY(-area.x, -area.y), this);
-	  };
-
-	  BitmapBase.prototype.initFromCanvas = function(canvas) {
-	    this._canvas = canvas;
-	    this._size = point(this._canvas.width, this._canvas.height);
-	    return this.initContext();
-	  };
-
-	  BitmapBase.prototype.initFromImage = function(image) {
-	    this._size = point(image.width, image.height);
-	    this.initNewCanvas(this.size);
-	    return this.drawBitmap(point(), image);
-	  };
-
-	  BitmapBase.prototype.initNewCanvas = function(size) {
-	    if (this._context) {
-	      return;
-	    }
-	    if (!size.gt(point())) {
-	      throw new Error("invalid size=" + size + " for Art.Canvas.Bitmap");
-	    }
-	    this._size = size.floor();
-	    this._canvas = document.createElement('canvas');
-	    this._canvas.width = this.size.x;
-	    this._canvas.height = this.size.y;
-	    return this.initContext();
-	  };
-
-	  BitmapBase.prototype.populateClone = function(result) {
-	    result.initNewCanvas(this.size);
-	    result.drawBitmap(null, this);
-	    return result._pixelsPerPoint = this._pixelsPerPoint;
-	  };
-
-	  BitmapBase.getter({
-	    pixelsPerPoint: function() {
-	      return this._pixelsPerPoint;
-	    },
-	    pointsPerPixel: function() {
-	      return 1 / this._pixelsPerPoint;
-	    },
-	    pointSize: function() {
-	      return this.size.div(this.pixelsPerPoint);
-	    },
-	    byteSize: function() {
-	      return this.size.area * this.getBytesPerPixel();
-	    },
-	    bytesPerPixel: function() {
-	      return 4;
-	    }
-	  });
-
-	  BitmapBase.setter({
-	    pixelsPerPoint: function(v) {
-	      return this._pixelsPerPoint = v;
-	    },
-	    pointsPerPixel: function(v) {
-	      return this._pixelsPerPoint = 1 / v;
-	    }
-	  });
-
-	  BitmapBase.property({
-	    size: point(100, 100)
-	  });
-
-	  BitmapBase.property({
-	    imageSmoothing: false
-	  });
-
-	  BitmapBase.prototype.toMemoryBitmap = function() {
-	    return this;
-	  };
-
-	  BitmapBase.prototype.toMemoryDrawableBitmap = function() {
-	    return this;
-	  };
-
-	  BitmapBase.prototype.getImageData = function(a, b, c, d) {
-	    var area;
-	    area = a === null || a === void 0 ? rect(this.size) : rect(a, b, c, d);
-	    return this.toMemoryBitmap().context.getImageData(area.x, area.y, area.w, area.h);
-	  };
-
-	  BitmapBase.prototype.putImageData = function(imageData, location, sourceArea) {
-	    if (location == null) {
-	      location = point();
-	    }
-	    if (sourceArea == null) {
-	      sourceArea = rect(this.size);
-	    }
-	    location = location.sub(sourceArea.location);
-	    this._context.putImageData(imageData, location.x, location.y, sourceArea.x, sourceArea.y, sourceArea.w, sourceArea.h);
-	    return this;
-	  };
-
-	  BitmapBase.prototype.getImageDataArray = function(channel) {
-	    var data, end, i, j, len, results, results1, v;
-	    if (channel == null) {
-	      channel = null;
-	    }
-	    data = this.getImageData().data;
-	    if ((channel = toChannelNumberMap[channel]) != null) {
-	      i = channel;
-	      end = data.length;
-	      results = [];
-	      while (i < end) {
-	        i += 4;
-	        results.push(data[i - 4]);
-	      }
-	      return results;
-	    } else {
-	      results1 = [];
-	      for (j = 0, len = data.length; j < len; j++) {
-	        v = data[j];
-	        results1.push(v);
-	      }
-	      return results1;
-	    }
-	  };
-
-	  BitmapBase.prototype.toPngUri = function() {
-	    return nextTick().then((function(_this) {
-	      return function() {
-	        return _this.toMemoryBitmap().canvas.toDataURL();
-	      };
-	    })(this));
-	  };
-
-	  BitmapBase.prototype.toJpgUri = function(quality) {
-	    if (quality == null) {
-	      quality = .95;
-	    }
-	    return nextTick().then((function(_this) {
-	      return function() {
-	        return _this.toMemoryBitmap().canvas.toDataURL("image/jpeg", quality);
-	      };
-	    })(this));
-	  };
-
-	  BitmapBase.prototype.toPng = function() {
-	    return this.toPngUri().then(function(dataURI) {
-	      return BinaryString.fromDataUri(dataURI);
-	    });
-	  };
-
-	  BitmapBase.prototype.toJpg = function(quality) {
-	    return this.toJpgUri(quality).then(function(dataURI) {
-	      return BinaryString.fromDataUri(dataURI);
-	    });
-	  };
-
-	  BitmapBase.prototype.toImage = function() {
-	    return nextTick().then((function(_this) {
-	      return function() {
-	        var url;
-	        if (_this._htmlImageElement) {
-	          return _this._htmlImageElement;
-	        } else {
-	          url = _this.toMemoryBitmap().canvas.toDataURL();
-	          return Binary.EncodedImage.toImage(url).then(function(image) {
-	            var h, ref, w;
-	            ref = _this.pointSize, w = ref.w, h = ref.h;
-	            image.width = w;
-	            image.height = h;
-	            return image;
-	          });
-	        }
-	      };
-	    })(this));
-	  };
-
-	  BitmapBase.prototype.hFlipped = function() {
-	    var result;
-	    result = this.newBitmap(this.size);
-	    result.drawBitmap(Matrix.translateXY(-this.size.x / 2, 0).scaleXY(-1, 1).translateXY(this.size.x / 2, 0), this);
-	    return result;
-	  };
-
-	  BitmapBase.prototype.vFlipped = function() {
-	    var result;
-	    result = this.newBitmap(this.size);
-	    result.drawBitmap(Matrix.translateXY(0, -this.size.y / 2).scaleXY(1, -1).translateXY(0, this.size.y / 2), this);
-	    return result;
-	  };
-
-	  BitmapBase.prototype.drawBorder = function(where, r, options) {
-	    var c, m, p, w;
-	    m = matrix(where);
-	    r = rect(r);
-	    c = options.color || "#777";
-	    w = options.width || 1;
-	    p = options.padding || 0;
-	    r = r.grow(p);
-	    this.drawRectangle(m, rect(r.x, r.y, r.w, w), c);
-	    this.drawRectangle(m, rect(r.x, r.bottom - w, r.w, w), c);
-	    this.drawRectangle(m, rect(r.x, r.y + w, w, r.h - w * 2), c);
-	    return this.drawRectangle(m, rect(r.right - w, r.y + w, w, r.h - w * 2), c);
-	  };
-
-	  BitmapBase.prototype.drawStretchedBorderBitmap = function(drawMatrix, targetArea, bitmap, sourceCenterArea, options) {
-	    var bitmapSize, borderRatio, borderReductionRatio, borderScale, botomCenter, bottomCenter, bottomLeft, bottomRight, centerCenter, centerLeft, centerRight, centertCenter, hide, horizontalBorderHeight, horizontalBorderWidth, m, show, sourceBottomHeight, sourceBottomScale, sourceCenterAreaBottom, sourceCenterAreaHeight, sourceCenterAreaLeft, sourceCenterAreaRight, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterHeightScale, sourceCenterWidthScale, sourceLeftScale, sourceLeftWidth, sourceRightScale, sourceRightWidth, sourceTopHeight, sourceTopScale, targetAreaBottom, targetAreaHeight, targetAreaLeft, targetAreaRight, targetAreaTop, targetAreaWidth, targetBottomHeight, targetCenterAreaBottom, targetCenterAreaHeight, targetCenterAreaLeft, targetCenterAreaRight, targetCenterAreaTop, targetCenterAreaWidth, targetLeftWidth, targetRightWidth, targetTopHeight, topCenter, topLeft, topRight, totalBorderHeight, totalBorderWidth;
-	    if (options == null) {
-	      options = {};
-	    }
-	    hide = options.hide, show = options.show;
-	    bitmapSize = bitmap.size;
-	    borderScale = options.borderScale;
-	    if (!isNumber(borderScale)) {
-	      borderScale = 1;
-	    }
-	    sourceCenterAreaLeft = sourceCenterArea.left;
-	    sourceCenterAreaTop = sourceCenterArea.top;
-	    sourceCenterAreaRight = sourceCenterArea.right;
-	    sourceCenterAreaBottom = sourceCenterArea.bottom;
-	    sourceCenterAreaWidth = sourceCenterAreaRight - sourceCenterAreaLeft;
-	    sourceCenterAreaHeight = sourceCenterAreaBottom - sourceCenterAreaTop;
-	    targetAreaLeft = round(drawMatrix.transformX(targetArea.left, 0));
-	    targetAreaTop = round(drawMatrix.transformY(0, targetArea.top));
-	    targetAreaRight = round(drawMatrix.transformX(targetArea.right, 0));
-	    targetAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom));
-	    targetAreaWidth = targetAreaRight - targetAreaLeft;
-	    targetAreaHeight = targetAreaBottom - targetAreaTop;
-	    sourceLeftWidth = sourceCenterAreaLeft;
-	    sourceTopHeight = sourceCenterAreaTop;
-	    sourceRightWidth = bitmapSize.w - sourceCenterAreaRight;
-	    sourceBottomHeight = bitmapSize.h - sourceCenterAreaBottom;
-	    targetCenterAreaLeft = round(drawMatrix.transformX(targetArea.left + sourceLeftWidth * borderScale, 0));
-	    targetCenterAreaTop = round(drawMatrix.transformY(0, targetArea.top + sourceTopHeight * borderScale));
-	    targetCenterAreaRight = round(drawMatrix.transformX(targetArea.right - sourceRightWidth * borderScale, 0));
-	    targetCenterAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom - sourceBottomHeight * borderScale));
-	    targetCenterAreaWidth = targetCenterAreaRight - targetCenterAreaLeft;
-	    targetCenterAreaHeight = targetCenterAreaBottom - targetCenterAreaTop;
-	    if (targetCenterAreaWidth < 0) {
-	      horizontalBorderWidth = targetAreaWidth - targetCenterAreaWidth;
-	      borderReductionRatio = targetAreaWidth / horizontalBorderWidth;
-	      borderRatio = sourceLeftWidth / (totalBorderWidth = sourceLeftWidth + sourceRightWidth);
-	      sourceLeftWidth = round(sourceLeftWidth * borderReductionRatio);
-	      sourceRightWidth = round(sourceRightWidth * borderReductionRatio);
-	      sourceCenterAreaRight = bitmap.size.x - sourceRightWidth;
-	      targetCenterAreaLeft = targetCenterAreaRight = targetAreaLeft + round(targetAreaWidth * borderRatio);
-	      targetCenterAreaWidth = 0;
-	    }
-	    if (targetCenterAreaHeight < 0) {
-	      horizontalBorderHeight = targetAreaHeight - targetCenterAreaHeight;
-	      borderReductionRatio = targetAreaHeight / horizontalBorderHeight;
-	      borderRatio = sourceTopHeight / (totalBorderHeight = sourceTopHeight + sourceBottomHeight);
-	      sourceTopHeight = round(sourceTopHeight * borderReductionRatio);
-	      sourceBottomHeight = round(sourceBottomHeight * borderReductionRatio);
-	      sourceCenterAreaBottom = bitmap.size.x - sourceBottomHeight;
-	      targetCenterAreaTop = targetCenterAreaBottom = targetAreaTop + round(targetAreaHeight * borderRatio);
-	      targetCenterAreaHeight = 0;
-	    }
-	    targetLeftWidth = targetCenterAreaLeft - targetAreaLeft;
-	    targetTopHeight = targetCenterAreaTop - targetAreaTop;
-	    targetRightWidth = targetAreaRight - targetCenterAreaRight;
-	    targetBottomHeight = targetAreaBottom - targetCenterAreaBottom;
-	    sourceLeftScale = targetLeftWidth / sourceLeftWidth;
-	    sourceTopScale = targetTopHeight / sourceTopHeight;
-	    sourceRightScale = targetRightWidth / sourceRightWidth;
-	    sourceBottomScale = targetBottomHeight / sourceBottomHeight;
-	    sourceCenterWidthScale = targetCenterAreaWidth / sourceCenterAreaWidth;
-	    sourceCenterHeightScale = targetCenterAreaHeight / sourceCenterAreaHeight;
-	    if (show) {
-	      topLeft = !show.topLeft;
-	      topRight = !show.topRight;
-	      topCenter = !show.topCenter;
-	      centerLeft = !show.centerLeft;
-	      centerRight = !show.centerRight;
-	      centerCenter = !show.centerCenter;
-	      bottomLeft = !show.bottomLeft;
-	      bottomRight = !show.bottomRight;
-	      bottomCenter = !show.bottomCenter;
-	    }
-	    if (hide) {
-	      topLeft = hide.topLeft, topCenter = hide.topCenter, topRight = hide.topRight, centerLeft = hide.centerLeft, centerCenter = hide.centerCenter, centerRight = hide.centerRight, bottomLeft = hide.bottomLeft, botomCenter = hide.botomCenter, bottomRight = hide.bottomRight;
-	      if (hide.top) {
-	        topLeft = topCenter = topRight = true;
-	      }
-	      if (hide.bottom) {
-	        bottomLeft = bottomCenter = bottomRight = true;
-	      }
-	      if (hide.left) {
-	        topLeft = centerLeft = bottomLeft = true;
-	      }
-	      if (hide.left) {
-	        topRight = centerRight = bottomRight = true;
-	      }
-	      if (hide.centerRow) {
-	        centerLeft = centerCenter = centerRight = true;
-	      }
-	      if (hide.centerColumn) {
-	        topCenter = centertCenter = bottomRight = true;
-	      }
-	    }
-	    if (!topLeft) {
-	      m = Matrix.scaleXY(sourceLeftScale, sourceTopScale).translateXY(targetAreaLeft, targetAreaTop);
-	      options.sourceArea = rect(0, 0, sourceLeftWidth, sourceTopHeight);
-	      this.drawBitmap(m, bitmap, options);
-	    }
-	    if (!topRight) {
-	      m = Matrix.scaleXY(sourceRightScale, sourceTopScale).translateXY(targetCenterAreaRight, targetAreaTop);
-	      options.sourceArea = rect(sourceCenterAreaRight, 0, sourceRightWidth, sourceTopHeight);
-	      this.drawBitmap(m, bitmap, options);
-	    }
-	    if (!bottomLeft) {
-	      m = Matrix.scaleXY(sourceLeftScale, sourceBottomScale).translateXY(targetAreaLeft, targetCenterAreaBottom);
-	      options.sourceArea = rect(0, sourceCenterAreaBottom, sourceLeftWidth, sourceBottomHeight);
-	      this.drawBitmap(m, bitmap, options);
-	    }
-	    if (!bottomRight) {
-	      m = Matrix.scaleXY(sourceRightScale, sourceBottomScale).translateXY(targetCenterAreaRight, targetCenterAreaBottom);
-	      options.sourceArea = rect(sourceCenterAreaRight, sourceCenterAreaBottom, sourceRightWidth, sourceBottomHeight);
-	      this.drawBitmap(m, bitmap, options);
-	    }
-	    if (targetCenterAreaHeight > 0) {
-	      if (!centerLeft) {
-	        m = Matrix.scaleXY(sourceLeftScale, sourceCenterHeightScale).translateXY(targetAreaLeft, targetCenterAreaTop);
-	        options.sourceArea = rect(0, sourceTopHeight, sourceLeftWidth, sourceCenterAreaHeight);
-	        this.drawBitmap(m, bitmap, options);
-	      }
-	      if (!(centerCenter || targetCenterAreaWidth <= 0)) {
-	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceCenterHeightScale).translateXY(targetCenterAreaLeft, targetCenterAreaTop);
-	        options.sourceArea = rect(sourceCenterAreaLeft, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterAreaHeight);
-	        this.drawBitmap(m, bitmap, options);
-	      }
-	      if (!centerRight) {
-	        m = Matrix.scaleXY(sourceRightScale, sourceCenterHeightScale).translateXY(targetCenterAreaRight, targetCenterAreaTop);
-	        options.sourceArea = rect(sourceCenterAreaRight, sourceTopHeight, sourceRightWidth, sourceCenterAreaHeight);
-	        this.drawBitmap(m, bitmap, options);
-	      }
-	    }
-	    if (sourceCenterAreaWidth > 0) {
-	      if (!bottomCenter) {
-	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceBottomScale).translateXY(targetCenterAreaLeft, targetCenterAreaBottom);
-	        options.sourceArea = rect(sourceLeftWidth, sourceCenterAreaBottom, sourceCenterAreaWidth, sourceBottomHeight);
-	        this.drawBitmap(m, bitmap, options);
-	      }
-	      if (!topCenter) {
-	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceTopScale).translateXY(targetCenterAreaLeft, targetAreaTop);
-	        options.sourceArea = rect(sourceCenterAreaLeft, 0, sourceCenterAreaWidth, sourceTopHeight);
-	        return this.drawBitmap(m, bitmap, options);
-	      }
-	    }
-	  };
-
-	  calculateTop = function(data, size, threshold) {
-	    var lineStep, pos;
-	    lineStep = size.x * pixelStep;
-	    pos = alphaChannelOffset;
-	    while (pos < data.length && data[pos] <= threshold) {
-	      pos += pixelStep;
-	    }
-	    return floor(pos / lineStep);
-	  };
-
-	  calculateBottom = function(data, size, threshold, top) {
-	    var lineStep, pos, stopPos;
-	    lineStep = size.x * pixelStep;
-	    pos = data.length + alphaChannelOffset - pixelStep;
-	    stopPos = top * lineStep;
-	    while (pos > stopPos && data[pos] <= threshold) {
-	      pos -= pixelStep;
-	    }
-	    return floor(pos / lineStep);
-	  };
-
-	  calculateLeft = function(data, size, threshold, top, bottom) {
-	    var bottomOffset, length, lineStep, pos, posX, stop, topOffset;
-	    lineStep = size.x * pixelStep;
-	    length = data.length;
-	    topOffset = top * lineStep;
-	    bottomOffset = bottom * lineStep;
-	    posX = alphaChannelOffset;
-	    while (posX < lineStep) {
-	      pos = posX + topOffset;
-	      stop = posX + bottomOffset;
-	      while (pos < stop) {
-	        if (data[pos] > threshold) {
-	          return floor(posX / pixelStep);
-	        }
-	        pos += lineStep;
-	      }
-	      posX += pixelStep;
-	    }
-	  };
-
-	  calculateRight = function(data, size, threshold, top, bottom, left) {
-	    var bottomOffset, length, lineStep, outterStop, pos, posX, stop, topOffset;
-	    lineStep = size.x * pixelStep;
-	    length = data.length;
-	    topOffset = top * lineStep;
-	    bottomOffset = bottom * lineStep;
-	    posX = lineStep - pixelStep + alphaChannelOffset;
-	    outterStop = left * pixelStep;
-	    while (posX > outterStop) {
-	      pos = posX + topOffset;
-	      stop = posX + bottomOffset;
-	      while (pos < stop) {
-	        if (data[pos] > threshold) {
-	          return floor(posX / pixelStep);
-	        }
-	        pos += lineStep;
-	      }
-	      posX -= pixelStep;
-	    }
-	  };
-
-	  BitmapBase.prototype.getAutoCropRectangle = function(threshold) {
-	    var bottom, context, data, left, ref, right, size, top;
-	    if (threshold == null) {
-	      threshold = 0;
-	    }
-	    ref = this, size = ref.size, context = ref.context;
-	    data = context.getImageData(0, 0, size.x, size.y).data;
-	    top = calculateTop(data, size, threshold);
-	    if (top === size.y) {
-	      return rect();
-	    }
-	    bottom = calculateBottom(data, size, threshold, top);
-	    left = calculateLeft(data, size, threshold, top, bottom);
-	    right = calculateRight(data, size, threshold, top, bottom, left);
-	    return rect(left, top, right - left + 1, bottom - top + 1);
-	  };
-
-	  return BitmapBase;
-
-	})(BaseObject);
-
-
-/***/ },
-/* 144 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Atomic, Binary, Bitmap, BitmapBase, Color, EncodedImage, Foundation, GradientFillStyle, IdentityMatrix, Matrix, Paths, Point, Promise, Rectangle, StackBlur, canvasBlenders, currentSecond, emptyOptions, eq, floatEq0, inspect, isFunction, isNumber, isPlainObject, log, matrix, max, min, point, point0, rect, rgbColor, round,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Atomic = __webpack_require__(125);
-
-	Foundation = __webpack_require__(19);
-
-	GradientFillStyle = __webpack_require__(145);
-
-	BitmapBase = __webpack_require__(143);
-
-	Paths = __webpack_require__(146);
-
-	StackBlur = __webpack_require__(147);
-
-	inspect = Foundation.inspect, log = Foundation.log, min = Foundation.min, max = Foundation.max, Binary = Foundation.Binary, isFunction = Foundation.isFunction, isPlainObject = Foundation.isPlainObject, eq = Foundation.eq, currentSecond = Foundation.currentSecond, round = Foundation.round, isNumber = Foundation.isNumber, floatEq0 = Foundation.floatEq0, Promise = Foundation.Promise, isPlainObject = Foundation.isPlainObject;
-
-	EncodedImage = Binary.EncodedImage;
-
-	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, rgbColor = Atomic.rgbColor, Color = Atomic.Color, IdentityMatrix = Atomic.IdentityMatrix, point0 = Atomic.point0;
-
-	emptyOptions = {};
-
-	canvasBlenders = {
-	  add: "lighter",
-	  normal: "source-over",
-	  target_alphamask: "source-in",
-	  alphamask: "destination-in",
-	  destover: "destination-over",
-	  sourcein: "source-atop",
-	  inverse_alphamask: "destination-out",
-	  alphaMask: "destination-in",
-	  targetAlphaMask: "source-in",
-	  inverseAlphaMask: "destination-out",
-	  destOver: "destination-over",
-	  sourceIn: "source-atop",
-	  replace: "copy"
-	};
-
-	module.exports = Bitmap = (function(superClass) {
-	  var k, v;
-
-	  extend(Bitmap, superClass);
-
-	  function Bitmap() {
-	    return Bitmap.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Bitmap.supportedCompositeModes = (function() {
-	    var results;
-	    results = [];
-	    for (k in canvasBlenders) {
-	      v = canvasBlenders[k];
-	      results.push(k);
-	    }
-	    return results;
-	  })();
-
-	  Bitmap.getter({
-	    supportedCompositeModes: function() {
-	      return Bitmap.supportedCompositeModes;
-	    }
-	  });
-
-	  Bitmap.artToCanvasCompositeModeMap = canvasBlenders;
-
-	  Bitmap.prototype.initContext = function() {
-	    var ref;
-	    return this._context = (ref = this._canvas) != null ? ref.getContext("2d") : void 0;
-	  };
-
-	  Bitmap.getter({
-	    context: function() {
-	      if (!this._context && this._htmlImageElement) {
-	        this.initNewCanvas(this.size);
-	        this.drawBitmap(point(), this._htmlImageElement);
-	        this._htmlImageElement = null;
-	      }
-	      return this._context;
-	    },
-	    context2D: function() {
-	      return this.getContext();
-	    },
-	    htmlImageElement: function() {
-	      return this._htmlImageElement;
-	    },
-	    htmlElement: function() {
-	      return this._htmlImageElement || this._canvas;
-	    }
-	  });
-
-	  Bitmap.get = function(url, options) {
-	    return EncodedImage.get(url, options).then(function(image) {
-	      var _, bitmap, match, resolution;
-	      bitmap = new Bitmap(image);
-	      if (match = url.match(/@([2-9])x\.[a-zA-Z]+$/)) {
-	        _ = match[0], resolution = match[1];
-	        bitmap.pixelsPerPoint = resolution | 0;
-	      }
-	      return bitmap;
-	    });
-	  };
-
-
-	  /*
-	  Uses the browser's file-request dialog to have the user select a local image file.
-	  
-	  OUT:
-	    promise.then ({bitmap, file}) ->
-	       * bitmap is a Canvas.Bitmap
-	       * file is a javascript File object
-	   */
-
-	  Bitmap.requestImage = function() {
-	    return Foundation.Browser.File.request({
-	      accept: "image/*"
-	    }).then((function(_this) {
-	      return function(arg) {
-	        var file;
-	        file = arg[0];
-	        return EncodedImage.toImage(file).then(function(image) {
-	          return {
-	            bitmap: new Bitmap(image),
-	            file: file
-	          };
-	        });
-	      };
-	    })(this));
-	  };
-
-	  Bitmap.prototype.initFromImage = function(image) {
-	    this._size = point(image.width, image.height);
-	    return this._htmlImageElement = image;
-	  };
-
-	  Bitmap.setter({
-	    imageSmoothing: function(bool) {
-	      return this._context.imageSmoothingEnabled = this._context.mozImageSmoothingEnabled = this._context.webkitImageSmoothingEnabled = this._context.msImageSmoothingEnabled = this._imageSmoothing = !!bool;
-	    }
-	  });
-
-	  Bitmap.bitmapClass = Bitmap;
-
-	  Bitmap.newBitmap = function(size) {
-	    return new Bitmap.bitmapClass(size);
-	  };
-
-	  Bitmap.prototype.newBitmap = function(size) {
-	    return new this.bitmapClass(size || this.size).tap((function(_this) {
-	      return function(b) {
-	        return b.pixelsPerPoint = _this.pixelsPerPoint;
-	      };
-	    })(this));
-	  };
-
-	  Bitmap.prototype.setClippingArea = function(area, drawMatrix) {
-	    this._setTransform(drawMatrix);
-	    if (isFunction(area)) {
-	      this._context.beginPath();
-	      area(this._context);
-	      return this._context.clip();
-	    } else {
-	      area = this.pixelSnapRectangle(drawMatrix, area);
-	      this._clippingArea = area.intersection(this._clippingArea);
-	      this._context.beginPath();
-	      this._context.rect(area.x, area.y, area.w, area.h);
-	      return this._context.clip();
-	    }
-	  };
-
-	  Bitmap.prototype.clippedTo = function(area, f, drawMatrix) {
-	    var previousClippingArea;
-	    this._context.save();
-	    previousClippingArea = this._clippingArea;
-	    try {
-	      this.setClippingArea(area, drawMatrix);
-	      return f();
-	    } finally {
-	      this._context.restore();
-	      this._clippingArea = previousClippingArea;
-	    }
-	  };
-
-	  Bitmap.prototype.clear = function(a, b, c, d) {
-	    var clr;
-	    clr = a != null ? rgbColor(a, b, c, d) : rgbColor(0, 0, 0, 0);
-	    this._clearTransform();
-	    if (clr.a !== 1.0) {
-	      this._context.clearRect(0, 0, this.size.x, this.size.y);
-	    }
-	    if (!clr.eq(rgbColor(0, 0, 0, 0))) {
-	      this._context.globalCompositeOperation = "source-over";
-	      this._setFillStyle(clr);
-	      this._context.fillRect(0, 0, this.size.x, this.size.y);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.strokeRectangle = function(where, rectangle, options) {
-	    var grow, lineWidth, lineWidthMod2, r;
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    r = rect(rectangle);
-	    if (this.shouldPixelSnap(where)) {
-	      lineWidth = options.lineWidth || 1;
-	      r = this.pixelSnapRectangle(where, r);
-	      lineWidthMod2 = lineWidth % 2;
-	      grow = lineWidthMod2 < 1 ? -lineWidthMod2 / 2 : lineWidthMod2 / 2 - 1;
-	      if (!floatEq0(grow)) {
-	        r = r.grow(grow);
-	      }
-	    }
-	    if (options.radius) {
-	      this.strokeShape(where, options, (function(_this) {
-	        return function() {
-	          return Paths.roundedRectangle(_this._context, r, min(options.radius, r.w / 2, r.h / 2));
-	        };
-	      })(this));
-	    } else {
-	      if (this._setupDraw(where, options, true)) {
-	        this._context.strokeRect(r.x, r.y, r.w, r.h);
-	        this._cleanupDraw(options);
-	      }
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.strokeShape = function(where, options, pathFunction) {
-	    if (this._setupDraw(where, options, true)) {
-	      this._context.beginPath();
-	      pathFunction(this._context);
-	      this._context.stroke();
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.drawBorder = function(where, rectangle, options) {
-	    var a, a1, g, p, w;
-	    if (this._setupDraw(where, options, true)) {
-	      p = options.padding || 0;
-	      w = options.width || 1;
-	      a1 = rect(rectangle);
-	      g = p - w / 2;
-	      a = a1.grow(g);
-	      this._context.beginPath();
-	      Paths.rectangle(this._context, a);
-	      this._context.stroke();
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.drawLine = function(where, fromPoint, toPoint, options) {
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    if (this._setupDraw(where, options, true)) {
-	      this._context.beginPath();
-	      Paths.line(this._context, fromPoint, toPoint);
-	      this._context.stroke();
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.drawRectangle = function(where, rectangle, options) {
-	    var _context, fillRule, r, radius;
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    r = rect(rectangle);
-	    radius = options.radius, fillRule = options.fillRule;
-	    if (this.shouldPixelSnap(where)) {
-	      r = this.pixelSnapRectangle(where, r);
-	    }
-	    _context = this._context;
-	    if (this._setupDraw(where, options)) {
-	      if (radius > 0 || isPlainObject(radius)) {
-	        _context.beginPath();
-	        Paths.roundedRectangle(_context, r, radius);
-	        _context.fill(fillRule || "nonzero");
-	      } else {
-	        _context.fillRect(r.x, r.y, r.w, r.h);
-	      }
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.fillShape = function(where, options, pathFunction) {
-	    var _context;
-	    _context = this._context;
-	    if (this._setupDraw(where, options)) {
-	      _context.beginPath();
-	      pathFunction(_context);
-	      _context.fill(options.fillRule || "nonzero");
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.drawBitmap = function(where, bitmap, options) {
-	    var aboutToDrawTime, drawed, endTime, h, inputBitmap, inputBitmapSize, origSourceArea, ref, ref1, sh, sourceArea, startTime, sw, sx, sy, w, x, y;
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    startTime = currentSecond();
-	    sourceArea = options.sourceArea;
-	    inputBitmap = bitmap;
-	    if (bitmap.toMemoryDrawableBitmap) {
-	      bitmap = bitmap.toMemoryDrawableBitmap();
-	    }
-	    bitmap = bitmap._canvas || bitmap._htmlImageElement || bitmap;
-	    inputBitmapSize = inputBitmap.size || point(inputBitmap.width, inputBitmap.height);
-	    drawed = "";
-	    if (this.shouldPixelSnap(where)) {
-	      ref = this.pixelSnapAndTransformRectangle(where, (sourceArea != null ? sourceArea.size : void 0) || inputBitmapSize), x = ref.x, y = ref.y, w = ref.w, h = ref.h;
-	      if (sourceArea) {
-	        sx = round(sourceArea.x);
-	        sy = round(sourceArea.y);
-	        sw = round(sourceArea.w);
-	        sh = round(sourceArea.h);
-	      } else {
-	        sx = sy = 0;
-	        sw = inputBitmapSize.x;
-	        sh = inputBitmapSize.y;
-	      }
-	      if (this._setupDraw(null, options)) {
-	        drawed = "pixelSnap - " + (inspect([sx, sy, sw, sh]));
-	        aboutToDrawTime = currentSecond();
-	        this._context.drawImage(bitmap, sx, sy, sw, sh, x, y, w, h);
-	        this._cleanupDraw(options);
-	      }
-	    } else {
-	      if (this._setupDraw(where, options)) {
-	        aboutToDrawTime = currentSecond();
-	        if (origSourceArea = sourceArea) {
-	          drawed = "sourceArea";
-	          ref1 = sourceArea.intersection(rect(inputBitmap.size)), x = ref1.x, y = ref1.y, w = ref1.w, h = ref1.h;
-	          this._context.drawImage(bitmap, x, y, w, h, 0, 0, w, h);
-	        } else {
-	          drawed = "other";
-	          this._context.drawImage(bitmap, 0, 0);
-	        }
-	        this._cleanupDraw(options);
-	      }
-	    }
-	    endTime = currentSecond();
-	    if (endTime - startTime > .1) {
-	      log({
-	        Canvas_Bitmap_drawBitmap: {
-	          slowDraw: ((endTime - startTime) * 1000 | 0) + "ms",
-	          time2: ((endTime - aboutToDrawTime) * 1000 | 0) + "ms",
-	          where: where,
-	          options: options,
-	          drawed: drawed,
-	          bitmapSize: [bitmap._size, bitmap.width, bitmap.height]
-	        }
-	      });
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.drawText = function(where, text, options) {
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    if (this._setupDraw(where, options)) {
-	      this._context.font = (options.size || 16) + "px " + (options.family || 'Arial') + ", Arial";
-	      this._context.textAlign = options.align || 'start';
-	      this._context.textBaseline = options.baseline || 'alphabetic';
-	      this._context.fillText(text, 0, 0);
-	      this._cleanupDraw(options);
-	    }
-	    return this;
-	  };
-
-	  Bitmap.prototype.blur = function(radius, toClone) {
-	    return (toClone ? this.clone() : this).tap((function(_this) {
-	      return function(target) {
-	        return StackBlur.blur(_this, radius, target);
-	      };
-	    })(this));
-	  };
-
-	  Bitmap.prototype.blurAlpha = function(radius, options) {
-	    if (options == null) {
-	      options = emptyOptions;
-	    }
-	    return (options.clone ? this.clone() : this).tap((function(_this) {
-	      return function(target) {
-	        var func;
-	        func = options.inverted ? "blurInvertedAlpha" : "blurAlpha";
-	        return StackBlur[func](_this, radius, target);
-	      };
-	    })(this));
-	  };
-
-	  Bitmap.prototype._clearTransform = function() {
-	    this._lastTransform = IdentityMatrix;
-	    return this._context.setTransform(1, 0, 0, 1, 0, 0);
-	  };
-
-	  Bitmap.prototype._setTransform = function(m) {
-	    if (m) {
-	      this._lastTransform = m;
-	      if (m instanceof Point) {
-	        return this._context.setTransform(1, 0, 0, 1, m.x, m.y);
-	      } else {
-	        return this._context.setTransform(m.sx, m.shy, m.shx, m.sy, m.tx, m.ty);
-	      }
-	    } else {
-	      return this._clearTransform();
-	    }
-	  };
-
-	  Bitmap.prototype._setStrokeStyle = function(strokeStyle) {
-	    return this._context.strokeStyle = strokeStyle.toCanvasStyle ? strokeStyle.toCanvasStyle(this._context) : strokeStyle.toString();
-	  };
-
-	  Bitmap.prototype._setFillStyle = function(fillStyle) {
-	    return this._context.fillStyle = fillStyle.toCanvasStyle ? fillStyle.toCanvasStyle(this._context) : fillStyle.toString();
-	  };
-
-	  Bitmap.prototype._getFillStyleFromOptions = function(options) {
-	    var fromPoint, gradientRadius1, toPoint;
-	    if (options.colors) {
-	      fromPoint = options.from || point0;
-	      gradientRadius1 = options.gradientRadius1 || options.gradientRadius;
-	      toPoint = options.to || (gradientRadius1 != null ? fromPoint : this.size);
-	      return new GradientFillStyle(fromPoint, toPoint, options.colors, gradientRadius1, options.gradientRadius2);
-	    } else {
-	      return options.fillStyle || options.color || this.defaultColorString;
-	    }
-	  };
-
-	  Bitmap.prototype._setStrokeStyleFromOptions = function(options) {
-	    var lineCap, lineDash, lineJoin, lineWidth, miterLimit;
-	    this._setStrokeStyle(this._getFillStyleFromOptions(options));
-	    lineWidth = options.lineWidth, lineCap = options.lineCap, lineJoin = options.lineJoin, miterLimit = options.miterLimit, lineDash = options.lineDash;
-	    this._context.setLineDash(lineDash || []);
-	    this._context.lineWidth = lineWidth || 1;
-	    this._context.lineCap = lineCap || "butt";
-	    this._context.lineJoin = lineJoin || "miter";
-	    return this._context.miterLimit = miterLimit || 10;
-	  };
-
-	  Bitmap.prototype._setFillStyleFromOptions = function(options) {
-	    return this._setFillStyle(this._getFillStyleFromOptions(options));
-	  };
-
-	  Bitmap.prototype._setupDraw = function(where, options, stroke) {
-	    var _context, blur, compositeMode, offset, offsetX, offsetY, opacity, shadow, shadowColor;
-	    compositeMode = options.compositeMode, shadow = options.shadow, opacity = options.opacity;
-	    stroke || (stroke = options.stroke);
-	    if (!isNumber(opacity)) {
-	      opacity = 1;
-	    }
-	    if (opacity < 1 / 256) {
-	      return false;
-	    }
-	    _context = this._context;
-	    if (stroke) {
-	      this._setStrokeStyleFromOptions(options);
-	    } else {
-	      this._setFillStyleFromOptions(options);
-	    }
-	    if (compositeMode && compositeMode !== "normal") {
-	      _context.globalCompositeOperation = canvasBlenders[compositeMode] || canvasBlenders.normal;
-	    }
-	    if (opacity < 1) {
-	      _context.globalAlpha = opacity;
-	    }
-	    if (shadow) {
-	      blur = shadow.blur, offsetX = shadow.offsetX, offsetY = shadow.offsetY, offset = shadow.offset;
-	      shadowColor = shadow.color;
-	      _context.shadowColor = rgbColor(shadowColor || "black");
-	      if (blur) {
-	        _context.shadowBlur = blur;
-	      }
-	      offsetX || (offsetX = 0);
-	      offsetY || (offsetY = 0);
-	      if (where instanceof Matrix) {
-
-	        /*
-	        Shadows seem to ignore scale and rotation transformations.
-	        
-	        It seems someone wanted to enforce consistent shadows while completely breaking
-	        the setTransform abstraction. Bah! :)
-	        
-	        I believe this was a design mistake. It introduces inconsistencies both subtle
-	        and large. For example, it makes shadow placement vary across devices depending
-	        upon their devicePixelsPerPoint. No other draw command works this way.
-	        
-	        Consistent shadows should be up to the programmer, not the drawing engine.
-	        
-	        I believe this hack solves the problem. Shadow SHAPE does obey setTransforms. It
-	        is also correctly proporitonal to the shape it is creating a shadow of. Said shape
-	        fully obeys setTrasform - including location. Only the vector from the center of
-	        the shape to the center of the shadow seems to ignore setTransform.
-	         - July 2016, SBD
-	         */
-	        _context.shadowOffsetX = Matrix.transform1D(offsetX, offsetY, where.sx, where.shx, 0);
-	        _context.shadowOffsetY = Matrix.transform1D(offsetY, offsetX, where.sy, where.shy, 0);
-	      } else {
-	        _context.shadowOffsetX = offsetX;
-	        _context.shadowOffsetY = offsetY;
-	      }
-	    }
-	    this._setTransform(where);
-	    return true;
-	  };
-
-	  Bitmap.prototype._cleanupDraw = function(options) {
-	    var _context, compositeMode, opacity, shadow;
-	    compositeMode = options.compositeMode, shadow = options.shadow, opacity = options.opacity;
-	    if (!isNumber(opacity)) {
-	      opacity = 1;
-	    }
-	    _context = this._context;
-	    if (compositeMode && compositeMode !== "normal") {
-	      _context.globalCompositeOperation = canvasBlenders.normal;
-	    }
-	    if (opacity < 1) {
-	      _context.globalAlpha = 1;
-	    }
-	    if (shadow) {
-	      _context.shadowColor = "transparent";
-	      _context.shadowBlur = 0;
-	      _context.shadowOffsetX = 0;
-	      return _context.shadowOffsetY = 0;
-	    }
-	  };
-
-	  return Bitmap;
-
-	})(BitmapBase);
-
-
-/***/ },
-/* 145 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Atomic, Foundation, GradientFillStyle, arrayWith, clone, flatten, floatEq, inspect, isNumber, isPlainArray, isPlainObject, isString, log, min, peek, point, point1, rgbColor, shallowClone,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Atomic = __webpack_require__(125);
-
-	Foundation = __webpack_require__(19);
-
-	point = Atomic.point, rgbColor = Atomic.rgbColor, point1 = Atomic.point1;
-
-	inspect = Foundation.inspect, shallowClone = Foundation.shallowClone, flatten = Foundation.flatten, isPlainObject = Foundation.isPlainObject, log = Foundation.log, isNumber = Foundation.isNumber, isString = Foundation.isString, isPlainArray = Foundation.isPlainArray, clone = Foundation.clone, min = Foundation.min, floatEq = Foundation.floatEq, peek = Foundation.peek, arrayWith = Foundation.arrayWith;
-
-	module.exports = GradientFillStyle = (function(superClass) {
-	  extend(GradientFillStyle, superClass);
-
-
-	  /*
-	  from and to are points where the lineary gradient will begin and end.
-	  "colors" is a list of the colors for the gradient. There must be at least two colors.
-	  In the explicit form, each rgbColor should be formatted as {n:<number>, c:<html rgbColor string>}
-	    Ex: {n:.45, c:"#ff0"}
-	  Implicitly, you can:
-	    provide just a HTML rgbColor string with no "n".
-	    N is determined as follows:
-	      The first and last rgbColor will be forced to have n=0 and n=1 respectively
-	      Any string of omitted Ns will be interpolated between the specified ns.
-	  
-	  Examples:
-	    black to white:
-	      new GradientFillStyle point(0,0), point(100,0), {c:"#000"}, {c:"#fff"}
-	      OR
-	      new GradientFillStyle point(0,0), point(100,0), "#000", "#fff"
-	  
-	    black to red to white:
-	      new GradientFillStyle point(0,0), point(100,0), {c:"#000"}, {n:.5, c:"#f00"}, {c:"#fff"}
-	      OR
-	      new GradientFillStyle point(0,0), point(100,0), "#000", "#f00", "#fff"
-	  
-	    red to transparent
-	      new GradientFillStyle point(0,0), point(100,0), #f00", "rgba(1,0,0,0)"
-	  
-	    rainbow:
-	      new GradientFillStyle(
-	        point(0,0), point(100,0)
-	        "#f00"
-	        "#ff0"
-	        "#0f0"
-	        "#0ff"
-	        "#00f"
-	        "#f0f"
-	        "#f00"
-	      )
-	   */
-
-	  GradientFillStyle.colorsToObjectsAndStringColors = function(colors) {
-	    var clr, j, len, results;
-	    results = [];
-	    for (j = 0, len = colors.length; j < len; j++) {
-	      clr = colors[j];
-	      if (isPlainObject(clr)) {
-	        results.push({
-	          n: clr.n,
-	          c: String(rgbColor(clr.c))
-	        });
-	      } else {
-	        results.push({
-	          c: String(rgbColor(clr))
-	        });
-	      }
-	    }
-	    return results;
-	  };
-
-	  GradientFillStyle.colorsFromObjects = function(colors) {
-	    var c, clr, j, k, len, n, ret;
-	    ret = [];
-	    for (j = 0, len = colors.length; j < len; j++) {
-	      clr = colors[j];
-	      if (isPlainObject(clr)) {
-	        if (isNumber(clr.r)) {
-	          ret.push(rgbColor(clr));
-	        } else if (isNumber(clr.n)) {
-	          ret.push(clr);
-	        } else {
-	          for (k in clr) {
-	            c = clr[k];
-	            n = k - 0;
-	            ret.push({
-	              n: n,
-	              c: c
-	            });
-	          }
-	        }
-	      } else {
-	        ret.push(clr);
-	      }
-	    }
-	    return ret;
-	  };
-
-	  GradientFillStyle.interpolateColorPositionRange = function(outColors, colors, start, end, firstN, lastN) {
-	    var i, j, nDelta, ref, ref1, results, steps;
-	    steps = end - start + 1;
-	    nDelta = (lastN - firstN) / steps;
-	    results = [];
-	    for (i = j = ref = start, ref1 = end; ref <= ref1 ? j < ref1 : j > ref1; i = ref <= ref1 ? ++j : --j) {
-	      results.push(outColors.push({
-	        c: colors[i].c,
-	        n: (i - start + 1) * nDelta
-	      }));
-	    }
-	    return results;
-	  };
-
-	  GradientFillStyle.needToInterpolateColors = function(colors) {
-	    var clr, j, len, ret;
-	    ret = false;
-	    for (j = 0, len = colors.length; j < len; j++) {
-	      clr = colors[j];
-	      if (!(clr.n == null)) {
-	        continue;
-	      }
-	      ret = true;
-	      break;
-	    }
-	    return ret;
-	  };
-
-	  GradientFillStyle.interpolateColorPositions = function(colors) {
-	    var clr, firstColor, i, interpolateCount, j, lastColor, len, n, outColors, startN;
-	    if (!GradientFillStyle.needToInterpolateColors(colors)) {
-	      return colors;
-	    }
-	    firstColor = colors[0], lastColor = colors[colors.length - 1];
-	    if (firstColor.n == null) {
-	      firstColor = {
-	        c: firstColor.c,
-	        n: 0
-	      };
-	    }
-	    if (lastColor.n == null) {
-	      lastColor = {
-	        c: lastColor.c,
-	        n: 1
-	      };
-	    }
-	    outColors = [firstColor];
-	    startN = firstColor.n;
-	    interpolateCount = 0;
-	    for (i = j = 0, len = colors.length; j < len; i = ++j) {
-	      clr = colors[i];
-	      if (!(i > 0)) {
-	        continue;
-	      }
-	      if (i === colors.length - 1) {
-	        clr = lastColor;
-	      }
-	      n = clr.n;
-	      if (n != null) {
-	        if (interpolateCount > 0) {
-	          GradientFillStyle.interpolateColorPositionRange(outColors, colors, i - interpolateCount, i, startN, n);
-	          interpolateCount = 0;
-	        }
-	        startN = n;
-	      } else {
-	        interpolateCount++;
-	      }
-	    }
-	    outColors.push(lastColor);
-	    return outColors;
-	  };
-
-	  GradientFillStyle.sortColorsByN = function(colors) {
-	    return colors.sort(function(a, b) {
-	      return a.n - b.n;
-	    });
-	  };
-
-	  GradientFillStyle.normalizeColors = function(colors) {
-	    colors = this.colorsFromObjects(colors);
-	    colors = this.colorsToObjectsAndStringColors(colors);
-	    colors = this.interpolateColorPositions(colors);
-	    colors = this.sortColorsByN(colors);
-	    return colors;
-	  };
-
-	  function GradientFillStyle(from, to, colors, radius11, radius21) {
-	    this.from = from;
-	    this.to = to;
-	    this.radius1 = radius11;
-	    this.radius2 = radius21;
-	    this.setColors(this.inputColors = colors);
-	  }
-
-	  GradientFillStyle.prototype.inspect2 = function() {
-	    return "gradient(from:" + this.from + ", to:" + this.to + ", colors:" + (inspect(this.inputColors)) + ")";
-	  };
-
-	  GradientFillStyle.clone = function() {
-	    return new GradientFillStyle(this.from, this.to, shallowClone(this.colors), this.radius1, this.radius2);
-	  };
-
-	  GradientFillStyle.getter({
-	    colors: function() {
-	      return this._colors;
-	    },
-	    premultipliedColorPositions: function() {
-	      var a, j, len, ref, results;
-	      ref = this._colors;
-	      results = [];
-	      for (j = 0, len = ref.length; j < len; j++) {
-	        a = ref[j];
-	        results.push({
-	          n: a.n,
-	          c: rgbColor(a.c).premultiplied
-	        });
-	      }
-	      return results;
-	    }
-	  });
-
-	  GradientFillStyle.setter({
-	    colors: function(colors) {
-	      var k, v;
-	      return this._colors = isPlainArray(colors) ? GradientFillStyle.normalizeColors(colors) : isPlainObject(colors) ? (colors = (function() {
-	        var results;
-	        results = [];
-	        for (k in colors) {
-	          v = colors[k];
-	          results.push({
-	            n: k * 1,
-	            c: isString(v) ? v : String(rgbColor(v))
-	          });
-	        }
-	        return results;
-	      })(), colors = GradientFillStyle.sortColorsByN(colors), GradientFillStyle.interpolateColorPositions(colors)) : [
-	        {
-	          n: 0,
-	          c: rgbColor("black"),
-	          n: 1,
-	          c: rgbColor("white")
-	        }
-	      ];
-	    }
-	  });
-
-	  GradientFillStyle.prototype.getColorAt = function(atN) {
-	    var c, i, j, lastC, lastN, len, n, range, ref, ref1;
-	    lastN = null;
-	    lastC = null;
-	    ref = this.colors;
-	    for (i = j = 0, len = ref.length; j < len; i = ++j) {
-	      ref1 = ref[i], c = ref1.c, n = ref1.n;
-	      if (atN <= n) {
-	        if (lastC) {
-	          range = n - lastN;
-	          return rgbColor(lastC).interpolate(c, (atN - lastN) / range);
-	        } else {
-	          return c;
-	        }
-	      }
-	      lastC = c;
-	      lastN = n;
-	    }
-	    return null;
-	  };
-
-	  GradientFillStyle.prototype.toCanvasStyle = function(context) {
-	    var clr, e, gradient, j, len, radius1, radius2, ref, ref1;
-	    if (context.context) {
-	      context = context.context;
-	    }
-	    gradient = this.radius1 != null ? (this.radius2 != null ? (ref = this, radius1 = ref.radius1, radius2 = ref.radius2, ref) : (radius1 = 0, radius2 = this.radius1), context.createRadialGradient(this.from.x, this.from.y, radius1, this.to.x, this.to.y, radius2)) : context.createLinearGradient(this.from.x, this.from.y, this.to.x, this.to.y);
-	    ref1 = this._colors;
-	    for (j = 0, len = ref1.length; j < len; j++) {
-	      clr = ref1[j];
-	      try {
-	        gradient.addColorStop(clr.n, clr.c.toString());
-	      } catch (error) {
-	        e = error;
-	        gradient.addColorStop(clr.n, "black");
-	      }
-	    }
-	    return gradient;
-	  };
-
-	  return GradientFillStyle;
-
-	})(Foundation.BaseObject);
-
-
-/***/ },
-/* 146 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Foundation, Paths, bound, float32Eq0, floatEq, isNumber, isPlainObject, log, max, min;
-
-	Foundation = __webpack_require__(19);
-
-	log = Foundation.log, floatEq = Foundation.floatEq, min = Foundation.min, max = Foundation.max, isNumber = Foundation.isNumber, isPlainObject = Foundation.isPlainObject, float32Eq0 = Foundation.float32Eq0, bound = Foundation.bound;
-
-	module.exports = Paths = (function() {
-	  var rectangle, roundedRectangle;
-
-	  function Paths() {}
-
-	  Paths.rectangle = rectangle = function(context, r) {
-	    var bottom, left, right, top;
-	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	    context.moveTo(left, top);
-	    context.lineTo(right, top);
-	    context.lineTo(right, bottom);
-	    context.lineTo(left, bottom);
-	    return context.closePath();
-	  };
-
-	  Paths.line = function(context, fromPoint, toPoint) {
-	    context.moveTo(fromPoint.x, fromPoint.y);
-	    return context.lineTo(toPoint.x, toPoint.y);
-	  };
-
-	  Paths.roundedRectangle = roundedRectangle = function(context, r, radius) {
-	    var bl, bottom, br, h, hCenter, halfW, left, maxRadius, right, tl, top, tr, vCenter, w;
-	    if (!radius) {
-	      return rectangle(context, r);
-	    }
-	    if (isPlainObject(radius)) {
-	      tl = radius.tl, tr = radius.tr, bl = radius.bl, br = radius.br;
-	    } else {
-	      tl = tr = bl = br = radius;
-	    }
-	    if (float32Eq0(tl) && float32Eq0(tr) && float32Eq0(bl) && float32Eq0(br)) {
-	      return rectangle(context, r);
-	    }
-	    w = r.w, h = r.h;
-	    w = max(0, w);
-	    h = max(0, h);
-	    if (floatEq(w, h) && isNumber(radius) && radius >= (halfW = w / 2)) {
-	      hCenter = r.hCenter, vCenter = r.vCenter;
-	      context.arc(hCenter, vCenter, halfW, 0, Math.PI * 2, true);
-	      return;
-	    }
-	    maxRadius = min(w / 2, h / 2);
-	    bl = bound(0, bl, maxRadius);
-	    br = bound(0, br, maxRadius);
-	    tl = bound(0, tl, maxRadius);
-	    tr = bound(0, tr, maxRadius);
-	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
-	    context.moveTo(left, top + tl);
-	    context.arcTo(left, top, left + tl, top, tl);
-	    context.lineTo(right - tr, top);
-	    context.arcTo(right, top, right, top + tr, tr);
-	    context.lineTo(right, bottom - br);
-	    context.arcTo(right, bottom, right - br, bottom, br);
-	    context.lineTo(left + bl, bottom);
-	    context.arcTo(left, bottom, left, bottom - bl, bl);
-	    return context.closePath();
-	  };
-
-	  Paths.curriedRoundedRectangle = function(r, radius) {
-	    return function(context) {
-	      return roundedRectangle(context, r, radius);
-	    };
-	  };
-
-	  return Paths;
-
-	})();
-
-
-/***/ },
-/* 147 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-	/*
-	SBD TODO
-
-	Bluring transparencies has errors. Repro:
-	  clear background to: color(1,0,0,.5)
-	  drawRectangle color(0,1,0,1) over a sub-area of the bitmap
-	  blur
-
-	The problem (I think) is transparent colors have equal weight as non-transparent colors.
-
-	...
-
-	I need to test bluring on the edge of the bitmap. I'm not convinced it works right.
-
-	...
-
-	Possible speedup and simplification:
-
-	One solution which may be faster overall is to reserve one line of pixels in memory plus
-	the blur radius amount of pixels on each side. Those pixel colors should be repetitions of the edge colors.
-	Then we can blur over that range with reduced tests in our inner loop.
-	It looks like "slice" allows us to quickly get a subsection of an ArrayBuffer. That will work for all lines
-	except the first and last one(s). Just slice and then overwrite the first and end colors with the edge-colors.
-
-	UInt8Array .subarray and .set should make moving the pixles to and from pretty fast. The only slow part will
-	be filling the edge pixels in.
-	 */
-
-	/*
-
-	StackBlur - a fast almost Gaussian Blur For Canvas
-
-	Version:  0.5
-	Author:   Mario Klingemann
-	Contact:  mario@quasimondo.com
-	Website:  http://www.quasimondo.com/StackBlurForCanvas
-	Twitter:  @quasimondo
-
-	In case you find this class useful - especially in commercial projects -
-	I am not totally unhappy for a small donation to my PayPal account
-	mario@quasimondo.de
-
-	Or support me on flattr:
-	https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
-
-	Copyright (c) 2010 Mario Klingemann
-
-	Permission is hereby granted, free of charge, to any person
-	obtaining a copy of this software and associated documentation
-	files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use,
-	copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following
-	conditions:
-
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.
-	 */
-	var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(139), __webpack_require__(125), __webpack_require__(19), __webpack_require__(143)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Canvas, Atomic, Foundation) {
-	  var BlurStack, color, inspect, matrix, nextTick, point, rect;
-	  point = Atomic.point, matrix = Atomic.matrix, rect = Atomic.rect, color = Atomic.color;
-	  inspect = Foundation.Inspect.inspect;
-	  nextTick = Foundation.nextTick;
-	  BlurStack = (function() {
-	    function BlurStack() {
-	      this.r = this.g = this.b = this.a = 0;
-	      this.next = null;
-	    }
-
-	    return BlurStack;
-
-	  })();
-	  return Canvas.StackBlur = (function(superClass) {
-	    extend(StackBlur, superClass);
-
-	    function StackBlur() {
-	      return StackBlur.__super__.constructor.apply(this, arguments);
-	    }
-
-	    StackBlur.blur = function(bitmap, radius) {
-	      return (new Canvas.StackBlur).blur(bitmap, radius);
-	    };
-
-	    StackBlur.blurRGB = function(bitmap, radius) {
-	      return (new Canvas.StackBlur).blurRGB(bitmap, radius);
-	    };
-
-	    StackBlur.blurAlpha = function(bitmap, radius) {
-	      return (new Canvas.StackBlur).blurAlpha(bitmap, radius);
-	    };
-
-	    StackBlur.blurInvertedAlpha = function(bitmap, radius) {
-	      return (new Canvas.StackBlur).blurInvertedAlpha(bitmap, radius);
-	    };
-
-	    StackBlur.prototype.blur = function(bitmap, radius, targetBitmap) {
-	      var imageData, pixels;
-	      targetBitmap || (targetBitmap = bitmap);
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      radius = radius + .5 | 0;
-	      if (radius > 0) {
-	        this.stackBlurCanvasRGBA(pixels, bitmap.size.w, bitmap.size.h, radius);
-	      }
-	      return targetBitmap.putImageData(imageData);
-	    };
-
-	    StackBlur.prototype.blurRGB = function(bitmap, radius, targetBitmap) {
-	      var imageData, pixels;
-	      targetBitmap || (targetBitmap = bitmap);
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      radius = radius + .5 | 0;
-	      if (radius > 0) {
-	        this.stackBlurCanvasRGB(pixels, bitmap.size.w, bitmap.size.h, radius);
-	      }
-	      return targetBitmap.putImageData(imageData);
-	    };
-
-	    StackBlur.prototype.blurAlpha = function(bitmap, radius, targetBitmap) {
-	      var imageData, pixels;
-	      targetBitmap || (targetBitmap = bitmap);
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      radius = radius + .5 | 0;
-	      if (radius > 0) {
-	        this.stackBlurCanvasAlpha(pixels, bitmap.size.w, bitmap.size.h, radius);
-	      }
-	      return targetBitmap.putImageData(imageData);
-	    };
-
-	    StackBlur.prototype.blurInvertedAlpha = function(bitmap, radius, targetBitmap) {
-	      var imageData, pixels;
-	      targetBitmap || (targetBitmap = bitmap);
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      radius = radius + .5 | 0;
-	      this.invertAlpha(pixels, bitmap.size.area);
-	      if (radius > 0) {
-	        this.stackBlurCanvasAlpha(pixels, bitmap.size.w, bitmap.size.h, radius);
-	      }
-	      return targetBitmap.putImageData(imageData);
-	    };
-
-	    StackBlur.prototype.invertAlpha = function(pixels, numPixels) {
-	      var end, end8, i, results;
-	      i = 0;
-	      end = numPixels * 4 - 4;
-	      end8 = end - (end % 8);
-	      while (i <= end) {
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        i += 4;
-	      }
-	      results = [];
-	      while (i <= end) {
-	        pixels[i + 3] = 255 - pixels[i + 3];
-	        results.push(i += 4);
-	      }
-	      return results;
-	    };
-
-	    StackBlur.prototype.createStack = function(radius) {
-	      var i, j, ref, stack;
-	      this.stackStart = new BlurStack();
-	      stack = this.stackStart;
-	      for (i = j = 1, ref = 2 * radius; j <= ref; i = j += 1) {
-	        stack = stack.next = new BlurStack();
-	        if (i === radius + 1) {
-	          this.stackEnd = stack;
-	        }
-	      }
-	      return stack.next = this.stackStart;
-	    };
-
-	    StackBlur.prototype.rgbaPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
-	      var a_in_sum, a_out_sum, a_sum, b_in_sum, b_out_sum, b_sum, firstPixelSumWeight, g_in_sum, g_out_sum, g_sum, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pa, pb, pg, pr, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight, weight;
-	      radiusPlus1 = radius + 1;
-	      stackWeight = radiusPlus1 * radiusPlus1;
-	      oneOverStackWeight = 1 / stackWeight;
-	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
-	      stackStart = this.stackStart;
-	      stackEnd = this.stackEnd;
-	      outterPos = 0;
-	      results = [];
-	      while (outterPos <= outterEnd) {
-	        r_in_sum = g_in_sum = b_in_sum = a_in_sum = 0;
-	        pr = pixels[outterPos];
-	        pg = pixels[outterPos + 1];
-	        pb = pixels[outterPos + 2];
-	        pa = pixels[outterPos + 3];
-	        if (pa < 255) {
-	          weight = pa / 255;
-	          pr *= weight;
-	          pg *= weight;
-	          pb *= weight;
-	        }
-	        r_out_sum = radiusPlus1 * pr;
-	        g_out_sum = radiusPlus1 * pg;
-	        b_out_sum = radiusPlus1 * pb;
-	        a_out_sum = radiusPlus1 * pa;
-	        r_sum = firstPixelSumWeight * pr;
-	        g_sum = firstPixelSumWeight * pg;
-	        b_sum = firstPixelSumWeight * pb;
-	        a_sum = firstPixelSumWeight * pa;
-	        stackIn = stackStart;
-	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
-	          stackIn.r = pr;
-	          stackIn.g = pg;
-	          stackIn.b = pb;
-	          stackIn.a = pa;
-	          stackIn = stackIn.next;
-	        }
-	        innerEnd = outterPos + innerEndDelta;
-	        rbs = radius;
-	        innerRadiusEnd = outterPos + radius * innerStep;
-	        innerPos = outterPos + innerStep;
-	        while (innerPos <= innerRadiusEnd) {
-	          readPos = innerPos;
-	          if (innerPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          pr = pixels[readPos];
-	          pg = pixels[readPos + 1];
-	          pb = pixels[readPos + 2];
-	          pa = pixels[readPos + 3];
-	          if (pa < 255) {
-	            weight = pa / 255;
-	            pr *= weight;
-	            pg *= weight;
-	            pb *= weight;
-	          }
-	          r_in_sum += stackIn.r = pr;
-	          g_in_sum += stackIn.g = pg;
-	          b_in_sum += stackIn.b = pb;
-	          a_in_sum += stackIn.a = pa;
-	          r_sum += pr * rbs;
-	          g_sum += pg * rbs;
-	          b_sum += pb * rbs;
-	          a_sum += pa * rbs;
-	          rbs--;
-	          stackIn = stackIn.next;
-	          innerPos += innerStep;
-	        }
-	        stackOut = stackEnd;
-	        readPosOffset = radiusPlus1 * innerStep;
-	        innerPos = outterPos;
-	        while (innerPos <= innerEnd) {
-	          pixels[innerPos + 3] = pa = a_sum * oneOverStackWeight;
-	          if (pa !== 0) {
-	            pa = oneOverStackWeight * 255 / pa;
-	            pixels[innerPos] = r_sum * pa;
-	            pixels[innerPos + 1] = g_sum * pa;
-	            pixels[innerPos + 2] = b_sum * pa;
-	          } else {
-	            pixels[innerPos] = pixels[innerPos + 1] = pixels[innerPos + 2] = 0;
-	          }
-	          r_sum -= r_out_sum;
-	          g_sum -= g_out_sum;
-	          b_sum -= b_out_sum;
-	          a_sum -= a_out_sum;
-	          r_out_sum -= stackIn.r;
-	          g_out_sum -= stackIn.g;
-	          b_out_sum -= stackIn.b;
-	          a_out_sum -= stackIn.a;
-	          readPos = innerPos + readPosOffset;
-	          if (readPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          pr = pixels[readPos];
-	          pg = pixels[readPos + 1];
-	          pb = pixels[readPos + 2];
-	          pa = pixels[readPos + 3];
-	          if (pa < 255) {
-	            weight = pa / 255;
-	            pr *= weight;
-	            pg *= weight;
-	            pb *= weight;
-	          }
-	          r_in_sum += stackIn.r = pr;
-	          g_in_sum += stackIn.g = pg;
-	          b_in_sum += stackIn.b = pb;
-	          a_in_sum += stackIn.a = pa;
-	          r_sum += r_in_sum;
-	          g_sum += g_in_sum;
-	          b_sum += b_in_sum;
-	          a_sum += a_in_sum;
-	          r_out_sum += pr = stackOut.r;
-	          g_out_sum += pg = stackOut.g;
-	          b_out_sum += pb = stackOut.b;
-	          a_out_sum += pa = stackOut.a;
-	          r_in_sum -= pr;
-	          g_in_sum -= pg;
-	          b_in_sum -= pb;
-	          a_in_sum -= pa;
-	          stackIn = stackIn.next;
-	          stackOut = stackOut.next;
-	          innerPos += innerStep;
-	        }
-	        results.push(outterPos += outterStep);
-	      }
-	      return results;
-	    };
-
-	    StackBlur.prototype.rgbPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
-	      var b_in_sum, b_out_sum, b_sum, firstPixelSumWeight, g_in_sum, g_out_sum, g_sum, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pb, pg, pr, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight;
-	      radiusPlus1 = radius + 1;
-	      stackWeight = radiusPlus1 * radiusPlus1;
-	      oneOverStackWeight = 1 / stackWeight;
-	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
-	      stackStart = this.stackStart;
-	      stackEnd = this.stackEnd;
-	      outterPos = 0;
-	      results = [];
-	      while (outterPos <= outterEnd) {
-	        r_in_sum = g_in_sum = b_in_sum = 0;
-	        pr = pixels[outterPos];
-	        pg = pixels[outterPos + 1];
-	        pb = pixels[outterPos + 2];
-	        r_out_sum = radiusPlus1 * pr;
-	        g_out_sum = radiusPlus1 * pg;
-	        b_out_sum = radiusPlus1 * pb;
-	        r_sum = firstPixelSumWeight * pr;
-	        g_sum = firstPixelSumWeight * pg;
-	        b_sum = firstPixelSumWeight * pb;
-	        stackIn = stackStart;
-	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
-	          stackIn.r = pr;
-	          stackIn.g = pg;
-	          stackIn.b = pb;
-	          stackIn = stackIn.next;
-	        }
-	        innerEnd = outterPos + innerEndDelta;
-	        rbs = radius;
-	        innerRadiusEnd = outterPos + radius * innerStep;
-	        innerPos = outterPos + innerStep;
-	        while (innerPos <= innerRadiusEnd) {
-	          readPos = innerPos;
-	          if (innerPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          pr = pixels[readPos];
-	          pg = pixels[readPos + 1];
-	          pb = pixels[readPos + 2];
-	          r_in_sum += stackIn.r = pr;
-	          g_in_sum += stackIn.g = pg;
-	          b_in_sum += stackIn.b = pb;
-	          r_sum += pr * rbs;
-	          g_sum += pg * rbs;
-	          b_sum += pb * rbs;
-	          rbs--;
-	          stackIn = stackIn.next;
-	          innerPos += innerStep;
-	        }
-	        stackOut = stackEnd;
-	        readPosOffset = radiusPlus1 * innerStep;
-	        innerPos = outterPos;
-	        while (innerPos <= innerEnd) {
-	          pixels[innerPos] = r_sum * oneOverStackWeight;
-	          pixels[innerPos + 1] = g_sum * oneOverStackWeight;
-	          pixels[innerPos + 2] = b_sum * oneOverStackWeight;
-	          r_sum -= r_out_sum;
-	          g_sum -= g_out_sum;
-	          b_sum -= b_out_sum;
-	          r_out_sum -= stackIn.r;
-	          g_out_sum -= stackIn.g;
-	          b_out_sum -= stackIn.b;
-	          readPos = innerPos + readPosOffset;
-	          if (readPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          pr = pixels[readPos];
-	          pg = pixels[readPos + 1];
-	          pb = pixels[readPos + 2];
-	          r_in_sum += stackIn.r = pr;
-	          g_in_sum += stackIn.g = pg;
-	          b_in_sum += stackIn.b = pb;
-	          r_sum += r_in_sum;
-	          g_sum += g_in_sum;
-	          b_sum += b_in_sum;
-	          r_out_sum += pr = stackOut.r;
-	          g_out_sum += pg = stackOut.g;
-	          b_out_sum += pb = stackOut.b;
-	          r_in_sum -= pr;
-	          g_in_sum -= pg;
-	          b_in_sum -= pb;
-	          stackIn = stackIn.next;
-	          stackOut = stackOut.next;
-	          innerPos += innerStep;
-	        }
-	        results.push(outterPos += outterStep);
-	      }
-	      return results;
-	    };
-
-	    StackBlur.prototype.alphaPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
-	      var a_in_sum, a_out_sum, a_sum, firstPixelSumWeight, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pa, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight;
-	      radiusPlus1 = radius + 1;
-	      stackWeight = radiusPlus1 * radiusPlus1;
-	      oneOverStackWeight = 1 / stackWeight;
-	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
-	      stackStart = this.stackStart;
-	      stackEnd = this.stackEnd;
-	      outterPos = 3;
-	      outterEnd += 3;
-	      results = [];
-	      while (outterPos <= outterEnd) {
-	        a_in_sum = 0;
-	        pa = pixels[outterPos];
-	        a_out_sum = radiusPlus1 * pa;
-	        a_sum = firstPixelSumWeight * pa;
-	        stackIn = stackStart;
-	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
-	          stackIn.a = pa;
-	          stackIn = stackIn.next;
-	        }
-	        innerEnd = outterPos + innerEndDelta;
-	        rbs = radius;
-	        innerRadiusEnd = outterPos + radius * innerStep;
-	        innerPos = outterPos + innerStep;
-	        while (innerPos <= innerRadiusEnd) {
-	          readPos = innerPos;
-	          if (innerPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          pa = pixels[readPos];
-	          a_in_sum += stackIn.a = pa;
-	          a_sum += pa * rbs;
-	          rbs--;
-	          stackIn = stackIn.next;
-	          innerPos += innerStep;
-	        }
-	        stackOut = stackEnd;
-	        readPosOffset = radiusPlus1 * innerStep;
-	        innerPos = outterPos;
-	        while (innerPos <= innerEnd) {
-	          pixels[innerPos] = a_sum * oneOverStackWeight;
-	          a_sum -= a_out_sum;
-	          a_out_sum -= stackIn.a;
-	          readPos = innerPos + readPosOffset;
-	          if (readPos > innerEnd) {
-	            readPos = innerEnd;
-	          }
-	          a_in_sum += stackIn.a = pixels[readPos];
-	          a_sum += a_in_sum;
-	          a_out_sum += pa = stackOut.a;
-	          a_in_sum -= pa;
-	          stackIn = stackIn.next;
-	          stackOut = stackOut.next;
-	          innerPos += innerStep;
-	        }
-	        results.push(outterPos += outterStep);
-	      }
-	      return results;
-	    };
-
-	    StackBlur.prototype.stackBlurCanvasRGBA = function(pixels, width, height, radius) {
-	      if (radius <= 0) {
-	        return;
-	      }
-	      this.createStack(radius);
-	      this.rgbaPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
-	      return this.rgbaPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
-	    };
-
-	    StackBlur.prototype.stackBlurCanvasAlpha = function(pixels, width, height, radius) {
-	      if (radius <= 0) {
-	        return;
-	      }
-	      this.createStack(radius);
-	      this.alphaPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
-	      return this.alphaPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
-	    };
-
-	    StackBlur.prototype.stackBlurCanvasRGB = function(pixels, width, height, radius) {
-	      if (radius <= 0) {
-	        return;
-	      }
-	      this.createStack(radius);
-	      this.rgbPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
-	      return this.rgbPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
-	    };
-
-	    return StackBlur;
-
-	  })(Foundation.BaseObject);
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 148 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var BatchLoader, Foundation, GoogleFontLoader, WebFont, inspect, log,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	WebFont = __webpack_require__(149);
-
-	inspect = Foundation.inspect, log = Foundation.log, BatchLoader = Foundation.BatchLoader;
-
-	module.exports = GoogleFontLoader = (function(superClass) {
-	  extend(GoogleFontLoader, superClass);
-
-	  GoogleFontLoader.singletonClass();
-
-	  function GoogleFontLoader(options) {
-	    if (options == null) {
-	      options = {};
-	    }
-	    this.defaultWeight = {
-	      UnifrakturCook: 700
-	    };
-	    GoogleFontLoader.__super__.constructor.call(this, (function(_this) {
-	      return function(src) {
-	        return _this.webFontLoadWithWaiting([src]);
-	      };
-	    })(this));
-	  }
-
-	  GoogleFontLoader.prototype.googleFamilies = function(fontFamilies) {
-	    var font, i, len, results, weight;
-	    results = [];
-	    for (i = 0, len = fontFamilies.length; i < len; i++) {
-	      font = fontFamilies[i];
-	      weight = this.defaultWeight[font] || "";
-	      results.push((font.split(" ").join("+")) + ":" + weight + ":latin,latin-ext");
-	    }
-	    return results;
-	  };
-
-	  GoogleFontLoader.prototype.webFontLoad = function(fontFamilies, done) {
-	    return WebFont.load({
-	      google: {
-	        families: this.googleFamilies(fontFamilies)
-	      },
-	      fontactive: (function(_this) {
-	        return function(font) {
-	          return _this.addAsset(font, font);
-	        };
-	      })(this),
-	      fontinactive: (function(_this) {
-	        return function(font) {
-	          return _this.addAsset(font, "FAILED TO LOAD");
-	        };
-	      })(this),
-	      inactive: done,
-	      active: done
-	    });
-	  };
-
-	  GoogleFontLoader.prototype.webFontLoadWithWaiting = function(fontFamilies) {
-	    var font, i, len, wfw;
-	    if (window.WebFontConfig) {
-	      wfw = window.WebFontWaiting || (window.WebFontWaiting = {});
-	      for (i = 0, len = fontFamilies.length; i < len; i++) {
-	        font = fontFamilies[i];
-	        wfw[font] = true;
-	      }
-	      return;
-	    }
-	    return this.webFontLoad(fontFamilies, (function(_this) {
-	      return function() {
-	        var waitingList;
-	        waitingList = window.WebFontWaiting && Object.keys(window.WebFontWaiting);
-	        window.WebFontWaiting = null;
-	        window.WebFontConfig = null;
-	        if (waitingList) {
-	          return _this.webFontLoad(waitingList);
-	        }
-	      };
-	    })(this));
-	  };
-
-	  return GoogleFontLoader;
-
-	})(BatchLoader);
-
-
-/***/ },
-/* 149 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* Web Font Loader v1.6.26 - (c) Adobe Systems, Google. License: Apache 2.0 */(function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function p(a,b,c){p=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return p.apply(null,arguments)}var q=Date.now||function(){return+new Date};function ca(a,b){this.a=a;this.m=b||a;this.c=this.m.document}var da=!!window.FontFace;function t(a,b,c,d){b=a.c.createElement(b);if(c)for(var e in c)c.hasOwnProperty(e)&&("style"==e?b.style.cssText=c[e]:b.setAttribute(e,c[e]));d&&b.appendChild(a.c.createTextNode(d));return b}function u(a,b,c){a=a.c.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}function v(a){a.parentNode&&a.parentNode.removeChild(a)}
-	function w(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function y(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
-	function z(a){if("string"===typeof a.f)return a.f;var b=a.m.location.protocol;"about:"==b&&(b=a.a.location.protocol);return"https:"==b?"https:":"http:"}function ea(a){return a.m.location.hostname||a.a.location.hostname}
-	function A(a,b,c){function d(){k&&e&&f&&(k(g),k=null)}b=t(a,"link",{rel:"stylesheet",href:b,media:"all"});var e=!1,f=!0,g=null,k=c||null;da?(b.onload=function(){e=!0;d()},b.onerror=function(){e=!0;g=Error("Stylesheet failed to load");d()}):setTimeout(function(){e=!0;d()},0);u(a,"head",b)}
-	function B(a,b,c,d){var e=a.c.getElementsByTagName("head")[0];if(e){var f=t(a,"script",{src:b}),g=!1;f.onload=f.onreadystatechange=function(){g||this.readyState&&"loaded"!=this.readyState&&"complete"!=this.readyState||(g=!0,c&&c(null),f.onload=f.onreadystatechange=null,"HEAD"==f.parentNode.tagName&&e.removeChild(f))};e.appendChild(f);setTimeout(function(){g||(g=!0,c&&c(Error("Script load timeout")))},d||5E3);return f}return null};function C(){this.a=0;this.c=null}function D(a){a.a++;return function(){a.a--;E(a)}}function F(a,b){a.c=b;E(a)}function E(a){0==a.a&&a.c&&(a.c(),a.c=null)};function G(a){this.a=a||"-"}G.prototype.c=function(a){for(var b=[],c=0;c<arguments.length;c++)b.push(arguments[c].replace(/[\W_]+/g,"").toLowerCase());return b.join(this.a)};function H(a,b){this.c=a;this.f=4;this.a="n";var c=(b||"n4").match(/^([nio])([1-9])$/i);c&&(this.a=c[1],this.f=parseInt(c[2],10))}function fa(a){return I(a)+" "+(a.f+"00")+" 300px "+J(a.c)}function J(a){var b=[];a=a.split(/,\s*/);for(var c=0;c<a.length;c++){var d=a[c].replace(/['"]/g,"");-1!=d.indexOf(" ")||/^\d/.test(d)?b.push("'"+d+"'"):b.push(d)}return b.join(",")}function K(a){return a.a+a.f}function I(a){var b="normal";"o"===a.a?b="oblique":"i"===a.a&&(b="italic");return b}
-	function ga(a){var b=4,c="n",d=null;a&&((d=a.match(/(normal|oblique|italic)/i))&&d[1]&&(c=d[1].substr(0,1).toLowerCase()),(d=a.match(/([1-9]00|normal|bold)/i))&&d[1]&&(/bold/i.test(d[1])?b=7:/[1-9]00/.test(d[1])&&(b=parseInt(d[1].substr(0,1),10))));return c+b};function ha(a,b){this.c=a;this.f=a.m.document.documentElement;this.h=b;this.a=new G("-");this.j=!1!==b.events;this.g=!1!==b.classes}function ia(a){a.g&&w(a.f,[a.a.c("wf","loading")]);L(a,"loading")}function M(a){if(a.g){var b=y(a.f,a.a.c("wf","active")),c=[],d=[a.a.c("wf","loading")];b||c.push(a.a.c("wf","inactive"));w(a.f,c,d)}L(a,"inactive")}function L(a,b,c){if(a.j&&a.h[b])if(c)a.h[b](c.c,K(c));else a.h[b]()};function ja(){this.c={}}function ka(a,b,c){var d=[],e;for(e in b)if(b.hasOwnProperty(e)){var f=a.c[e];f&&d.push(f(b[e],c))}return d};function N(a,b){this.c=a;this.f=b;this.a=t(this.c,"span",{"aria-hidden":"true"},this.f)}function O(a){u(a.c,"body",a.a)}function P(a){return"display:block;position:absolute;top:-9999px;left:-9999px;font-size:300px;width:auto;height:auto;line-height:normal;margin:0;padding:0;font-variant:normal;white-space:nowrap;font-family:"+J(a.c)+";"+("font-style:"+I(a)+";font-weight:"+(a.f+"00")+";")};function Q(a,b,c,d,e,f){this.g=a;this.j=b;this.a=d;this.c=c;this.f=e||3E3;this.h=f||void 0}Q.prototype.start=function(){var a=this.c.m.document,b=this,c=q(),d=new Promise(function(d,e){function k(){q()-c>=b.f?e():a.fonts.load(fa(b.a),b.h).then(function(a){1<=a.length?d():setTimeout(k,25)},function(){e()})}k()}),e=new Promise(function(a,d){setTimeout(d,b.f)});Promise.race([e,d]).then(function(){b.g(b.a)},function(){b.j(b.a)})};function R(a,b,c,d,e,f,g){this.v=a;this.B=b;this.c=c;this.a=d;this.s=g||"BESbswy";this.f={};this.w=e||3E3;this.u=f||null;this.o=this.j=this.h=this.g=null;this.g=new N(this.c,this.s);this.h=new N(this.c,this.s);this.j=new N(this.c,this.s);this.o=new N(this.c,this.s);a=new H(this.a.c+",serif",K(this.a));a=P(a);this.g.a.style.cssText=a;a=new H(this.a.c+",sans-serif",K(this.a));a=P(a);this.h.a.style.cssText=a;a=new H("serif",K(this.a));a=P(a);this.j.a.style.cssText=a;a=new H("sans-serif",K(this.a));a=
-	P(a);this.o.a.style.cssText=a;O(this.g);O(this.h);O(this.j);O(this.o)}var S={D:"serif",C:"sans-serif"},T=null;function U(){if(null===T){var a=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent);T=!!a&&(536>parseInt(a[1],10)||536===parseInt(a[1],10)&&11>=parseInt(a[2],10))}return T}R.prototype.start=function(){this.f.serif=this.j.a.offsetWidth;this.f["sans-serif"]=this.o.a.offsetWidth;this.A=q();la(this)};
-	function ma(a,b,c){for(var d in S)if(S.hasOwnProperty(d)&&b===a.f[S[d]]&&c===a.f[S[d]])return!0;return!1}function la(a){var b=a.g.a.offsetWidth,c=a.h.a.offsetWidth,d;(d=b===a.f.serif&&c===a.f["sans-serif"])||(d=U()&&ma(a,b,c));d?q()-a.A>=a.w?U()&&ma(a,b,c)&&(null===a.u||a.u.hasOwnProperty(a.a.c))?V(a,a.v):V(a,a.B):na(a):V(a,a.v)}function na(a){setTimeout(p(function(){la(this)},a),50)}function V(a,b){setTimeout(p(function(){v(this.g.a);v(this.h.a);v(this.j.a);v(this.o.a);b(this.a)},a),0)};function W(a,b,c){this.c=a;this.a=b;this.f=0;this.o=this.j=!1;this.s=c}var X=null;W.prototype.g=function(a){var b=this.a;b.g&&w(b.f,[b.a.c("wf",a.c,K(a).toString(),"active")],[b.a.c("wf",a.c,K(a).toString(),"loading"),b.a.c("wf",a.c,K(a).toString(),"inactive")]);L(b,"fontactive",a);this.o=!0;oa(this)};
-	W.prototype.h=function(a){var b=this.a;if(b.g){var c=y(b.f,b.a.c("wf",a.c,K(a).toString(),"active")),d=[],e=[b.a.c("wf",a.c,K(a).toString(),"loading")];c||d.push(b.a.c("wf",a.c,K(a).toString(),"inactive"));w(b.f,d,e)}L(b,"fontinactive",a);oa(this)};function oa(a){0==--a.f&&a.j&&(a.o?(a=a.a,a.g&&w(a.f,[a.a.c("wf","active")],[a.a.c("wf","loading"),a.a.c("wf","inactive")]),L(a,"active")):M(a.a))};function pa(a){this.j=a;this.a=new ja;this.h=0;this.f=this.g=!0}pa.prototype.load=function(a){this.c=new ca(this.j,a.context||this.j);this.g=!1!==a.events;this.f=!1!==a.classes;qa(this,new ha(this.c,a),a)};
-	function ra(a,b,c,d,e){var f=0==--a.h;(a.f||a.g)&&setTimeout(function(){var a=e||null,k=d||null||{};if(0===c.length&&f)M(b.a);else{b.f+=c.length;f&&(b.j=f);var h,m=[];for(h=0;h<c.length;h++){var l=c[h],n=k[l.c],r=b.a,x=l;r.g&&w(r.f,[r.a.c("wf",x.c,K(x).toString(),"loading")]);L(r,"fontloading",x);r=null;null===X&&(X=window.FontFace?(x=/Gecko.*Firefox\/(\d+)/.exec(window.navigator.userAgent))?42<parseInt(x[1],10):!0:!1);X?r=new Q(p(b.g,b),p(b.h,b),b.c,l,b.s,n):r=new R(p(b.g,b),p(b.h,b),b.c,l,b.s,a,
-	n);m.push(r)}for(h=0;h<m.length;h++)m[h].start()}},0)}function qa(a,b,c){var d=[],e=c.timeout;ia(b);var d=ka(a.a,c,a.c),f=new W(a.c,b,e);a.h=d.length;b=0;for(c=d.length;b<c;b++)d[b].load(function(b,d,c){ra(a,f,b,d,c)})};function sa(a,b){this.c=a;this.a=b}function ta(a,b,c){var d=z(a.c);a=(a.a.api||"fast.fonts.net/jsapi").replace(/^.*http(s?):(\/\/)?/,"");return d+"//"+a+"/"+b+".js"+(c?"?v="+c:"")}
-	sa.prototype.load=function(a){function b(){if(f["__mti_fntLst"+d]){var c=f["__mti_fntLst"+d](),e=[],h;if(c)for(var m=0;m<c.length;m++){var l=c[m].fontfamily;void 0!=c[m].fontStyle&&void 0!=c[m].fontWeight?(h=c[m].fontStyle+c[m].fontWeight,e.push(new H(l,h))):e.push(new H(l))}a(e)}else setTimeout(function(){b()},50)}var c=this,d=c.a.projectId,e=c.a.version;if(d){var f=c.c.m;B(this.c,ta(c,d,e),function(e){e?a([]):(f["__MonotypeConfiguration__"+d]=function(){return c.a},b())}).id="__MonotypeAPIScript__"+
-	d}else a([])};function ua(a,b){this.c=a;this.a=b}ua.prototype.load=function(a){var b,c,d=this.a.urls||[],e=this.a.families||[],f=this.a.testStrings||{},g=new C;b=0;for(c=d.length;b<c;b++)A(this.c,d[b],D(g));var k=[];b=0;for(c=e.length;b<c;b++)if(d=e[b].split(":"),d[1])for(var h=d[1].split(","),m=0;m<h.length;m+=1)k.push(new H(d[0],h[m]));else k.push(new H(d[0]));F(g,function(){a(k,f)})};function va(a,b,c){a?this.c=a:this.c=b+wa;this.a=[];this.f=[];this.g=c||""}var wa="//fonts.googleapis.com/css";function xa(a,b){for(var c=b.length,d=0;d<c;d++){var e=b[d].split(":");3==e.length&&a.f.push(e.pop());var f="";2==e.length&&""!=e[1]&&(f=":");a.a.push(e.join(f))}}
-	function ya(a){if(0==a.a.length)throw Error("No fonts to load!");if(-1!=a.c.indexOf("kit="))return a.c;for(var b=a.a.length,c=[],d=0;d<b;d++)c.push(a.a[d].replace(/ /g,"+"));b=a.c+"?family="+c.join("%7C");0<a.f.length&&(b+="&subset="+a.f.join(","));0<a.g.length&&(b+="&text="+encodeURIComponent(a.g));return b};function za(a){this.f=a;this.a=[];this.c={}}
-	var Aa={latin:"BESbswy","latin-ext":"\u00e7\u00f6\u00fc\u011f\u015f",cyrillic:"\u0439\u044f\u0416",greek:"\u03b1\u03b2\u03a3",khmer:"\u1780\u1781\u1782",Hanuman:"\u1780\u1781\u1782"},Ba={thin:"1",extralight:"2","extra-light":"2",ultralight:"2","ultra-light":"2",light:"3",regular:"4",book:"4",medium:"5","semi-bold":"6",semibold:"6","demi-bold":"6",demibold:"6",bold:"7","extra-bold":"8",extrabold:"8","ultra-bold":"8",ultrabold:"8",black:"9",heavy:"9",l:"3",r:"4",b:"7"},Ca={i:"i",italic:"i",n:"n",normal:"n"},
-	Da=/^(thin|(?:(?:extra|ultra)-?)?light|regular|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
-	function Ea(a){for(var b=a.f.length,c=0;c<b;c++){var d=a.f[c].split(":"),e=d[0].replace(/\+/g," "),f=["n4"];if(2<=d.length){var g;var k=d[1];g=[];if(k)for(var k=k.split(","),h=k.length,m=0;m<h;m++){var l;l=k[m];if(l.match(/^[\w-]+$/)){var n=Da.exec(l.toLowerCase());if(null==n)l="";else{l=n[2];l=null==l||""==l?"n":Ca[l];n=n[1];if(null==n||""==n)n="4";else var r=Ba[n],n=r?r:isNaN(n)?"4":n.substr(0,1);l=[l,n].join("")}}else l="";l&&g.push(l)}0<g.length&&(f=g);3==d.length&&(d=d[2],g=[],d=d?d.split(","):
-	g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<f.length;d+=1)a.a.push(new H(e,f[d]))}};function Fa(a,b){this.c=a;this.a=b}var Ga={Arimo:!0,Cousine:!0,Tinos:!0};Fa.prototype.load=function(a){var b=new C,c=this.c,d=new va(this.a.api,z(c),this.a.text),e=this.a.families;xa(d,e);var f=new za(e);Ea(f);A(c,ya(d),D(b));F(b,function(){a(f.a,f.c,Ga)})};function Ha(a,b){this.c=a;this.a=b}Ha.prototype.load=function(a){var b=this.a.id,c=this.c.m;b?B(this.c,(this.a.api||"https://use.typekit.net")+"/"+b+".js",function(b){if(b)a([]);else if(c.Typekit&&c.Typekit.config&&c.Typekit.config.fn){b=c.Typekit.config.fn;for(var e=[],f=0;f<b.length;f+=2)for(var g=b[f],k=b[f+1],h=0;h<k.length;h++)e.push(new H(g,k[h]));try{c.Typekit.load({events:!1,classes:!1,async:!0})}catch(m){}a(e)}},2E3):a([])};function Ia(a,b){this.c=a;this.f=b;this.a=[]}Ia.prototype.load=function(a){var b=this.f.id,c=this.c.m,d=this;b?(c.__webfontfontdeckmodule__||(c.__webfontfontdeckmodule__={}),c.__webfontfontdeckmodule__[b]=function(b,c){for(var g=0,k=c.fonts.length;g<k;++g){var h=c.fonts[g];d.a.push(new H(h.name,ga("font-weight:"+h.weight+";font-style:"+h.style)))}a(d.a)},B(this.c,z(this.c)+(this.f.api||"//f.fontdeck.com/s/css/js/")+ea(this.c)+"/"+b+".js",function(b){b&&a([])})):a([])};var Y=new pa(window);Y.a.c.custom=function(a,b){return new ua(b,a)};Y.a.c.fontdeck=function(a,b){return new Ia(b,a)};Y.a.c.monotype=function(a,b){return new sa(b,a)};Y.a.c.typekit=function(a,b){return new Ha(b,a)};Y.a.c.google=function(a,b){return new Fa(b,a)};var Z={load:p(Y.load,Y)}; true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return Z}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"undefined"!==typeof module&&module.exports?module.exports=Z:(window.WebFont=Z,window.WebFontConfig&&Y.load(window.WebFontConfig));}());
-
-
-/***/ },
-/* 150 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
-
-	StackBlur - a fast almost Gaussian Blur For Canvas
-
-	Version:  0.5
-	Author:   Mario Klingemann
-	Contact:  mario@quasimondo.com
-	Website:  http://www.quasimondo.com/StackBlurForCanvas
-	Twitter:  @quasimondo
-
-	In case you find this class useful - especially in commercial projects -
-	I am not totally unhappy for a small donation to my PayPal account
-	mario@quasimondo.de
-
-	Or support me on flattr:
-	https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
-
-	Copyright (c) 2010 Mario Klingemann
-
-	Permission is hereby granted, free of charge, to any person
-	obtaining a copy of this software and associated documentation
-	files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use,
-	copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following
-	conditions:
-
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.
-	*/
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
-
-
-	  var mul_table = [
-	          512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
-	          454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
-	          482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,
-	          437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,
-	          497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,
-	          320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,
-	          446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,
-	          329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,
-	          505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,
-	          399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,
-	          324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,
-	          268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,
-	          451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,
-	          385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,
-	          332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,
-	          289,287,285,282,280,278,275,273,271,269,267,265,263,261,259];
-
-
-	  var shg_table = [
-	         9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
-	      17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
-	      19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20,
-	      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21,
-	      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
-	      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22,
-	      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-	      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
-	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-	      23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 ];
-
-	  function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
-	  {
-
-	    var img = document.getElementById( imageID );
-	    var w = img.naturalWidth;
-	      var h = img.naturalHeight;
-
-	    var canvas = document.getElementById( canvasID );
-
-	      canvas.style.width  = w + "px";
-	      canvas.style.height = h + "px";
-	      canvas.width = w;
-	      canvas.height = h;
-
-	      var context = canvas.getContext("2d");
-	      context.clearRect( 0, 0, w, h );
-	      context.drawImage( img, 0, 0 );
-
-	    if ( isNaN(radius) || radius < 1 ) return;
-
-	    if ( blurAlphaChannel )
-	      stackBlurCanvasRGBA( canvasID, 0, 0, w, h, radius );
-	    else
-	      stackBlurCanvasRGB( canvasID, 0, 0, w, h, radius );
-	  }
-
-
-	  function stackBlurCanvasRGBA( imageData, top_x, top_y, width, height, radius )
-	  {
-	    // if ( isNaN(radius) || radius < 1 ) return;
-	    // radius |= 0;
-
-	    // var canvas  = document.getElementById( id );
-	    // var context = canvas.getContext("2d");
-	    // var imageData;
-
-	    // try {
-	    //   try {
-	    //   imageData = context.getImageData( top_x, top_y, width, height );
-	    //   } catch(e) {
-
-	    //   // NOTE: this part is supposedly only needed if you want to work with local files
-	    //   // so it might be okay to remove the whole try/catch block and just use
-	    //   // imageData = context.getImageData( top_x, top_y, width, height );
-	    //   try {
-	    //     netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	    //     imageData = context.getImageData( top_x, top_y, width, height );
-	    //   } catch(e) {
-	    //     alert("Cannot access local image");
-	    //     throw new Error("unable to access local image data: " + e);
-	    //     return;
-	    //   }
-	    //   }
-	    // } catch(e) {
-	    //   alert("Cannot access image");
-	    //   throw new Error("unable to access image data: " + e);
-	    // }
-
-	    var pixels = imageData.data;
-
-	    var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum,
-	    r_out_sum, g_out_sum, b_out_sum, a_out_sum,
-	    r_in_sum, g_in_sum, b_in_sum, a_in_sum,
-	    pr, pg, pb, pa, rbs;
-
-	    var div = radius + radius + 1;
-	    var w4 = width << 2;
-	    var widthMinus1  = width - 1;
-	    var heightMinus1 = height - 1;
-	    var radiusPlus1  = radius + 1;
-	    var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
-
-	    var stackStart = new BlurStack();
-	    var stack = stackStart;
-	    for ( i = 1; i < div; i++ )
-	    {
-	      stack = stack.next = new BlurStack();
-	      if ( i == radiusPlus1 ) var stackEnd = stack;
-	    }
-	    stack.next = stackStart;
-	    var stackIn = null;
-	    var stackOut = null;
-
-	    yw = yi = 0;
-
-	    var mul_sum = mul_table[radius];
-	    var shg_sum = shg_table[radius];
-
-	    for ( y = 0; y < height; y++ )
-	    {
-	      r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
-
-	      r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
-	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
-	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
-	      a_out_sum = radiusPlus1 * ( pa = pixels[yi+3] );
-
-	      r_sum += sumFactor * pr;
-	      g_sum += sumFactor * pg;
-	      b_sum += sumFactor * pb;
-	      a_sum += sumFactor * pa;
-
-	      stack = stackStart;
-
-	      for( i = 0; i < radiusPlus1; i++ )
-	      {
-	        stack.r = pr;
-	        stack.g = pg;
-	        stack.b = pb;
-	        stack.a = pa;
-	        stack = stack.next;
-	      }
-
-	      for( i = 1; i < radiusPlus1; i++ )
-	      {
-	        p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
-	        r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
-	        g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
-	        b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
-	        a_sum += ( stack.a = ( pa = pixels[p+3])) * rbs;
-
-	        r_in_sum += pr;
-	        g_in_sum += pg;
-	        b_in_sum += pb;
-	        a_in_sum += pa;
-
-	        stack = stack.next;
-	      }
-
-
-	      stackIn = stackStart;
-	      stackOut = stackEnd;
-	      for ( x = 0; x < width; x++ )
-	      {
-	        pixels[yi+3] = pa = (a_sum * mul_sum) >> shg_sum;
-	        if ( pa != 0 )
-	        {
-	          pa = 255 / pa;
-	          pixels[yi]   = ((r_sum * mul_sum) >> shg_sum) * pa;
-	          pixels[yi+1] = ((g_sum * mul_sum) >> shg_sum) * pa;
-	          pixels[yi+2] = ((b_sum * mul_sum) >> shg_sum) * pa;
-	        } else {
-	          pixels[yi] = pixels[yi+1] = pixels[yi+2] = 0;
-	        }
-
-	        r_sum -= r_out_sum;
-	        g_sum -= g_out_sum;
-	        b_sum -= b_out_sum;
-	        a_sum -= a_out_sum;
-
-	        r_out_sum -= stackIn.r;
-	        g_out_sum -= stackIn.g;
-	        b_out_sum -= stackIn.b;
-	        a_out_sum -= stackIn.a;
-
-	        p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
-
-	        r_in_sum += ( stackIn.r = pixels[p]);
-	        g_in_sum += ( stackIn.g = pixels[p+1]);
-	        b_in_sum += ( stackIn.b = pixels[p+2]);
-	        a_in_sum += ( stackIn.a = pixels[p+3]);
-
-	        r_sum += r_in_sum;
-	        g_sum += g_in_sum;
-	        b_sum += b_in_sum;
-	        a_sum += a_in_sum;
-
-	        stackIn = stackIn.next;
-
-	        r_out_sum += ( pr = stackOut.r );
-	        g_out_sum += ( pg = stackOut.g );
-	        b_out_sum += ( pb = stackOut.b );
-	        a_out_sum += ( pa = stackOut.a );
-
-	        r_in_sum -= pr;
-	        g_in_sum -= pg;
-	        b_in_sum -= pb;
-	        a_in_sum -= pa;
-
-	        stackOut = stackOut.next;
-
-	        yi += 4;
-	      }
-	      yw += width;
-	    }
-
-
-	    for ( x = 0; x < width; x++ )
-	    {
-	      g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
-
-	      yi = x << 2;
-	      r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
-	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
-	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
-	      a_out_sum = radiusPlus1 * ( pa = pixels[yi+3]);
-
-	      r_sum += sumFactor * pr;
-	      g_sum += sumFactor * pg;
-	      b_sum += sumFactor * pb;
-	      a_sum += sumFactor * pa;
-
-	      stack = stackStart;
-
-	      for( i = 0; i < radiusPlus1; i++ )
-	      {
-	        stack.r = pr;
-	        stack.g = pg;
-	        stack.b = pb;
-	        stack.a = pa;
-	        stack = stack.next;
-	      }
-
-	      yp = width;
-
-	      for( i = 1; i <= radius; i++ )
-	      {
-	        yi = ( yp + x ) << 2;
-
-	        r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
-	        g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
-	        b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
-	        a_sum += ( stack.a = ( pa = pixels[yi+3])) * rbs;
-
-	        r_in_sum += pr;
-	        g_in_sum += pg;
-	        b_in_sum += pb;
-	        a_in_sum += pa;
-
-	        stack = stack.next;
-
-	        if( i < heightMinus1 )
-	        {
-	          yp += width;
-	        }
-	      }
-
-	      yi = x;
-	      stackIn = stackStart;
-	      stackOut = stackEnd;
-	      for ( y = 0; y < height; y++ )
-	      {
-	        p = yi << 2;
-	        pixels[p+3] = pa = (a_sum * mul_sum) >> shg_sum;
-	        if ( pa > 0 )
-	        {
-	          pa = 255 / pa;
-	          pixels[p]   = ((r_sum * mul_sum) >> shg_sum ) * pa;
-	          pixels[p+1] = ((g_sum * mul_sum) >> shg_sum ) * pa;
-	          pixels[p+2] = ((b_sum * mul_sum) >> shg_sum ) * pa;
-	        } else {
-	          pixels[p] = pixels[p+1] = pixels[p+2] = 0;
-	        }
-
-	        r_sum -= r_out_sum;
-	        g_sum -= g_out_sum;
-	        b_sum -= b_out_sum;
-	        a_sum -= a_out_sum;
-
-	        r_out_sum -= stackIn.r;
-	        g_out_sum -= stackIn.g;
-	        b_out_sum -= stackIn.b;
-	        a_out_sum -= stackIn.a;
-
-	        p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
-
-	        r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
-	        g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
-	        b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
-	        a_sum += ( a_in_sum += ( stackIn.a = pixels[p+3]));
-
-	        stackIn = stackIn.next;
-
-	        r_out_sum += ( pr = stackOut.r );
-	        g_out_sum += ( pg = stackOut.g );
-	        b_out_sum += ( pb = stackOut.b );
-	        a_out_sum += ( pa = stackOut.a );
-
-	        r_in_sum -= pr;
-	        g_in_sum -= pg;
-	        b_in_sum -= pb;
-	        a_in_sum -= pa;
-
-	        stackOut = stackOut.next;
-
-	        yi += width;
-	      }
-	    }
-
-	    // context.putImageData( imageData, top_x, top_y );
-
-	  }
-
-
-	  function stackBlurCanvasRGB( imageData, top_x, top_y, width, height, radius )
-	  {
-	    // if ( isNaN(radius) || radius < 1 ) return;
-	    // radius |= 0;
-
-	    // var canvas  = document.getElementById( id );
-	    // var context = canvas.getContext("2d");
-	    // var imageData;
-
-	    // try {
-	    //   try {
-	    //   imageData = context.getImageData( top_x, top_y, width, height );
-	    //   } catch(e) {
-
-	    //   // NOTE: this part is supposedly only needed if you want to work with local files
-	    //   // so it might be okay to remove the whole try/catch block and just use
-	    //   // imageData = context.getImageData( top_x, top_y, width, height );
-	    //   try {
-	    //     netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	    //     imageData = context.getImageData( top_x, top_y, width, height );
-	    //   } catch(e) {
-	    //     alert("Cannot access local image");
-	    //     throw new Error("unable to access local image data: " + e);
-	    //     return;
-	    //   }
-	    //   }
-	    // } catch(e) {
-	    //   alert("Cannot access image");
-	    //   throw new Error("unable to access image data: " + e);
-	    // }
-
-	    var pixels = imageData.data;
-
-	    var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum,
-	    r_out_sum, g_out_sum, b_out_sum,
-	    r_in_sum, g_in_sum, b_in_sum,
-	    pr, pg, pb, rbs;
-
-	    var div = radius + radius + 1;
-	    var w4 = width << 2;
-	    var widthMinus1  = width - 1;
-	    var heightMinus1 = height - 1;
-	    var radiusPlus1  = radius + 1;
-	    var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
-
-	    var stackStart = new BlurStack();
-	    var stack = stackStart;
-	    for ( i = 1; i < div; i++ )
-	    {
-	      stack = stack.next = new BlurStack();
-	      if ( i == radiusPlus1 ) var stackEnd = stack;
-	    }
-	    stack.next = stackStart;
-	    var stackIn = null;
-	    var stackOut = null;
-
-	    yw = yi = 0;
-
-	    var mul_sum = mul_table[radius];
-	    var shg_sum = shg_table[radius];
-
-	    for ( y = 0; y < height; y++ )
-	    {
-	      r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
-
-	      r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
-	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
-	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
-
-	      r_sum += sumFactor * pr;
-	      g_sum += sumFactor * pg;
-	      b_sum += sumFactor * pb;
-
-	      stack = stackStart;
-
-	      for( i = 0; i < radiusPlus1; i++ )
-	      {
-	        stack.r = pr;
-	        stack.g = pg;
-	        stack.b = pb;
-	        stack = stack.next;
-	      }
-
-	      for( i = 1; i < radiusPlus1; i++ )
-	      {
-	        p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
-	        r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
-	        g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
-	        b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
-
-	        r_in_sum += pr;
-	        g_in_sum += pg;
-	        b_in_sum += pb;
-
-	        stack = stack.next;
-	      }
-
-
-	      stackIn = stackStart;
-	      stackOut = stackEnd;
-	      for ( x = 0; x < width; x++ )
-	      {
-	        pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
-	        pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
-	        pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
-
-	        r_sum -= r_out_sum;
-	        g_sum -= g_out_sum;
-	        b_sum -= b_out_sum;
-
-	        r_out_sum -= stackIn.r;
-	        g_out_sum -= stackIn.g;
-	        b_out_sum -= stackIn.b;
-
-	        p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
-
-	        r_in_sum += ( stackIn.r = pixels[p]);
-	        g_in_sum += ( stackIn.g = pixels[p+1]);
-	        b_in_sum += ( stackIn.b = pixels[p+2]);
-
-	        r_sum += r_in_sum;
-	        g_sum += g_in_sum;
-	        b_sum += b_in_sum;
-
-	        stackIn = stackIn.next;
-
-	        r_out_sum += ( pr = stackOut.r );
-	        g_out_sum += ( pg = stackOut.g );
-	        b_out_sum += ( pb = stackOut.b );
-
-	        r_in_sum -= pr;
-	        g_in_sum -= pg;
-	        b_in_sum -= pb;
-
-	        stackOut = stackOut.next;
-
-	        yi += 4;
-	      }
-	      yw += width;
-	    }
-
-
-	    for ( x = 0; x < width; x++ )
-	    {
-	      g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
-
-	      yi = x << 2;
-	      r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
-	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
-	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
-
-	      r_sum += sumFactor * pr;
-	      g_sum += sumFactor * pg;
-	      b_sum += sumFactor * pb;
-
-	      stack = stackStart;
-
-	      for( i = 0; i < radiusPlus1; i++ )
-	      {
-	        stack.r = pr;
-	        stack.g = pg;
-	        stack.b = pb;
-	        stack = stack.next;
-	      }
-
-	      yp = width;
-
-	      for( i = 1; i <= radius; i++ )
-	      {
-	        yi = ( yp + x ) << 2;
-
-	        r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
-	        g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
-	        b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
-
-	        r_in_sum += pr;
-	        g_in_sum += pg;
-	        b_in_sum += pb;
-
-	        stack = stack.next;
-
-	        if( i < heightMinus1 )
-	        {
-	          yp += width;
-	        }
-	      }
-
-	      yi = x;
-	      stackIn = stackStart;
-	      stackOut = stackEnd;
-	      for ( y = 0; y < height; y++ )
-	      {
-	        p = yi << 2;
-	        pixels[p]   = (r_sum * mul_sum) >> shg_sum;
-	        pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
-	        pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
-
-	        r_sum -= r_out_sum;
-	        g_sum -= g_out_sum;
-	        b_sum -= b_out_sum;
-
-	        r_out_sum -= stackIn.r;
-	        g_out_sum -= stackIn.g;
-	        b_out_sum -= stackIn.b;
-
-	        p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
-
-	        r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
-	        g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
-	        b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
-
-	        stackIn = stackIn.next;
-
-	        r_out_sum += ( pr = stackOut.r );
-	        g_out_sum += ( pg = stackOut.g );
-	        b_out_sum += ( pb = stackOut.b );
-
-	        r_in_sum -= pr;
-	        g_in_sum -= pg;
-	        b_in_sum -= pb;
-
-	        stackOut = stackOut.next;
-
-	        yi += width;
-	      }
-	    }
-
-	    // context.putImageData( imageData, top_x, top_y );
-
-	  }
-
-	  function BlurStack()
-	  {
-	    this.r = 0;
-	    this.g = 0;
-	    this.b = 0;
-	    this.a = 0;
-	    this.next = null;
-	  }
-	  return {stackBlurCanvasRGBA:stackBlurCanvasRGBA, stackBlurCanvasRGB:stackBlurCanvasRGB};
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 151 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-	/*
-
-	StackBlurOriginal - a fast almost Gaussian Blur For Canvas
-
-	Version:  0.5
-	Author:   Mario Klingemann
-	Contact:  mario@quasimondo.com
-	Website:  http://www.quasimondo.com/StackBlurForCanvas
-	Twitter:  @quasimondo
-
-	In case you find this class useful - especially in commercial projects -
-	I am not totally unhappy for a small donation to my PayPal account
-	mario@quasimondo.de
-
-	Or support me on flattr:
-	https://flattr.com/thing/72791/StackBlurOriginal-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
-
-	Copyright (c) 2010 Mario Klingemann
-
-	Permission is hereby granted, free of charge, to any person
-	obtaining a copy of this software and associated documentation
-	files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use,
-	copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following
-	conditions:
-
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.
-	 */
-	var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(139), __webpack_require__(150), __webpack_require__(143)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas, OrigStackBlur) {
-	  var BlurStack, color, inspect, matrix, mulTable, nextTick, point, rect, shgTable;
-	  point = Atomic.point, matrix = Atomic.matrix, rect = Atomic.rect, color = Atomic.color;
-	  inspect = Foundation.Inspect.inspect;
-	  nextTick = Foundation.nextTick;
-	  mulTable = [512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259, 496, 475, 456, 437, 420, 404, 388, 374, 360, 347, 335, 323, 312, 302, 292, 282, 273, 265, 512, 497, 482, 468, 454, 441, 428, 417, 405, 394, 383, 373, 364, 354, 345, 337, 328, 320, 312, 305, 298, 291, 284, 278, 271, 265, 259, 507, 496, 485, 475, 465, 456, 446, 437, 428, 420, 412, 404, 396, 388, 381, 374, 367, 360, 354, 347, 341, 335, 329, 323, 318, 312, 307, 302, 297, 292, 287, 282, 278, 273, 269, 265, 261, 512, 505, 497, 489, 482, 475, 468, 461, 454, 447, 441, 435, 428, 422, 417, 411, 405, 399, 394, 389, 383, 378, 373, 368, 364, 359, 354, 350, 345, 341, 337, 332, 328, 324, 320, 316, 312, 309, 305, 301, 298, 294, 291, 287, 284, 281, 278, 274, 271, 268, 265, 262, 259, 257, 507, 501, 496, 491, 485, 480, 475, 470, 465, 460, 456, 451, 446, 442, 437, 433, 428, 424, 420, 416, 412, 408, 404, 400, 396, 392, 388, 385, 381, 377, 374, 370, 367, 363, 360, 357, 354, 350, 347, 344, 341, 338, 335, 332, 329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292, 289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259];
-	  shgTable = [9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24];
-	  BlurStack = (function() {
-	    function BlurStack() {
-	      this.r = this.g = this.b = this.a = 0;
-	      this.next = null;
-	    }
-
-	    return BlurStack;
-
-	  })();
-	  return Canvas.StackBlurOriginal = (function(superClass) {
-	    extend(StackBlurOriginal, superClass);
-
-	    function StackBlurOriginal() {
-	      return StackBlurOriginal.__super__.constructor.apply(this, arguments);
-	    }
-
-	    StackBlurOriginal.blur = function(bitmap, radius) {
-	      return (new Canvas.StackBlurOriginal).blur(bitmap, radius);
-	    };
-
-	    StackBlurOriginal.blurRGB = function(bitmap, radius) {
-	      return (new Canvas.StackBlurOriginal).blurRGB(bitmap, radius);
-	    };
-
-	    StackBlurOriginal.prototype.blur = function(bitmap, radius) {
-	      var imageData, pixels;
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      OrigStackBlur.stackBlurCanvasRGBA(imageData, 0, 0, bitmap.size.w, bitmap.size.h, radius);
-	      return bitmap.putImageData(imageData);
-	    };
-
-	    StackBlurOriginal.prototype.blurRGB = function(bitmap, radius) {
-	      var imageData, pixels;
-	      imageData = bitmap.getImageData();
-	      pixels = imageData.data;
-	      OrigStackBlur.stackBlurCanvasRGB(imageData, 0, 0, bitmap.size.w, bitmap.size.h, radius);
-	      return bitmap.putImageData(imageData);
-	    };
-
-	    StackBlurOriginal.prototype.stackBlurCanvasRGBA = function(pixels, top_x, top_y, width, height, radius) {
-	      var a_in_sum, a_out_sum, a_sum, b_in_sum, b_out_sum, b_sum, div, g_in_sum, g_out_sum, g_sum, heightMinus1, i, j, k, l, m, mul_sum, n, o, p, pa, pb, pg, pr, q, r, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, results, s, shg_sum, stack, stackEnd, stackIn, stackOut, stackStart, sumFactor, w4, widthMinus1, x, y, yi, yp, yw;
-	      div = radius + radius + 1;
-	      w4 = width << 2;
-	      widthMinus1 = width - 1;
-	      heightMinus1 = height - 1;
-	      radiusPlus1 = radius + 1;
-	      sumFactor = radiusPlus1 * (radiusPlus1 + 1) / 2;
-	      stackStart = new BlurStack();
-	      stack = stackStart;
-	      for (i = j = 1, ref = div - 1; j <= ref; i = j += 1) {
-	        stack = stack.next = new BlurStack();
-	        if (i === radiusPlus1) {
-	          stackEnd = stack;
-	        }
-	      }
-	      stack.next = stackStart;
-	      yw = yi = 0;
-	      mul_sum = mulTable[radius];
-	      shg_sum = shgTable[radius];
-	      for (y = k = 0, ref1 = heightMinus1; k <= ref1; y = k += 1) {
-	        r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
-	        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-	        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-	        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-	        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
-	        r_sum += sumFactor * pr;
-	        g_sum += sumFactor * pg;
-	        b_sum += sumFactor * pb;
-	        a_sum += sumFactor * pa;
-	        stack = stackStart;
-	        for (i = l = 0, ref2 = radius; l <= ref2; i = l += 1) {
-	          stack.r = pr;
-	          stack.g = pg;
-	          stack.b = pb;
-	          stack.a = pa;
-	          stack = stack.next;
-	        }
-	        for (i = m = 1, ref3 = radius; m <= ref3; i = m += 1) {
-	          p = yi + ((widthMinus1 < i ? widthMinus1 : i) << 2);
-	          r_sum += (stack.r = (pr = pixels[p])) * (rbs = radiusPlus1 - i);
-	          g_sum += (stack.g = (pg = pixels[p + 1])) * rbs;
-	          b_sum += (stack.b = (pb = pixels[p + 2])) * rbs;
-	          a_sum += (stack.a = (pa = pixels[p + 3])) * rbs;
-	          r_in_sum += pr;
-	          g_in_sum += pg;
-	          b_in_sum += pb;
-	          a_in_sum += pa;
-	          stack = stack.next;
-	        }
-	        stackIn = stackStart;
-	        stackOut = stackEnd;
-	        for (x = n = 0, ref4 = widthMinus1; n <= ref4; x = n += 1) {
-	          pixels[yi + 3] = pa = (a_sum * mul_sum) >> shg_sum;
-	          if (pa !== 0) {
-	            pa = 255 / pa;
-	            pixels[yi] = ((r_sum * mul_sum) >> shg_sum) * pa;
-	            pixels[yi + 1] = ((g_sum * mul_sum) >> shg_sum) * pa;
-	            pixels[yi + 2] = ((b_sum * mul_sum) >> shg_sum) * pa;
-	          } else {
-	            pixels[yi] = pixels[yi + 1] = pixels[yi + 2] = 0;
-	          }
-	          r_sum -= r_out_sum;
-	          g_sum -= g_out_sum;
-	          b_sum -= b_out_sum;
-	          a_sum -= a_out_sum;
-	          r_out_sum -= stackIn.r;
-	          g_out_sum -= stackIn.g;
-	          b_out_sum -= stackIn.b;
-	          a_out_sum -= stackIn.a;
-	          p = (yw + ((p = x + radius + 1) < widthMinus1 ? p : widthMinus1)) << 2;
-	          r_in_sum += (stackIn.r = pixels[p]);
-	          g_in_sum += (stackIn.g = pixels[p + 1]);
-	          b_in_sum += (stackIn.b = pixels[p + 2]);
-	          a_in_sum += (stackIn.a = pixels[p + 3]);
-	          r_sum += r_in_sum;
-	          g_sum += g_in_sum;
-	          b_sum += b_in_sum;
-	          a_sum += a_in_sum;
-	          stackIn = stackIn.next;
-	          r_out_sum += (pr = stackOut.r);
-	          g_out_sum += (pg = stackOut.g);
-	          b_out_sum += (pb = stackOut.b);
-	          a_out_sum += (pa = stackOut.a);
-	          r_in_sum -= pr;
-	          g_in_sum -= pg;
-	          b_in_sum -= pb;
-	          a_in_sum -= pa;
-	          stackOut = stackOut.next;
-	          yi += 4;
-	        }
-	        yw += width;
-	      }
-	      results = [];
-	      for (x = o = 0, ref5 = widthMinus1; o <= ref5; x = o += 1) {
-	        g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
-	        yi = x << 2;
-	        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-	        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-	        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-	        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
-	        r_sum += sumFactor * pr;
-	        g_sum += sumFactor * pg;
-	        b_sum += sumFactor * pb;
-	        a_sum += sumFactor * pa;
-	        stack = stackStart;
-	        for (i = q = 0, ref6 = radius; q <= ref6; i = q += 1) {
-	          stack.r = pr;
-	          stack.g = pg;
-	          stack.b = pb;
-	          stack.a = pa;
-	          stack = stack.next;
-	        }
-	        yp = width;
-	        for (i = r = 1, ref7 = radius; r <= ref7; i = r += 1) {
-	          yi = (yp + x) << 2;
-	          r_sum += (stack.r = (pr = pixels[yi])) * (rbs = radiusPlus1 - i);
-	          g_sum += (stack.g = (pg = pixels[yi + 1])) * rbs;
-	          b_sum += (stack.b = (pb = pixels[yi + 2])) * rbs;
-	          a_sum += (stack.a = (pa = pixels[yi + 3])) * rbs;
-	          r_in_sum += pr;
-	          g_in_sum += pg;
-	          b_in_sum += pb;
-	          a_in_sum += pa;
-	          stack = stack.next;
-	          if (i < heightMinus1) {
-	            yp += width;
-	          }
-	        }
-	        yi = x;
-	        stackIn = stackStart;
-	        stackOut = stackEnd;
-	        for (y = s = 0, ref8 = heightMinus1; s <= ref8; y = s += 1) {
-	          p = yi << 2;
-	          pixels[p + 3] = pa = (a_sum * mul_sum) >> shg_sum;
-	          if (pa > 0) {
-	            pa = 255 / pa;
-	            pixels[p] = ((r_sum * mul_sum) >> shg_sum) * pa;
-	            pixels[p + 1] = ((g_sum * mul_sum) >> shg_sum) * pa;
-	            pixels[p + 2] = ((b_sum * mul_sum) >> shg_sum) * pa;
-	          } else {
-	            pixels[p] = pixels[p + 1] = pixels[p + 2] = 0;
-	          }
-	          r_sum -= r_out_sum;
-	          g_sum -= g_out_sum;
-	          b_sum -= b_out_sum;
-	          a_sum -= a_out_sum;
-	          r_out_sum -= stackIn.r;
-	          g_out_sum -= stackIn.g;
-	          b_out_sum -= stackIn.b;
-	          a_out_sum -= stackIn.a;
-	          p = (x + (((p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1) * width)) << 2;
-	          r_sum += (r_in_sum += (stackIn.r = pixels[p]));
-	          g_sum += (g_in_sum += (stackIn.g = pixels[p + 1]));
-	          b_sum += (b_in_sum += (stackIn.b = pixels[p + 2]));
-	          a_sum += (a_in_sum += (stackIn.a = pixels[p + 3]));
-	          stackIn = stackIn.next;
-	          r_out_sum += (pr = stackOut.r);
-	          g_out_sum += (pg = stackOut.g);
-	          b_out_sum += (pb = stackOut.b);
-	          a_out_sum += (pa = stackOut.a);
-	          r_in_sum -= pr;
-	          g_in_sum -= pg;
-	          b_in_sum -= pb;
-	          a_in_sum -= pa;
-	          stackOut = stackOut.next;
-	          yi += width;
-	        }
-	        results.push(1);
-	      }
-	      return results;
-	    };
-
-	    return StackBlurOriginal;
-
-	  })(Foundation.BaseObject);
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 152 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(153);
-
-
-/***/ },
-/* 153 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(154).includeInNamespace(__webpack_require__(156)).addModules({
-	  FullScreenApp: __webpack_require__(250)
-	});
+	__webpack_require__(259);
 
 	__webpack_require__(205);
 
-	__webpack_require__(157);
+	__webpack_require__(156);
 
-	__webpack_require__(266);
+	__webpack_require__(262);
 
-	__webpack_require__(212);
+	__webpack_require__(238);
 
-	__webpack_require__(163);
-
-	__webpack_require__(269);
-
-	__webpack_require__(245);
-
-	__webpack_require__(187);
+	__webpack_require__(180);
 
 
 /***/ },
-/* 154 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Engine,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(155);
+	Art = __webpack_require__(121);
 
 	module.exports = Art.Engine || Art.addNamespace('Engine', Engine = (function(superClass) {
 	  extend(Engine, superClass);
@@ -18898,7 +13021,7 @@
 
 
 /***/ },
-/* 155 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -18920,50 +13043,50 @@
 
 
 /***/ },
-/* 156 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _package;
 
 	module.exports = [
-	  __webpack_require__(157), __webpack_require__(212), __webpack_require__(205), __webpack_require__(245), {
-	    "package": _package = __webpack_require__(249),
+	  __webpack_require__(123), __webpack_require__(205), __webpack_require__(198), __webpack_require__(238), {
+	    "package": _package = __webpack_require__(242),
 	    version: _package.version
 	  }
 	];
 
 
 /***/ },
-/* 157 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(158).includeInNamespace(__webpack_require__(159)).addModules({
-	  CanvasElement: __webpack_require__(161),
-	  DrawCacheManager: __webpack_require__(203),
-	  DrawEpoch: __webpack_require__(202),
-	  ElementBase: __webpack_require__(192),
-	  ElementFactory: __webpack_require__(160),
-	  Element: __webpack_require__(184),
-	  EngineStat: __webpack_require__(210),
-	  EpochedObject: __webpack_require__(200),
-	  EventedEpochedObject: __webpack_require__(193),
-	  GlobalEpochCycle: __webpack_require__(201),
-	  IdleEpoch: __webpack_require__(204),
-	  StateEpoch: __webpack_require__(194)
+	module.exports = __webpack_require__(124).includeInNamespace(__webpack_require__(125)).addModules({
+	  CanvasElement: __webpack_require__(127),
+	  DrawCacheManager: __webpack_require__(196),
+	  DrawEpoch: __webpack_require__(195),
+	  ElementBase: __webpack_require__(185),
+	  ElementFactory: __webpack_require__(126),
+	  Element: __webpack_require__(177),
+	  EngineStat: __webpack_require__(203),
+	  EpochedObject: __webpack_require__(193),
+	  EventedEpochedObject: __webpack_require__(186),
+	  GlobalEpochCycle: __webpack_require__(194),
+	  IdleEpoch: __webpack_require__(197),
+	  StateEpoch: __webpack_require__(187)
 	});
 
-	__webpack_require__(211);
+	__webpack_require__(204);
 
 
 /***/ },
-/* 158 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Core, Engine,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Core || Engine.addNamespace('Core', Core = (function(superClass) {
 	  extend(Core, superClass);
@@ -18978,16 +13101,16 @@
 
 
 /***/ },
-/* 159 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	  newElement: (__webpack_require__(160)).newElement
+	  newElement: (__webpack_require__(126)).newElement
 	};
 
 
 /***/ },
-/* 160 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, ElementFactory, Foundation, inspect, timeout,
@@ -19045,30 +13168,30 @@
 
 
 /***/ },
-/* 161 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ArtEngineEvents, Atomic, Browser, Canvas, CanvasElement, DrawEpoch, Element, EngineStat, Foundation, GlobalEpochCycle, HtmlCanvas, KeyEvent, Matrix, Point, PointerEvent, PointerEventManager, Rectangle, createWithPostCreate, currentSecond, domElementOffset, drawEpoch, durationString, first, getDevicePixelRatio, globalEpochCycle, inspect, isMobileBrowser, isPlainObject, log, matrix, merge, nextTick, objectDiff, point, rect, ref, select, timeStampToPerformanceSecond, timeout, wordsArray,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	__webpack_require__(162);
+	__webpack_require__(128);
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	ArtEngineEvents = __webpack_require__(163);
+	ArtEngineEvents = __webpack_require__(156);
 
-	Element = __webpack_require__(184);
+	Element = __webpack_require__(177);
 
-	GlobalEpochCycle = __webpack_require__(201);
+	GlobalEpochCycle = __webpack_require__(194);
 
-	DrawEpoch = __webpack_require__(202);
+	DrawEpoch = __webpack_require__(195);
 
-	EngineStat = __webpack_require__(210);
+	EngineStat = __webpack_require__(203);
 
 	log = Foundation.log, inspect = Foundation.inspect, nextTick = Foundation.nextTick, currentSecond = Foundation.currentSecond, timeout = Foundation.timeout, durationString = Foundation.durationString, timeStampToPerformanceSecond = Foundation.timeStampToPerformanceSecond, first = Foundation.first, Browser = Foundation.Browser, createWithPostCreate = Foundation.createWithPostCreate, wordsArray = Foundation.wordsArray, select = Foundation.select, merge = Foundation.merge, objectDiff = Foundation.objectDiff, isPlainObject = Foundation.isPlainObject;
 
@@ -19767,7 +13890,7 @@
 
 
 /***/ },
-/* 162 */
+/* 128 */
 /***/ function(module, exports) {
 
 	/**
@@ -19919,27 +14042,5962 @@
 	})();
 
 /***/ },
-/* 163 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164).addModules({
-	  GestureRecognizer: __webpack_require__(165),
-	  KeyEvent: __webpack_require__(167),
-	  PointerEventManager: __webpack_require__(182),
-	  PointerEvent: __webpack_require__(183),
-	  Pointer: __webpack_require__(166)
+	module.exports = __webpack_require__(130);
+
+
+/***/ },
+/* 130 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(131).includeInNamespace(__webpack_require__(133)).addModules({
+	  Base: __webpack_require__(135),
+	  Color: __webpack_require__(134),
+	  Matrix: __webpack_require__(138),
+	  Perimeter: __webpack_require__(139),
+	  Point: __webpack_require__(136),
+	  Rectangle: __webpack_require__(137)
 	});
 
 
 /***/ },
-/* 164 */
+/* 131 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Atomic,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(132);
+
+	module.exports = Art.Atomic || Art.addNamespace('Atomic', Atomic = (function(superClass) {
+	  extend(Atomic, superClass);
+
+	  function Atomic() {
+	    return Atomic.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Atomic;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 132 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Neptune,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Neptune = __webpack_require__(4);
+
+	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
+	  extend(Art, superClass);
+
+	  function Art() {
+	    return Art.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Art;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Color, Matrix, Perimeter, Point, Rectangle, _package;
+
+	Color = __webpack_require__(134);
+
+	Point = __webpack_require__(136);
+
+	Rectangle = __webpack_require__(137);
+
+	Matrix = __webpack_require__(138);
+
+	Perimeter = __webpack_require__(139);
+
+	module.exports = [
+	  [Color, "newColor", "color", "hslColor", "rgbColor", "colorNames", "colorNamesMap"], [Point, "point", "point0", "point1", "isPoint", "pointWithAspectRatioAndArea"], [Rectangle, "rect", "nothing", "everything"], [Matrix, "matrix", "identityMatrix"], [Perimeter, "perimeter", "perimeter0"], {
+	    "package": _package = __webpack_require__(140),
+	    version: _package.version
+	  }
+	];
+
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AtomicBase, Color, Foundation, abs, bound, colorFloatEq, float32Eq, float32Eq0, hex16ColorRegex, hex256ColorRegex, inspect, isString, log, max, min, modulo, pad, parseRGBColorComponent, rgbColorRegex, rgbaColorRegex,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	AtomicBase = __webpack_require__(135);
+
+	inspect = Foundation.inspect, bound = Foundation.bound, modulo = Foundation.modulo, pad = Foundation.pad, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, float32Eq = Foundation.float32Eq, isString = Foundation.isString, log = Foundation.log, hex16ColorRegex = Foundation.hex16ColorRegex, hex256ColorRegex = Foundation.hex256ColorRegex, rgbColorRegex = Foundation.rgbColorRegex, rgbaColorRegex = Foundation.rgbaColorRegex, float32Eq0 = Foundation.float32Eq0;
+
+	colorFloatEq = float32Eq;
+
+	parseRGBColorComponent = function(str) {
+	  var percentIndex;
+	  if ((percentIndex = str.indexOf('%')) !== -1) {
+	    return (str.slice(0, percentIndex) | 0) * .01;
+	  } else {
+	    return (str | 0) * 1 / 255;
+	  }
+	};
+
+	module.exports = Color = (function(superClass) {
+	  var colorNames, colorNamesMap, hexString, hslColor, k, parseCache, rgbColor, v, withSat, zeroString;
+
+	  extend(Color, superClass);
+
+	  function Color() {
+	    return Color.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Color.defineAtomicClass({
+	    fieldNames: "r g b a",
+	    constructorFunctionName: "rgbColor"
+	  });
+
+	  Color.colorNames = colorNames = ['AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'DarkOrange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DodgerBlue', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGray', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateGray', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen'];
+
+	  Color.colorNamesMap = colorNamesMap = {
+	    transparent: "rgba(0,0,0,0)",
+	    aliceblue: "#f0f8ff",
+	    antiquewhite: "#faebd7",
+	    aqua: "#00ffff",
+	    aquamarine: "#7fffd4",
+	    azure: "#f0ffff",
+	    beige: "#f5f5dc",
+	    bisque: "#ffe4c4",
+	    black: "#000000",
+	    blanchedalmond: "#ffebcd",
+	    blue: "#0000ff",
+	    blueviolet: "#8a2be2",
+	    brown: "#a52a2a",
+	    burlywood: "#deb887",
+	    cadetblue: "#5f9ea0",
+	    chartreuse: "#7fff00",
+	    chocolate: "#d2691e",
+	    coral: "#ff7f50",
+	    cornflowerblue: "#6495ed",
+	    cornsilk: "#fff8dc",
+	    crimson: "#dc143c",
+	    cyan: "#00ffff",
+	    darkblue: "#00008b",
+	    darkcyan: "#008b8b",
+	    darkgoldenrod: "#b8860b",
+	    darkgrey: "#a9a9a9",
+	    darkgray: "#a9a9a9",
+	    darkgreen: "#006400",
+	    darkkhaki: "#bdb76b",
+	    darkmagenta: "#8b008b",
+	    darkolivegreen: "#556b2f",
+	    darkorange: "#ff8c00",
+	    darkorchid: "#9932cc",
+	    darkred: "#8b0000",
+	    darksalmon: "#e9967a",
+	    darkseagreen: "#8fbc8f",
+	    darkslateblue: "#483d8b",
+	    darkslategrey: "#2f4f4f",
+	    darkslategray: "#2f4f4f",
+	    darkturquoise: "#00ced1",
+	    darkviolet: "#9400d3",
+	    deeppink: "#ff1493",
+	    deepskyblue: "#00bfff",
+	    dimgrey: "#696969",
+	    dimgray: "#696969",
+	    dodgerblue: "#1e90ff",
+	    firebrick: "#b22222",
+	    floralwhite: "#fffaf0",
+	    forestgreen: "#228b22",
+	    fuchsia: "#ff00ff",
+	    gainsboro: "#dcdcdc",
+	    ghostwhite: "#f8f8ff",
+	    gold: "#ffd700",
+	    goldenrod: "#daa520",
+	    grey: "#808080",
+	    gray: "#808080",
+	    green: "#008000",
+	    greenyellow: "#adff2f",
+	    honeydew: "#f0fff0",
+	    hotpink: "#ff69b4",
+	    indianred: "#cd5c5c",
+	    indigo: "#4b0082",
+	    ivory: "#fffff0",
+	    khaki: "#f0e68c",
+	    lavender: "#e6e6fa",
+	    lavenderblush: "#fff0f5",
+	    lawngreen: "#7cfc00",
+	    lemonchiffon: "#fffacd",
+	    lightblue: "#add8e6",
+	    lightcoral: "#f08080",
+	    lightcyan: "#e0ffff",
+	    lightgoldenrodyellow: "#fafad2",
+	    lightgrey: "#d3d3d3",
+	    lightgray: "#d3d3d3",
+	    lightgreen: "#90ee90",
+	    lightpink: "#ffb6c1",
+	    lightsalmon: "#ffa07a",
+	    lightseagreen: "#20b2aa",
+	    lightskyblue: "#87cefa",
+	    lightslategrey: "#778899",
+	    lightslategray: "#778899",
+	    lightsteelblue: "#b0c4de",
+	    lightyellow: "#ffffe0",
+	    lime: "#00ff00",
+	    limegreen: "#32cd32",
+	    linen: "#faf0e6",
+	    magenta: "#ff00ff",
+	    maroon: "#800000",
+	    mediumaquamarine: "#66cdaa",
+	    mediumblue: "#0000cd",
+	    mediumorchid: "#ba55d3",
+	    mediumpurple: "#9370db",
+	    mediumseagreen: "#3cb371",
+	    mediumslateblue: "#7b68ee",
+	    mediumspringgreen: "#00fa9a",
+	    mediumturquoise: "#48d1cc",
+	    mediumvioletred: "#c71585",
+	    midnightblue: "#191970",
+	    mintcream: "#f5fffa",
+	    mistyrose: "#ffe4e1",
+	    moccasin: "#ffe4b5",
+	    navajowhite: "#ffdead",
+	    navy: "#000080",
+	    oldlace: "#fdf5e6",
+	    olive: "#808000",
+	    olivedrab: "#6b8e23",
+	    orange: "#ffa500",
+	    orangered: "#ff4500",
+	    orchid: "#da70d6",
+	    palegoldenrod: "#eee8aa",
+	    palegreen: "#98fb98",
+	    paleturquoise: "#afeeee",
+	    palevioletred: "#db7093",
+	    papayawhip: "#ffefd5",
+	    peachpuff: "#ffdab9",
+	    peru: "#cd853f",
+	    pink: "#ffc0cb",
+	    plum: "#dda0dd",
+	    powderblue: "#b0e0e6",
+	    purple: "#800080",
+	    red: "#ff0000",
+	    rosybrown: "#bc8f8f",
+	    royalblue: "#4169e1",
+	    saddlebrown: "#8b4513",
+	    salmon: "#fa8072",
+	    sandybrown: "#f4a460",
+	    seagreen: "#2e8b57",
+	    seashell: "#fff5ee",
+	    sienna: "#a0522d",
+	    silver: "#c0c0c0",
+	    skyblue: "#87ceeb",
+	    slateblue: "#6a5acd",
+	    slategrey: "#708090",
+	    slategray: "#708090",
+	    snow: "#fffafa",
+	    springgreen: "#00ff7f",
+	    steelblue: "#4682b4",
+	    tan: "#d2b48c",
+	    teal: "#008080",
+	    thistle: "#d8bfd8",
+	    tomato: "#ff6347",
+	    turquoise: "#40e0d0",
+	    violet: "#ee82ee",
+	    wheat: "#f5deb3",
+	    white: "#ffffff",
+	    whitesmoke: "#f5f5f5",
+	    yellow: "#ffff00",
+	    yellowgreen: "#9acd32"
+	  };
+
+	  Color.parseCache = parseCache = {};
+
+	  Color.rgbColor = rgbColor = function(a, b, c, d) {
+	    var clr;
+	    if ((b == null) && (a instanceof Color)) {
+	      return a;
+	    }
+	    if (isString(a) && (clr = colorNamesMap[a] || parseCache[a])) {
+	      return clr;
+	    }
+	    return new Color(a, b, c, d);
+	  };
+
+	  Color.newColor = rgbColor;
+
+	  Color.color = function(a, b, c, d) {
+	    log.error("Atomic.color DEPRICATED. Use rgbColor.");
+	    return rgbColor(a, b, c, d);
+	  };
+
+	  Color.hslColor = hslColor = function(h, s, l, a) {
+	    var f, p, phase, q, t;
+	    if (a == null) {
+	      a = 1;
+	    }
+	    if (h instanceof Color) {
+	      return h;
+	    }
+	    h = modulo(h, 1);
+	    phase = h * 6 | 0;
+	    f = h * 6 - phase;
+	    p = l * (1 - s);
+	    q = l * (1 - f * s);
+	    t = l * (1 - (1 - f) * s);
+	    h = colorFloatEq(h, 1) ? 1 : h % 1;
+	    switch (phase % 6) {
+	      case 0:
+	        return new Color(l, t, p, a, h, s, l);
+	      case 1:
+	        return new Color(q, l, p, a, h, s, l);
+	      case 2:
+	        return new Color(p, l, t, a, h, s, l);
+	      case 3:
+	        return new Color(p, q, l, a, h, s, l);
+	      case 4:
+	        return new Color(t, p, l, a, h, s, l);
+	      case 5:
+	        return new Color(l, p, q, a, h, s, l);
+	    }
+	  };
+
+	  Color.parse = function(string, existing) {
+	    if (existing == null) {
+	      existing = null;
+	    }
+	    if (existing) {
+	      throw new Error("existing feature is no longer supported");
+	    }
+	    return new Artomic.Color(string);
+	  };
+
+	  Color.prototype._initFromObject = function(obj) {
+	    return this.r = obj.r, this.g = obj.g, this.b = obj.b, this.a = obj.a, obj;
+	  };
+
+	  Color.prototype._initFromString = function(string) {
+	    var a, b, clr, elements, g, lcString, match, r, x;
+	    this.initProperties();
+	    parseCache[string] = this;
+	    if (match = string.match(hex16ColorRegex)) {
+	      x = match[0], r = match[1], g = match[2], b = match[3], a = match[4];
+	      if (!a) {
+	        this._htmlColorString = string;
+	      }
+	      a || (a = "f");
+	      this.r = parseInt(r, 16) / 15;
+	      this.g = parseInt(g, 16) / 15;
+	      this.b = parseInt(b, 16) / 15;
+	      return this.a = parseInt(a, 16) / 15;
+	    } else if (match = string.match(hex256ColorRegex)) {
+	      x = match[0], r = match[1], g = match[2], b = match[3], a = match[4];
+	      if (!a) {
+	        this._htmlColorString = string;
+	      }
+	      a || (a = "ff");
+	      this.r = parseInt(r, 16) / 255;
+	      this.g = parseInt(g, 16) / 255;
+	      this.b = parseInt(b, 16) / 255;
+	      return this.a = parseInt(a, 16) / 255;
+	    } else if (elements = string.match(rgbColorRegex)) {
+	      this._htmlColorString = string;
+	      this.a = 1;
+	      this.r = parseRGBColorComponent(elements[1]);
+	      this.g = parseRGBColorComponent(elements[2]);
+	      return this.b = parseRGBColorComponent(elements[3]);
+	    } else if (elements = string.match(rgbaColorRegex)) {
+	      this._htmlColorString = string;
+	      this.r = parseRGBColorComponent(elements[1]);
+	      this.g = parseRGBColorComponent(elements[2]);
+	      this.b = parseRGBColorComponent(elements[3]);
+	      return this.a = elements[4] - 0;
+	    } else if (/^[a-z]+$/i.test(lcString = string.toLowerCase())) {
+	      if (!(clr = colorNamesMap[lcString])) {
+	        return this.log({
+	          parseError: this.parseError = "WARNING: Color.parse failure. Unknown rgbColor name: " + (inspect(string))
+	        });
+	      }
+	      this._htmlColorString = clr._htmlColorString;
+	      this.r = clr.r;
+	      this.g = clr.g;
+	      this.b = clr.b;
+	      return this.a = clr.a;
+	    } else {
+	      return this.log({
+	        parseError: this.parseError = "WARNING: Color.parse failure for " + (inspect(string))
+	      });
+	    }
+	  };
+
+	  Color.prototype.initProperties = function() {
+	    this.r = this.g = this.b = 0;
+	    this.a = 1;
+	    this._hue = this._saturation = this._lightness = null;
+	    this.parseError = null;
+	    return this._htmlColorString = null;
+	  };
+
+	  Color.prototype._init = function(a, b, c, d, h, s, l) {
+	    this.initProperties();
+	    if (h != null) {
+	      this._hue = h - 0;
+	    }
+	    if (s != null) {
+	      this._saturation = s - 0;
+	    }
+	    if (l != null) {
+	      this._lightness = l - 0;
+	    }
+	    if (a == null) {
+	      this.r = this.g = this.b = 0;
+	      return this.a = 1;
+	    } else if (b == null) {
+	      if (a > 1) {
+	        a /= 255;
+	      }
+	      this.r = this.g = this.b = a - 0;
+	      return this.a = 1 - 0;
+	    } else if (c != null) {
+	      this.r = a - 0;
+	      this.g = b - 0;
+	      this.b = c - 0;
+	      return this.a = d != null ? d - 0 : 1;
+	    }
+	  };
+
+	  Color.prototype.interpolate = function(toColor, p) {
+	    var a, b, g, oneMinusP, r, ref;
+	    ref = this, r = ref.r, g = ref.g, b = ref.b, a = ref.a;
+	    toColor = rgbColor(toColor);
+	    if (float32Eq0(a)) {
+	      r = toColor.r, g = toColor.g, b = toColor.b;
+	    }
+	    if (float32Eq0(toColor.a)) {
+	      toColor = this.withAlpha(0);
+	    }
+	    oneMinusP = 1 - p;
+	    return new Color(toColor.r * p + r * oneMinusP, toColor.g * p + g * oneMinusP, toColor.b * p + b * oneMinusP, toColor.a * p + a * oneMinusP);
+	  };
+
+	  Color.prototype.blend = function(color, amount) {
+	    var a, b, g, r, ref;
+	    color = rgbColor(color);
+	    ref = this, r = ref.r, g = ref.g, b = ref.b, a = ref.a;
+	    switch (false) {
+	      case amount == null:
+	        return new Color((color.r - r) * amount + r, (color.g - g) * amount + g, (color.b - b) * amount + b, (color.a - a) * amount + a);
+	      case !colorFloatEq(color.a, 1):
+	        return color;
+	      case !colorFloatEq(color.a, 0):
+	        return this;
+	      default:
+	        amount = color.a;
+	        return new Color((color.r - r) * amount + r, (color.g - g) * amount + g, (color.b - b) * amount + b, (1 - a) * amount + a);
+	    }
+	  };
+
+	  Color.prototype.withAlpha = function(a) {
+	    return new Color(this.r, this.g, this.b, a);
+	  };
+
+	  Color.prototype.withLightness = function(v) {
+	    return hslColor(this.h, this.s, v, this.a);
+	  };
+
+	  Color.prototype.withHue = function(v) {
+	    return hslColor(v, this.s, this.l, this.a);
+	  };
+
+	  Color.prototype.withSat = withSat = function(v) {
+	    return hslColor(this.h, v, this.l, this.a);
+	  };
+
+	  Color.prototype.withSaturation = withSat;
+
+	  Color.prototype.withChannel = function(c, v) {
+	    switch (c) {
+	      case "r":
+	      case "red":
+	        return new Color(v, this.g, this.b, this.a);
+	      case "g":
+	      case "green":
+	        return new Color(this.r, v, this.b, this.a);
+	      case "b":
+	      case "blue":
+	        return new Color(this.r, this.g, v, this.a);
+	      case "h":
+	      case "hue":
+	        return hslColor(v, this.s, this.l, this.a);
+	      case "s":
+	      case "sat":
+	      case "saturation":
+	        return hslColor(this.h, v, this.l, this.a);
+	      case "l":
+	      case "lightness":
+	        return this.withLightness(v);
+	      case "a":
+	      case "alpha":
+	        return this.withAlpha(v);
+	      default:
+	        throw new Error("invalid channel: " + (inspect(c)));
+	    }
+	  };
+
+	  Color.prototype.withChannels = function(c) {
+	    var a, b, g, h, l, r, s;
+	    if (c.h || c.s || c.l) {
+	      h = c.h != null ? c.h : this.h;
+	      s = c.s != null ? c.s : this.s;
+	      l = c.l != null ? c.l : this.l;
+	      a = c.a != null ? c.a : this.a;
+	      return hslColor(h, s, l, a);
+	    } else {
+	      r = c.r != null ? c.r : this.r;
+	      g = c.g != null ? c.g : this.g;
+	      b = c.b != null ? c.b : this.b;
+	      a = c.a != null ? c.a : this.a;
+	      return new Color(r, g, b, a);
+	    }
+	  };
+
+	  zeroString = "0";
+
+	  hexString = function(number, length) {
+	    if (length == null) {
+	      length = 2;
+	    }
+	    return pad(number.toString(16), length, zeroString, true);
+	  };
+
+	  Color.getter({
+	    arrayRGB: function() {
+	      return [this.r, this.g, this.b];
+	    },
+	    rgbSum: function() {
+	      return this.r + this.g + this.b;
+	    },
+	    rgbSquaredSum: function() {
+	      return this.r * this.r + this.g * this.g + this.b * this.b;
+	    },
+	    clamped: function() {
+	      return new Color(bound(0, this.r, 1), bound(0, this.g, 1), bound(0, this.b, 1), bound(0, this.a, 1));
+	    },
+	    r256: function() {
+	      return bound(0, Math.round(this.r * 255), 255);
+	    },
+	    g256: function() {
+	      return bound(0, Math.round(this.g * 255), 255);
+	    },
+	    b256: function() {
+	      return bound(0, Math.round(this.b * 255), 255);
+	    },
+	    a256: function() {
+	      return bound(0, Math.round(this.a * 255), 255);
+	    },
+	    r16: function() {
+	      return bound(0, Math.round(this.r * 15), 15);
+	    },
+	    g16: function() {
+	      return bound(0, Math.round(this.g * 15), 15);
+	    },
+	    b16: function() {
+	      return bound(0, Math.round(this.b * 15), 15);
+	    },
+	    a16: function() {
+	      return bound(0, Math.round(this.a * 15), 15);
+	    },
+	    h256: function() {
+	      return bound(0, Math.round(this.h * 255), 255);
+	    },
+	    s256: function() {
+	      return bound(0, Math.round(this.s * 255), 255);
+	    },
+	    b256: function() {
+	      return bound(0, Math.round(this.b * 255), 255);
+	    },
+	    rClamped: function() {
+	      return bound(0, this.r, 1);
+	    },
+	    gClamped: function() {
+	      return bound(0, this.g, 1);
+	    },
+	    bClamped: function() {
+	      return bound(0, this.b, 1);
+	    },
+	    aClamped: function() {
+	      return bound(0, this.a, 1);
+	    },
+	    premultiplied: function() {
+	      return new Color(this.r * this.a, this.g * this.a, this.b * this.a, this.a);
+	    },
+	    demultiplied: function() {
+	      return new Color(this.r / this.a, this.g / this.a, this.b / this.a, this.a);
+	    },
+	    cssString: function() {
+	      return "rgba(" + [this.r256, this.g256, this.b256, this.aClamped].join(', ') + ")";
+	    },
+	    rgbaString: function() {
+	      return "rgbColor(" + [this.r256, this.g256, this.b256, this.a256].join('/255, ') + "/255)";
+	    },
+	    hexString: function() {
+	      return "#" + hexString(this.r256) + hexString(this.g256) + hexString(this.b256);
+	    },
+	    hex16String: function() {
+	      return "#" + hexString(this.r16, 1) + hexString(this.g16, 1) + hexString(this.b16, 1);
+	    },
+	    hslHexString: function() {
+	      return "#" + hexString(this.h256) + hexString(this.s256) + hexString(this.b256);
+	    },
+	    rgbaHexString: function() {
+	      return "#" + this.getRawRgbaHexString();
+	    },
+	    rawRgbaHexString: function() {
+	      return hexString(this.r256) + hexString(this.g256) + hexString(this.b256) + hexString(this.a256);
+	    }
+	  });
+
+	  Color.prototype.inspect = function() {
+	    var a;
+	    a = colorFloatEq(1, this.a) ? this.hexString : this.rgbaHexString;
+	    return "rgbColor('" + a + "')";
+	  };
+
+	  Color.prototype.toString = function() {
+	    return this._htmlColorString || (this._htmlColorString = colorFloatEq(1, this.a) ? this.getHexString() : this.getCssString());
+	  };
+
+	  Color.getter({
+	    plainObjects: function() {
+	      if (this.a < 1) {
+	        return this.rgbaHexString;
+	      } else {
+	        return this.hexString;
+	      }
+	    },
+	    inspectedObjects: function() {
+	      if (colorFloatEq(1, this.a)) {
+	        return this.hexString;
+	      } else {
+	        return this.rgbaHexString;
+	      }
+	    }
+	  });
+
+	  Color.getter({
+	    h: function() {
+	      return this._hue != null ? this._hue : this._hue = this.rgbToHsl() && this._hue;
+	    },
+	    s: function() {
+	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
+	    },
+	    l: function() {
+	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
+	    },
+	    inverseL: function() {
+	      return 1 - this.l;
+	    },
+	    inverseS: function() {
+	      return 1 - this.s;
+	    },
+	    inverseH: function() {
+	      return 1 - this.h;
+	    },
+	    hue: function() {
+	      return this._hue != null ? this._hue : this._hue = this.rgbToHsl() && this._hue;
+	    },
+	    sat: function() {
+	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
+	    },
+	    lit: function() {
+	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
+	    },
+	    saturation: function() {
+	      return this._saturation != null ? this._saturation : this._saturation = this.rgbToHsl() && this._saturation;
+	    },
+	    lightness: function() {
+	      return this._lightness != null ? this._lightness : this._lightness = this.rgbToHsl() && this._lightness;
+	    },
+	    perceptualLightness: function() {
+	      return 0.2126 * this.r + 0.7152 * this.g + 0.0722 * this.b;
+	    },
+	    satLightness: function() {
+	      return (2 - this._saturation) * this._lightness * .5;
+	    }
+	  });
+
+	  Color.perceptualWeights = {
+	    r: 0.2126,
+	    g: 0.7152,
+	    b: 0.0722
+	  };
+
+	  Color.prototype.rgbToHsl = function() {
+	    var b, delta, g, maxRGB, minRGB, r, sixth;
+	    r = this.r;
+	    g = this.g;
+	    b = this.b;
+	    maxRGB = max(r, g, b);
+	    minRGB = min(r, g, b);
+	    delta = maxRGB - minRGB;
+	    sixth = 1.0 / 6.0;
+	    this._lightness = maxRGB;
+	    if (maxRGB === minRGB) {
+	      this._hue = 0;
+	      this._saturation = 0;
+	      return true;
+	    }
+	    if (maxRGB === r) {
+	      if (g >= b) {
+	        this._hue = sixth * ((g - b) / delta);
+	      } else {
+	        this._hue = sixth * ((g - b) / delta) + 1;
+	      }
+	    } else if (maxRGB === g) {
+	      this._hue = sixth * ((b - r) / delta) + 1 / 3;
+	    } else {
+	      this._hue = sixth * ((r - g) / delta) + 2 / 3;
+	    }
+	    this._saturation = 1 - (minRGB / maxRGB);
+	    return true;
+	  };
+
+	  for (k in colorNamesMap) {
+	    v = colorNamesMap[k];
+	    colorNamesMap[k] = rgbColor(v);
+	  }
+
+	  return Color;
+
+	})(AtomicBase);
+
+
+/***/ },
+/* 135 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base, BaseObject, floatEq, inspect, inspectedObjectLiteral, isFunction, isNumber, isPlainArray, isPlainObject, isString, log, lowerCamelCase, ref, stringToNumberArray, upperCamelCase, wordsArray,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(19), inspect = ref.inspect, log = ref.log, isNumber = ref.isNumber, isPlainObject = ref.isPlainObject, isPlainArray = ref.isPlainArray, isString = ref.isString, isFunction = ref.isFunction, stringToNumberArray = ref.stringToNumberArray, BaseObject = ref.BaseObject, lowerCamelCase = ref.lowerCamelCase, upperCamelCase = ref.upperCamelCase, inspectedObjectLiteral = ref.inspectedObjectLiteral, floatEq = ref.floatEq, wordsArray = ref.wordsArray, inspect = ref.inspect;
+
+	module.exports = Base = (function(superClass) {
+	  var letterFieldNames, reservedWords;
+
+	  extend(Base, superClass);
+
+
+	  /*
+	  TODO
+	  
+	  All Atomics follow the same pattern:
+	  
+	    A fixed, ordered set of fields
+	    with fixed names
+	    and fixed defaults
+	  
+	  Most functions could be automatically defined given:
+	  
+	    An array of field-names
+	    An array of default values
+	    NOTE: I wish we could just use an object to specifiy those, but
+	      the order is not guaranteed, and we need a fixed order.
+	  
+	  The field-names could be defined with a string.
+	  Zero (0) can be the default default-value
+	  
+	  Point:      @defineAtomic fieldNames: "x y"
+	  Matrix:     @defineAtomic fieldNames: "sx shy tx shx sy ty", defaults: [1, 1]
+	  Rectangle:  @defineAtomic fieldNames: "x y w h"
+	  Perimeter:  @defineAtomic fieldNames: "left right top bottom"
+	  
+	  nonStandardInitializes
+	    Initializing with 1 arg or fields.length args is usually the same for all atomics
+	    But, intializing with a number of args in between tends to vary.
+	    I suggest overrides:
+	    _init0: -> defaults
+	    _init1: (a) -> all fields = a
+	    _init2:
+	    _init3:
+	    _init4:
+	    _init#{n}: -> each field gets set individually
+	  
+	  @defineAtomicClass: ({fieldNames, defaults, aliases}) ->
+	    fields = wordsArray fields if isString fields
+	    @defineSetAll()           # uses fieldNames
+	    @defineInit0()            # uses fieldNames and defaults
+	    @defineInit1()            # uses fieldNames
+	    @defineInterpolate()      # uses fieldNames
+	    @defineComparisonOperators()  # uses fieldNames, defines: eq, gt, lt, gte, lte
+	    @defineMathOperators()        # uses fieldNames, defines: add, sub, mul, div
+	    @defineToArray()          # uses fieldNames
+	    @defineInitFromObject()   # uses fieldNames and aliases
+	    @defineToObject()         # uses fieldNames
+	    @defineGetters()          # uses fieldNames and aliases
+	    @defineInto()             # uses fieldNames
+	    @defineToString()
+	    @defineInspect()
+	    @defineToInspectedObjects()
+	   */
+
+	  Base.prototype._initFromString = function(string) {
+	    return this._init.apply(this, stringToNumberArray(string));
+	  };
+
+	  function Base(a, b, c, d, e, f, g) {
+	    Base.__super__.constructor.apply(this, arguments);
+	    if (isPlainArray(a)) {
+	      this._init.apply(this, a);
+	    } else if (isString(a)) {
+	      this._initFromString(a);
+	    } else if (isPlainObject(a)) {
+	      this._initFromObject(a);
+	    } else if ((a != null) && !isNumber(a) && !(a instanceof Base) && isFunction(a.toString)) {
+	      this._initFromString(a.toString());
+	    } else {
+	      this._init(a, b, c, d, e, f, g);
+	    }
+	  }
+
+	  Base.prototype.compare = function(b) {
+	    if (this.eq(b)) {
+	      return 0;
+	    }
+	    if (this.lte(b)) {
+	      return -1;
+	    }
+	    if (this.gte(b)) {
+	      return 1;
+	    }
+	    return 0/0;
+	  };
+
+	  Base.getConstructorFunctionName = function() {
+	    return this.constructorFunctionName || (this.constructorFunctionName = lowerCamelCase(this.getName()));
+	  };
+
+	  Base.getter({
+	    plainObjects: function() {
+	      return this.toObject();
+	    },
+	    inspectedObjects: function() {
+	      return inspectedObjectLiteral(this["class"].getConstructorFunctionName() + ("(" + (this.toArray().join(', ')) + ")"));
+	    }
+	  });
+
+	  Base.prototype.toPlainStructure = function() {
+	    return this.getPlainObjects();
+	  };
+
+	  Base.prototype.toPlainEvalString = function() {
+	    return inspect(this.getPlainObjects());
+	  };
+
+	  Base.prototype.inspect = function() {
+	    return (this["class"].getConstructorFunctionName()) + "(" + (this.toArray().join(', ')) + ")";
+	  };
+
+	  Base.prototype.toJson = function() {
+	    return this.toString();
+	  };
+
+	  Base.prototype.toString = function(precision) {
+	    var a;
+	    if (precision) {
+	      return "[" + (((function() {
+	        var j, len, ref1, results;
+	        ref1 = this.toArray();
+	        results = [];
+	        for (j = 0, len = ref1.length; j < len; j++) {
+	          a = ref1[j];
+	          results.push(a.toPrecision(precision));
+	        }
+	        return results;
+	      }).call(this)).join(', ')) + "]";
+	    } else {
+	      return "[" + (this.toArray().join(', ')) + "]";
+	    }
+	  };
+
+	  Base.prototype.neq = function(b) {
+	    return !this.eq(b);
+	  };
+
+	  Base.prototype.between = function(a, b) {
+	    return this.gte(a) && this.lte(b);
+	  };
+
+	  Base.prototype.floatEq = floatEq;
+
+	  Base.prototype.isNumber = isNumber;
+
+
+	  /*
+	  for use by extending children classes
+	   */
+
+	  Base.defineAtomicClass = function(arg) {
+	    this.fieldNames = arg.fieldNames, this.constructorFunctionName = arg.constructorFunctionName;
+	    if (isString(this.fieldNames)) {
+	      this.fieldNames = wordsArray(this.fieldNames);
+	    }
+	    this.getConstructorFunctionName();
+	    this._defineCore(this.fieldNames);
+	    this._defineComparisonOperators(this.fieldNames);
+	    return this._defineMathOperators(this.fieldNames);
+
+	    /*
+	    TODO: more standard methods to add:
+	    
+	     * most init can be standardized
+	    _init*
+	    
+	     * more math methods
+	    min max floor ceil average bound round
+	    
+	     * class methods
+	    @isPoint
+	     */
+	  };
+
+	  reservedWords = {
+	    "with": true
+	  };
+
+	  Base._definePrototypeMethodViaEval = function(name, paramsList, body) {
+	    var nameInEval;
+	    nameInEval = reservedWords[name] ? "" : name;
+	    return this.prototype[name] = eval(body = "(\nfunction " + nameInEval + "(" + paramsList + ") {\n" + body + "\n}\n)");
+	  };
+
+
+	  /*
+	  define: eq, lt, gt, lte, gt
+	  With these signatures:
+	  
+	     * provide numbers for all fields to compare
+	    myColor.eq r, g, b, a
+	  
+	     * provide another instance of @class to compare against
+	    myColor.eq myOtherColor
+	   */
+
+	  letterFieldNames = wordsArray("a b c d e f");
+
+	  Base._defineComparisonOperators = function(fieldNames) {
+	    var comparisonOperators, f, functionName, i, operator, params, paramsList, results;
+	    params = letterFieldNames.slice(0, fieldNames.length);
+	    paramsList = params.join(', ');
+	    this._definePrototypeMethodViaEval("eq", paramsList, "if (this === a) return true;\nif (this.isNumber(a)) {\n  return\n  " + (((function() {
+	      var j, len, results;
+	      results = [];
+	      for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
+	        f = fieldNames[i];
+	        results.push("this.floatEq(this." + f + ", " + params[i] + ")");
+	      }
+	      return results;
+	    })()).join(" &&\n  ")) + ";\n} else {\n  return a &&\n  " + (((function() {
+	      var j, len, results;
+	      results = [];
+	      for (j = 0, len = fieldNames.length; j < len; j++) {
+	        f = fieldNames[j];
+	        results.push("this.floatEq(this." + f + ", a." + f + ")");
+	      }
+	      return results;
+	    })()).join(" &&\n  ")) + ";\n}");
+	    comparisonOperators = {
+	      lt: "<",
+	      gt: ">",
+	      lte: "<=",
+	      gte: ">="
+	    };
+	    results = [];
+	    for (functionName in comparisonOperators) {
+	      operator = comparisonOperators[functionName];
+	      results.push(this._definePrototypeMethodViaEval(functionName, paramsList, "if (this.isNumber(a)) {\n  return\n  " + (((function() {
+	        var j, len, results1;
+	        results1 = [];
+	        for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
+	          f = fieldNames[i];
+	          results1.push("this." + f + " " + operator + " " + params[i]);
+	        }
+	        return results1;
+	      })()).join(" &&\n  ")) + ";\n} else {\n  return a &&\n  " + (((function() {
+	        var j, len, results1;
+	        results1 = [];
+	        for (j = 0, len = fieldNames.length; j < len; j++) {
+	          f = fieldNames[j];
+	          results1.push("this." + f + " " + operator + " a." + f);
+	        }
+	        return results1;
+	      })()).join(" &&\n  ")) + ";\n}"));
+	    }
+	    return results;
+	  };
+
+
+	  /*
+	  define: add, sub, mul and div
+	  With these signatures:
+	  
+	    myColor.add r, g, b, a   # 4 numbers
+	  
+	    myColor.add myOtherColor, into # add by component
+	    myColor.add v, into            # one number to add to all
+	  
+	    into is optional. if set:
+	      it should be an instance of @class
+	      into is what is returned; a new instance of @class is not created
+	      into's field are set to the result
+	      NOTE: Atomic classes are designed to be used Pure-Functionally!
+	        SO, only use this if you created 'into' and you are not using it ANYWHERE else.
+	   */
+
+	  Base._defineMathOperators = function(fieldNames) {
+	    var f, functionName, i, mathOperators, operator, params, results;
+	    mathOperators = {
+	      add: "+",
+	      sub: "-",
+	      mul: "*",
+	      div: "/"
+	    };
+	    params = letterFieldNames.slice(0, fieldNames.length);
+	    results = [];
+	    for (functionName in mathOperators) {
+	      operator = mathOperators[functionName];
+	      results.push(this._definePrototypeMethodViaEval(functionName, params.join(', '), "if (this.isNumber(b)) {\n  return this._into(\n  null,\n  " + (((function() {
+	        var j, len, results1;
+	        results1 = [];
+	        for (i = j = 0, len = fieldNames.length; j < len; i = ++j) {
+	          f = fieldNames[i];
+	          results1.push("this." + f + " " + operator + " " + params[i]);
+	        }
+	        return results1;
+	      })()).join(",\n  ")) + "\n  );\n} else if (this.isNumber(a)) {\n  return this._into(\n  b,\n  " + (((function() {
+	        var j, len, results1;
+	        results1 = [];
+	        for (j = 0, len = fieldNames.length; j < len; j++) {
+	          f = fieldNames[j];
+	          results1.push("this." + f + " " + operator + " a");
+	        }
+	        return results1;
+	      })()).join(",\n  ")) + "\n  );\n} else {\n  return this._into(\n  b,\n  " + (((function() {
+	        var j, len, results1;
+	        results1 = [];
+	        for (j = 0, len = fieldNames.length; j < len; j++) {
+	          f = fieldNames[j];
+	          results1.push("this." + f + " " + operator + " a." + f);
+	        }
+	        return results1;
+	      })()).join(",\n  ")) + "\n  );\n}"));
+	    }
+	    return results;
+	  };
+
+	  Base._defineCore = function(fields) {
+	    var f, field, fieldList, j, len;
+	    fieldList = fields.join(', ');
+	    this._definePrototypeMethodViaEval("_into", "into, " + fieldList, "if (into === true)\n  into = this;\nelse\n  into = into || new this.class;\nreturn into._setAll(" + fieldList + ");");
+	    this._definePrototypeMethodViaEval("_setAll", fieldList, (((function() {
+	      var j, len, results;
+	      results = [];
+	      for (j = 0, len = fields.length; j < len; j++) {
+	        f = fields[j];
+	        results.push("this." + f + " = " + f);
+	      }
+	      return results;
+	    })()).join(";\n")) + ";\nreturn this;");
+	    this._definePrototypeMethodViaEval("with", fieldList, "if (this.eq(" + fieldList + "))\n  return this;\nelse\n  return new this.class(" + fieldList + ");");
+	    for (j = 0, len = fields.length; j < len; j++) {
+	      field = fields[j];
+	      this._definePrototypeMethodViaEval("with" + (upperCamelCase(field)), field, "return this.with(\n  " + (((function() {
+	        var k, len1, results;
+	        results = [];
+	        for (k = 0, len1 = fields.length; k < len1; k++) {
+	          f = fields[k];
+	          results.push(f === field ? f : "this." + f);
+	        }
+	        return results;
+	      })()).join(",\n  ")) + "\n);");
+	    }
+	    this._definePrototypeMethodViaEval("interpolate", "b, p, into", "var oneMinusP = 1 - p;\nreturn this._into(\ninto,\n" + (((function() {
+	      var k, len1, results;
+	      results = [];
+	      for (k = 0, len1 = fields.length; k < len1; k++) {
+	        f = fields[k];
+	        results.push("b." + f + " * p + this." + f + " * oneMinusP");
+	      }
+	      return results;
+	    })()).join(",\n")) + "\n);");
+	    this._definePrototypeMethodViaEval("toArray", "", "return [" + (((function() {
+	      var k, len1, results;
+	      results = [];
+	      for (k = 0, len1 = fields.length; k < len1; k++) {
+	        f = fields[k];
+	        results.push("this." + f);
+	      }
+	      return results;
+	    })()).join(", ")) + "];");
+	    return this._definePrototypeMethodViaEval("toObject", "", "return {" + (((function() {
+	      var k, len1, results;
+	      results = [];
+	      for (k = 0, len1 = fields.length; k < len1; k++) {
+	        f = fields[k];
+	        results.push(f + ": this." + f);
+	      }
+	      return results;
+	    })()).join(", ")) + "};");
+	  };
+
+	  return Base;
+
+	})(BaseObject);
+
+
+/***/ },
+/* 136 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AtomicBase, Foundation, PI, Point, abs, atan, bound, ceil, floatEq, floor, inspect, inspectedObjectLiteral, isArray, isFunction, isNumber, isString, log, max, min, nearInfinity, round, sqrt, stringToNumberArray,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	AtomicBase = __webpack_require__(135);
+
+	inspect = Foundation.inspect, bound = Foundation.bound, floatEq = Foundation.floatEq, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray, nearInfinity = Foundation.nearInfinity, inspectedObjectLiteral = Foundation.inspectedObjectLiteral;
+
+	abs = Math.abs, sqrt = Math.sqrt, atan = Math.atan, PI = Math.PI, floor = Math.floor, ceil = Math.ceil, round = Math.round, min = Math.min, max = Math.max;
+
+
+	/*
+	point() general point constructor
+
+	IN: (p:Point)
+	OUT: p
+
+	IN: ()
+	IN: ([])
+	OUT: point 0, 0
+
+	IN: (string)
+	OUT: Point.namedPoints[string] || Point.parse string
+
+	IN: (s:number)
+	IN: ([s:number])
+	OUT: new Point s, s
+
+	IN: (x:number, y:number)
+	IN: ([x:number, y:number])
+	OUT: new Point x, y
+
+	IN: ({x:number, y:number})
+	OUT: new Point x || 0, y || 0
+
+	IN: ({aspectRatio: number, area: number})
+	  aspectRatio: number representing: width / height
+	  area: number representing the square-area desired
+	OUT:
+	  a point, p, with:
+	    p.area == o.area
+	    p.aspectRatio == o.aspectRatio
+	 */
+
+	module.exports = Point = (function(superClass) {
+	  var bottomLeft, centerCenter, centerLeft, k, namedPoints, point, point0, point1, pointWithAspectRatioAndArea, ref, topCenter, topRight, v;
+
+	  extend(Point, superClass);
+
+	  function Point() {
+	    return Point.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Point.defineAtomicClass({
+	    fieldNames: "x y"
+	  });
+
+	  Point.isPoint = function(v) {
+	    return v instanceof Point;
+	  };
+
+	  pointWithAspectRatioAndArea = function(arg) {
+	    var area, aspectRatio, sqrtArea;
+	    aspectRatio = arg.aspectRatio, area = arg.area;
+	    sqrtArea = Math.sqrt(area / aspectRatio);
+	    return point(sqrtArea * aspectRatio, sqrtArea);
+	  };
+
+	  Point.point = point = function(a, b) {
+	    var p, x, y;
+	    if (a instanceof Point) {
+	      return a;
+	    }
+	    if (isString(a) && (p = namedPoints[a])) {
+	      return p;
+	    }
+	    if ((a != null ? a.aspectRatio : void 0) && a.area >= 0) {
+	      return pointWithAspectRatioAndArea(a);
+	    }
+	    x = a || 0;
+	    y = b != null ? b : a;
+	    if (point0.eq(x, y)) {
+	      return point0;
+	    }
+	    if (point1.eq(x, y)) {
+	      return point1;
+	    }
+	    return new Point(a, b);
+	  };
+
+	  Point.parse = function(string, existing) {
+	    if (existing) {
+	      throw new Error("existing feature is no longer supported");
+	    }
+	    return new Point(string);
+	  };
+
+	  Point.prototype._init = function(x, y) {
+	    x || (x = 0);
+	    if (y == null) {
+	      y = x;
+	    }
+	    this.x = x - 0;
+	    return this.y = y - 0;
+	  };
+
+	  Point.prototype._initFromObject = function(o) {
+	    this.x = o.x || 0;
+	    return this.y = o.y || 0;
+	  };
+
+	  Point.getter({
+	    top: function() {
+	      return 0;
+	    },
+	    left: function() {
+	      return 0;
+	    },
+	    right: function() {
+	      return this.x;
+	    },
+	    bottom: function() {
+	      return this.y;
+	    },
+	    centerX: function() {
+	      return this.x * .5;
+	    },
+	    centerY: function() {
+	      return this.y * .5;
+	    },
+	    tl: function() {
+	      return point0;
+	    },
+	    tc: function() {
+	      return this.mul(0.5, 0);
+	    },
+	    tr: function() {
+	      return this.mul(1, 0);
+	    },
+	    lc: function() {
+	      return this.mul(0, 0.5);
+	    },
+	    cc: function() {
+	      return this.mul(0.5, 0.5);
+	    },
+	    rc: function() {
+	      return this.mul(1, 0.5);
+	    },
+	    bl: function() {
+	      return this.mul(0, 1);
+	    },
+	    bc: function() {
+	      return this.mul(0.5, 1);
+	    },
+	    br: function() {
+	      return this;
+	    },
+	    ccNeg: function() {
+	      return this.mul(-0.5);
+	    },
+	    topLeft: function() {
+	      return point0;
+	    },
+	    topCenter: function() {
+	      return this.mul(0.5, 0);
+	    },
+	    topRight: function() {
+	      return this.mul(1, 0);
+	    },
+	    centerLeft: function() {
+	      return this.mul(0, 0.5);
+	    },
+	    centerCenter: function() {
+	      return this.mul(0.5, 0.5);
+	    },
+	    centerRight: function() {
+	      return this.mul(1, 0.5);
+	    },
+	    bottomLeft: function() {
+	      return this.mul(0, 1);
+	    },
+	    bottomCenter: function() {
+	      return this.mul(0.5, 1);
+	    },
+	    bottomRight: function() {
+	      return this;
+	    },
+	    w: function() {
+	      return this.x;
+	    },
+	    width: function() {
+	      return this.x;
+	    },
+	    h: function() {
+	      return this.y;
+	    },
+	    height: function() {
+	      return this.y;
+	    },
+	    neg: function() {
+	      return new Point(-this.x, -this.y);
+	    },
+	    inv: function() {
+	      return new Point(1.0 / this.x, 1.0 / this.y);
+	    },
+	    vector: function() {
+	      return [this.x, this.y];
+	    },
+	    magnitudeSquared: function() {
+	      return this.x * this.x + this.y * this.y;
+	    },
+	    magnitude: function() {
+	      return sqrt(this.x * this.x + this.y * this.y);
+	    },
+	    aspectRatio: function() {
+	      return this.x / this.y;
+	    },
+	    absoluteAspectRatio: function() {
+	      return abs(this.x / this.y);
+	    },
+	    swapped: function() {
+	      return point(this.y, this.x);
+	    },
+	    rounded: function() {
+	      return this.round();
+	    },
+	    floored: function() {
+	      return this.floor();
+	    },
+	    ceiled: function() {
+	      return this.ceil();
+	    },
+	    area: function() {
+	      return this.x * this.y;
+	    },
+	    sum: function() {
+	      return this.x + this.y;
+	    },
+	    size: function() {
+	      return this;
+	    },
+	    location: function() {
+	      return point0;
+	    },
+	    abs: function() {
+	      return this["with"](abs(this.x), abs(this.y));
+	    },
+	    unitVector: function() {
+	      var m;
+	      m = 1 / this.magnitude;
+	      return new Point(this.x * m, this.y * m);
+	    },
+	    perpendicularVector: function() {
+	      return new Point(this.y, -this.x);
+	    },
+	    unitPerpendicularVector: function() {
+	      var m;
+	      m = 1 / this.magnitude;
+	      return new Point(this.y * m, -this.x * m);
+	    },
+	    angle: function() {
+	      if (this.x === 0) {
+	        return PI * (this.y > 0 ? .5 : 1.5);
+	      } else {
+	        if (this.x > 0) {
+	          return atan(this.y / this.x);
+	        } else {
+	          return atan(this.y / this.x) + PI;
+	        }
+	      }
+	    },
+	    isInteger: function() {
+	      return floatEq(this.x, this.x | 0) && floatEq(this.y, this.y | 0);
+	    }
+	  });
+
+	  Point.prototype.distance = function(p2) {
+	    return sqrt(this.distanceSquared(p2));
+	  };
+
+	  Point.prototype.distanceSquared = function(p2) {
+	    var x, y;
+	    x = this.x - p2.x;
+	    y = this.y - p2.y;
+	    return x * x + y * y;
+	  };
+
+	  Point.prototype.withArea = function(newArea) {
+	    var area;
+	    area = this.area;
+	    if (!(area > 0 && newArea >= 0)) {
+	      throw new Error("area must be > 0");
+	    }
+	    return this.mul(Math.sqrt(newArea / area));
+	  };
+
+	  Point.prototype.vectorLength = 2;
+
+	  Point.prototype.toIndex = function(lineStride) {
+	    return ~~this.y * lineStride + ~~this.x;
+	  };
+
+	  Point.prototype.contains = function(p) {
+	    return p.x >= 0 && p.y >= 0 && p.x < this.x & p.y < this.y;
+	  };
+
+	  Point.prototype.nearestInsidePoint = function(p) {
+	    return this["with"](bound(0, p.x, this.x), bound(0, p.y, this.y));
+	  };
+
+	  Point.prototype.appendToVector = function(vector) {
+	    var l;
+	    l = vector.length;
+	    vector[l + 1] = this.y;
+	    return vector[l] = this.x;
+	  };
+
+	  Point.prototype.dot = function(p) {
+	    return this.x * p.x + this.y * p.y;
+	  };
+
+	  Point.prototype.cross = function(p) {
+	    return this.x * p.y - this.y * p.x;
+	  };
+
+	  Point.prototype.floor = function() {
+	    return this["with"](floor(this.x), floor(this.y));
+	  };
+
+	  Point.prototype.ceil = function() {
+	    return this["with"](ceil(this.x), ceil(this.y));
+	  };
+
+	  Point.prototype.union = function(b) {
+	    if (b instanceof Point) {
+	      return this.max(b);
+	    } else {
+	      return b.union(this);
+	    }
+	  };
+
+	  Point.prototype.intersection = function(b) {
+	    if (b instanceof Point) {
+	      return this.min(b);
+	    } else {
+	      return b.intersection(this);
+	    }
+	  };
+
+	  Point.prototype.min = function(b) {
+	    if (b == null) {
+	      b = null;
+	    }
+	    if (b) {
+	      return this["with"](min(this.x, b.x), min(this.y, b.y));
+	    } else {
+	      return min(this.x, this.y);
+	    }
+	  };
+
+	  Point.prototype.max = function(b) {
+	    if (b == null) {
+	      b = null;
+	    }
+	    if (b) {
+	      return this["with"](max(this.x, b.x), max(this.y, b.y));
+	    } else {
+	      return max(this.x, this.y);
+	    }
+	  };
+
+	  Point.prototype.average = function(b) {
+	    if (b == null) {
+	      b = null;
+	    }
+	    if (b) {
+	      return this["with"]((this.x + b.x) / 2, (this.y + b.y) / 2);
+	    } else {
+	      return (this.x + this.y) / 2;
+	    }
+	  };
+
+	  Point.prototype.bound = function(a, b) {
+	    return this["with"](bound(a.x, this.x, b.x), bound(a.y, this.y, b.y));
+	  };
+
+	  Point.prototype.round = function(m) {
+	    if (m == null) {
+	      m = 1;
+	    }
+	    return this["with"](round(this.x / m) * m, round(this.y / m) * m);
+	  };
+
+	  Point.prototype.roundOut = function() {
+	    return this.ceil();
+	  };
+
+
+	  /*
+	  OUT:
+	    out.aspectRatio == @aspectRatio
+	    out <= into
+	    out.x == into.x or out.y == into.y
+	  proposed rename: scaledJustLte
+	   */
+
+	  Point.prototype.fitInto = function(into) {
+	    var xr, yr;
+	    xr = into.x / this.x;
+	    yr = into.y / this.y;
+	    return this.mul(min(xr, yr));
+	  };
+
+
+	  /*
+	  OUT:
+	    out.aspectRatio == @aspectRatio
+	    out >= into
+	    out.x == into.x or out.y == into.y
+	  
+	  KEYWORD: I used to call this 'zoom'
+	  proposed rename: scaledJustGte
+	   */
+
+	  Point.prototype.fill = function(into) {
+	    var xr, yr;
+	    xr = into.x / this.x;
+	    yr = into.y / this.y;
+	    return this.mul(max(xr, yr));
+	  };
+
+
+	  /*
+	  OUT:
+	    out.aspectRatio == @aspectRatio
+	    out.area == p.area
+	   */
+
+	  Point.prototype.withSameAreaAs = function(p) {
+	    return this.mul(Math.sqrt(p.area / this.area));
+	  };
+
+	  point0 = Object.freeze(new Point(0));
+
+	  point1 = Object.freeze(new Point(1));
+
+	  topRight = Object.freeze(new Point(1, 0));
+
+	  topCenter = Object.freeze(new Point(0.5, 0));
+
+	  centerLeft = Object.freeze(new Point(0, 0.5));
+
+	  centerCenter = Object.freeze(new Point(0.5));
+
+	  bottomLeft = Object.freeze(new Point(0, 1));
+
+	  Point.namedPoints = namedPoints = {
+	    point0: point0,
+	    point1: point1,
+	    topLeft: point0,
+	    topCenter: topCenter,
+	    topRight: topRight,
+	    centerLeft: centerLeft,
+	    centerCenter: centerCenter,
+	    centerRight: Object.freeze(new Point(1, 0.5)),
+	    bottomLeft: bottomLeft,
+	    bottomCenter: Object.freeze(new Point(0.5, 1)),
+	    bottomRight: point1,
+	    pointNearInfinity: Object.freeze(new Point(nearInfinity)),
+	    left: point0,
+	    center: topCenter,
+	    right: topRight,
+	    top: point0,
+	    bottom: bottomLeft
+	  };
+
+	  ref = Point.namedPoints;
+	  for (k in ref) {
+	    v = ref[k];
+	    Point[k] = v;
+	  }
+
+	  return Point;
+
+	})(AtomicBase);
+
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Atomic, AtomicBase, Foundation, Point, Rectangle, bound, ceil, floatEq, floatEq0, floor, isArray, isFunction, isNumber, isString, log, max, min, point, round, stringToNumberArray,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Atomic = __webpack_require__(131);
+
+	AtomicBase = __webpack_require__(135);
+
+	Point = __webpack_require__(136);
+
+	max = Foundation.max, min = Foundation.min, bound = Foundation.bound, round = Foundation.round, floatEq = Foundation.floatEq, floor = Foundation.floor, ceil = Foundation.ceil, round = Foundation.round, log = Foundation.log, isNumber = Foundation.isNumber, isArray = Foundation.isArray, isString = Foundation.isString, isFunction = Foundation.isFunction, stringToNumberArray = Foundation.stringToNumberArray, floatEq0 = Foundation.floatEq0;
+
+	point = Point.point;
+
+	module.exports = Rectangle = (function(superClass) {
+	  var rect;
+
+	  extend(Rectangle, superClass);
+
+	  function Rectangle() {
+	    return Rectangle.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Rectangle.defineAtomicClass({
+	    fieldNames: "x y w h",
+	    constructorFunctionName: "rect"
+	  });
+
+	  Rectangle.rect = rect = function(a, b, c, d) {
+	    if (a instanceof Rectangle) {
+	      return a;
+	    }
+	    return new Rectangle(a, b, c, d);
+	  };
+
+	  Rectangle.prototype._init = function(a, b, c, d) {
+	    this.x = this.y = this.w = this.h = 0;
+	    if (d != null) {
+	      this.x = a - 0;
+	      this.y = b - 0;
+	      this.w = c - 0;
+	      return this.h = d - 0;
+	    } else if (b != null) {
+	      if (b instanceof Point) {
+	        this.x = a.x;
+	        this.y = a.y;
+	        this.w = b.w;
+	        return this.h = b.h;
+	      } else {
+	        this.w = a - 0;
+	        return this.h = b - 0;
+	      }
+	    } else if (a instanceof Point) {
+	      this.w = a.w;
+	      return this.h = a.h;
+	    } else if (a != null) {
+	      return this.w = this.h = a - 0;
+	    }
+	  };
+
+	  Rectangle.getter({
+	    clone: function() {
+	      return new Rectangle(this.x, this.y, this.w, this.h);
+	    },
+	    location: function() {
+	      return new Point(this.x, this.y);
+	    },
+	    locationMatrix: function() {
+	      return Atomic.Matrix.translateXY(this.x, this.y);
+	    },
+	    size: function() {
+	      return new Point(this.w, this.h);
+	    },
+	    width: function() {
+	      return this.w;
+	    },
+	    height: function() {
+	      return this.h;
+	    },
+	    rounded: function() {
+	      return this["with"](round(this.x), round(this.y), round(this.w), round(this.h));
+	    },
+	    tl: function() {
+	      return new Point(this.x, this.y);
+	    },
+	    tc: function() {
+	      return new Point(this.hCenter, this.y);
+	    },
+	    tr: function() {
+	      return new Point(this.right, this.y);
+	    },
+	    lc: function() {
+	      return new Point(this.x, this.vCenter);
+	    },
+	    cc: function() {
+	      return new Point(this.hCenter, this.vCenter);
+	    },
+	    rc: function() {
+	      return new Point(this.right, this.vCenter);
+	    },
+	    bl: function() {
+	      return new Point(this.x, this.bottom);
+	    },
+	    bc: function() {
+	      return new Point(this.hCenter, this.bottom);
+	    },
+	    br: function() {
+	      return new Point(this.right, this.bottom);
+	    },
+	    topLeft: function() {
+	      return new Point(this.x, this.y);
+	    },
+	    topCenter: function() {
+	      return new Point(this.hCenter, this.y);
+	    },
+	    topRight: function() {
+	      return new Point(this.right, this.y);
+	    },
+	    centerLeft: function() {
+	      return new Point(this.x, this.vCenter);
+	    },
+	    centerCenter: function() {
+	      return new Point(this.hCenter, this.vCenter);
+	    },
+	    centerRight: function() {
+	      return new Point(this.right, this.vCenter);
+	    },
+	    bottomLeft: function() {
+	      return new Point(this.x, this.bottom);
+	    },
+	    bottomCenter: function() {
+	      return new Point(this.hCenter, this.bottom);
+	    },
+	    bottomRight: function() {
+	      return new Point(this.right, this.bottom);
+	    },
+	    locationIsZero: function() {
+	      return floatEq(this.x, 0) && floatEq(this.y, 0);
+	    },
+	    top: function() {
+	      return this.y;
+	    },
+	    left: function() {
+	      return this.x;
+	    },
+	    right: function() {
+	      return this.x + this.w;
+	    },
+	    bottom: function() {
+	      return this.y + this.h;
+	    },
+	    hCenter: function() {
+	      return this.x + this.w * .5;
+	    },
+	    vCenter: function() {
+	      return this.y + this.h * .5;
+	    },
+	    infinite: function() {
+	      return this.w === 2e308 || this.h === 2e308;
+	    },
+	    normalized: function() {
+	      var h, w, x, y;
+	      w = this.w;
+	      h = this.h;
+	      if (w >= 0 && h >= 0) {
+	        return this;
+	      } else {
+	        x = this.x;
+	        y = this.y;
+	        if (w < 0) {
+	          x += w;
+	          w = -w;
+	        }
+	        if (h < 0) {
+	          y += h;
+	          h = -h;
+	        }
+	        return this["with"](x, y, w, h);
+	      }
+	    },
+	    area: function() {
+	      return this.w * this.h;
+	    },
+	    corners: function() {
+	      var bottom, left, right, top;
+	      left = this.left;
+	      top = this.top;
+	      right = this.right;
+	      bottom = this.bottom;
+	      return [new Point(left, top), new Point(right, top), new Point(right, bottom), new Point(left, bottom)];
+	    }
+	  });
+
+	  Rectangle.prototype.withXY = function(x, y) {
+	    if (floatEq(x, this.x) && floatEq(y, this.y)) {
+	      return this;
+	    } else {
+	      return new Rectangle(x, y, this.w, this.h);
+	    }
+	  };
+
+	  Rectangle.prototype.withWH = function(w, h) {
+	    if (floatEq(w, this.w) && floatEq(h, this.h)) {
+	      return this;
+	    } else {
+	      return new Rectangle(this.x, this.y, w, h);
+	    }
+	  };
+
+	  Rectangle.prototype.withLocation = function(v) {
+	    return this.withXY(v.x, v.y);
+	  };
+
+	  Rectangle.prototype.withSize = function(v) {
+	    return this.withWH(v.x, v.y);
+	  };
+
+	  Rectangle.prototype.movedBy = function(d) {
+	    return this.withXY(this.x + d.x, this.y + d.y);
+	  };
+
+	  Rectangle.prototype.nearestInsidePoint = function(p) {
+	    return new Point(bound(this.left, p.x, this.right), bound(this.top, p.y, this.bottom));
+	  };
+
+	  Rectangle.prototype.largestInsideRect = function(ofSize) {
+	    var h, scaler, w;
+	    scaler = min(this.w / ofSize.w, this.h / ofSize.h);
+	    w = ofSize.w * scale;
+	    h = ofSize.h * scale;
+	    return new Rectangle((this.w - w) / 2, (this.h - h) / 2, w, h);
+	  };
+
+	  Rectangle.prototype.overlaps = function(val) {
+	    if (val == null) {
+	      return false;
+	    }
+	    if (val instanceof Point) {
+	      return this.contains(val);
+	    } else if (val instanceof Rectangle) {
+	      return val.getRight() > this.getLeft() && val.getBottom() > this.getTop() && val.getLeft() < this.getRight() && val.getTop() < this.getBottom();
+	    } else {
+	      throw new Error("Invalid arguments for 'overlaps'. Expecting Point or Rectangle. Got: " + val + ".");
+	    }
+	  };
+
+	  Rectangle.prototype.contains = function(val) {
+	    if (val == null) {
+	      return false;
+	    }
+	    if (val instanceof Point) {
+	      return val.x >= this.x && val.y >= this.y && val.x < this.right && val.y < this.bottom;
+	    } else if (val instanceof Rectangle) {
+	      return val.x >= this.x && val.y >= this.y && val.right <= this.right && val.bottom <= this.bottom;
+	    } else {
+	      throw new Error("Invalid arguments for 'contains'. Expecting Point or Rectangle. Got: " + val + ".");
+	    }
+	  };
+
+	  Rectangle.prototype.round = function(m) {
+	    var h, w, x, y;
+	    if (m == null) {
+	      m = 1;
+	    }
+	    x = round(this.x, m);
+	    y = round(this.y, m);
+	    w = round(this.x + this.w, m) - x;
+	    h = round(this.y + this.h, m) - y;
+	    return this["with"](x, y, w, h);
+	  };
+
+	  Rectangle.prototype.roundOut = function(m, k) {
+	    var h, w, x, y;
+	    if (m == null) {
+	      m = 1;
+	    }
+	    if (k == null) {
+	      k = 0;
+	    }
+	    x = floor(this.x + k, m);
+	    y = floor(this.y + k, m);
+	    w = ceil(this.x + this.w - k, m) - x;
+	    h = ceil(this.y + this.h - k, m) - y;
+	    return this["with"](x, y, w, h);
+	  };
+
+	  Rectangle.prototype.roundIn = function(m, k) {
+	    var h, w, x, y;
+	    if (m == null) {
+	      m = 1;
+	    }
+	    if (k == null) {
+	      k = 0;
+	    }
+	    x = ceil(this.x - k, m);
+	    y = ceil(this.y - k, m);
+	    w = floor(this.x + this.w + k, m) - x;
+	    h = floor(this.y + this.h + k, m) - y;
+	    return this["with"](x, y, w, h);
+	  };
+
+	  Rectangle.prototype.union = function(b) {
+	    var h, w, x, y;
+	    if (b == null) {
+	      return this;
+	    }
+	    if (this.getArea() <= 0) {
+	      return b;
+	    }
+	    x = min(this.x, b.left);
+	    y = min(this.y, b.top);
+	    w = max(this.getRight(), b.getRight()) - x;
+	    h = max(this.getBottom(), b.getBottom()) - y;
+	    return this["with"](x, y, w, h);
+	  };
+
+	  Rectangle.prototype.unionInto = function(into) {
+	    var area, h, intoArea, w, x, y;
+	    area = this.getArea();
+	    intoArea = into.getArea();
+	    if (area <= 0 || intoArea === 2e308) {
+	      return into;
+	    }
+	    if (intoArea <= 0 || area === 2e308) {
+	      into.x = this.x;
+	      into.y = this.y;
+	      into.w = this.w;
+	      into.h = this.h;
+	    } else {
+	      x = into.x, y = into.y, w = into.w, h = into.h;
+	      into.x = min(x, this.x);
+	      into.y = min(y, this.y);
+	      into.w = max(x + w, this.x + this.w) - into.x;
+	      into.h = max(y + h, this.y + this.h) - into.y;
+	    }
+	    return into;
+	  };
+
+	  Rectangle.prototype.intersectInto = function(into) {
+	    var area, h, intoArea, w, x, y;
+	    area = this.getArea();
+	    intoArea = into.getArea();
+	    if (intoArea <= 0 || area === 2e308) {
+	      return into;
+	    }
+	    if (area <= 0 || intoArea === 2e308) {
+	      into.x = this.x;
+	      into.y = this.y;
+	      into.w = this.w;
+	      return into.h = this.h;
+	    } else {
+	      x = into.x, y = into.y, w = into.w, h = into.h;
+	      into.x = max(x, this.x);
+	      into.y = max(y, this.y);
+	      into.w = max(0, min(x + w, this.x + this.w) - into.x);
+	      into.h = max(0, min(y + h, this.y + this.h) - into.y);
+	      return into;
+	    }
+	  };
+
+	  Rectangle.prototype.intersection = function(b) {
+	    var h, w, x, y;
+	    if (b == null) {
+	      return this;
+	    }
+	    if (b.getArea() === 2e308 || b.contains(this)) {
+	      return this;
+	    }
+	    if (this.getArea() === 2e308 || this.contains(b)) {
+	      return b;
+	    }
+	    x = max(this.x, b.left);
+	    y = max(this.y, b.top);
+	    w = min(this.getRight(), b.getRight()) - x;
+	    h = min(this.getBottom(), b.getBottom()) - y;
+	    if (w <= 0 || h <= 0) {
+	      return Rectangle.nothing;
+	    } else {
+	      return this["with"](x, y, w, h);
+	    }
+	  };
+
+	  Rectangle.prototype.grow = function(a, b) {
+	    var x, y;
+	    if (a instanceof Point) {
+	      x = a.x, y = a.y;
+	    } else {
+	      x = a;
+	      y = b != null ? b : a;
+	    }
+	    if (floatEq0(x) && floatEq0(y)) {
+	      return this;
+	    }
+	    return this["with"](this.x - x, this.y - y, this.w + 2 * x, this.h + 2 * y);
+	  };
+
+	  Rectangle.nothing = Object.freeze(new Rectangle(0, 0, 0, 0));
+
+	  Rectangle.everything = Object.freeze(new Rectangle(0, 0, 2e308, 2e308));
+
+	  return Rectangle;
+
+	})(AtomicBase);
+
+
+/***/ },
+/* 138 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/*
+
+	With the exception of the setter methods, this is a pure-functional class.
+	 */
+
+	/*
+	Experiment: Instead of storing the matrix as 6 members, use a Float32Array:
+
+	  Bonus: if we order the 6 elements correctly, we can just pass the Float32Array directly to Webgl uniformMatrix3fv
+	  Result:
+	    FF is about 2x as fast with this implementation, but Chrome is about 10x slower (see below)
+	    Sticking with Members implementation for now.
+
+	On my Macbook pro Retina (2.6 GHz Intel Core i7)
+
+	Chrome 29.0.1547.57 (members)
+	  Matrix.translate 14,716,649/s
+	  matrix().translate 8,052,404/s
+	  transform point 3,922,725/s
+	  invert 12,733,472/s
+	  mul 16,146,097/s
+
+	Chrome 29.0.1547.57 (float32Array)
+	  Matrix.translate 926,402/s
+	  matrix().translate 463,791/s
+	  transform point 3,684,177/s
+	  invert 978,248/s
+	  mul 992,078/s
+
+	FF 23.0.1 (members)
+	  Matrix.translate 1,281,078/s
+	  matrix().translate 534,542/s
+	  transform point 768,224/s
+	  invert 1,374,788/s
+	  mul 1,413,206/s
+
+	FF 23.0.1 (float32Array)
+	  Matrix.translate 2,126,281/s
+	  matrix().translate 1,013,548/s
+	  transform point 832,604/s
+	  invert 2,524,903/s
+	  mul 2,669,331/s
+
+	NOTE! the order of the fields in the float32array for Webgl uniformMatrix3fv should be:
+	  @values[0] = @sx
+	  @values[1] = @shy
+	  @values[2] = @tx
+	  @values[3] = @shx
+	  @values[4] = @sy
+	  @values[5] = @ty
+	 */
+	var AtomicBase, Foundation, Matrix, Point, Rectangle, compact, float32Eq, inspect, isNumber, log, point, rect, simplifyNum,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	AtomicBase = __webpack_require__(135);
+
+	Point = __webpack_require__(136);
+
+	Rectangle = __webpack_require__(137);
+
+	point = Point.point;
+
+	rect = Rectangle.rect;
+
+	inspect = Foundation.inspect, simplifyNum = Foundation.simplifyNum, float32Eq = Foundation.float32Eq, compact = Foundation.compact, log = Foundation.log, isNumber = Foundation.isNumber;
+
+	module.exports = Matrix = (function(superClass) {
+	  var cleanInspect, identityMatrix, intermediatResultMatrix, matrix, transform1D;
+
+	  extend(Matrix, superClass);
+
+	  function Matrix() {
+	    return Matrix.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Matrix.defineAtomicClass({
+	    fieldNames: "sx sy shx shy tx ty"
+	  });
+
+	  Matrix.matrix = matrix = function(a, b, c, d, e, f) {
+	    if (a instanceof Matrix) {
+	      return a;
+	    } else if (a === null || a === void 0) {
+	      return identityMatrix;
+	    } else {
+	      return new Matrix(a, b, c, d, e, f);
+	    }
+	  };
+
+	  Matrix._cleanInspect = cleanInspect = function(pointName, s) {
+	    var out, r;
+	    out = pointName ? (r = new RegExp("([0-9])" + pointName, "g"), s.replace(r, "$1 * " + pointName).replace(/-1 \* /g, "-").replace(/\ \+ -/g, " - ").replace(/0\./g, ".")) : s.replace(/-1([A-Za-z]+)/g, "-$1").replace(/\ \+ -/g, " - ").replace(/0\./g, ".");
+	    return out;
+	  };
+
+	  Matrix.translate = function(a, b) {
+	    var x, y;
+	    if (isNumber(b)) {
+	      throw new Error("Matrix.translate no longer accepts two numbers. Use translateXY");
+	    }
+	    if (isNumber(a)) {
+	      x = y = a;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    return Matrix.translateXY(x, y);
+	  };
+
+	  Matrix.translateXY = function(x, y) {
+	    if (x === 0 && y === 0) {
+	      return identityMatrix;
+	    } else {
+	      return new Matrix(1, 1, 0, 0, x, y);
+	    }
+	  };
+
+	  Matrix.scale = function(a, b) {
+	    var x, y;
+	    if (isNumber(b)) {
+	      throw new Error("Matrix.scale no longer accepts two numbers. Use translateXY");
+	    }
+	    if (isNumber(a)) {
+	      x = y = a;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    return Matrix.scaleXY(x, y);
+	  };
+
+	  Matrix.scaleXY = function(sx, sy) {
+	    if (sx === 1 && sy === 1) {
+	      return identityMatrix;
+	    } else {
+	      return new Matrix(sx, sy, 0, 0, 0, 0);
+	    }
+	  };
+
+	  Matrix.rotate = function(radians) {
+	    var cr, sr;
+	    cr = Math.cos(radians);
+	    sr = Math.sin(radians);
+	    if (cr === 1 && sr === 0) {
+	      return identityMatrix;
+	    } else {
+	      return new Matrix(cr, cr, -sr, sr, 0, 0);
+	    }
+	  };
+
+	  Matrix.prototype.initDefaults = function() {
+	    this.sx = this.sy = 1;
+	    this.shy = this.shx = 0;
+	    this.tx = this.ty = 0;
+	    this._exactScale = this._exactScaler = null;
+	    return this;
+	  };
+
+	  Matrix.prototype._init = function(a, b, c, d, e, f) {
+	    this.initDefaults();
+	    if (a == null) {
+	      return;
+	    }
+	    if (a instanceof Point) {
+	      return this._initFromPoint(a);
+	    } else if (a instanceof Matrix) {
+	      return this._initFromMatrix(a);
+	    } else {
+	      this.sx = a - 0;
+	      if (b != null) {
+	        this.sy = b - 0;
+	      }
+	      if (c != null) {
+	        this.shx = c - 0;
+	      }
+	      if (d != null) {
+	        this.shy = d - 0;
+	      }
+	      if (e != null) {
+	        this.tx = e - 0;
+	      }
+	      if (f != null) {
+	        return this.ty = f - 0;
+	      }
+	    }
+	  };
+
+	  Matrix.prototype.getScale = function() {
+	    return this.getS();
+	  };
+
+	  Matrix.getter({
+	    t: function() {
+	      return point(this.tx, this.ty);
+	    },
+	    s: function() {
+	      return point(this.sx, this.sy);
+	    },
+	    sh: function() {
+	      return point(this.shx, this.shy);
+	    },
+	    xsv: function() {
+	      return point(this.sx, this.shx);
+	    },
+	    ysv: function() {
+	      return point(this.sy, this.shy);
+	    },
+	    exactScale: function() {
+	      return this._exactScale || (this._exactScale = point(this.xsv.magnitude, this.ysv.magnitude));
+	    },
+	    exactScaler: function() {
+	      return this._exactScaler || (this._exactScaler = this.exactScale.average());
+	    },
+	    inv: function() {
+	      return this.invert();
+	    },
+	    locationX: function() {
+	      return this.tx;
+	    },
+	    locationY: function() {
+	      return this.ty;
+	    },
+	    scaleX: function() {
+	      return this.sx;
+	    },
+	    scaleY: function() {
+	      return this.sy;
+	    },
+	    location: function() {
+	      return point(this.tx, this.ty);
+	    },
+	    withRoundedTranslation: function() {
+	      if (this.translationIsIntegral) {
+	        return this;
+	      } else {
+	        return new Matrix(this.sx, this.sy, this.shx, this.shy, Math.round(this.tx), Math.round(this.ty));
+	      }
+	    },
+	    angle: function() {
+	      var p1, p2;
+	      p1 = this.transform(Point.point0);
+	      p2 = this.transform(new Point(0, 1));
+	      return (p2.sub(p1)).angle - Math.PI * .5;
+	    },
+	    float32Array: function() {
+	      return this.fillFloat32Array(new Float32Array(9));
+	    },
+	    isIdentity: function() {
+	      return float32Eq(this.sx, 1) && float32Eq(this.sy, 1) && float32Eq(this.shx, 0) && float32Eq(this.shy, 0) && float32Eq(this.tx, 0) && float32Eq(this.ty, 0);
+	    },
+	    isTranslateOnly: function() {
+	      return float32Eq(this.sx, 1) && float32Eq(this.sy, 1) && float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
+	    },
+	    translationIsIntegral: function() {
+	      return float32Eq(this.tx, Math.round(this.tx)) && float32Eq(this.ty, Math.round(this.ty));
+	    },
+	    isIntegerTranslateOnly: function() {
+	      return this.isTranslateOnly && float32Eq(this.tx, this.tx | 0) && float32Eq(this.ty, this.ty | 0);
+	    },
+	    isTranslateAndScaleOnly: function() {
+	      return float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
+	    },
+	    isTranslateAndPositiveScaleOnly: function() {
+	      return this.sx > 0 && this.sy > 0 && float32Eq(this.shx, 0) && float32Eq(this.shy, 0);
+	    }
+	  });
+
+	  Matrix.prototype.fillFloat32Array = function(a) {
+	    a[0] = this.sx;
+	    a[1] = this.shx;
+	    a[2] = this.tx;
+	    a[3] = this.shy;
+	    a[4] = this.sy;
+	    a[5] = this.ty;
+	    return a;
+	  };
+
+	  Matrix.prototype.simplify = function() {
+	    return new Matrix(simplifyNum(this.sx), simplifyNum(this.sy), simplifyNum(this.shx), simplifyNum(this.shy), simplifyNum(this.tx), simplifyNum(this.ty));
+	  };
+
+	  Matrix.prototype.withAngle = function(a) {
+	    return this.rotate(a - this.angle);
+	  };
+
+	  Matrix.prototype.withScale = function(a, b) {
+	    var x, y;
+	    if (isNumber(a)) {
+	      x = a;
+	      y = b != null ? b : x;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    return this.scale(x / this.sx, y / this.sy);
+	  };
+
+	  Matrix.prototype.withLocation = function(a, b) {
+	    var x, y;
+	    if (isNumber(a)) {
+	      x = a;
+	      y = b != null ? b : x;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    if (x === this.tx && y === this.ty) {
+	      return this;
+	    } else {
+	      return new Matrix(this.sx, this.sy, this.shx, this.shy, x, y);
+	    }
+	  };
+
+	  Matrix.prototype.withLocationXY = function(x, y) {
+	    if (x === this.tx && y === this.ty) {
+	      return this;
+	    } else {
+	      return new Matrix(this.sx, this.sy, this.shx, this.shy, x, y);
+	    }
+	  };
+
+
+	  /*
+	  IN:
+	    amount: point or number
+	    into: t/f
+	   */
+
+	  Matrix.prototype.translate = function(amount, into) {
+	    var x, y;
+	    if (isNumber(amount)) {
+	      x = y = amount;
+	    } else {
+	      x = amount.x, y = amount.y;
+	    }
+	    if (isNumber(into)) {
+	      throw new Error("Illegal second input: number (" + into + "). Use translateXY.");
+	    }
+	    return this.translateXY(x, y, into);
+	  };
+
+	  Matrix.prototype.translateXY = function(x, y, into) {
+	    return this._into(into, this.sx, this.sy, this.shx, this.shy, this.tx + x, this.ty + y);
+	  };
+
+	  Matrix.prototype.rotate = function(radians, into) {
+	    var cr, sr;
+	    cr = Math.cos(radians);
+	    sr = Math.sin(radians);
+	    return this._into(into, this.sx * cr - this.shy * sr, this.shx * sr + this.sy * cr, this.shx * cr - this.sy * sr, this.sx * sr + this.shy * cr, this.tx * cr - this.ty * sr, this.tx * sr + this.ty * cr);
+	  };
+
+	  Matrix.prototype.scale = function(a, into) {
+	    var x, y;
+	    if (isNumber(into)) {
+	      throw new Error("Matrix.scale no longer accepts two numbers. Use translateXY");
+	    }
+	    if (isNumber(a)) {
+	      x = y = a;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    return this.scaleXY(x, y, into);
+	  };
+
+	  Matrix.prototype.scaleXY = function(x, y, into) {
+	    return this._into(into, this.sx * x, this.sy * y, this.shx * x, this.shy * y, this.tx * x, this.ty * y);
+	  };
+
+	  Matrix.getter({
+	    determinantReciprocal: function() {
+	      return 1.0 / (this.sx * this.sy - this.shy * this.shx);
+	    }
+	  });
+
+	  Matrix.prototype.invert = function(into) {
+	    var d;
+	    d = this.getDeterminantReciprocal();
+	    return this._into(into, d * this.sy, d * this.sx, d * -this.shx, d * -this.shy, d * (-this.tx * this.sy + this.ty * this.shx), d * (this.tx * this.shy - this.ty * this.sx));
+	  };
+
+	  Matrix.prototype.mul = function(m, into) {
+	    if (isNumber(m)) {
+	      return this._into(into, this.sx * m, this.sy * m, this.shx * m, this.shy * m, this.tx * m, this.ty * m);
+	    } else {
+	      return this._into(into, this.sx * m.sx + this.shy * m.shx, this.shx * m.shy + this.sy * m.sy, this.shx * m.sx + this.sy * m.shx, this.sx * m.shy + this.shy * m.sy, this.tx * m.sx + this.ty * m.shx + m.tx, this.tx * m.shy + this.ty * m.sy + m.ty);
+	    }
+	  };
+
+	  Matrix.prototype.div = function(m, into) {
+	    var multipler;
+	    multipler = isNumber(m) ? 1 / m : m.invert(intermediatResultMatrix);
+	    return this.mul(multipler, into);
+	  };
+
+	  Matrix.prototype.inspectX = function(pointName, nullForZeroString) {
+	    var pn;
+	    pn = pointName;
+	    pointName = pointName ? pointName + "." : "";
+	    if (!(this.sx || this.shx || this.tx)) {
+	      return (!nullForZeroString ? "0" : void 0);
+	    }
+	    return cleanInspect(pn, compact([this.sx === 1 ? pointName + "x" : this.sx ? "" + this.sx + pointName + "x" : void 0, this.shx === 1 ? pointName + "y" : this.shx ? "" + this.shx + pointName + "y" : void 0, this.tx ? "" + this.tx : void 0]).join(" + "));
+	  };
+
+	  Matrix.prototype.inspectY = function(pointName, nullForZeroString) {
+	    var pn;
+	    pn = pointName;
+	    pointName = pointName ? pointName + "." : "";
+	    if (!(this.sy || this.shy || this.ty)) {
+	      return (!nullForZeroString ? "0" : void 0);
+	    }
+	    return cleanInspect(pn, compact([this.sy === 1 ? pointName + "y" : this.sy ? "" + this.sy + pointName + "y" : void 0, this.shy === 1 ? pointName + "x" : this.shy ? "" + this.shy + pointName + "x" : void 0, this.ty ? "" + this.ty : void 0]).join(" + "));
+	  };
+
+	  Matrix.prototype.inspectBoth = function(pointName) {
+	    return "(" + (this.inspectX(pointName)) + ", " + (this.inspectY(pointName)) + ")";
+	  };
+
+	  Matrix.transform1D = transform1D = function(x, y, sx, shx, tx) {
+	    return x * sx + y * shx + tx;
+	  };
+
+
+	  /*
+	  IN: a: Point or any object where .x and .y are numbers
+	  IN: a: x (number; required), b: y (number, default: x)
+	   */
+
+	  Matrix.prototype.transform = function(a, b) {
+	    var x, y;
+	    if (isNumber(a)) {
+	      x = a;
+	      y = b != null ? b : x;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    return new Point(transform1D(x, y, this.sx, this.shx, this.tx), transform1D(y, x, this.sy, this.shy, this.ty));
+	  };
+
+	  Matrix.prototype.transformX = function(x, y) {
+	    return transform1D(x, y, this.sx, this.shx, this.tx);
+	  };
+
+	  Matrix.prototype.transformY = function(x, y) {
+	    return transform1D(y, x, this.sy, this.shy, this.ty);
+	  };
+
+	  Matrix.prototype.inverseTransform = function(a, b) {
+	    var d, shx, shy, sx, sy, tx, ty, x, y;
+	    if (isNumber(a)) {
+	      x = a;
+	      y = b != null ? b : x;
+	    } else {
+	      x = a.x, y = a.y;
+	    }
+	    d = this.getDeterminantReciprocal();
+	    sx = d * this.sy;
+	    sy = d * this.sx;
+	    shx = d * -this.shx;
+	    shy = d * -this.shy;
+	    tx = d * (-this.tx * this.sy + this.ty * this.shx);
+	    ty = d * (this.tx * this.shy - this.ty * this.sx);
+	    return new Point(transform1D(x, y, sx, shx, tx), transform1D(y, x, sy, shy, ty));
+	  };
+
+	  Matrix.prototype.transformVector = function(a, b) {
+	    var dx, dy;
+	    switch ((a != null) && a.constructor) {
+	      case false:
+	        dx = dy = 0;
+	        break;
+	      case Point:
+	        dx = a.x;
+	        dy = a.y;
+	        break;
+	      default:
+	        dx = a;
+	        dy = b;
+	    }
+	    return new Point(dx * this.sx + dy * this.shx, dy * this.sy + dx * this.shy);
+	  };
+
+	  Matrix.prototype.transformDifference = function(v1, v2) {
+	    var dx, dy;
+	    dx = v1.x - v2.x;
+	    dy = v1.y - v2.y;
+	    return new Point(dx * this.sx + dy * this.shx, dy * this.sy + dx * this.shy);
+	  };
+
+	  Matrix.prototype.transformBoundingRect = function(r) {
+	    var bottom, h, left, right, top, w, x, x1, x2, x3, x4, y, y1, y2, y3, y4;
+	    r = rect(r);
+	    if (r.infinite) {
+	      return r;
+	    }
+	    if (this.shx === 0 && this.shy === 0) {
+	      x = r.x * this.sx + this.tx;
+	      y = r.y * this.sy + this.ty;
+	      w = r.w * this.sx;
+	      h = r.h * this.sy;
+	      if (w < 0) {
+	        x += w;
+	        w = -w;
+	      }
+	      if (h < 0) {
+	        y += h;
+	        h = -h;
+	      }
+	    } else {
+	      top = r.x;
+	      left = r.y;
+	      right = r.x + r.w;
+	      bottom = r.y + r.h;
+	      x1 = left * this.sx + top * this.shx + this.tx;
+	      y1 = top * this.sy + left * this.shy + this.ty;
+	      x2 = right * this.sx + top * this.shx + this.tx;
+	      y2 = top * this.sy + right * this.shy + this.ty;
+	      x3 = right * this.sx + bottom * this.shx + this.tx;
+	      y3 = bottom * this.sy + right * this.shy + this.ty;
+	      x4 = left * this.sx + bottom * this.shx + this.tx;
+	      y4 = bottom * this.sy + left * this.shy + this.ty;
+	      x = Math.min(x1, x2, x3, x4);
+	      w = Math.max(x1, x2, x3, x4) - x;
+	      y = Math.min(y1, y2, y3, y4);
+	      h = Math.max(y1, y2, y3, y4) - y;
+	    }
+	    return new Rectangle(x, y, w, h);
+	  };
+
+	  Matrix.identityMatrix = identityMatrix = new Matrix;
+
+	  Matrix.matrix0 = new Matrix(0, 0, 0, 0, 0, 0);
+
+	  intermediatResultMatrix = new Matrix;
+
+	  Matrix.prototype._initFromMatrix = function(m) {
+	    this.sx = m.sx;
+	    this.sy = m.sy;
+	    this.shx = m.shx;
+	    this.shy = m.shy;
+	    this.tx = m.tx;
+	    this.ty = m.ty;
+	    return this;
+	  };
+
+	  Matrix.prototype._initFromPoint = function(p) {
+	    this.tx = p.x;
+	    this.ty = p.y;
+	    return this;
+	  };
+
+	  return Matrix;
+
+	})(AtomicBase);
+
+
+/***/ },
+/* 139 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AtomicBase, Foundation, Perimeter, Point, floatEq, inspect, isPlainObject, isString, log, point,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	AtomicBase = __webpack_require__(135);
+
+	Point = __webpack_require__(136);
+
+	log = Foundation.log, inspect = Foundation.inspect, floatEq = Foundation.floatEq, isPlainObject = Foundation.isPlainObject, isString = Foundation.isString;
+
+	point = Point.point;
+
+	module.exports = Perimeter = (function(superClass) {
+	  var k, namedPerimeters, perimeter, perimeter0, ref, v;
+
+	  extend(Perimeter, superClass);
+
+	  function Perimeter() {
+	    return Perimeter.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Perimeter.defineAtomicClass({
+	    fieldNames: "left right top bottom"
+	  });
+
+	  Perimeter.perimeter = perimeter = function(a, b, c, d) {
+	    var p;
+	    if (a instanceof Perimeter) {
+	      return a;
+	    }
+	    if (isString(a) && (p = namedPerimeters[a])) {
+	      return p;
+	    }
+	    if ((b == null) && (floatEq(a, 0)) || !a) {
+	      return perimeter0;
+	    }
+	    return new Perimeter(a, b, c, d);
+	  };
+
+	  Perimeter.prototype._initFields = function() {
+	    return this.left = this.right = this.top = this.bottom = 0;
+	  };
+
+	  Perimeter.prototype._initFromObject = function(obj) {
+	    this._initFields();
+	    this.left = (obj.left || 0) + (obj.l || 0) + (obj.h || 0) + (obj.horizontal || 0);
+	    this.right = (obj.right || 0) + (obj.r || 0) + (obj.h || 0) + (obj.horizontal || 0);
+	    this.top = (obj.top || 0) + (obj.t || 0) + (obj.v || 0) + (obj.vertical || 0);
+	    return this.bottom = (obj.bottom || 0) + (obj.b || 0) + (obj.v || 0) + (obj.vertical || 0);
+	  };
+
+	  Perimeter.prototype._init = function(a, b, c, d) {
+	    var argLength;
+	    this._initFields();
+	    argLength = a != null ? b != null ? c != null ? d != null ? 4 : 3 : 2 : 1 : 0;
+	    switch (argLength) {
+	      case 0:
+	        return this.left = this.right = this.top = this.bottom = 0;
+	      case 1:
+	        return this.left = this.right = this.top = this.bottom = a;
+	      case 2:
+	        this.left = this.right = a;
+	        return this.top = this.bottom = b;
+	      case 4:
+	        this.left = a;
+	        this.right = b;
+	        this.top = c;
+	        return this.bottom = d;
+	      default:
+	        throw new Error("invalid number of arguments: " + (inspect(arguments)));
+	    }
+	  };
+
+	  Perimeter.getter({
+	    width: function() {
+	      return this.left + this.right;
+	    },
+	    height: function() {
+	      return this.top + this.bottom;
+	    },
+	    w: function() {
+	      return this.left + this.right;
+	    },
+	    h: function() {
+	      return this.top + this.bottom;
+	    }
+	  });
+
+	  Perimeter.prototype.subtractedFromSize = function(size) {
+	    var h, w;
+	    w = this.getWidth();
+	    h = this.getHeight();
+	    if (floatEq(w, 0) && floatEq(h, 0)) {
+	      return size;
+	    } else {
+	      return point(size.x - w, size.y - h);
+	    }
+	  };
+
+	  Perimeter.prototype.addedToSize = function(size) {
+	    var h, w;
+	    w = this.getWidth();
+	    h = this.getHeight();
+	    if (floatEq(w, 0) && floatEq(h, 0)) {
+	      return size;
+	    } else {
+	      return point(size.x + w, size.y + h);
+	    }
+	  };
+
+
+	  /*
+	  Named Instances
+	   */
+
+	  Perimeter.namedPerimeters = namedPerimeters = {
+	    perimeter0: perimeter0 = Object.freeze(new Perimeter(0))
+	  };
+
+	  ref = Perimeter.namedPerimeters;
+	  for (k in ref) {
+	    v = ref[k];
+	    Perimeter[k] = v;
+	  }
+
+	  return Perimeter;
+
+	})(AtomicBase);
+
+
+/***/ },
+/* 140 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
+		"dependencies": {
+			"art-foundation": "git://github.com/imikimi/art-foundation.git",
+			"chai": "^3.5.0",
+			"coffee-loader": "^0.7.2",
+			"coffee-script": "^1.11.1",
+			"css-loader": "^0.23.1",
+			"json-loader": "^0.5.4",
+			"mocha": "^2.5.3",
+			"neptune-namespaces": "^1.5.0",
+			"script-loader": "^0.7.0",
+			"sourcemapped-stacktrace": "^1.1.3",
+			"style-loader": "^0.13.1",
+			"webpack": "^1.13.2",
+			"webpack-dev-server": "^1.16.2"
+		},
+		"description": "atomic data-types such as Color, Point, Rectangle and Matrix",
+		"license": "ISC",
+		"name": "art-atomic",
+		"scripts": {
+			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
+			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
+			"nn": "neptune-namespaces --std",
+			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
+			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
+		},
+		"version": "0.5.1"
+	};
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(142);
+
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(143).includeInNamespace(__webpack_require__(145)).addModules({
+	  BitmapBase: __webpack_require__(147),
+	  Bitmap: __webpack_require__(148),
+	  GoogleFontLoader: __webpack_require__(152),
+	  GradientFillStyle: __webpack_require__(149),
+	  OriginalStackBlur: __webpack_require__(154),
+	  Paths: __webpack_require__(150),
+	  StackBlurOriginal: __webpack_require__(155),
+	  StackBlur: __webpack_require__(151)
+	});
+
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Canvas,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(144);
+
+	module.exports = Art.Canvas || Art.addNamespace('Canvas', Canvas = (function(superClass) {
+	  extend(Canvas, superClass);
+
+	  function Canvas() {
+	    return Canvas.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Canvas;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Neptune,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Neptune = __webpack_require__(4);
+
+	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
+	  extend(Art, superClass);
+
+	  function Art() {
+	    return Art.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Art;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _package;
+
+	module.exports = [
+	  {
+	    "package": _package = __webpack_require__(146),
+	    version: _package.version
+	  }
+	];
+
+
+/***/ },
+/* 146 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
+		"dependencies": {
+			"art-atomic": "git://github.com/imikimi/art-atomic.git",
+			"art-foundation": "git://github.com/imikimi/art-foundation.git",
+			"chai": "^3.5.0",
+			"coffee-loader": "^0.7.2",
+			"coffee-script": "^1.11.1",
+			"css-loader": "^0.23.1",
+			"json-loader": "^0.5.4",
+			"mocha": "^2.5.3",
+			"neptune-namespaces": "^1.5.0",
+			"script-loader": "^0.7.0",
+			"sourcemapped-stacktrace": "^1.1.3",
+			"style-loader": "^0.13.1",
+			"webfontloader": "^1.6.26",
+			"webpack": "^1.13.2",
+			"webpack-dev-server": "^1.16.2"
+		},
+		"license": "ISC",
+		"name": "art-canvas",
+		"scripts": {
+			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
+			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
+			"nn": "neptune-namespaces --std",
+			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
+			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
+		},
+		"version": "1.3.4"
+	};
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Atomic, BaseObject, Binary, BinaryString, BitmapBase, Color, Foundation, Matrix, Point, Rectangle, alphaChannelOffset, floor, inspect, isNumber, isString, log, matrix, nextTick, pixelStep, point, pureMerge, rect, rgbColor, round, toChannelNumberMap,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	Atomic = __webpack_require__(129);
+
+	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, rgbColor = Atomic.rgbColor, Color = Atomic.Color;
+
+	inspect = Foundation.inspect, nextTick = Foundation.nextTick, BaseObject = Foundation.BaseObject, Binary = Foundation.Binary, pureMerge = Foundation.pureMerge, isString = Foundation.isString, isNumber = Foundation.isNumber, log = Foundation.log;
+
+	round = Math.round, floor = Math.floor;
+
+	BinaryString = Binary.BinaryString;
+
+	toChannelNumberMap = {
+	  0: 0,
+	  1: 1,
+	  2: 2,
+	  3: 3,
+	  r: 0,
+	  g: 1,
+	  b: 2,
+	  a: 3,
+	  red: 0,
+	  green: 1,
+	  blue: 2,
+	  alpha: 3
+	};
+
+	alphaChannelOffset = 3;
+
+	pixelStep = 4;
+
+	module.exports = BitmapBase = (function(superClass) {
+	  var calculateBottom, calculateLeft, calculateRight, calculateTop;
+
+	  extend(BitmapBase, superClass);
+
+	  BitmapBase.bitmapsCreated = 0;
+
+	  BitmapBase.prototype.compositeModeSupported = function(mode) {
+	    return this.supportedCompositeModes.indexOf(mode) >= 0;
+	  };
+
+	  BitmapBase.pixelSnapDefault = true;
+
+	  BitmapBase.prototype.defaultColor = rgbColor("black");
+
+	  BitmapBase.prototype.defaultColorString = "black";
+
+	  function BitmapBase(a, b) {
+	    BitmapBase.__super__.constructor.apply(this, arguments);
+	    this._htmlImageElement = null;
+	    this._canvas = null;
+	    this._clippingArea = null;
+	    this._context = null;
+	    this._size = null;
+	    this._lastTransform = null;
+	    this._imageSmoothing = false;
+	    this.pixelSnap = BitmapBase.pixelSnapDefault;
+	    this._pixelsPerPoint = 1;
+	    BitmapBase.bitmapsCreated++;
+	    if (b) {
+	      a = point(a, b);
+	    }
+	    if (a instanceof BitmapBase) {
+	      this.populateClone(this);
+	    } else if (a instanceof HTMLCanvasElement) {
+	      this.initFromCanvas(a);
+	    } else if (a instanceof HTMLImageElement) {
+	      this.initFromImage(a);
+	    } else {
+	      this.initNewCanvas(point(a, b));
+	    }
+	  }
+
+	  BitmapBase.getter({
+	    inspectedObjects: function() {
+	      return this;
+	    },
+	    canvas: function() {
+	      if (!this._canvas) {
+	        if (this._htmlImageElement) {
+	          this.initNewCanvas(this.size);
+	          this.drawBitmap(null, this._htmlImageElement);
+	        } else {
+	          throw new Error("can't get @canvas");
+	        }
+	      }
+	      return this._canvas;
+	    },
+	    bitmapClass: function() {
+	      return this["class"];
+	    },
+	    clippingArea: function() {
+	      return this._clippingArea || (this._clippingArea = rect(this.getSize()));
+	    },
+	    aspectRatio: function() {
+	      return this.getSize().getAspectRatio();
+	    }
+	  });
+
+	  BitmapBase.prototype.shouldPixelSnap = function(where) {
+	    return this.pixelSnap && ((!where) || (where instanceof Point) || where.isTranslateAndPositiveScaleOnly);
+	  };
+
+	  BitmapBase.prototype.pixelSnapWhere = function(where) {
+	    if (where instanceof Point) {
+	      return where.rounded;
+	    } else if (where) {
+	      return where.withRoundedTranslation;
+	    }
+	  };
+
+	  BitmapBase.prototype.pixelSnapRectangle = function(where, r) {
+	    var bottom, h, isx, isy, right, sx, sy, tx, ty, w, x, y;
+	    right = (x = r.x) + (w = r.w);
+	    bottom = (y = r.y) + (h = r.h);
+	    isx = isy = sx = sy = 1;
+	    tx = ty = 0;
+	    if (where instanceof Point) {
+	      tx = where.x;
+	      ty = where.y;
+	    } else if (where) {
+	      tx = where.tx;
+	      ty = where.ty;
+	      sx = where.sx;
+	      isx = 1 / sx;
+	      sy = where.sy;
+	      isy = 1 / sy;
+	    }
+	    x = (Math.round((x * sx) + tx) - tx) * isx;
+	    y = (Math.round((y * sy) + ty) - ty) * isy;
+	    w = (Math.round((right * sx) + tx) - tx) * isx - x;
+	    h = (Math.round((bottom * sy) + ty) - ty) * isy - y;
+	    return rect(x, y, w, h);
+	  };
+
+	  BitmapBase.prototype.pixelSnapAndTransformRectangle = function(where, r) {
+	    var bottom, left, right, top;
+	    if (!r) {
+	      console.error("no r");
+	    }
+	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
+	    if (where instanceof Point) {
+	      left += where.x;
+	      right += where.x;
+	      top += where.y;
+	      bottom += where.y;
+	    } else if (where) {
+	      left = where.transformX(left, top);
+	      top = where.transformY(left, top);
+	      right = where.transformX(right, bottom);
+	      bottom = where.transformY(right, bottom);
+	    }
+	    left = Math.round(left);
+	    top = Math.round(top);
+	    right = Math.round(right);
+	    bottom = Math.round(bottom);
+	    return rect(left, top, right - left, bottom - top);
+	  };
+
+	  BitmapBase.prototype.clone = function() {
+	    var b;
+	    b = this.newBitmap(this.size);
+	    b.drawBitmap(null, this);
+	    return b;
+	  };
+
+	  BitmapBase.prototype.crop = function(area) {
+	    area || (area = this.getAutoCropRectangle());
+	    area = rect(area).intersection(rect(this.size));
+	    return this.newBitmap(area.size).drawBitmap(Matrix.translateXY(-area.x, -area.y), this);
+	  };
+
+	  BitmapBase.prototype.initFromCanvas = function(canvas) {
+	    this._canvas = canvas;
+	    this._size = point(this._canvas.width, this._canvas.height);
+	    return this.initContext();
+	  };
+
+	  BitmapBase.prototype.initFromImage = function(image) {
+	    this._size = point(image.width, image.height);
+	    this.initNewCanvas(this.size);
+	    return this.drawBitmap(point(), image);
+	  };
+
+	  BitmapBase.prototype.initNewCanvas = function(size) {
+	    if (this._context) {
+	      return;
+	    }
+	    if (!size.gt(point())) {
+	      throw new Error("invalid size=" + size + " for Art.Canvas.Bitmap");
+	    }
+	    this._size = size.floor();
+	    this._canvas = document.createElement('canvas');
+	    this._canvas.width = this.size.x;
+	    this._canvas.height = this.size.y;
+	    return this.initContext();
+	  };
+
+	  BitmapBase.prototype.populateClone = function(result) {
+	    result.initNewCanvas(this.size);
+	    result.drawBitmap(null, this);
+	    return result._pixelsPerPoint = this._pixelsPerPoint;
+	  };
+
+	  BitmapBase.getter({
+	    pixelsPerPoint: function() {
+	      return this._pixelsPerPoint;
+	    },
+	    pointsPerPixel: function() {
+	      return 1 / this._pixelsPerPoint;
+	    },
+	    pointSize: function() {
+	      return this.size.div(this.pixelsPerPoint);
+	    },
+	    byteSize: function() {
+	      return this.size.area * this.getBytesPerPixel();
+	    },
+	    bytesPerPixel: function() {
+	      return 4;
+	    }
+	  });
+
+	  BitmapBase.setter({
+	    pixelsPerPoint: function(v) {
+	      return this._pixelsPerPoint = v;
+	    },
+	    pointsPerPixel: function(v) {
+	      return this._pixelsPerPoint = 1 / v;
+	    }
+	  });
+
+	  BitmapBase.property({
+	    size: point(100, 100)
+	  });
+
+	  BitmapBase.property({
+	    imageSmoothing: false
+	  });
+
+	  BitmapBase.prototype.toMemoryBitmap = function() {
+	    return this;
+	  };
+
+	  BitmapBase.prototype.toMemoryDrawableBitmap = function() {
+	    return this;
+	  };
+
+	  BitmapBase.prototype.getImageData = function(a, b, c, d) {
+	    var area;
+	    area = a === null || a === void 0 ? rect(this.size) : rect(a, b, c, d);
+	    return this.toMemoryBitmap().context.getImageData(area.x, area.y, area.w, area.h);
+	  };
+
+	  BitmapBase.prototype.putImageData = function(imageData, location, sourceArea) {
+	    if (location == null) {
+	      location = point();
+	    }
+	    if (sourceArea == null) {
+	      sourceArea = rect(this.size);
+	    }
+	    location = location.sub(sourceArea.location);
+	    this._context.putImageData(imageData, location.x, location.y, sourceArea.x, sourceArea.y, sourceArea.w, sourceArea.h);
+	    return this;
+	  };
+
+	  BitmapBase.prototype.getImageDataArray = function(channel) {
+	    var data, end, i, j, len, results, results1, v;
+	    if (channel == null) {
+	      channel = null;
+	    }
+	    data = this.getImageData().data;
+	    if ((channel = toChannelNumberMap[channel]) != null) {
+	      i = channel;
+	      end = data.length;
+	      results = [];
+	      while (i < end) {
+	        i += 4;
+	        results.push(data[i - 4]);
+	      }
+	      return results;
+	    } else {
+	      results1 = [];
+	      for (j = 0, len = data.length; j < len; j++) {
+	        v = data[j];
+	        results1.push(v);
+	      }
+	      return results1;
+	    }
+	  };
+
+	  BitmapBase.prototype.toPngUri = function() {
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        return _this.toMemoryBitmap().canvas.toDataURL();
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.toJpgUri = function(quality) {
+	    if (quality == null) {
+	      quality = .95;
+	    }
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        return _this.toMemoryBitmap().canvas.toDataURL("image/jpeg", quality);
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.toPng = function() {
+	    return this.toPngUri().then(function(dataURI) {
+	      return BinaryString.fromDataUri(dataURI);
+	    });
+	  };
+
+	  BitmapBase.prototype.toJpg = function(quality) {
+	    return this.toJpgUri(quality).then(function(dataURI) {
+	      return BinaryString.fromDataUri(dataURI);
+	    });
+	  };
+
+	  BitmapBase.prototype.toImage = function() {
+	    return nextTick().then((function(_this) {
+	      return function() {
+	        var url;
+	        if (_this._htmlImageElement) {
+	          return _this._htmlImageElement;
+	        } else {
+	          url = _this.toMemoryBitmap().canvas.toDataURL();
+	          return Binary.EncodedImage.toImage(url).then(function(image) {
+	            var h, ref, w;
+	            ref = _this.pointSize, w = ref.w, h = ref.h;
+	            image.width = w;
+	            image.height = h;
+	            return image;
+	          });
+	        }
+	      };
+	    })(this));
+	  };
+
+	  BitmapBase.prototype.hFlipped = function() {
+	    var result;
+	    result = this.newBitmap(this.size);
+	    result.drawBitmap(Matrix.translateXY(-this.size.x / 2, 0).scaleXY(-1, 1).translateXY(this.size.x / 2, 0), this);
+	    return result;
+	  };
+
+	  BitmapBase.prototype.vFlipped = function() {
+	    var result;
+	    result = this.newBitmap(this.size);
+	    result.drawBitmap(Matrix.translateXY(0, -this.size.y / 2).scaleXY(1, -1).translateXY(0, this.size.y / 2), this);
+	    return result;
+	  };
+
+	  BitmapBase.prototype.drawBorder = function(where, r, options) {
+	    var c, m, p, w;
+	    m = matrix(where);
+	    r = rect(r);
+	    c = options.color || "#777";
+	    w = options.width || 1;
+	    p = options.padding || 0;
+	    r = r.grow(p);
+	    this.drawRectangle(m, rect(r.x, r.y, r.w, w), c);
+	    this.drawRectangle(m, rect(r.x, r.bottom - w, r.w, w), c);
+	    this.drawRectangle(m, rect(r.x, r.y + w, w, r.h - w * 2), c);
+	    return this.drawRectangle(m, rect(r.right - w, r.y + w, w, r.h - w * 2), c);
+	  };
+
+	  BitmapBase.prototype.drawStretchedBorderBitmap = function(drawMatrix, targetArea, bitmap, sourceCenterArea, options) {
+	    var bitmapSize, borderRatio, borderReductionRatio, borderScale, botomCenter, bottomCenter, bottomLeft, bottomRight, centerCenter, centerLeft, centerRight, centertCenter, hide, horizontalBorderHeight, horizontalBorderWidth, m, show, sourceBottomHeight, sourceBottomScale, sourceCenterAreaBottom, sourceCenterAreaHeight, sourceCenterAreaLeft, sourceCenterAreaRight, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterHeightScale, sourceCenterWidthScale, sourceLeftScale, sourceLeftWidth, sourceRightScale, sourceRightWidth, sourceTopHeight, sourceTopScale, targetAreaBottom, targetAreaHeight, targetAreaLeft, targetAreaRight, targetAreaTop, targetAreaWidth, targetBottomHeight, targetCenterAreaBottom, targetCenterAreaHeight, targetCenterAreaLeft, targetCenterAreaRight, targetCenterAreaTop, targetCenterAreaWidth, targetLeftWidth, targetRightWidth, targetTopHeight, topCenter, topLeft, topRight, totalBorderHeight, totalBorderWidth;
+	    if (options == null) {
+	      options = {};
+	    }
+	    hide = options.hide, show = options.show;
+	    bitmapSize = bitmap.size;
+	    borderScale = options.borderScale;
+	    if (!isNumber(borderScale)) {
+	      borderScale = 1;
+	    }
+	    sourceCenterAreaLeft = sourceCenterArea.left;
+	    sourceCenterAreaTop = sourceCenterArea.top;
+	    sourceCenterAreaRight = sourceCenterArea.right;
+	    sourceCenterAreaBottom = sourceCenterArea.bottom;
+	    sourceCenterAreaWidth = sourceCenterAreaRight - sourceCenterAreaLeft;
+	    sourceCenterAreaHeight = sourceCenterAreaBottom - sourceCenterAreaTop;
+	    targetAreaLeft = round(drawMatrix.transformX(targetArea.left, 0));
+	    targetAreaTop = round(drawMatrix.transformY(0, targetArea.top));
+	    targetAreaRight = round(drawMatrix.transformX(targetArea.right, 0));
+	    targetAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom));
+	    targetAreaWidth = targetAreaRight - targetAreaLeft;
+	    targetAreaHeight = targetAreaBottom - targetAreaTop;
+	    sourceLeftWidth = sourceCenterAreaLeft;
+	    sourceTopHeight = sourceCenterAreaTop;
+	    sourceRightWidth = bitmapSize.w - sourceCenterAreaRight;
+	    sourceBottomHeight = bitmapSize.h - sourceCenterAreaBottom;
+	    targetCenterAreaLeft = round(drawMatrix.transformX(targetArea.left + sourceLeftWidth * borderScale, 0));
+	    targetCenterAreaTop = round(drawMatrix.transformY(0, targetArea.top + sourceTopHeight * borderScale));
+	    targetCenterAreaRight = round(drawMatrix.transformX(targetArea.right - sourceRightWidth * borderScale, 0));
+	    targetCenterAreaBottom = round(drawMatrix.transformY(0, targetArea.bottom - sourceBottomHeight * borderScale));
+	    targetCenterAreaWidth = targetCenterAreaRight - targetCenterAreaLeft;
+	    targetCenterAreaHeight = targetCenterAreaBottom - targetCenterAreaTop;
+	    if (targetCenterAreaWidth < 0) {
+	      horizontalBorderWidth = targetAreaWidth - targetCenterAreaWidth;
+	      borderReductionRatio = targetAreaWidth / horizontalBorderWidth;
+	      borderRatio = sourceLeftWidth / (totalBorderWidth = sourceLeftWidth + sourceRightWidth);
+	      sourceLeftWidth = round(sourceLeftWidth * borderReductionRatio);
+	      sourceRightWidth = round(sourceRightWidth * borderReductionRatio);
+	      sourceCenterAreaRight = bitmap.size.x - sourceRightWidth;
+	      targetCenterAreaLeft = targetCenterAreaRight = targetAreaLeft + round(targetAreaWidth * borderRatio);
+	      targetCenterAreaWidth = 0;
+	    }
+	    if (targetCenterAreaHeight < 0) {
+	      horizontalBorderHeight = targetAreaHeight - targetCenterAreaHeight;
+	      borderReductionRatio = targetAreaHeight / horizontalBorderHeight;
+	      borderRatio = sourceTopHeight / (totalBorderHeight = sourceTopHeight + sourceBottomHeight);
+	      sourceTopHeight = round(sourceTopHeight * borderReductionRatio);
+	      sourceBottomHeight = round(sourceBottomHeight * borderReductionRatio);
+	      sourceCenterAreaBottom = bitmap.size.x - sourceBottomHeight;
+	      targetCenterAreaTop = targetCenterAreaBottom = targetAreaTop + round(targetAreaHeight * borderRatio);
+	      targetCenterAreaHeight = 0;
+	    }
+	    targetLeftWidth = targetCenterAreaLeft - targetAreaLeft;
+	    targetTopHeight = targetCenterAreaTop - targetAreaTop;
+	    targetRightWidth = targetAreaRight - targetCenterAreaRight;
+	    targetBottomHeight = targetAreaBottom - targetCenterAreaBottom;
+	    sourceLeftScale = targetLeftWidth / sourceLeftWidth;
+	    sourceTopScale = targetTopHeight / sourceTopHeight;
+	    sourceRightScale = targetRightWidth / sourceRightWidth;
+	    sourceBottomScale = targetBottomHeight / sourceBottomHeight;
+	    sourceCenterWidthScale = targetCenterAreaWidth / sourceCenterAreaWidth;
+	    sourceCenterHeightScale = targetCenterAreaHeight / sourceCenterAreaHeight;
+	    if (show) {
+	      topLeft = !show.topLeft;
+	      topRight = !show.topRight;
+	      topCenter = !show.topCenter;
+	      centerLeft = !show.centerLeft;
+	      centerRight = !show.centerRight;
+	      centerCenter = !show.centerCenter;
+	      bottomLeft = !show.bottomLeft;
+	      bottomRight = !show.bottomRight;
+	      bottomCenter = !show.bottomCenter;
+	    }
+	    if (hide) {
+	      topLeft = hide.topLeft, topCenter = hide.topCenter, topRight = hide.topRight, centerLeft = hide.centerLeft, centerCenter = hide.centerCenter, centerRight = hide.centerRight, bottomLeft = hide.bottomLeft, botomCenter = hide.botomCenter, bottomRight = hide.bottomRight;
+	      if (hide.top) {
+	        topLeft = topCenter = topRight = true;
+	      }
+	      if (hide.bottom) {
+	        bottomLeft = bottomCenter = bottomRight = true;
+	      }
+	      if (hide.left) {
+	        topLeft = centerLeft = bottomLeft = true;
+	      }
+	      if (hide.left) {
+	        topRight = centerRight = bottomRight = true;
+	      }
+	      if (hide.centerRow) {
+	        centerLeft = centerCenter = centerRight = true;
+	      }
+	      if (hide.centerColumn) {
+	        topCenter = centertCenter = bottomRight = true;
+	      }
+	    }
+	    if (!topLeft) {
+	      m = Matrix.scaleXY(sourceLeftScale, sourceTopScale).translateXY(targetAreaLeft, targetAreaTop);
+	      options.sourceArea = rect(0, 0, sourceLeftWidth, sourceTopHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!topRight) {
+	      m = Matrix.scaleXY(sourceRightScale, sourceTopScale).translateXY(targetCenterAreaRight, targetAreaTop);
+	      options.sourceArea = rect(sourceCenterAreaRight, 0, sourceRightWidth, sourceTopHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!bottomLeft) {
+	      m = Matrix.scaleXY(sourceLeftScale, sourceBottomScale).translateXY(targetAreaLeft, targetCenterAreaBottom);
+	      options.sourceArea = rect(0, sourceCenterAreaBottom, sourceLeftWidth, sourceBottomHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (!bottomRight) {
+	      m = Matrix.scaleXY(sourceRightScale, sourceBottomScale).translateXY(targetCenterAreaRight, targetCenterAreaBottom);
+	      options.sourceArea = rect(sourceCenterAreaRight, sourceCenterAreaBottom, sourceRightWidth, sourceBottomHeight);
+	      this.drawBitmap(m, bitmap, options);
+	    }
+	    if (targetCenterAreaHeight > 0) {
+	      if (!centerLeft) {
+	        m = Matrix.scaleXY(sourceLeftScale, sourceCenterHeightScale).translateXY(targetAreaLeft, targetCenterAreaTop);
+	        options.sourceArea = rect(0, sourceTopHeight, sourceLeftWidth, sourceCenterAreaHeight);
+	        this.drawBitmap(m, bitmap, options);
+	      }
+	      if (!(centerCenter || targetCenterAreaWidth <= 0)) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceCenterHeightScale).translateXY(targetCenterAreaLeft, targetCenterAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaLeft, sourceCenterAreaTop, sourceCenterAreaWidth, sourceCenterAreaHeight);
+	        this.drawBitmap(m, bitmap, options);
+	      }
+	      if (!centerRight) {
+	        m = Matrix.scaleXY(sourceRightScale, sourceCenterHeightScale).translateXY(targetCenterAreaRight, targetCenterAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaRight, sourceTopHeight, sourceRightWidth, sourceCenterAreaHeight);
+	        this.drawBitmap(m, bitmap, options);
+	      }
+	    }
+	    if (sourceCenterAreaWidth > 0) {
+	      if (!bottomCenter) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceBottomScale).translateXY(targetCenterAreaLeft, targetCenterAreaBottom);
+	        options.sourceArea = rect(sourceLeftWidth, sourceCenterAreaBottom, sourceCenterAreaWidth, sourceBottomHeight);
+	        this.drawBitmap(m, bitmap, options);
+	      }
+	      if (!topCenter) {
+	        m = Matrix.scaleXY(sourceCenterWidthScale, sourceTopScale).translateXY(targetCenterAreaLeft, targetAreaTop);
+	        options.sourceArea = rect(sourceCenterAreaLeft, 0, sourceCenterAreaWidth, sourceTopHeight);
+	        return this.drawBitmap(m, bitmap, options);
+	      }
+	    }
+	  };
+
+	  calculateTop = function(data, size, threshold) {
+	    var lineStep, pos;
+	    lineStep = size.x * pixelStep;
+	    pos = alphaChannelOffset;
+	    while (pos < data.length && data[pos] <= threshold) {
+	      pos += pixelStep;
+	    }
+	    return floor(pos / lineStep);
+	  };
+
+	  calculateBottom = function(data, size, threshold, top) {
+	    var lineStep, pos, stopPos;
+	    lineStep = size.x * pixelStep;
+	    pos = data.length + alphaChannelOffset - pixelStep;
+	    stopPos = top * lineStep;
+	    while (pos > stopPos && data[pos] <= threshold) {
+	      pos -= pixelStep;
+	    }
+	    return floor(pos / lineStep);
+	  };
+
+	  calculateLeft = function(data, size, threshold, top, bottom) {
+	    var bottomOffset, length, lineStep, pos, posX, stop, topOffset;
+	    lineStep = size.x * pixelStep;
+	    length = data.length;
+	    topOffset = top * lineStep;
+	    bottomOffset = bottom * lineStep;
+	    posX = alphaChannelOffset;
+	    while (posX < lineStep) {
+	      pos = posX + topOffset;
+	      stop = posX + bottomOffset;
+	      while (pos < stop) {
+	        if (data[pos] > threshold) {
+	          return floor(posX / pixelStep);
+	        }
+	        pos += lineStep;
+	      }
+	      posX += pixelStep;
+	    }
+	  };
+
+	  calculateRight = function(data, size, threshold, top, bottom, left) {
+	    var bottomOffset, length, lineStep, outterStop, pos, posX, stop, topOffset;
+	    lineStep = size.x * pixelStep;
+	    length = data.length;
+	    topOffset = top * lineStep;
+	    bottomOffset = bottom * lineStep;
+	    posX = lineStep - pixelStep + alphaChannelOffset;
+	    outterStop = left * pixelStep;
+	    while (posX > outterStop) {
+	      pos = posX + topOffset;
+	      stop = posX + bottomOffset;
+	      while (pos < stop) {
+	        if (data[pos] > threshold) {
+	          return floor(posX / pixelStep);
+	        }
+	        pos += lineStep;
+	      }
+	      posX -= pixelStep;
+	    }
+	  };
+
+	  BitmapBase.prototype.getAutoCropRectangle = function(threshold) {
+	    var bottom, context, data, left, ref, right, size, top;
+	    if (threshold == null) {
+	      threshold = 0;
+	    }
+	    ref = this, size = ref.size, context = ref.context;
+	    data = context.getImageData(0, 0, size.x, size.y).data;
+	    top = calculateTop(data, size, threshold);
+	    if (top === size.y) {
+	      return rect();
+	    }
+	    bottom = calculateBottom(data, size, threshold, top);
+	    left = calculateLeft(data, size, threshold, top, bottom);
+	    right = calculateRight(data, size, threshold, top, bottom, left);
+	    return rect(left, top, right - left + 1, bottom - top + 1);
+	  };
+
+	  return BitmapBase;
+
+	})(BaseObject);
+
+
+/***/ },
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Atomic, Binary, Bitmap, BitmapBase, Color, EncodedImage, Foundation, GradientFillStyle, IdentityMatrix, Matrix, Paths, Point, Promise, Rectangle, StackBlur, canvasBlenders, currentSecond, emptyOptions, eq, floatEq0, inspect, isFunction, isNumber, isPlainObject, log, matrix, max, min, point, point0, rect, rgbColor, round,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Atomic = __webpack_require__(129);
+
+	Foundation = __webpack_require__(19);
+
+	GradientFillStyle = __webpack_require__(149);
+
+	BitmapBase = __webpack_require__(147);
+
+	Paths = __webpack_require__(150);
+
+	StackBlur = __webpack_require__(151);
+
+	inspect = Foundation.inspect, log = Foundation.log, min = Foundation.min, max = Foundation.max, Binary = Foundation.Binary, isFunction = Foundation.isFunction, isPlainObject = Foundation.isPlainObject, eq = Foundation.eq, currentSecond = Foundation.currentSecond, round = Foundation.round, isNumber = Foundation.isNumber, floatEq0 = Foundation.floatEq0, Promise = Foundation.Promise, isPlainObject = Foundation.isPlainObject;
+
+	EncodedImage = Binary.EncodedImage;
+
+	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix, rgbColor = Atomic.rgbColor, Color = Atomic.Color, IdentityMatrix = Atomic.IdentityMatrix, point0 = Atomic.point0;
+
+	emptyOptions = {};
+
+	canvasBlenders = {
+	  add: "lighter",
+	  normal: "source-over",
+	  target_alphamask: "source-in",
+	  alphamask: "destination-in",
+	  destover: "destination-over",
+	  sourcein: "source-atop",
+	  inverse_alphamask: "destination-out",
+	  alphaMask: "destination-in",
+	  targetAlphaMask: "source-in",
+	  inverseAlphaMask: "destination-out",
+	  destOver: "destination-over",
+	  sourceIn: "source-atop",
+	  replace: "copy"
+	};
+
+	module.exports = Bitmap = (function(superClass) {
+	  var k, v;
+
+	  extend(Bitmap, superClass);
+
+	  function Bitmap() {
+	    return Bitmap.__super__.constructor.apply(this, arguments);
+	  }
+
+	  Bitmap.supportedCompositeModes = (function() {
+	    var results;
+	    results = [];
+	    for (k in canvasBlenders) {
+	      v = canvasBlenders[k];
+	      results.push(k);
+	    }
+	    return results;
+	  })();
+
+	  Bitmap.getter({
+	    supportedCompositeModes: function() {
+	      return Bitmap.supportedCompositeModes;
+	    }
+	  });
+
+	  Bitmap.artToCanvasCompositeModeMap = canvasBlenders;
+
+	  Bitmap.prototype.initContext = function() {
+	    var ref;
+	    return this._context = (ref = this._canvas) != null ? ref.getContext("2d") : void 0;
+	  };
+
+	  Bitmap.getter({
+	    context: function() {
+	      if (!this._context && this._htmlImageElement) {
+	        this.initNewCanvas(this.size);
+	        this.drawBitmap(point(), this._htmlImageElement);
+	        this._htmlImageElement = null;
+	      }
+	      return this._context;
+	    },
+	    context2D: function() {
+	      return this.getContext();
+	    },
+	    htmlImageElement: function() {
+	      return this._htmlImageElement;
+	    },
+	    htmlElement: function() {
+	      return this._htmlImageElement || this._canvas;
+	    }
+	  });
+
+	  Bitmap.get = function(url, options) {
+	    return EncodedImage.get(url, options).then(function(image) {
+	      var _, bitmap, match, resolution;
+	      bitmap = new Bitmap(image);
+	      if (match = url.match(/@([2-9])x\.[a-zA-Z]+$/)) {
+	        _ = match[0], resolution = match[1];
+	        bitmap.pixelsPerPoint = resolution | 0;
+	      }
+	      return bitmap;
+	    });
+	  };
+
+
+	  /*
+	  Uses the browser's file-request dialog to have the user select a local image file.
+	  
+	  OUT:
+	    promise.then ({bitmap, file}) ->
+	       * bitmap is a Canvas.Bitmap
+	       * file is a javascript File object
+	   */
+
+	  Bitmap.requestImage = function() {
+	    return Foundation.Browser.File.request({
+	      accept: "image/*"
+	    }).then((function(_this) {
+	      return function(arg) {
+	        var file;
+	        file = arg[0];
+	        return EncodedImage.toImage(file).then(function(image) {
+	          return {
+	            bitmap: new Bitmap(image),
+	            file: file
+	          };
+	        });
+	      };
+	    })(this));
+	  };
+
+	  Bitmap.prototype.initFromImage = function(image) {
+	    this._size = point(image.width, image.height);
+	    return this._htmlImageElement = image;
+	  };
+
+	  Bitmap.setter({
+	    imageSmoothing: function(bool) {
+	      return this._context.imageSmoothingEnabled = this._context.mozImageSmoothingEnabled = this._context.webkitImageSmoothingEnabled = this._context.msImageSmoothingEnabled = this._imageSmoothing = !!bool;
+	    }
+	  });
+
+	  Bitmap.bitmapClass = Bitmap;
+
+	  Bitmap.newBitmap = function(size) {
+	    return new Bitmap.bitmapClass(size);
+	  };
+
+	  Bitmap.prototype.newBitmap = function(size) {
+	    return new this.bitmapClass(size || this.size).tap((function(_this) {
+	      return function(b) {
+	        return b.pixelsPerPoint = _this.pixelsPerPoint;
+	      };
+	    })(this));
+	  };
+
+	  Bitmap.prototype.setClippingArea = function(area, drawMatrix) {
+	    this._setTransform(drawMatrix);
+	    if (isFunction(area)) {
+	      this._context.beginPath();
+	      area(this._context);
+	      return this._context.clip();
+	    } else {
+	      area = this.pixelSnapRectangle(drawMatrix, area);
+	      this._clippingArea = area.intersection(this._clippingArea);
+	      this._context.beginPath();
+	      this._context.rect(area.x, area.y, area.w, area.h);
+	      return this._context.clip();
+	    }
+	  };
+
+	  Bitmap.prototype.clippedTo = function(area, f, drawMatrix) {
+	    var previousClippingArea;
+	    this._context.save();
+	    previousClippingArea = this._clippingArea;
+	    try {
+	      this.setClippingArea(area, drawMatrix);
+	      return f();
+	    } finally {
+	      this._context.restore();
+	      this._clippingArea = previousClippingArea;
+	    }
+	  };
+
+	  Bitmap.prototype.clear = function(a, b, c, d) {
+	    var clr;
+	    clr = a != null ? rgbColor(a, b, c, d) : rgbColor(0, 0, 0, 0);
+	    this._clearTransform();
+	    if (clr.a !== 1.0) {
+	      this._context.clearRect(0, 0, this.size.x, this.size.y);
+	    }
+	    if (!clr.eq(rgbColor(0, 0, 0, 0))) {
+	      this._context.globalCompositeOperation = "source-over";
+	      this._setFillStyle(clr);
+	      this._context.fillRect(0, 0, this.size.x, this.size.y);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.strokeRectangle = function(where, rectangle, options) {
+	    var grow, lineWidth, lineWidthMod2, r;
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    r = rect(rectangle);
+	    if (this.shouldPixelSnap(where)) {
+	      lineWidth = options.lineWidth || 1;
+	      r = this.pixelSnapRectangle(where, r);
+	      lineWidthMod2 = lineWidth % 2;
+	      grow = lineWidthMod2 < 1 ? -lineWidthMod2 / 2 : lineWidthMod2 / 2 - 1;
+	      if (!floatEq0(grow)) {
+	        r = r.grow(grow);
+	      }
+	    }
+	    if (options.radius) {
+	      this.strokeShape(where, options, (function(_this) {
+	        return function() {
+	          return Paths.roundedRectangle(_this._context, r, min(options.radius, r.w / 2, r.h / 2));
+	        };
+	      })(this));
+	    } else {
+	      if (this._setupDraw(where, options, true)) {
+	        this._context.strokeRect(r.x, r.y, r.w, r.h);
+	        this._cleanupDraw(options);
+	      }
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.strokeShape = function(where, options, pathFunction) {
+	    if (this._setupDraw(where, options, true)) {
+	      this._context.beginPath();
+	      pathFunction(this._context);
+	      this._context.stroke();
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.drawBorder = function(where, rectangle, options) {
+	    var a, a1, g, p, w;
+	    if (this._setupDraw(where, options, true)) {
+	      p = options.padding || 0;
+	      w = options.width || 1;
+	      a1 = rect(rectangle);
+	      g = p - w / 2;
+	      a = a1.grow(g);
+	      this._context.beginPath();
+	      Paths.rectangle(this._context, a);
+	      this._context.stroke();
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.drawLine = function(where, fromPoint, toPoint, options) {
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    if (this._setupDraw(where, options, true)) {
+	      this._context.beginPath();
+	      Paths.line(this._context, fromPoint, toPoint);
+	      this._context.stroke();
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.drawRectangle = function(where, rectangle, options) {
+	    var _context, fillRule, r, radius;
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    r = rect(rectangle);
+	    radius = options.radius, fillRule = options.fillRule;
+	    if (this.shouldPixelSnap(where)) {
+	      r = this.pixelSnapRectangle(where, r);
+	    }
+	    _context = this._context;
+	    if (this._setupDraw(where, options)) {
+	      if (radius > 0 || isPlainObject(radius)) {
+	        _context.beginPath();
+	        Paths.roundedRectangle(_context, r, radius);
+	        _context.fill(fillRule || "nonzero");
+	      } else {
+	        _context.fillRect(r.x, r.y, r.w, r.h);
+	      }
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.fillShape = function(where, options, pathFunction) {
+	    var _context;
+	    _context = this._context;
+	    if (this._setupDraw(where, options)) {
+	      _context.beginPath();
+	      pathFunction(_context);
+	      _context.fill(options.fillRule || "nonzero");
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.drawBitmap = function(where, bitmap, options) {
+	    var aboutToDrawTime, drawed, endTime, h, inputBitmap, inputBitmapSize, origSourceArea, ref, ref1, sh, sourceArea, startTime, sw, sx, sy, w, x, y;
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    startTime = currentSecond();
+	    sourceArea = options.sourceArea;
+	    inputBitmap = bitmap;
+	    if (bitmap.toMemoryDrawableBitmap) {
+	      bitmap = bitmap.toMemoryDrawableBitmap();
+	    }
+	    bitmap = bitmap._canvas || bitmap._htmlImageElement || bitmap;
+	    inputBitmapSize = inputBitmap.size || point(inputBitmap.width, inputBitmap.height);
+	    drawed = "";
+	    if (this.shouldPixelSnap(where)) {
+	      ref = this.pixelSnapAndTransformRectangle(where, (sourceArea != null ? sourceArea.size : void 0) || inputBitmapSize), x = ref.x, y = ref.y, w = ref.w, h = ref.h;
+	      if (sourceArea) {
+	        sx = round(sourceArea.x);
+	        sy = round(sourceArea.y);
+	        sw = round(sourceArea.w);
+	        sh = round(sourceArea.h);
+	      } else {
+	        sx = sy = 0;
+	        sw = inputBitmapSize.x;
+	        sh = inputBitmapSize.y;
+	      }
+	      if (this._setupDraw(null, options)) {
+	        drawed = "pixelSnap - " + (inspect([sx, sy, sw, sh]));
+	        aboutToDrawTime = currentSecond();
+	        this._context.drawImage(bitmap, sx, sy, sw, sh, x, y, w, h);
+	        this._cleanupDraw(options);
+	      }
+	    } else {
+	      if (this._setupDraw(where, options)) {
+	        aboutToDrawTime = currentSecond();
+	        if (origSourceArea = sourceArea) {
+	          drawed = "sourceArea";
+	          ref1 = sourceArea.intersection(rect(inputBitmap.size)), x = ref1.x, y = ref1.y, w = ref1.w, h = ref1.h;
+	          this._context.drawImage(bitmap, x, y, w, h, 0, 0, w, h);
+	        } else {
+	          drawed = "other";
+	          this._context.drawImage(bitmap, 0, 0);
+	        }
+	        this._cleanupDraw(options);
+	      }
+	    }
+	    endTime = currentSecond();
+	    if (endTime - startTime > .1) {
+	      log({
+	        Canvas_Bitmap_drawBitmap: {
+	          slowDraw: ((endTime - startTime) * 1000 | 0) + "ms",
+	          time2: ((endTime - aboutToDrawTime) * 1000 | 0) + "ms",
+	          where: where,
+	          options: options,
+	          drawed: drawed,
+	          bitmapSize: [bitmap._size, bitmap.width, bitmap.height]
+	        }
+	      });
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.drawText = function(where, text, options) {
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    if (this._setupDraw(where, options)) {
+	      this._context.font = (options.size || 16) + "px " + (options.family || 'Arial') + ", Arial";
+	      this._context.textAlign = options.align || 'start';
+	      this._context.textBaseline = options.baseline || 'alphabetic';
+	      this._context.fillText(text, 0, 0);
+	      this._cleanupDraw(options);
+	    }
+	    return this;
+	  };
+
+	  Bitmap.prototype.blur = function(radius, toClone) {
+	    return (toClone ? this.clone() : this).tap((function(_this) {
+	      return function(target) {
+	        return StackBlur.blur(_this, radius, target);
+	      };
+	    })(this));
+	  };
+
+	  Bitmap.prototype.blurAlpha = function(radius, options) {
+	    if (options == null) {
+	      options = emptyOptions;
+	    }
+	    return (options.clone ? this.clone() : this).tap((function(_this) {
+	      return function(target) {
+	        var func;
+	        func = options.inverted ? "blurInvertedAlpha" : "blurAlpha";
+	        return StackBlur[func](_this, radius, target);
+	      };
+	    })(this));
+	  };
+
+	  Bitmap.prototype._clearTransform = function() {
+	    this._lastTransform = IdentityMatrix;
+	    return this._context.setTransform(1, 0, 0, 1, 0, 0);
+	  };
+
+	  Bitmap.prototype._setTransform = function(m) {
+	    if (m) {
+	      this._lastTransform = m;
+	      if (m instanceof Point) {
+	        return this._context.setTransform(1, 0, 0, 1, m.x, m.y);
+	      } else {
+	        return this._context.setTransform(m.sx, m.shy, m.shx, m.sy, m.tx, m.ty);
+	      }
+	    } else {
+	      return this._clearTransform();
+	    }
+	  };
+
+	  Bitmap.prototype._setStrokeStyle = function(strokeStyle) {
+	    return this._context.strokeStyle = strokeStyle.toCanvasStyle ? strokeStyle.toCanvasStyle(this._context) : strokeStyle.toString();
+	  };
+
+	  Bitmap.prototype._setFillStyle = function(fillStyle) {
+	    return this._context.fillStyle = fillStyle.toCanvasStyle ? fillStyle.toCanvasStyle(this._context) : fillStyle.toString();
+	  };
+
+	  Bitmap.prototype._getFillStyleFromOptions = function(options) {
+	    var fromPoint, gradientRadius1, toPoint;
+	    if (options.colors) {
+	      fromPoint = options.from || point0;
+	      gradientRadius1 = options.gradientRadius1 || options.gradientRadius;
+	      toPoint = options.to || (gradientRadius1 != null ? fromPoint : this.size);
+	      return new GradientFillStyle(fromPoint, toPoint, options.colors, gradientRadius1, options.gradientRadius2);
+	    } else {
+	      return options.fillStyle || options.color || this.defaultColorString;
+	    }
+	  };
+
+	  Bitmap.prototype._setStrokeStyleFromOptions = function(options) {
+	    var lineCap, lineDash, lineJoin, lineWidth, miterLimit;
+	    this._setStrokeStyle(this._getFillStyleFromOptions(options));
+	    lineWidth = options.lineWidth, lineCap = options.lineCap, lineJoin = options.lineJoin, miterLimit = options.miterLimit, lineDash = options.lineDash;
+	    this._context.setLineDash(lineDash || []);
+	    this._context.lineWidth = lineWidth || 1;
+	    this._context.lineCap = lineCap || "butt";
+	    this._context.lineJoin = lineJoin || "miter";
+	    return this._context.miterLimit = miterLimit || 10;
+	  };
+
+	  Bitmap.prototype._setFillStyleFromOptions = function(options) {
+	    return this._setFillStyle(this._getFillStyleFromOptions(options));
+	  };
+
+	  Bitmap.prototype._setupDraw = function(where, options, stroke) {
+	    var _context, blur, compositeMode, offset, offsetX, offsetY, opacity, shadow, shadowColor;
+	    compositeMode = options.compositeMode, shadow = options.shadow, opacity = options.opacity;
+	    stroke || (stroke = options.stroke);
+	    if (!isNumber(opacity)) {
+	      opacity = 1;
+	    }
+	    if (opacity < 1 / 256) {
+	      return false;
+	    }
+	    _context = this._context;
+	    if (stroke) {
+	      this._setStrokeStyleFromOptions(options);
+	    } else {
+	      this._setFillStyleFromOptions(options);
+	    }
+	    if (compositeMode && compositeMode !== "normal") {
+	      _context.globalCompositeOperation = canvasBlenders[compositeMode] || canvasBlenders.normal;
+	    }
+	    if (opacity < 1) {
+	      _context.globalAlpha = opacity;
+	    }
+	    if (shadow) {
+	      blur = shadow.blur, offsetX = shadow.offsetX, offsetY = shadow.offsetY, offset = shadow.offset;
+	      shadowColor = shadow.color;
+	      _context.shadowColor = rgbColor(shadowColor || "black");
+	      if (blur) {
+	        _context.shadowBlur = blur;
+	      }
+	      offsetX || (offsetX = 0);
+	      offsetY || (offsetY = 0);
+	      if (where instanceof Matrix) {
+
+	        /*
+	        Shadows seem to ignore scale and rotation transformations.
+	        
+	        It seems someone wanted to enforce consistent shadows while completely breaking
+	        the setTransform abstraction. Bah! :)
+	        
+	        I believe this was a design mistake. It introduces inconsistencies both subtle
+	        and large. For example, it makes shadow placement vary across devices depending
+	        upon their devicePixelsPerPoint. No other draw command works this way.
+	        
+	        Consistent shadows should be up to the programmer, not the drawing engine.
+	        
+	        I believe this hack solves the problem. Shadow SHAPE does obey setTransforms. It
+	        is also correctly proporitonal to the shape it is creating a shadow of. Said shape
+	        fully obeys setTrasform - including location. Only the vector from the center of
+	        the shape to the center of the shadow seems to ignore setTransform.
+	         - July 2016, SBD
+	         */
+	        _context.shadowOffsetX = Matrix.transform1D(offsetX, offsetY, where.sx, where.shx, 0);
+	        _context.shadowOffsetY = Matrix.transform1D(offsetY, offsetX, where.sy, where.shy, 0);
+	      } else {
+	        _context.shadowOffsetX = offsetX;
+	        _context.shadowOffsetY = offsetY;
+	      }
+	    }
+	    this._setTransform(where);
+	    return true;
+	  };
+
+	  Bitmap.prototype._cleanupDraw = function(options) {
+	    var _context, compositeMode, opacity, shadow;
+	    compositeMode = options.compositeMode, shadow = options.shadow, opacity = options.opacity;
+	    if (!isNumber(opacity)) {
+	      opacity = 1;
+	    }
+	    _context = this._context;
+	    if (compositeMode && compositeMode !== "normal") {
+	      _context.globalCompositeOperation = canvasBlenders.normal;
+	    }
+	    if (opacity < 1) {
+	      _context.globalAlpha = 1;
+	    }
+	    if (shadow) {
+	      _context.shadowColor = "transparent";
+	      _context.shadowBlur = 0;
+	      _context.shadowOffsetX = 0;
+	      return _context.shadowOffsetY = 0;
+	    }
+	  };
+
+	  return Bitmap;
+
+	})(BitmapBase);
+
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Atomic, Foundation, GradientFillStyle, arrayWith, clone, flatten, floatEq, inspect, isNumber, isPlainArray, isPlainObject, isString, log, min, peek, point, point1, rgbColor, shallowClone,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Atomic = __webpack_require__(129);
+
+	Foundation = __webpack_require__(19);
+
+	point = Atomic.point, rgbColor = Atomic.rgbColor, point1 = Atomic.point1;
+
+	inspect = Foundation.inspect, shallowClone = Foundation.shallowClone, flatten = Foundation.flatten, isPlainObject = Foundation.isPlainObject, log = Foundation.log, isNumber = Foundation.isNumber, isString = Foundation.isString, isPlainArray = Foundation.isPlainArray, clone = Foundation.clone, min = Foundation.min, floatEq = Foundation.floatEq, peek = Foundation.peek, arrayWith = Foundation.arrayWith;
+
+	module.exports = GradientFillStyle = (function(superClass) {
+	  extend(GradientFillStyle, superClass);
+
+
+	  /*
+	  from and to are points where the lineary gradient will begin and end.
+	  "colors" is a list of the colors for the gradient. There must be at least two colors.
+	  In the explicit form, each rgbColor should be formatted as {n:<number>, c:<html rgbColor string>}
+	    Ex: {n:.45, c:"#ff0"}
+	  Implicitly, you can:
+	    provide just a HTML rgbColor string with no "n".
+	    N is determined as follows:
+	      The first and last rgbColor will be forced to have n=0 and n=1 respectively
+	      Any string of omitted Ns will be interpolated between the specified ns.
+	  
+	  Examples:
+	    black to white:
+	      new GradientFillStyle point(0,0), point(100,0), {c:"#000"}, {c:"#fff"}
+	      OR
+	      new GradientFillStyle point(0,0), point(100,0), "#000", "#fff"
+	  
+	    black to red to white:
+	      new GradientFillStyle point(0,0), point(100,0), {c:"#000"}, {n:.5, c:"#f00"}, {c:"#fff"}
+	      OR
+	      new GradientFillStyle point(0,0), point(100,0), "#000", "#f00", "#fff"
+	  
+	    red to transparent
+	      new GradientFillStyle point(0,0), point(100,0), #f00", "rgba(1,0,0,0)"
+	  
+	    rainbow:
+	      new GradientFillStyle(
+	        point(0,0), point(100,0)
+	        "#f00"
+	        "#ff0"
+	        "#0f0"
+	        "#0ff"
+	        "#00f"
+	        "#f0f"
+	        "#f00"
+	      )
+	   */
+
+	  GradientFillStyle.colorsToObjectsAndStringColors = function(colors) {
+	    var clr, j, len, results;
+	    results = [];
+	    for (j = 0, len = colors.length; j < len; j++) {
+	      clr = colors[j];
+	      if (isPlainObject(clr)) {
+	        results.push({
+	          n: clr.n,
+	          c: String(rgbColor(clr.c))
+	        });
+	      } else {
+	        results.push({
+	          c: String(rgbColor(clr))
+	        });
+	      }
+	    }
+	    return results;
+	  };
+
+	  GradientFillStyle.colorsFromObjects = function(colors) {
+	    var c, clr, j, k, len, n, ret;
+	    ret = [];
+	    for (j = 0, len = colors.length; j < len; j++) {
+	      clr = colors[j];
+	      if (isPlainObject(clr)) {
+	        if (isNumber(clr.r)) {
+	          ret.push(rgbColor(clr));
+	        } else if (isNumber(clr.n)) {
+	          ret.push(clr);
+	        } else {
+	          for (k in clr) {
+	            c = clr[k];
+	            n = k - 0;
+	            ret.push({
+	              n: n,
+	              c: c
+	            });
+	          }
+	        }
+	      } else {
+	        ret.push(clr);
+	      }
+	    }
+	    return ret;
+	  };
+
+	  GradientFillStyle.interpolateColorPositionRange = function(outColors, colors, start, end, firstN, lastN) {
+	    var i, j, nDelta, ref, ref1, results, steps;
+	    steps = end - start + 1;
+	    nDelta = (lastN - firstN) / steps;
+	    results = [];
+	    for (i = j = ref = start, ref1 = end; ref <= ref1 ? j < ref1 : j > ref1; i = ref <= ref1 ? ++j : --j) {
+	      results.push(outColors.push({
+	        c: colors[i].c,
+	        n: (i - start + 1) * nDelta
+	      }));
+	    }
+	    return results;
+	  };
+
+	  GradientFillStyle.needToInterpolateColors = function(colors) {
+	    var clr, j, len, ret;
+	    ret = false;
+	    for (j = 0, len = colors.length; j < len; j++) {
+	      clr = colors[j];
+	      if (!(clr.n == null)) {
+	        continue;
+	      }
+	      ret = true;
+	      break;
+	    }
+	    return ret;
+	  };
+
+	  GradientFillStyle.interpolateColorPositions = function(colors) {
+	    var clr, firstColor, i, interpolateCount, j, lastColor, len, n, outColors, startN;
+	    if (!GradientFillStyle.needToInterpolateColors(colors)) {
+	      return colors;
+	    }
+	    firstColor = colors[0], lastColor = colors[colors.length - 1];
+	    if (firstColor.n == null) {
+	      firstColor = {
+	        c: firstColor.c,
+	        n: 0
+	      };
+	    }
+	    if (lastColor.n == null) {
+	      lastColor = {
+	        c: lastColor.c,
+	        n: 1
+	      };
+	    }
+	    outColors = [firstColor];
+	    startN = firstColor.n;
+	    interpolateCount = 0;
+	    for (i = j = 0, len = colors.length; j < len; i = ++j) {
+	      clr = colors[i];
+	      if (!(i > 0)) {
+	        continue;
+	      }
+	      if (i === colors.length - 1) {
+	        clr = lastColor;
+	      }
+	      n = clr.n;
+	      if (n != null) {
+	        if (interpolateCount > 0) {
+	          GradientFillStyle.interpolateColorPositionRange(outColors, colors, i - interpolateCount, i, startN, n);
+	          interpolateCount = 0;
+	        }
+	        startN = n;
+	      } else {
+	        interpolateCount++;
+	      }
+	    }
+	    outColors.push(lastColor);
+	    return outColors;
+	  };
+
+	  GradientFillStyle.sortColorsByN = function(colors) {
+	    return colors.sort(function(a, b) {
+	      return a.n - b.n;
+	    });
+	  };
+
+	  GradientFillStyle.normalizeColors = function(colors) {
+	    colors = this.colorsFromObjects(colors);
+	    colors = this.colorsToObjectsAndStringColors(colors);
+	    colors = this.interpolateColorPositions(colors);
+	    colors = this.sortColorsByN(colors);
+	    return colors;
+	  };
+
+	  function GradientFillStyle(from, to, colors, radius11, radius21) {
+	    this.from = from;
+	    this.to = to;
+	    this.radius1 = radius11;
+	    this.radius2 = radius21;
+	    this.setColors(this.inputColors = colors);
+	  }
+
+	  GradientFillStyle.prototype.inspect2 = function() {
+	    return "gradient(from:" + this.from + ", to:" + this.to + ", colors:" + (inspect(this.inputColors)) + ")";
+	  };
+
+	  GradientFillStyle.clone = function() {
+	    return new GradientFillStyle(this.from, this.to, shallowClone(this.colors), this.radius1, this.radius2);
+	  };
+
+	  GradientFillStyle.getter({
+	    colors: function() {
+	      return this._colors;
+	    },
+	    premultipliedColorPositions: function() {
+	      var a, j, len, ref, results;
+	      ref = this._colors;
+	      results = [];
+	      for (j = 0, len = ref.length; j < len; j++) {
+	        a = ref[j];
+	        results.push({
+	          n: a.n,
+	          c: rgbColor(a.c).premultiplied
+	        });
+	      }
+	      return results;
+	    }
+	  });
+
+	  GradientFillStyle.setter({
+	    colors: function(colors) {
+	      var k, v;
+	      return this._colors = isPlainArray(colors) ? GradientFillStyle.normalizeColors(colors) : isPlainObject(colors) ? (colors = (function() {
+	        var results;
+	        results = [];
+	        for (k in colors) {
+	          v = colors[k];
+	          results.push({
+	            n: k * 1,
+	            c: isString(v) ? v : String(rgbColor(v))
+	          });
+	        }
+	        return results;
+	      })(), colors = GradientFillStyle.sortColorsByN(colors), GradientFillStyle.interpolateColorPositions(colors)) : [
+	        {
+	          n: 0,
+	          c: rgbColor("black"),
+	          n: 1,
+	          c: rgbColor("white")
+	        }
+	      ];
+	    }
+	  });
+
+	  GradientFillStyle.prototype.getColorAt = function(atN) {
+	    var c, i, j, lastC, lastN, len, n, range, ref, ref1;
+	    lastN = null;
+	    lastC = null;
+	    ref = this.colors;
+	    for (i = j = 0, len = ref.length; j < len; i = ++j) {
+	      ref1 = ref[i], c = ref1.c, n = ref1.n;
+	      if (atN <= n) {
+	        if (lastC) {
+	          range = n - lastN;
+	          return rgbColor(lastC).interpolate(c, (atN - lastN) / range);
+	        } else {
+	          return c;
+	        }
+	      }
+	      lastC = c;
+	      lastN = n;
+	    }
+	    return null;
+	  };
+
+	  GradientFillStyle.prototype.toCanvasStyle = function(context) {
+	    var clr, e, gradient, j, len, radius1, radius2, ref, ref1;
+	    if (context.context) {
+	      context = context.context;
+	    }
+	    gradient = this.radius1 != null ? (this.radius2 != null ? (ref = this, radius1 = ref.radius1, radius2 = ref.radius2, ref) : (radius1 = 0, radius2 = this.radius1), context.createRadialGradient(this.from.x, this.from.y, radius1, this.to.x, this.to.y, radius2)) : context.createLinearGradient(this.from.x, this.from.y, this.to.x, this.to.y);
+	    ref1 = this._colors;
+	    for (j = 0, len = ref1.length; j < len; j++) {
+	      clr = ref1[j];
+	      try {
+	        gradient.addColorStop(clr.n, clr.c.toString());
+	      } catch (error) {
+	        e = error;
+	        gradient.addColorStop(clr.n, "black");
+	      }
+	    }
+	    return gradient;
+	  };
+
+	  return GradientFillStyle;
+
+	})(Foundation.BaseObject);
+
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Foundation, Paths, bound, float32Eq0, floatEq, isNumber, isPlainObject, log, max, min;
+
+	Foundation = __webpack_require__(19);
+
+	log = Foundation.log, floatEq = Foundation.floatEq, min = Foundation.min, max = Foundation.max, isNumber = Foundation.isNumber, isPlainObject = Foundation.isPlainObject, float32Eq0 = Foundation.float32Eq0, bound = Foundation.bound;
+
+	module.exports = Paths = (function() {
+	  var rectangle, roundedRectangle;
+
+	  function Paths() {}
+
+	  Paths.rectangle = rectangle = function(context, r) {
+	    var bottom, left, right, top;
+	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
+	    context.moveTo(left, top);
+	    context.lineTo(right, top);
+	    context.lineTo(right, bottom);
+	    context.lineTo(left, bottom);
+	    return context.closePath();
+	  };
+
+	  Paths.line = function(context, fromPoint, toPoint) {
+	    context.moveTo(fromPoint.x, fromPoint.y);
+	    return context.lineTo(toPoint.x, toPoint.y);
+	  };
+
+	  Paths.roundedRectangle = roundedRectangle = function(context, r, radius) {
+	    var bl, bottom, br, h, hCenter, halfW, left, maxRadius, right, tl, top, tr, vCenter, w;
+	    if (!radius) {
+	      return rectangle(context, r);
+	    }
+	    if (isPlainObject(radius)) {
+	      tl = radius.tl, tr = radius.tr, bl = radius.bl, br = radius.br;
+	    } else {
+	      tl = tr = bl = br = radius;
+	    }
+	    if (float32Eq0(tl) && float32Eq0(tr) && float32Eq0(bl) && float32Eq0(br)) {
+	      return rectangle(context, r);
+	    }
+	    w = r.w, h = r.h;
+	    w = max(0, w);
+	    h = max(0, h);
+	    if (floatEq(w, h) && isNumber(radius) && radius >= (halfW = w / 2)) {
+	      hCenter = r.hCenter, vCenter = r.vCenter;
+	      context.arc(hCenter, vCenter, halfW, 0, Math.PI * 2, true);
+	      return;
+	    }
+	    maxRadius = min(w / 2, h / 2);
+	    bl = bound(0, bl, maxRadius);
+	    br = bound(0, br, maxRadius);
+	    tl = bound(0, tl, maxRadius);
+	    tr = bound(0, tr, maxRadius);
+	    left = r.left, right = r.right, top = r.top, bottom = r.bottom;
+	    context.moveTo(left, top + tl);
+	    context.arcTo(left, top, left + tl, top, tl);
+	    context.lineTo(right - tr, top);
+	    context.arcTo(right, top, right, top + tr, tr);
+	    context.lineTo(right, bottom - br);
+	    context.arcTo(right, bottom, right - br, bottom, br);
+	    context.lineTo(left + bl, bottom);
+	    context.arcTo(left, bottom, left, bottom - bl, bl);
+	    return context.closePath();
+	  };
+
+	  Paths.curriedRoundedRectangle = function(r, radius) {
+	    return function(context) {
+	      return roundedRectangle(context, r, radius);
+	    };
+	  };
+
+	  return Paths;
+
+	})();
+
+
+/***/ },
+/* 151 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+	/*
+	SBD TODO
+
+	Bluring transparencies has errors. Repro:
+	  clear background to: color(1,0,0,.5)
+	  drawRectangle color(0,1,0,1) over a sub-area of the bitmap
+	  blur
+
+	The problem (I think) is transparent colors have equal weight as non-transparent colors.
+
+	...
+
+	I need to test bluring on the edge of the bitmap. I'm not convinced it works right.
+
+	...
+
+	Possible speedup and simplification:
+
+	One solution which may be faster overall is to reserve one line of pixels in memory plus
+	the blur radius amount of pixels on each side. Those pixel colors should be repetitions of the edge colors.
+	Then we can blur over that range with reduced tests in our inner loop.
+	It looks like "slice" allows us to quickly get a subsection of an ArrayBuffer. That will work for all lines
+	except the first and last one(s). Just slice and then overwrite the first and end colors with the edge-colors.
+
+	UInt8Array .subarray and .set should make moving the pixles to and from pretty fast. The only slow part will
+	be filling the edge pixels in.
+	 */
+
+	/*
+
+	StackBlur - a fast almost Gaussian Blur For Canvas
+
+	Version:  0.5
+	Author:   Mario Klingemann
+	Contact:  mario@quasimondo.com
+	Website:  http://www.quasimondo.com/StackBlurForCanvas
+	Twitter:  @quasimondo
+
+	In case you find this class useful - especially in commercial projects -
+	I am not totally unhappy for a small donation to my PayPal account
+	mario@quasimondo.de
+
+	Or support me on flattr:
+	https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
+
+	Copyright (c) 2010 Mario Klingemann
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	 */
+	var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(143), __webpack_require__(129), __webpack_require__(19), __webpack_require__(147)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Canvas, Atomic, Foundation) {
+	  var BlurStack, color, inspect, matrix, nextTick, point, rect;
+	  point = Atomic.point, matrix = Atomic.matrix, rect = Atomic.rect, color = Atomic.color;
+	  inspect = Foundation.Inspect.inspect;
+	  nextTick = Foundation.nextTick;
+	  BlurStack = (function() {
+	    function BlurStack() {
+	      this.r = this.g = this.b = this.a = 0;
+	      this.next = null;
+	    }
+
+	    return BlurStack;
+
+	  })();
+	  return Canvas.StackBlur = (function(superClass) {
+	    extend(StackBlur, superClass);
+
+	    function StackBlur() {
+	      return StackBlur.__super__.constructor.apply(this, arguments);
+	    }
+
+	    StackBlur.blur = function(bitmap, radius) {
+	      return (new Canvas.StackBlur).blur(bitmap, radius);
+	    };
+
+	    StackBlur.blurRGB = function(bitmap, radius) {
+	      return (new Canvas.StackBlur).blurRGB(bitmap, radius);
+	    };
+
+	    StackBlur.blurAlpha = function(bitmap, radius) {
+	      return (new Canvas.StackBlur).blurAlpha(bitmap, radius);
+	    };
+
+	    StackBlur.blurInvertedAlpha = function(bitmap, radius) {
+	      return (new Canvas.StackBlur).blurInvertedAlpha(bitmap, radius);
+	    };
+
+	    StackBlur.prototype.blur = function(bitmap, radius, targetBitmap) {
+	      var imageData, pixels;
+	      targetBitmap || (targetBitmap = bitmap);
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      radius = radius + .5 | 0;
+	      if (radius > 0) {
+	        this.stackBlurCanvasRGBA(pixels, bitmap.size.w, bitmap.size.h, radius);
+	      }
+	      return targetBitmap.putImageData(imageData);
+	    };
+
+	    StackBlur.prototype.blurRGB = function(bitmap, radius, targetBitmap) {
+	      var imageData, pixels;
+	      targetBitmap || (targetBitmap = bitmap);
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      radius = radius + .5 | 0;
+	      if (radius > 0) {
+	        this.stackBlurCanvasRGB(pixels, bitmap.size.w, bitmap.size.h, radius);
+	      }
+	      return targetBitmap.putImageData(imageData);
+	    };
+
+	    StackBlur.prototype.blurAlpha = function(bitmap, radius, targetBitmap) {
+	      var imageData, pixels;
+	      targetBitmap || (targetBitmap = bitmap);
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      radius = radius + .5 | 0;
+	      if (radius > 0) {
+	        this.stackBlurCanvasAlpha(pixels, bitmap.size.w, bitmap.size.h, radius);
+	      }
+	      return targetBitmap.putImageData(imageData);
+	    };
+
+	    StackBlur.prototype.blurInvertedAlpha = function(bitmap, radius, targetBitmap) {
+	      var imageData, pixels;
+	      targetBitmap || (targetBitmap = bitmap);
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      radius = radius + .5 | 0;
+	      this.invertAlpha(pixels, bitmap.size.area);
+	      if (radius > 0) {
+	        this.stackBlurCanvasAlpha(pixels, bitmap.size.w, bitmap.size.h, radius);
+	      }
+	      return targetBitmap.putImageData(imageData);
+	    };
+
+	    StackBlur.prototype.invertAlpha = function(pixels, numPixels) {
+	      var end, end8, i, results;
+	      i = 0;
+	      end = numPixels * 4 - 4;
+	      end8 = end - (end % 8);
+	      while (i <= end) {
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        i += 4;
+	      }
+	      results = [];
+	      while (i <= end) {
+	        pixels[i + 3] = 255 - pixels[i + 3];
+	        results.push(i += 4);
+	      }
+	      return results;
+	    };
+
+	    StackBlur.prototype.createStack = function(radius) {
+	      var i, j, ref, stack;
+	      this.stackStart = new BlurStack();
+	      stack = this.stackStart;
+	      for (i = j = 1, ref = 2 * radius; j <= ref; i = j += 1) {
+	        stack = stack.next = new BlurStack();
+	        if (i === radius + 1) {
+	          this.stackEnd = stack;
+	        }
+	      }
+	      return stack.next = this.stackStart;
+	    };
+
+	    StackBlur.prototype.rgbaPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
+	      var a_in_sum, a_out_sum, a_sum, b_in_sum, b_out_sum, b_sum, firstPixelSumWeight, g_in_sum, g_out_sum, g_sum, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pa, pb, pg, pr, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight, weight;
+	      radiusPlus1 = radius + 1;
+	      stackWeight = radiusPlus1 * radiusPlus1;
+	      oneOverStackWeight = 1 / stackWeight;
+	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
+	      stackStart = this.stackStart;
+	      stackEnd = this.stackEnd;
+	      outterPos = 0;
+	      results = [];
+	      while (outterPos <= outterEnd) {
+	        r_in_sum = g_in_sum = b_in_sum = a_in_sum = 0;
+	        pr = pixels[outterPos];
+	        pg = pixels[outterPos + 1];
+	        pb = pixels[outterPos + 2];
+	        pa = pixels[outterPos + 3];
+	        if (pa < 255) {
+	          weight = pa / 255;
+	          pr *= weight;
+	          pg *= weight;
+	          pb *= weight;
+	        }
+	        r_out_sum = radiusPlus1 * pr;
+	        g_out_sum = radiusPlus1 * pg;
+	        b_out_sum = radiusPlus1 * pb;
+	        a_out_sum = radiusPlus1 * pa;
+	        r_sum = firstPixelSumWeight * pr;
+	        g_sum = firstPixelSumWeight * pg;
+	        b_sum = firstPixelSumWeight * pb;
+	        a_sum = firstPixelSumWeight * pa;
+	        stackIn = stackStart;
+	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
+	          stackIn.r = pr;
+	          stackIn.g = pg;
+	          stackIn.b = pb;
+	          stackIn.a = pa;
+	          stackIn = stackIn.next;
+	        }
+	        innerEnd = outterPos + innerEndDelta;
+	        rbs = radius;
+	        innerRadiusEnd = outterPos + radius * innerStep;
+	        innerPos = outterPos + innerStep;
+	        while (innerPos <= innerRadiusEnd) {
+	          readPos = innerPos;
+	          if (innerPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          pr = pixels[readPos];
+	          pg = pixels[readPos + 1];
+	          pb = pixels[readPos + 2];
+	          pa = pixels[readPos + 3];
+	          if (pa < 255) {
+	            weight = pa / 255;
+	            pr *= weight;
+	            pg *= weight;
+	            pb *= weight;
+	          }
+	          r_in_sum += stackIn.r = pr;
+	          g_in_sum += stackIn.g = pg;
+	          b_in_sum += stackIn.b = pb;
+	          a_in_sum += stackIn.a = pa;
+	          r_sum += pr * rbs;
+	          g_sum += pg * rbs;
+	          b_sum += pb * rbs;
+	          a_sum += pa * rbs;
+	          rbs--;
+	          stackIn = stackIn.next;
+	          innerPos += innerStep;
+	        }
+	        stackOut = stackEnd;
+	        readPosOffset = radiusPlus1 * innerStep;
+	        innerPos = outterPos;
+	        while (innerPos <= innerEnd) {
+	          pixels[innerPos + 3] = pa = a_sum * oneOverStackWeight;
+	          if (pa !== 0) {
+	            pa = oneOverStackWeight * 255 / pa;
+	            pixels[innerPos] = r_sum * pa;
+	            pixels[innerPos + 1] = g_sum * pa;
+	            pixels[innerPos + 2] = b_sum * pa;
+	          } else {
+	            pixels[innerPos] = pixels[innerPos + 1] = pixels[innerPos + 2] = 0;
+	          }
+	          r_sum -= r_out_sum;
+	          g_sum -= g_out_sum;
+	          b_sum -= b_out_sum;
+	          a_sum -= a_out_sum;
+	          r_out_sum -= stackIn.r;
+	          g_out_sum -= stackIn.g;
+	          b_out_sum -= stackIn.b;
+	          a_out_sum -= stackIn.a;
+	          readPos = innerPos + readPosOffset;
+	          if (readPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          pr = pixels[readPos];
+	          pg = pixels[readPos + 1];
+	          pb = pixels[readPos + 2];
+	          pa = pixels[readPos + 3];
+	          if (pa < 255) {
+	            weight = pa / 255;
+	            pr *= weight;
+	            pg *= weight;
+	            pb *= weight;
+	          }
+	          r_in_sum += stackIn.r = pr;
+	          g_in_sum += stackIn.g = pg;
+	          b_in_sum += stackIn.b = pb;
+	          a_in_sum += stackIn.a = pa;
+	          r_sum += r_in_sum;
+	          g_sum += g_in_sum;
+	          b_sum += b_in_sum;
+	          a_sum += a_in_sum;
+	          r_out_sum += pr = stackOut.r;
+	          g_out_sum += pg = stackOut.g;
+	          b_out_sum += pb = stackOut.b;
+	          a_out_sum += pa = stackOut.a;
+	          r_in_sum -= pr;
+	          g_in_sum -= pg;
+	          b_in_sum -= pb;
+	          a_in_sum -= pa;
+	          stackIn = stackIn.next;
+	          stackOut = stackOut.next;
+	          innerPos += innerStep;
+	        }
+	        results.push(outterPos += outterStep);
+	      }
+	      return results;
+	    };
+
+	    StackBlur.prototype.rgbPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
+	      var b_in_sum, b_out_sum, b_sum, firstPixelSumWeight, g_in_sum, g_out_sum, g_sum, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pb, pg, pr, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight;
+	      radiusPlus1 = radius + 1;
+	      stackWeight = radiusPlus1 * radiusPlus1;
+	      oneOverStackWeight = 1 / stackWeight;
+	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
+	      stackStart = this.stackStart;
+	      stackEnd = this.stackEnd;
+	      outterPos = 0;
+	      results = [];
+	      while (outterPos <= outterEnd) {
+	        r_in_sum = g_in_sum = b_in_sum = 0;
+	        pr = pixels[outterPos];
+	        pg = pixels[outterPos + 1];
+	        pb = pixels[outterPos + 2];
+	        r_out_sum = radiusPlus1 * pr;
+	        g_out_sum = radiusPlus1 * pg;
+	        b_out_sum = radiusPlus1 * pb;
+	        r_sum = firstPixelSumWeight * pr;
+	        g_sum = firstPixelSumWeight * pg;
+	        b_sum = firstPixelSumWeight * pb;
+	        stackIn = stackStart;
+	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
+	          stackIn.r = pr;
+	          stackIn.g = pg;
+	          stackIn.b = pb;
+	          stackIn = stackIn.next;
+	        }
+	        innerEnd = outterPos + innerEndDelta;
+	        rbs = radius;
+	        innerRadiusEnd = outterPos + radius * innerStep;
+	        innerPos = outterPos + innerStep;
+	        while (innerPos <= innerRadiusEnd) {
+	          readPos = innerPos;
+	          if (innerPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          pr = pixels[readPos];
+	          pg = pixels[readPos + 1];
+	          pb = pixels[readPos + 2];
+	          r_in_sum += stackIn.r = pr;
+	          g_in_sum += stackIn.g = pg;
+	          b_in_sum += stackIn.b = pb;
+	          r_sum += pr * rbs;
+	          g_sum += pg * rbs;
+	          b_sum += pb * rbs;
+	          rbs--;
+	          stackIn = stackIn.next;
+	          innerPos += innerStep;
+	        }
+	        stackOut = stackEnd;
+	        readPosOffset = radiusPlus1 * innerStep;
+	        innerPos = outterPos;
+	        while (innerPos <= innerEnd) {
+	          pixels[innerPos] = r_sum * oneOverStackWeight;
+	          pixels[innerPos + 1] = g_sum * oneOverStackWeight;
+	          pixels[innerPos + 2] = b_sum * oneOverStackWeight;
+	          r_sum -= r_out_sum;
+	          g_sum -= g_out_sum;
+	          b_sum -= b_out_sum;
+	          r_out_sum -= stackIn.r;
+	          g_out_sum -= stackIn.g;
+	          b_out_sum -= stackIn.b;
+	          readPos = innerPos + readPosOffset;
+	          if (readPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          pr = pixels[readPos];
+	          pg = pixels[readPos + 1];
+	          pb = pixels[readPos + 2];
+	          r_in_sum += stackIn.r = pr;
+	          g_in_sum += stackIn.g = pg;
+	          b_in_sum += stackIn.b = pb;
+	          r_sum += r_in_sum;
+	          g_sum += g_in_sum;
+	          b_sum += b_in_sum;
+	          r_out_sum += pr = stackOut.r;
+	          g_out_sum += pg = stackOut.g;
+	          b_out_sum += pb = stackOut.b;
+	          r_in_sum -= pr;
+	          g_in_sum -= pg;
+	          b_in_sum -= pb;
+	          stackIn = stackIn.next;
+	          stackOut = stackOut.next;
+	          innerPos += innerStep;
+	        }
+	        results.push(outterPos += outterStep);
+	      }
+	      return results;
+	    };
+
+	    StackBlur.prototype.alphaPass = function(radius, pixels, outterStep, outterEnd, innerStep, innerEndDelta) {
+	      var a_in_sum, a_out_sum, a_sum, firstPixelSumWeight, i, innerEnd, innerPos, innerRadiusEnd, j, oneOverStackWeight, outterPos, pa, radiusPlus1, rbs, readPos, readPosOffset, ref, results, stackEnd, stackIn, stackOut, stackStart, stackWeight;
+	      radiusPlus1 = radius + 1;
+	      stackWeight = radiusPlus1 * radiusPlus1;
+	      oneOverStackWeight = 1 / stackWeight;
+	      firstPixelSumWeight = (stackWeight + radiusPlus1) / 2;
+	      stackStart = this.stackStart;
+	      stackEnd = this.stackEnd;
+	      outterPos = 3;
+	      outterEnd += 3;
+	      results = [];
+	      while (outterPos <= outterEnd) {
+	        a_in_sum = 0;
+	        pa = pixels[outterPos];
+	        a_out_sum = radiusPlus1 * pa;
+	        a_sum = firstPixelSumWeight * pa;
+	        stackIn = stackStart;
+	        for (i = j = 0, ref = radius; j <= ref; i = j += 1) {
+	          stackIn.a = pa;
+	          stackIn = stackIn.next;
+	        }
+	        innerEnd = outterPos + innerEndDelta;
+	        rbs = radius;
+	        innerRadiusEnd = outterPos + radius * innerStep;
+	        innerPos = outterPos + innerStep;
+	        while (innerPos <= innerRadiusEnd) {
+	          readPos = innerPos;
+	          if (innerPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          pa = pixels[readPos];
+	          a_in_sum += stackIn.a = pa;
+	          a_sum += pa * rbs;
+	          rbs--;
+	          stackIn = stackIn.next;
+	          innerPos += innerStep;
+	        }
+	        stackOut = stackEnd;
+	        readPosOffset = radiusPlus1 * innerStep;
+	        innerPos = outterPos;
+	        while (innerPos <= innerEnd) {
+	          pixels[innerPos] = a_sum * oneOverStackWeight;
+	          a_sum -= a_out_sum;
+	          a_out_sum -= stackIn.a;
+	          readPos = innerPos + readPosOffset;
+	          if (readPos > innerEnd) {
+	            readPos = innerEnd;
+	          }
+	          a_in_sum += stackIn.a = pixels[readPos];
+	          a_sum += a_in_sum;
+	          a_out_sum += pa = stackOut.a;
+	          a_in_sum -= pa;
+	          stackIn = stackIn.next;
+	          stackOut = stackOut.next;
+	          innerPos += innerStep;
+	        }
+	        results.push(outterPos += outterStep);
+	      }
+	      return results;
+	    };
+
+	    StackBlur.prototype.stackBlurCanvasRGBA = function(pixels, width, height, radius) {
+	      if (radius <= 0) {
+	        return;
+	      }
+	      this.createStack(radius);
+	      this.rgbaPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
+	      return this.rgbaPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
+	    };
+
+	    StackBlur.prototype.stackBlurCanvasAlpha = function(pixels, width, height, radius) {
+	      if (radius <= 0) {
+	        return;
+	      }
+	      this.createStack(radius);
+	      this.alphaPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
+	      return this.alphaPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
+	    };
+
+	    StackBlur.prototype.stackBlurCanvasRGB = function(pixels, width, height, radius) {
+	      if (radius <= 0) {
+	        return;
+	      }
+	      this.createStack(radius);
+	      this.rgbPass(radius, pixels, 4, (width - 1) * 4, width * 4, (height - 1) * width * 4);
+	      return this.rgbPass(radius, pixels, width * 4, (height - 1) * width * 4, 4, (width - 1) * 4);
+	    };
+
+	    return StackBlur;
+
+	  })(Foundation.BaseObject);
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BatchLoader, Foundation, GoogleFontLoader, WebFont, inspect, log,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Foundation = __webpack_require__(19);
+
+	WebFont = __webpack_require__(153);
+
+	inspect = Foundation.inspect, log = Foundation.log, BatchLoader = Foundation.BatchLoader;
+
+	module.exports = GoogleFontLoader = (function(superClass) {
+	  extend(GoogleFontLoader, superClass);
+
+	  GoogleFontLoader.singletonClass();
+
+	  function GoogleFontLoader(options) {
+	    if (options == null) {
+	      options = {};
+	    }
+	    this.defaultWeight = {
+	      UnifrakturCook: 700
+	    };
+	    GoogleFontLoader.__super__.constructor.call(this, (function(_this) {
+	      return function(src) {
+	        return _this.webFontLoadWithWaiting([src]);
+	      };
+	    })(this));
+	  }
+
+	  GoogleFontLoader.prototype.googleFamilies = function(fontFamilies) {
+	    var font, i, len, results, weight;
+	    results = [];
+	    for (i = 0, len = fontFamilies.length; i < len; i++) {
+	      font = fontFamilies[i];
+	      weight = this.defaultWeight[font] || "";
+	      results.push((font.split(" ").join("+")) + ":" + weight + ":latin,latin-ext");
+	    }
+	    return results;
+	  };
+
+	  GoogleFontLoader.prototype.webFontLoad = function(fontFamilies, done) {
+	    return WebFont.load({
+	      google: {
+	        families: this.googleFamilies(fontFamilies)
+	      },
+	      fontactive: (function(_this) {
+	        return function(font) {
+	          return _this.addAsset(font, font);
+	        };
+	      })(this),
+	      fontinactive: (function(_this) {
+	        return function(font) {
+	          return _this.addAsset(font, "FAILED TO LOAD");
+	        };
+	      })(this),
+	      inactive: done,
+	      active: done
+	    });
+	  };
+
+	  GoogleFontLoader.prototype.webFontLoadWithWaiting = function(fontFamilies) {
+	    var font, i, len, wfw;
+	    if (window.WebFontConfig) {
+	      wfw = window.WebFontWaiting || (window.WebFontWaiting = {});
+	      for (i = 0, len = fontFamilies.length; i < len; i++) {
+	        font = fontFamilies[i];
+	        wfw[font] = true;
+	      }
+	      return;
+	    }
+	    return this.webFontLoad(fontFamilies, (function(_this) {
+	      return function() {
+	        var waitingList;
+	        waitingList = window.WebFontWaiting && Object.keys(window.WebFontWaiting);
+	        window.WebFontWaiting = null;
+	        window.WebFontConfig = null;
+	        if (waitingList) {
+	          return _this.webFontLoad(waitingList);
+	        }
+	      };
+	    })(this));
+	  };
+
+	  return GoogleFontLoader;
+
+	})(BatchLoader);
+
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* Web Font Loader v1.6.26 - (c) Adobe Systems, Google. License: Apache 2.0 */(function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function p(a,b,c){p=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return p.apply(null,arguments)}var q=Date.now||function(){return+new Date};function ca(a,b){this.a=a;this.m=b||a;this.c=this.m.document}var da=!!window.FontFace;function t(a,b,c,d){b=a.c.createElement(b);if(c)for(var e in c)c.hasOwnProperty(e)&&("style"==e?b.style.cssText=c[e]:b.setAttribute(e,c[e]));d&&b.appendChild(a.c.createTextNode(d));return b}function u(a,b,c){a=a.c.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}function v(a){a.parentNode&&a.parentNode.removeChild(a)}
+	function w(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function y(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
+	function z(a){if("string"===typeof a.f)return a.f;var b=a.m.location.protocol;"about:"==b&&(b=a.a.location.protocol);return"https:"==b?"https:":"http:"}function ea(a){return a.m.location.hostname||a.a.location.hostname}
+	function A(a,b,c){function d(){k&&e&&f&&(k(g),k=null)}b=t(a,"link",{rel:"stylesheet",href:b,media:"all"});var e=!1,f=!0,g=null,k=c||null;da?(b.onload=function(){e=!0;d()},b.onerror=function(){e=!0;g=Error("Stylesheet failed to load");d()}):setTimeout(function(){e=!0;d()},0);u(a,"head",b)}
+	function B(a,b,c,d){var e=a.c.getElementsByTagName("head")[0];if(e){var f=t(a,"script",{src:b}),g=!1;f.onload=f.onreadystatechange=function(){g||this.readyState&&"loaded"!=this.readyState&&"complete"!=this.readyState||(g=!0,c&&c(null),f.onload=f.onreadystatechange=null,"HEAD"==f.parentNode.tagName&&e.removeChild(f))};e.appendChild(f);setTimeout(function(){g||(g=!0,c&&c(Error("Script load timeout")))},d||5E3);return f}return null};function C(){this.a=0;this.c=null}function D(a){a.a++;return function(){a.a--;E(a)}}function F(a,b){a.c=b;E(a)}function E(a){0==a.a&&a.c&&(a.c(),a.c=null)};function G(a){this.a=a||"-"}G.prototype.c=function(a){for(var b=[],c=0;c<arguments.length;c++)b.push(arguments[c].replace(/[\W_]+/g,"").toLowerCase());return b.join(this.a)};function H(a,b){this.c=a;this.f=4;this.a="n";var c=(b||"n4").match(/^([nio])([1-9])$/i);c&&(this.a=c[1],this.f=parseInt(c[2],10))}function fa(a){return I(a)+" "+(a.f+"00")+" 300px "+J(a.c)}function J(a){var b=[];a=a.split(/,\s*/);for(var c=0;c<a.length;c++){var d=a[c].replace(/['"]/g,"");-1!=d.indexOf(" ")||/^\d/.test(d)?b.push("'"+d+"'"):b.push(d)}return b.join(",")}function K(a){return a.a+a.f}function I(a){var b="normal";"o"===a.a?b="oblique":"i"===a.a&&(b="italic");return b}
+	function ga(a){var b=4,c="n",d=null;a&&((d=a.match(/(normal|oblique|italic)/i))&&d[1]&&(c=d[1].substr(0,1).toLowerCase()),(d=a.match(/([1-9]00|normal|bold)/i))&&d[1]&&(/bold/i.test(d[1])?b=7:/[1-9]00/.test(d[1])&&(b=parseInt(d[1].substr(0,1),10))));return c+b};function ha(a,b){this.c=a;this.f=a.m.document.documentElement;this.h=b;this.a=new G("-");this.j=!1!==b.events;this.g=!1!==b.classes}function ia(a){a.g&&w(a.f,[a.a.c("wf","loading")]);L(a,"loading")}function M(a){if(a.g){var b=y(a.f,a.a.c("wf","active")),c=[],d=[a.a.c("wf","loading")];b||c.push(a.a.c("wf","inactive"));w(a.f,c,d)}L(a,"inactive")}function L(a,b,c){if(a.j&&a.h[b])if(c)a.h[b](c.c,K(c));else a.h[b]()};function ja(){this.c={}}function ka(a,b,c){var d=[],e;for(e in b)if(b.hasOwnProperty(e)){var f=a.c[e];f&&d.push(f(b[e],c))}return d};function N(a,b){this.c=a;this.f=b;this.a=t(this.c,"span",{"aria-hidden":"true"},this.f)}function O(a){u(a.c,"body",a.a)}function P(a){return"display:block;position:absolute;top:-9999px;left:-9999px;font-size:300px;width:auto;height:auto;line-height:normal;margin:0;padding:0;font-variant:normal;white-space:nowrap;font-family:"+J(a.c)+";"+("font-style:"+I(a)+";font-weight:"+(a.f+"00")+";")};function Q(a,b,c,d,e,f){this.g=a;this.j=b;this.a=d;this.c=c;this.f=e||3E3;this.h=f||void 0}Q.prototype.start=function(){var a=this.c.m.document,b=this,c=q(),d=new Promise(function(d,e){function k(){q()-c>=b.f?e():a.fonts.load(fa(b.a),b.h).then(function(a){1<=a.length?d():setTimeout(k,25)},function(){e()})}k()}),e=new Promise(function(a,d){setTimeout(d,b.f)});Promise.race([e,d]).then(function(){b.g(b.a)},function(){b.j(b.a)})};function R(a,b,c,d,e,f,g){this.v=a;this.B=b;this.c=c;this.a=d;this.s=g||"BESbswy";this.f={};this.w=e||3E3;this.u=f||null;this.o=this.j=this.h=this.g=null;this.g=new N(this.c,this.s);this.h=new N(this.c,this.s);this.j=new N(this.c,this.s);this.o=new N(this.c,this.s);a=new H(this.a.c+",serif",K(this.a));a=P(a);this.g.a.style.cssText=a;a=new H(this.a.c+",sans-serif",K(this.a));a=P(a);this.h.a.style.cssText=a;a=new H("serif",K(this.a));a=P(a);this.j.a.style.cssText=a;a=new H("sans-serif",K(this.a));a=
+	P(a);this.o.a.style.cssText=a;O(this.g);O(this.h);O(this.j);O(this.o)}var S={D:"serif",C:"sans-serif"},T=null;function U(){if(null===T){var a=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent);T=!!a&&(536>parseInt(a[1],10)||536===parseInt(a[1],10)&&11>=parseInt(a[2],10))}return T}R.prototype.start=function(){this.f.serif=this.j.a.offsetWidth;this.f["sans-serif"]=this.o.a.offsetWidth;this.A=q();la(this)};
+	function ma(a,b,c){for(var d in S)if(S.hasOwnProperty(d)&&b===a.f[S[d]]&&c===a.f[S[d]])return!0;return!1}function la(a){var b=a.g.a.offsetWidth,c=a.h.a.offsetWidth,d;(d=b===a.f.serif&&c===a.f["sans-serif"])||(d=U()&&ma(a,b,c));d?q()-a.A>=a.w?U()&&ma(a,b,c)&&(null===a.u||a.u.hasOwnProperty(a.a.c))?V(a,a.v):V(a,a.B):na(a):V(a,a.v)}function na(a){setTimeout(p(function(){la(this)},a),50)}function V(a,b){setTimeout(p(function(){v(this.g.a);v(this.h.a);v(this.j.a);v(this.o.a);b(this.a)},a),0)};function W(a,b,c){this.c=a;this.a=b;this.f=0;this.o=this.j=!1;this.s=c}var X=null;W.prototype.g=function(a){var b=this.a;b.g&&w(b.f,[b.a.c("wf",a.c,K(a).toString(),"active")],[b.a.c("wf",a.c,K(a).toString(),"loading"),b.a.c("wf",a.c,K(a).toString(),"inactive")]);L(b,"fontactive",a);this.o=!0;oa(this)};
+	W.prototype.h=function(a){var b=this.a;if(b.g){var c=y(b.f,b.a.c("wf",a.c,K(a).toString(),"active")),d=[],e=[b.a.c("wf",a.c,K(a).toString(),"loading")];c||d.push(b.a.c("wf",a.c,K(a).toString(),"inactive"));w(b.f,d,e)}L(b,"fontinactive",a);oa(this)};function oa(a){0==--a.f&&a.j&&(a.o?(a=a.a,a.g&&w(a.f,[a.a.c("wf","active")],[a.a.c("wf","loading"),a.a.c("wf","inactive")]),L(a,"active")):M(a.a))};function pa(a){this.j=a;this.a=new ja;this.h=0;this.f=this.g=!0}pa.prototype.load=function(a){this.c=new ca(this.j,a.context||this.j);this.g=!1!==a.events;this.f=!1!==a.classes;qa(this,new ha(this.c,a),a)};
+	function ra(a,b,c,d,e){var f=0==--a.h;(a.f||a.g)&&setTimeout(function(){var a=e||null,k=d||null||{};if(0===c.length&&f)M(b.a);else{b.f+=c.length;f&&(b.j=f);var h,m=[];for(h=0;h<c.length;h++){var l=c[h],n=k[l.c],r=b.a,x=l;r.g&&w(r.f,[r.a.c("wf",x.c,K(x).toString(),"loading")]);L(r,"fontloading",x);r=null;null===X&&(X=window.FontFace?(x=/Gecko.*Firefox\/(\d+)/.exec(window.navigator.userAgent))?42<parseInt(x[1],10):!0:!1);X?r=new Q(p(b.g,b),p(b.h,b),b.c,l,b.s,n):r=new R(p(b.g,b),p(b.h,b),b.c,l,b.s,a,
+	n);m.push(r)}for(h=0;h<m.length;h++)m[h].start()}},0)}function qa(a,b,c){var d=[],e=c.timeout;ia(b);var d=ka(a.a,c,a.c),f=new W(a.c,b,e);a.h=d.length;b=0;for(c=d.length;b<c;b++)d[b].load(function(b,d,c){ra(a,f,b,d,c)})};function sa(a,b){this.c=a;this.a=b}function ta(a,b,c){var d=z(a.c);a=(a.a.api||"fast.fonts.net/jsapi").replace(/^.*http(s?):(\/\/)?/,"");return d+"//"+a+"/"+b+".js"+(c?"?v="+c:"")}
+	sa.prototype.load=function(a){function b(){if(f["__mti_fntLst"+d]){var c=f["__mti_fntLst"+d](),e=[],h;if(c)for(var m=0;m<c.length;m++){var l=c[m].fontfamily;void 0!=c[m].fontStyle&&void 0!=c[m].fontWeight?(h=c[m].fontStyle+c[m].fontWeight,e.push(new H(l,h))):e.push(new H(l))}a(e)}else setTimeout(function(){b()},50)}var c=this,d=c.a.projectId,e=c.a.version;if(d){var f=c.c.m;B(this.c,ta(c,d,e),function(e){e?a([]):(f["__MonotypeConfiguration__"+d]=function(){return c.a},b())}).id="__MonotypeAPIScript__"+
+	d}else a([])};function ua(a,b){this.c=a;this.a=b}ua.prototype.load=function(a){var b,c,d=this.a.urls||[],e=this.a.families||[],f=this.a.testStrings||{},g=new C;b=0;for(c=d.length;b<c;b++)A(this.c,d[b],D(g));var k=[];b=0;for(c=e.length;b<c;b++)if(d=e[b].split(":"),d[1])for(var h=d[1].split(","),m=0;m<h.length;m+=1)k.push(new H(d[0],h[m]));else k.push(new H(d[0]));F(g,function(){a(k,f)})};function va(a,b,c){a?this.c=a:this.c=b+wa;this.a=[];this.f=[];this.g=c||""}var wa="//fonts.googleapis.com/css";function xa(a,b){for(var c=b.length,d=0;d<c;d++){var e=b[d].split(":");3==e.length&&a.f.push(e.pop());var f="";2==e.length&&""!=e[1]&&(f=":");a.a.push(e.join(f))}}
+	function ya(a){if(0==a.a.length)throw Error("No fonts to load!");if(-1!=a.c.indexOf("kit="))return a.c;for(var b=a.a.length,c=[],d=0;d<b;d++)c.push(a.a[d].replace(/ /g,"+"));b=a.c+"?family="+c.join("%7C");0<a.f.length&&(b+="&subset="+a.f.join(","));0<a.g.length&&(b+="&text="+encodeURIComponent(a.g));return b};function za(a){this.f=a;this.a=[];this.c={}}
+	var Aa={latin:"BESbswy","latin-ext":"\u00e7\u00f6\u00fc\u011f\u015f",cyrillic:"\u0439\u044f\u0416",greek:"\u03b1\u03b2\u03a3",khmer:"\u1780\u1781\u1782",Hanuman:"\u1780\u1781\u1782"},Ba={thin:"1",extralight:"2","extra-light":"2",ultralight:"2","ultra-light":"2",light:"3",regular:"4",book:"4",medium:"5","semi-bold":"6",semibold:"6","demi-bold":"6",demibold:"6",bold:"7","extra-bold":"8",extrabold:"8","ultra-bold":"8",ultrabold:"8",black:"9",heavy:"9",l:"3",r:"4",b:"7"},Ca={i:"i",italic:"i",n:"n",normal:"n"},
+	Da=/^(thin|(?:(?:extra|ultra)-?)?light|regular|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
+	function Ea(a){for(var b=a.f.length,c=0;c<b;c++){var d=a.f[c].split(":"),e=d[0].replace(/\+/g," "),f=["n4"];if(2<=d.length){var g;var k=d[1];g=[];if(k)for(var k=k.split(","),h=k.length,m=0;m<h;m++){var l;l=k[m];if(l.match(/^[\w-]+$/)){var n=Da.exec(l.toLowerCase());if(null==n)l="";else{l=n[2];l=null==l||""==l?"n":Ca[l];n=n[1];if(null==n||""==n)n="4";else var r=Ba[n],n=r?r:isNaN(n)?"4":n.substr(0,1);l=[l,n].join("")}}else l="";l&&g.push(l)}0<g.length&&(f=g);3==d.length&&(d=d[2],g=[],d=d?d.split(","):
+	g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<f.length;d+=1)a.a.push(new H(e,f[d]))}};function Fa(a,b){this.c=a;this.a=b}var Ga={Arimo:!0,Cousine:!0,Tinos:!0};Fa.prototype.load=function(a){var b=new C,c=this.c,d=new va(this.a.api,z(c),this.a.text),e=this.a.families;xa(d,e);var f=new za(e);Ea(f);A(c,ya(d),D(b));F(b,function(){a(f.a,f.c,Ga)})};function Ha(a,b){this.c=a;this.a=b}Ha.prototype.load=function(a){var b=this.a.id,c=this.c.m;b?B(this.c,(this.a.api||"https://use.typekit.net")+"/"+b+".js",function(b){if(b)a([]);else if(c.Typekit&&c.Typekit.config&&c.Typekit.config.fn){b=c.Typekit.config.fn;for(var e=[],f=0;f<b.length;f+=2)for(var g=b[f],k=b[f+1],h=0;h<k.length;h++)e.push(new H(g,k[h]));try{c.Typekit.load({events:!1,classes:!1,async:!0})}catch(m){}a(e)}},2E3):a([])};function Ia(a,b){this.c=a;this.f=b;this.a=[]}Ia.prototype.load=function(a){var b=this.f.id,c=this.c.m,d=this;b?(c.__webfontfontdeckmodule__||(c.__webfontfontdeckmodule__={}),c.__webfontfontdeckmodule__[b]=function(b,c){for(var g=0,k=c.fonts.length;g<k;++g){var h=c.fonts[g];d.a.push(new H(h.name,ga("font-weight:"+h.weight+";font-style:"+h.style)))}a(d.a)},B(this.c,z(this.c)+(this.f.api||"//f.fontdeck.com/s/css/js/")+ea(this.c)+"/"+b+".js",function(b){b&&a([])})):a([])};var Y=new pa(window);Y.a.c.custom=function(a,b){return new ua(b,a)};Y.a.c.fontdeck=function(a,b){return new Ia(b,a)};Y.a.c.monotype=function(a,b){return new sa(b,a)};Y.a.c.typekit=function(a,b){return new Ha(b,a)};Y.a.c.google=function(a,b){return new Fa(b,a)};var Z={load:p(Y.load,Y)}; true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return Z}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"undefined"!==typeof module&&module.exports?module.exports=Z:(window.WebFont=Z,window.WebFontConfig&&Y.load(window.WebFontConfig));}());
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+
+	StackBlur - a fast almost Gaussian Blur For Canvas
+
+	Version:  0.5
+	Author:   Mario Klingemann
+	Contact:  mario@quasimondo.com
+	Website:  http://www.quasimondo.com/StackBlurForCanvas
+	Twitter:  @quasimondo
+
+	In case you find this class useful - especially in commercial projects -
+	I am not totally unhappy for a small donation to my PayPal account
+	mario@quasimondo.de
+
+	Or support me on flattr:
+	https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
+
+	Copyright (c) 2010 Mario Klingemann
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	*/
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+
+
+	  var mul_table = [
+	          512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
+	          454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
+	          482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,
+	          437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,
+	          497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,
+	          320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,
+	          446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,
+	          329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,
+	          505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,
+	          399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,
+	          324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,
+	          268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,
+	          451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,
+	          385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,
+	          332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,
+	          289,287,285,282,280,278,275,273,271,269,267,265,263,261,259];
+
+
+	  var shg_table = [
+	         9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
+	      17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
+	      19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20,
+	      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21,
+	      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+	      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22,
+	      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
+	      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
+	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+	      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+	      23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+	      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 ];
+
+	  function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
+	  {
+
+	    var img = document.getElementById( imageID );
+	    var w = img.naturalWidth;
+	      var h = img.naturalHeight;
+
+	    var canvas = document.getElementById( canvasID );
+
+	      canvas.style.width  = w + "px";
+	      canvas.style.height = h + "px";
+	      canvas.width = w;
+	      canvas.height = h;
+
+	      var context = canvas.getContext("2d");
+	      context.clearRect( 0, 0, w, h );
+	      context.drawImage( img, 0, 0 );
+
+	    if ( isNaN(radius) || radius < 1 ) return;
+
+	    if ( blurAlphaChannel )
+	      stackBlurCanvasRGBA( canvasID, 0, 0, w, h, radius );
+	    else
+	      stackBlurCanvasRGB( canvasID, 0, 0, w, h, radius );
+	  }
+
+
+	  function stackBlurCanvasRGBA( imageData, top_x, top_y, width, height, radius )
+	  {
+	    // if ( isNaN(radius) || radius < 1 ) return;
+	    // radius |= 0;
+
+	    // var canvas  = document.getElementById( id );
+	    // var context = canvas.getContext("2d");
+	    // var imageData;
+
+	    // try {
+	    //   try {
+	    //   imageData = context.getImageData( top_x, top_y, width, height );
+	    //   } catch(e) {
+
+	    //   // NOTE: this part is supposedly only needed if you want to work with local files
+	    //   // so it might be okay to remove the whole try/catch block and just use
+	    //   // imageData = context.getImageData( top_x, top_y, width, height );
+	    //   try {
+	    //     netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+	    //     imageData = context.getImageData( top_x, top_y, width, height );
+	    //   } catch(e) {
+	    //     alert("Cannot access local image");
+	    //     throw new Error("unable to access local image data: " + e);
+	    //     return;
+	    //   }
+	    //   }
+	    // } catch(e) {
+	    //   alert("Cannot access image");
+	    //   throw new Error("unable to access image data: " + e);
+	    // }
+
+	    var pixels = imageData.data;
+
+	    var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum,
+	    r_out_sum, g_out_sum, b_out_sum, a_out_sum,
+	    r_in_sum, g_in_sum, b_in_sum, a_in_sum,
+	    pr, pg, pb, pa, rbs;
+
+	    var div = radius + radius + 1;
+	    var w4 = width << 2;
+	    var widthMinus1  = width - 1;
+	    var heightMinus1 = height - 1;
+	    var radiusPlus1  = radius + 1;
+	    var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+
+	    var stackStart = new BlurStack();
+	    var stack = stackStart;
+	    for ( i = 1; i < div; i++ )
+	    {
+	      stack = stack.next = new BlurStack();
+	      if ( i == radiusPlus1 ) var stackEnd = stack;
+	    }
+	    stack.next = stackStart;
+	    var stackIn = null;
+	    var stackOut = null;
+
+	    yw = yi = 0;
+
+	    var mul_sum = mul_table[radius];
+	    var shg_sum = shg_table[radius];
+
+	    for ( y = 0; y < height; y++ )
+	    {
+	      r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
+
+	      r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+	      a_out_sum = radiusPlus1 * ( pa = pixels[yi+3] );
+
+	      r_sum += sumFactor * pr;
+	      g_sum += sumFactor * pg;
+	      b_sum += sumFactor * pb;
+	      a_sum += sumFactor * pa;
+
+	      stack = stackStart;
+
+	      for( i = 0; i < radiusPlus1; i++ )
+	      {
+	        stack.r = pr;
+	        stack.g = pg;
+	        stack.b = pb;
+	        stack.a = pa;
+	        stack = stack.next;
+	      }
+
+	      for( i = 1; i < radiusPlus1; i++ )
+	      {
+	        p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+	        r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+	        g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+	        b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+	        a_sum += ( stack.a = ( pa = pixels[p+3])) * rbs;
+
+	        r_in_sum += pr;
+	        g_in_sum += pg;
+	        b_in_sum += pb;
+	        a_in_sum += pa;
+
+	        stack = stack.next;
+	      }
+
+
+	      stackIn = stackStart;
+	      stackOut = stackEnd;
+	      for ( x = 0; x < width; x++ )
+	      {
+	        pixels[yi+3] = pa = (a_sum * mul_sum) >> shg_sum;
+	        if ( pa != 0 )
+	        {
+	          pa = 255 / pa;
+	          pixels[yi]   = ((r_sum * mul_sum) >> shg_sum) * pa;
+	          pixels[yi+1] = ((g_sum * mul_sum) >> shg_sum) * pa;
+	          pixels[yi+2] = ((b_sum * mul_sum) >> shg_sum) * pa;
+	        } else {
+	          pixels[yi] = pixels[yi+1] = pixels[yi+2] = 0;
+	        }
+
+	        r_sum -= r_out_sum;
+	        g_sum -= g_out_sum;
+	        b_sum -= b_out_sum;
+	        a_sum -= a_out_sum;
+
+	        r_out_sum -= stackIn.r;
+	        g_out_sum -= stackIn.g;
+	        b_out_sum -= stackIn.b;
+	        a_out_sum -= stackIn.a;
+
+	        p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+
+	        r_in_sum += ( stackIn.r = pixels[p]);
+	        g_in_sum += ( stackIn.g = pixels[p+1]);
+	        b_in_sum += ( stackIn.b = pixels[p+2]);
+	        a_in_sum += ( stackIn.a = pixels[p+3]);
+
+	        r_sum += r_in_sum;
+	        g_sum += g_in_sum;
+	        b_sum += b_in_sum;
+	        a_sum += a_in_sum;
+
+	        stackIn = stackIn.next;
+
+	        r_out_sum += ( pr = stackOut.r );
+	        g_out_sum += ( pg = stackOut.g );
+	        b_out_sum += ( pb = stackOut.b );
+	        a_out_sum += ( pa = stackOut.a );
+
+	        r_in_sum -= pr;
+	        g_in_sum -= pg;
+	        b_in_sum -= pb;
+	        a_in_sum -= pa;
+
+	        stackOut = stackOut.next;
+
+	        yi += 4;
+	      }
+	      yw += width;
+	    }
+
+
+	    for ( x = 0; x < width; x++ )
+	    {
+	      g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
+
+	      yi = x << 2;
+	      r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+	      a_out_sum = radiusPlus1 * ( pa = pixels[yi+3]);
+
+	      r_sum += sumFactor * pr;
+	      g_sum += sumFactor * pg;
+	      b_sum += sumFactor * pb;
+	      a_sum += sumFactor * pa;
+
+	      stack = stackStart;
+
+	      for( i = 0; i < radiusPlus1; i++ )
+	      {
+	        stack.r = pr;
+	        stack.g = pg;
+	        stack.b = pb;
+	        stack.a = pa;
+	        stack = stack.next;
+	      }
+
+	      yp = width;
+
+	      for( i = 1; i <= radius; i++ )
+	      {
+	        yi = ( yp + x ) << 2;
+
+	        r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+	        g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+	        b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+	        a_sum += ( stack.a = ( pa = pixels[yi+3])) * rbs;
+
+	        r_in_sum += pr;
+	        g_in_sum += pg;
+	        b_in_sum += pb;
+	        a_in_sum += pa;
+
+	        stack = stack.next;
+
+	        if( i < heightMinus1 )
+	        {
+	          yp += width;
+	        }
+	      }
+
+	      yi = x;
+	      stackIn = stackStart;
+	      stackOut = stackEnd;
+	      for ( y = 0; y < height; y++ )
+	      {
+	        p = yi << 2;
+	        pixels[p+3] = pa = (a_sum * mul_sum) >> shg_sum;
+	        if ( pa > 0 )
+	        {
+	          pa = 255 / pa;
+	          pixels[p]   = ((r_sum * mul_sum) >> shg_sum ) * pa;
+	          pixels[p+1] = ((g_sum * mul_sum) >> shg_sum ) * pa;
+	          pixels[p+2] = ((b_sum * mul_sum) >> shg_sum ) * pa;
+	        } else {
+	          pixels[p] = pixels[p+1] = pixels[p+2] = 0;
+	        }
+
+	        r_sum -= r_out_sum;
+	        g_sum -= g_out_sum;
+	        b_sum -= b_out_sum;
+	        a_sum -= a_out_sum;
+
+	        r_out_sum -= stackIn.r;
+	        g_out_sum -= stackIn.g;
+	        b_out_sum -= stackIn.b;
+	        a_out_sum -= stackIn.a;
+
+	        p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+
+	        r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+	        g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+	        b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+	        a_sum += ( a_in_sum += ( stackIn.a = pixels[p+3]));
+
+	        stackIn = stackIn.next;
+
+	        r_out_sum += ( pr = stackOut.r );
+	        g_out_sum += ( pg = stackOut.g );
+	        b_out_sum += ( pb = stackOut.b );
+	        a_out_sum += ( pa = stackOut.a );
+
+	        r_in_sum -= pr;
+	        g_in_sum -= pg;
+	        b_in_sum -= pb;
+	        a_in_sum -= pa;
+
+	        stackOut = stackOut.next;
+
+	        yi += width;
+	      }
+	    }
+
+	    // context.putImageData( imageData, top_x, top_y );
+
+	  }
+
+
+	  function stackBlurCanvasRGB( imageData, top_x, top_y, width, height, radius )
+	  {
+	    // if ( isNaN(radius) || radius < 1 ) return;
+	    // radius |= 0;
+
+	    // var canvas  = document.getElementById( id );
+	    // var context = canvas.getContext("2d");
+	    // var imageData;
+
+	    // try {
+	    //   try {
+	    //   imageData = context.getImageData( top_x, top_y, width, height );
+	    //   } catch(e) {
+
+	    //   // NOTE: this part is supposedly only needed if you want to work with local files
+	    //   // so it might be okay to remove the whole try/catch block and just use
+	    //   // imageData = context.getImageData( top_x, top_y, width, height );
+	    //   try {
+	    //     netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+	    //     imageData = context.getImageData( top_x, top_y, width, height );
+	    //   } catch(e) {
+	    //     alert("Cannot access local image");
+	    //     throw new Error("unable to access local image data: " + e);
+	    //     return;
+	    //   }
+	    //   }
+	    // } catch(e) {
+	    //   alert("Cannot access image");
+	    //   throw new Error("unable to access image data: " + e);
+	    // }
+
+	    var pixels = imageData.data;
+
+	    var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum,
+	    r_out_sum, g_out_sum, b_out_sum,
+	    r_in_sum, g_in_sum, b_in_sum,
+	    pr, pg, pb, rbs;
+
+	    var div = radius + radius + 1;
+	    var w4 = width << 2;
+	    var widthMinus1  = width - 1;
+	    var heightMinus1 = height - 1;
+	    var radiusPlus1  = radius + 1;
+	    var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+
+	    var stackStart = new BlurStack();
+	    var stack = stackStart;
+	    for ( i = 1; i < div; i++ )
+	    {
+	      stack = stack.next = new BlurStack();
+	      if ( i == radiusPlus1 ) var stackEnd = stack;
+	    }
+	    stack.next = stackStart;
+	    var stackIn = null;
+	    var stackOut = null;
+
+	    yw = yi = 0;
+
+	    var mul_sum = mul_table[radius];
+	    var shg_sum = shg_table[radius];
+
+	    for ( y = 0; y < height; y++ )
+	    {
+	      r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
+
+	      r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+
+	      r_sum += sumFactor * pr;
+	      g_sum += sumFactor * pg;
+	      b_sum += sumFactor * pb;
+
+	      stack = stackStart;
+
+	      for( i = 0; i < radiusPlus1; i++ )
+	      {
+	        stack.r = pr;
+	        stack.g = pg;
+	        stack.b = pb;
+	        stack = stack.next;
+	      }
+
+	      for( i = 1; i < radiusPlus1; i++ )
+	      {
+	        p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+	        r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+	        g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+	        b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+
+	        r_in_sum += pr;
+	        g_in_sum += pg;
+	        b_in_sum += pb;
+
+	        stack = stack.next;
+	      }
+
+
+	      stackIn = stackStart;
+	      stackOut = stackEnd;
+	      for ( x = 0; x < width; x++ )
+	      {
+	        pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
+	        pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
+	        pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
+
+	        r_sum -= r_out_sum;
+	        g_sum -= g_out_sum;
+	        b_sum -= b_out_sum;
+
+	        r_out_sum -= stackIn.r;
+	        g_out_sum -= stackIn.g;
+	        b_out_sum -= stackIn.b;
+
+	        p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+
+	        r_in_sum += ( stackIn.r = pixels[p]);
+	        g_in_sum += ( stackIn.g = pixels[p+1]);
+	        b_in_sum += ( stackIn.b = pixels[p+2]);
+
+	        r_sum += r_in_sum;
+	        g_sum += g_in_sum;
+	        b_sum += b_in_sum;
+
+	        stackIn = stackIn.next;
+
+	        r_out_sum += ( pr = stackOut.r );
+	        g_out_sum += ( pg = stackOut.g );
+	        b_out_sum += ( pb = stackOut.b );
+
+	        r_in_sum -= pr;
+	        g_in_sum -= pg;
+	        b_in_sum -= pb;
+
+	        stackOut = stackOut.next;
+
+	        yi += 4;
+	      }
+	      yw += width;
+	    }
+
+
+	    for ( x = 0; x < width; x++ )
+	    {
+	      g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
+
+	      yi = x << 2;
+	      r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+	      g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+	      b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+
+	      r_sum += sumFactor * pr;
+	      g_sum += sumFactor * pg;
+	      b_sum += sumFactor * pb;
+
+	      stack = stackStart;
+
+	      for( i = 0; i < radiusPlus1; i++ )
+	      {
+	        stack.r = pr;
+	        stack.g = pg;
+	        stack.b = pb;
+	        stack = stack.next;
+	      }
+
+	      yp = width;
+
+	      for( i = 1; i <= radius; i++ )
+	      {
+	        yi = ( yp + x ) << 2;
+
+	        r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+	        g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+	        b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+
+	        r_in_sum += pr;
+	        g_in_sum += pg;
+	        b_in_sum += pb;
+
+	        stack = stack.next;
+
+	        if( i < heightMinus1 )
+	        {
+	          yp += width;
+	        }
+	      }
+
+	      yi = x;
+	      stackIn = stackStart;
+	      stackOut = stackEnd;
+	      for ( y = 0; y < height; y++ )
+	      {
+	        p = yi << 2;
+	        pixels[p]   = (r_sum * mul_sum) >> shg_sum;
+	        pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
+	        pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
+
+	        r_sum -= r_out_sum;
+	        g_sum -= g_out_sum;
+	        b_sum -= b_out_sum;
+
+	        r_out_sum -= stackIn.r;
+	        g_out_sum -= stackIn.g;
+	        b_out_sum -= stackIn.b;
+
+	        p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+
+	        r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+	        g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+	        b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+
+	        stackIn = stackIn.next;
+
+	        r_out_sum += ( pr = stackOut.r );
+	        g_out_sum += ( pg = stackOut.g );
+	        b_out_sum += ( pb = stackOut.b );
+
+	        r_in_sum -= pr;
+	        g_in_sum -= pg;
+	        b_in_sum -= pb;
+
+	        stackOut = stackOut.next;
+
+	        yi += width;
+	      }
+	    }
+
+	    // context.putImageData( imageData, top_x, top_y );
+
+	  }
+
+	  function BlurStack()
+	  {
+	    this.r = 0;
+	    this.g = 0;
+	    this.b = 0;
+	    this.a = 0;
+	    this.next = null;
+	  }
+	  return {stackBlurCanvasRGBA:stackBlurCanvasRGBA, stackBlurCanvasRGB:stackBlurCanvasRGB};
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+	/*
+
+	StackBlurOriginal - a fast almost Gaussian Blur For Canvas
+
+	Version:  0.5
+	Author:   Mario Klingemann
+	Contact:  mario@quasimondo.com
+	Website:  http://www.quasimondo.com/StackBlurForCanvas
+	Twitter:  @quasimondo
+
+	In case you find this class useful - especially in commercial projects -
+	I am not totally unhappy for a small donation to my PayPal account
+	mario@quasimondo.de
+
+	Or support me on flattr:
+	https://flattr.com/thing/72791/StackBlurOriginal-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
+
+	Copyright (c) 2010 Mario Klingemann
+
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without
+	restriction, including without limitation the rights to use,
+	copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the
+	Software is furnished to do so, subject to the following
+	conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	OTHER DEALINGS IN THE SOFTWARE.
+	 */
+	var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(143), __webpack_require__(154), __webpack_require__(147)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas, OrigStackBlur) {
+	  var BlurStack, color, inspect, matrix, mulTable, nextTick, point, rect, shgTable;
+	  point = Atomic.point, matrix = Atomic.matrix, rect = Atomic.rect, color = Atomic.color;
+	  inspect = Foundation.Inspect.inspect;
+	  nextTick = Foundation.nextTick;
+	  mulTable = [512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259, 496, 475, 456, 437, 420, 404, 388, 374, 360, 347, 335, 323, 312, 302, 292, 282, 273, 265, 512, 497, 482, 468, 454, 441, 428, 417, 405, 394, 383, 373, 364, 354, 345, 337, 328, 320, 312, 305, 298, 291, 284, 278, 271, 265, 259, 507, 496, 485, 475, 465, 456, 446, 437, 428, 420, 412, 404, 396, 388, 381, 374, 367, 360, 354, 347, 341, 335, 329, 323, 318, 312, 307, 302, 297, 292, 287, 282, 278, 273, 269, 265, 261, 512, 505, 497, 489, 482, 475, 468, 461, 454, 447, 441, 435, 428, 422, 417, 411, 405, 399, 394, 389, 383, 378, 373, 368, 364, 359, 354, 350, 345, 341, 337, 332, 328, 324, 320, 316, 312, 309, 305, 301, 298, 294, 291, 287, 284, 281, 278, 274, 271, 268, 265, 262, 259, 257, 507, 501, 496, 491, 485, 480, 475, 470, 465, 460, 456, 451, 446, 442, 437, 433, 428, 424, 420, 416, 412, 408, 404, 400, 396, 392, 388, 385, 381, 377, 374, 370, 367, 363, 360, 357, 354, 350, 347, 344, 341, 338, 335, 332, 329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292, 289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259];
+	  shgTable = [9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24];
+	  BlurStack = (function() {
+	    function BlurStack() {
+	      this.r = this.g = this.b = this.a = 0;
+	      this.next = null;
+	    }
+
+	    return BlurStack;
+
+	  })();
+	  return Canvas.StackBlurOriginal = (function(superClass) {
+	    extend(StackBlurOriginal, superClass);
+
+	    function StackBlurOriginal() {
+	      return StackBlurOriginal.__super__.constructor.apply(this, arguments);
+	    }
+
+	    StackBlurOriginal.blur = function(bitmap, radius) {
+	      return (new Canvas.StackBlurOriginal).blur(bitmap, radius);
+	    };
+
+	    StackBlurOriginal.blurRGB = function(bitmap, radius) {
+	      return (new Canvas.StackBlurOriginal).blurRGB(bitmap, radius);
+	    };
+
+	    StackBlurOriginal.prototype.blur = function(bitmap, radius) {
+	      var imageData, pixels;
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      OrigStackBlur.stackBlurCanvasRGBA(imageData, 0, 0, bitmap.size.w, bitmap.size.h, radius);
+	      return bitmap.putImageData(imageData);
+	    };
+
+	    StackBlurOriginal.prototype.blurRGB = function(bitmap, radius) {
+	      var imageData, pixels;
+	      imageData = bitmap.getImageData();
+	      pixels = imageData.data;
+	      OrigStackBlur.stackBlurCanvasRGB(imageData, 0, 0, bitmap.size.w, bitmap.size.h, radius);
+	      return bitmap.putImageData(imageData);
+	    };
+
+	    StackBlurOriginal.prototype.stackBlurCanvasRGBA = function(pixels, top_x, top_y, width, height, radius) {
+	      var a_in_sum, a_out_sum, a_sum, b_in_sum, b_out_sum, b_sum, div, g_in_sum, g_out_sum, g_sum, heightMinus1, i, j, k, l, m, mul_sum, n, o, p, pa, pb, pg, pr, q, r, r_in_sum, r_out_sum, r_sum, radiusPlus1, rbs, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, results, s, shg_sum, stack, stackEnd, stackIn, stackOut, stackStart, sumFactor, w4, widthMinus1, x, y, yi, yp, yw;
+	      div = radius + radius + 1;
+	      w4 = width << 2;
+	      widthMinus1 = width - 1;
+	      heightMinus1 = height - 1;
+	      radiusPlus1 = radius + 1;
+	      sumFactor = radiusPlus1 * (radiusPlus1 + 1) / 2;
+	      stackStart = new BlurStack();
+	      stack = stackStart;
+	      for (i = j = 1, ref = div - 1; j <= ref; i = j += 1) {
+	        stack = stack.next = new BlurStack();
+	        if (i === radiusPlus1) {
+	          stackEnd = stack;
+	        }
+	      }
+	      stack.next = stackStart;
+	      yw = yi = 0;
+	      mul_sum = mulTable[radius];
+	      shg_sum = shgTable[radius];
+	      for (y = k = 0, ref1 = heightMinus1; k <= ref1; y = k += 1) {
+	        r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
+	        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
+	        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
+	        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
+	        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
+	        r_sum += sumFactor * pr;
+	        g_sum += sumFactor * pg;
+	        b_sum += sumFactor * pb;
+	        a_sum += sumFactor * pa;
+	        stack = stackStart;
+	        for (i = l = 0, ref2 = radius; l <= ref2; i = l += 1) {
+	          stack.r = pr;
+	          stack.g = pg;
+	          stack.b = pb;
+	          stack.a = pa;
+	          stack = stack.next;
+	        }
+	        for (i = m = 1, ref3 = radius; m <= ref3; i = m += 1) {
+	          p = yi + ((widthMinus1 < i ? widthMinus1 : i) << 2);
+	          r_sum += (stack.r = (pr = pixels[p])) * (rbs = radiusPlus1 - i);
+	          g_sum += (stack.g = (pg = pixels[p + 1])) * rbs;
+	          b_sum += (stack.b = (pb = pixels[p + 2])) * rbs;
+	          a_sum += (stack.a = (pa = pixels[p + 3])) * rbs;
+	          r_in_sum += pr;
+	          g_in_sum += pg;
+	          b_in_sum += pb;
+	          a_in_sum += pa;
+	          stack = stack.next;
+	        }
+	        stackIn = stackStart;
+	        stackOut = stackEnd;
+	        for (x = n = 0, ref4 = widthMinus1; n <= ref4; x = n += 1) {
+	          pixels[yi + 3] = pa = (a_sum * mul_sum) >> shg_sum;
+	          if (pa !== 0) {
+	            pa = 255 / pa;
+	            pixels[yi] = ((r_sum * mul_sum) >> shg_sum) * pa;
+	            pixels[yi + 1] = ((g_sum * mul_sum) >> shg_sum) * pa;
+	            pixels[yi + 2] = ((b_sum * mul_sum) >> shg_sum) * pa;
+	          } else {
+	            pixels[yi] = pixels[yi + 1] = pixels[yi + 2] = 0;
+	          }
+	          r_sum -= r_out_sum;
+	          g_sum -= g_out_sum;
+	          b_sum -= b_out_sum;
+	          a_sum -= a_out_sum;
+	          r_out_sum -= stackIn.r;
+	          g_out_sum -= stackIn.g;
+	          b_out_sum -= stackIn.b;
+	          a_out_sum -= stackIn.a;
+	          p = (yw + ((p = x + radius + 1) < widthMinus1 ? p : widthMinus1)) << 2;
+	          r_in_sum += (stackIn.r = pixels[p]);
+	          g_in_sum += (stackIn.g = pixels[p + 1]);
+	          b_in_sum += (stackIn.b = pixels[p + 2]);
+	          a_in_sum += (stackIn.a = pixels[p + 3]);
+	          r_sum += r_in_sum;
+	          g_sum += g_in_sum;
+	          b_sum += b_in_sum;
+	          a_sum += a_in_sum;
+	          stackIn = stackIn.next;
+	          r_out_sum += (pr = stackOut.r);
+	          g_out_sum += (pg = stackOut.g);
+	          b_out_sum += (pb = stackOut.b);
+	          a_out_sum += (pa = stackOut.a);
+	          r_in_sum -= pr;
+	          g_in_sum -= pg;
+	          b_in_sum -= pb;
+	          a_in_sum -= pa;
+	          stackOut = stackOut.next;
+	          yi += 4;
+	        }
+	        yw += width;
+	      }
+	      results = [];
+	      for (x = o = 0, ref5 = widthMinus1; o <= ref5; x = o += 1) {
+	        g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
+	        yi = x << 2;
+	        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
+	        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
+	        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
+	        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
+	        r_sum += sumFactor * pr;
+	        g_sum += sumFactor * pg;
+	        b_sum += sumFactor * pb;
+	        a_sum += sumFactor * pa;
+	        stack = stackStart;
+	        for (i = q = 0, ref6 = radius; q <= ref6; i = q += 1) {
+	          stack.r = pr;
+	          stack.g = pg;
+	          stack.b = pb;
+	          stack.a = pa;
+	          stack = stack.next;
+	        }
+	        yp = width;
+	        for (i = r = 1, ref7 = radius; r <= ref7; i = r += 1) {
+	          yi = (yp + x) << 2;
+	          r_sum += (stack.r = (pr = pixels[yi])) * (rbs = radiusPlus1 - i);
+	          g_sum += (stack.g = (pg = pixels[yi + 1])) * rbs;
+	          b_sum += (stack.b = (pb = pixels[yi + 2])) * rbs;
+	          a_sum += (stack.a = (pa = pixels[yi + 3])) * rbs;
+	          r_in_sum += pr;
+	          g_in_sum += pg;
+	          b_in_sum += pb;
+	          a_in_sum += pa;
+	          stack = stack.next;
+	          if (i < heightMinus1) {
+	            yp += width;
+	          }
+	        }
+	        yi = x;
+	        stackIn = stackStart;
+	        stackOut = stackEnd;
+	        for (y = s = 0, ref8 = heightMinus1; s <= ref8; y = s += 1) {
+	          p = yi << 2;
+	          pixels[p + 3] = pa = (a_sum * mul_sum) >> shg_sum;
+	          if (pa > 0) {
+	            pa = 255 / pa;
+	            pixels[p] = ((r_sum * mul_sum) >> shg_sum) * pa;
+	            pixels[p + 1] = ((g_sum * mul_sum) >> shg_sum) * pa;
+	            pixels[p + 2] = ((b_sum * mul_sum) >> shg_sum) * pa;
+	          } else {
+	            pixels[p] = pixels[p + 1] = pixels[p + 2] = 0;
+	          }
+	          r_sum -= r_out_sum;
+	          g_sum -= g_out_sum;
+	          b_sum -= b_out_sum;
+	          a_sum -= a_out_sum;
+	          r_out_sum -= stackIn.r;
+	          g_out_sum -= stackIn.g;
+	          b_out_sum -= stackIn.b;
+	          a_out_sum -= stackIn.a;
+	          p = (x + (((p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1) * width)) << 2;
+	          r_sum += (r_in_sum += (stackIn.r = pixels[p]));
+	          g_sum += (g_in_sum += (stackIn.g = pixels[p + 1]));
+	          b_sum += (b_in_sum += (stackIn.b = pixels[p + 2]));
+	          a_sum += (a_in_sum += (stackIn.a = pixels[p + 3]));
+	          stackIn = stackIn.next;
+	          r_out_sum += (pr = stackOut.r);
+	          g_out_sum += (pg = stackOut.g);
+	          b_out_sum += (pb = stackOut.b);
+	          a_out_sum += (pa = stackOut.a);
+	          r_in_sum -= pr;
+	          g_in_sum -= pg;
+	          b_in_sum -= pb;
+	          a_in_sum -= pa;
+	          stackOut = stackOut.next;
+	          yi += width;
+	        }
+	        results.push(1);
+	      }
+	      return results;
+	    };
+
+	    return StackBlurOriginal;
+
+	  })(Foundation.BaseObject);
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(157).addModules({
+	  GestureRecognizer: __webpack_require__(158),
+	  KeyEvent: __webpack_require__(160),
+	  PointerEventManager: __webpack_require__(175),
+	  PointerEvent: __webpack_require__(176),
+	  Pointer: __webpack_require__(159)
+	});
+
+
+/***/ },
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Engine, Events,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Events || Engine.addNamespace('Events', Events = (function(superClass) {
 	  extend(Events, superClass);
@@ -19954,13 +20012,13 @@
 
 
 /***/ },
-/* 165 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(166)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Pointer) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(159)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Pointer) {
 	  var BaseObject, GestureRecognizer, abs, clone, first, inspect, isFunction, isPlainObject, matrix, objectWithout, peek, point, pointerDeadZone, pointerDeadZoneSquared, rect, select;
 	  inspect = Foundation.inspect, clone = Foundation.clone, peek = Foundation.peek, first = Foundation.first, BaseObject = Foundation.BaseObject, isPlainObject = Foundation.isPlainObject, clone = Foundation.clone, abs = Foundation.abs, isFunction = Foundation.isFunction, select = Foundation.select, objectWithout = Foundation.objectWithout;
 	  point = Atomic.point, rect = Atomic.rect, matrix = Atomic.matrix;
@@ -20128,13 +20186,13 @@
 
 
 /***/ },
-/* 166 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic) {
 	  var BaseObject, Pointer, clone, first, inspect, matrix, peek, point, rect;
 	  inspect = Foundation.inspect, clone = Foundation.clone, peek = Foundation.peek, first = Foundation.first, BaseObject = Foundation.BaseObject;
 	  point = Atomic.point, rect = Atomic.rect, matrix = Atomic.matrix;
@@ -20220,7 +20278,7 @@
 
 
 /***/ },
-/* 167 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Events, Foundation, KeyEvent, log,
@@ -20229,7 +20287,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
 
 	/*
@@ -20247,7 +20305,7 @@
 	  (not using because it hasn't been touchedin 3 years and is complex)
 	 */
 
-	__webpack_require__(181).polyfill();
+	__webpack_require__(174).polyfill();
 
 	log = Foundation.log;
 
@@ -20271,36 +20329,36 @@
 
 
 /***/ },
-/* 168 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(169);
+	module.exports = __webpack_require__(162);
 
 
 /***/ },
-/* 169 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(170).includeInNamespace(__webpack_require__(172)).addModules({
-	  Event: __webpack_require__(174),
-	  EventedBaseMixin: __webpack_require__(175),
-	  EventedMixin: __webpack_require__(177),
-	  EventedObject: __webpack_require__(179),
-	  EventedObjectBase: __webpack_require__(180),
-	  EventEpoch: __webpack_require__(176),
-	  EventManager: __webpack_require__(178)
+	module.exports = __webpack_require__(163).includeInNamespace(__webpack_require__(165)).addModules({
+	  Event: __webpack_require__(167),
+	  EventedBaseMixin: __webpack_require__(168),
+	  EventedMixin: __webpack_require__(170),
+	  EventedObject: __webpack_require__(172),
+	  EventedObjectBase: __webpack_require__(173),
+	  EventEpoch: __webpack_require__(169),
+	  EventManager: __webpack_require__(171)
 	});
 
 
 /***/ },
-/* 170 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Events,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(171);
+	Art = __webpack_require__(164);
 
 	module.exports = Art.Events || Art.addNamespace('Events', Events = (function(superClass) {
 	  extend(Events, superClass);
@@ -20315,7 +20373,7 @@
 
 
 /***/ },
-/* 171 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -20337,21 +20395,21 @@
 
 
 /***/ },
-/* 172 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _package;
 
 	module.exports = [
 	  {
-	    "package": _package = __webpack_require__(173),
+	    "package": _package = __webpack_require__(166),
 	    version: _package.version
 	  }
 	];
 
 
 /***/ },
-/* 173 */
+/* 166 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -20384,7 +20442,7 @@
 	};
 
 /***/ },
-/* 174 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Event, Foundation, currentSecond, emptyProps,
@@ -20412,7 +20470,7 @@
 
 
 /***/ },
-/* 175 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, Foundation, defineModule, eventEpoch, inspect, isFunction, isPlainObject, log,
@@ -20421,9 +20479,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	EventEpoch = __webpack_require__(176);
+	EventEpoch = __webpack_require__(169);
 
-	Event = __webpack_require__(174);
+	Event = __webpack_require__(167);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect;
 
@@ -20568,7 +20626,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 176 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Epoch, EventEpoch, Foundation, defineModule, log,
@@ -20601,7 +20659,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 177 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventManager, EventedBaseMixin, Foundation, defineModule, eventEpoch, isFunction, isPlainObject, log,
@@ -20610,13 +20668,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	EventManager = __webpack_require__(178);
+	EventManager = __webpack_require__(171);
 
-	EventEpoch = __webpack_require__(176);
+	EventEpoch = __webpack_require__(169);
 
-	Event = __webpack_require__(174);
+	Event = __webpack_require__(167);
 
-	EventedBaseMixin = __webpack_require__(175);
+	EventedBaseMixin = __webpack_require__(168);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject;
 
@@ -20683,7 +20741,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 178 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {
@@ -20701,7 +20759,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	Event = __webpack_require__(174);
+	Event = __webpack_require__(167);
 
 	defineModule = Foundation.defineModule, nextTick = Foundation.nextTick, isFunction = Foundation.isFunction, inspect = Foundation.inspect, clone = Foundation.clone, arrayWith = Foundation.arrayWith;
 
@@ -20873,7 +20931,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 179 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventManager, EventedObject, EventedObjectBase, Foundation, defineModule, eventEpoch, isFunction, isPlainObject, log,
@@ -20882,13 +20940,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	EventManager = __webpack_require__(178);
+	EventManager = __webpack_require__(171);
 
-	EventEpoch = __webpack_require__(176);
+	EventEpoch = __webpack_require__(169);
 
-	Event = __webpack_require__(174);
+	Event = __webpack_require__(167);
 
-	EventedObjectBase = __webpack_require__(180);
+	EventedObjectBase = __webpack_require__(173);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject;
 
@@ -20950,16 +21008,16 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 180 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventedObjectBase, Foundation, defineModule, eventEpoch, inspect, isFunction, isPlainObject, log;
 
 	Foundation = __webpack_require__(19);
 
-	EventEpoch = __webpack_require__(176);
+	EventEpoch = __webpack_require__(169);
 
-	Event = __webpack_require__(174);
+	Event = __webpack_require__(167);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect;
 
@@ -21095,7 +21153,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 181 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* global define, KeyboardEvent, module */
@@ -21222,7 +21280,7 @@
 
 
 /***/ },
-/* 182 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -21336,17 +21394,17 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
-	Pointer = __webpack_require__(166);
+	Pointer = __webpack_require__(159);
 
-	PointerEvent = __webpack_require__(183);
+	PointerEvent = __webpack_require__(176);
 
-	KeyEvent = __webpack_require__(167);
+	KeyEvent = __webpack_require__(160);
 
 	EventEpoch = Events.EventEpoch;
 
@@ -21962,13 +22020,13 @@
 
 
 /***/ },
-/* 183 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(125), __webpack_require__(19), __webpack_require__(168)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Atomic, Foundation, Events) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(129), __webpack_require__(19), __webpack_require__(161)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Atomic, Foundation, Events) {
 	  var PointerEvent, arrayize, clone, first, inspect, matrix, merge, peek, point, rect, transformedArray;
 	  point = Atomic.point, rect = Atomic.rect, matrix = Atomic.matrix;
 	  inspect = Foundation.inspect, clone = Foundation.clone, peek = Foundation.peek, first = Foundation.first, merge = Foundation.merge;
@@ -22097,7 +22155,7 @@
 
 
 /***/ },
-/* 184 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Animator, Atomic, Canvas, DrawCacheManager, DrawEpoch, Element, ElementBase, Foundation, GlobalEpochCycle, Join, Layout, Map, Matrix, Point, PointLayout, PointLayoutBase, Promise, Rectangle, StateEpoch, Unique, arrayWithoutValue, cacheAggressively, clone, compact, compactFlatten, createWithPostCreate, currentSecond, defaultSize, drawCacheManager, drawEpoch, floatEq, floatEq0, floor, globalEpochCycle, identityMatrix, insert, inspect, inspectLean, inspectedObjectLiteral, isFunction, isInfiniteResult, isNumber, isPlainArray, isPlainObject, isPoint, isString, keepIfRubyTrue, log, matrix, max, merge, mergeInto, min, minimumOrderedOverlappingMerge, modulo, nonStatePropertyKeyTest, perimeter, perimeter0, plainObjectsDeepEq, point, point0, point1, present, rect, remove, repeat, rubyTrue, shallowEq, stateEpoch, stats, time, truncateLayoutCoordinate, zeroedStats,
@@ -22105,27 +22163,27 @@
 	  hasProp = {}.hasOwnProperty,
 	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	Foundation = __webpack_require__(19);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	Animator = __webpack_require__(185);
+	Animator = __webpack_require__(178);
 
-	Layout = __webpack_require__(187);
+	Layout = __webpack_require__(180);
 
-	ElementBase = __webpack_require__(192);
+	ElementBase = __webpack_require__(185);
 
-	StateEpoch = __webpack_require__(194);
+	StateEpoch = __webpack_require__(187);
 
-	DrawEpoch = __webpack_require__(202);
+	DrawEpoch = __webpack_require__(195);
 
-	GlobalEpochCycle = __webpack_require__(201);
+	GlobalEpochCycle = __webpack_require__(194);
 
-	DrawCacheManager = __webpack_require__(203);
+	DrawCacheManager = __webpack_require__(196);
 
-	isInfiniteResult = __webpack_require__(198).isInfiniteResult;
+	isInfiniteResult = __webpack_require__(191).isInfiniteResult;
 
 	point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, Matrix = Atomic.Matrix, matrix = Atomic.matrix, identityMatrix = Atomic.identityMatrix, point0 = Atomic.point0, point1 = Atomic.point1, perimeter0 = Atomic.perimeter0, isPoint = Atomic.isPoint, perimeter = Atomic.perimeter;
 
@@ -24452,7 +24510,7 @@
 
 
 /***/ },
-/* 185 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -24474,11 +24532,11 @@
 
 	ref = __webpack_require__(19), currentSecond = ref.currentSecond, min = ref.min, max = ref.max, Transaction = ref.Transaction, inspect = ref.inspect, inspectLean = ref.inspectLean, log = ref.log, BaseObject = ref.BaseObject;
 
-	ref1 = __webpack_require__(125), rgbColor = ref1.rgbColor, Color = ref1.Color, point = ref1.point, Point = ref1.Point, rect = ref1.rect, Rectangle = ref1.Rectangle, matrix = ref1.matrix, Matrix = ref1.Matrix;
+	ref1 = __webpack_require__(129), rgbColor = ref1.rgbColor, Color = ref1.Color, point = ref1.point, Point = ref1.Point, rect = ref1.rect, Rectangle = ref1.Rectangle, matrix = ref1.matrix, Matrix = ref1.Matrix;
 
-	ref2 = __webpack_require__(168), Event = ref2.Event, EventEpoch = ref2.EventEpoch, EventedMixin = ref2.EventedMixin;
+	ref2 = __webpack_require__(161), Event = ref2.Event, EventEpoch = ref2.EventEpoch, EventedMixin = ref2.EventedMixin;
 
-	EasingFunctions = __webpack_require__(186);
+	EasingFunctions = __webpack_require__(179);
 
 	eventEpoch = EventEpoch.eventEpoch;
 
@@ -24673,7 +24731,7 @@
 
 
 /***/ },
-/* 186 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = ((function(_this) {
@@ -24891,25 +24949,25 @@
 
 
 /***/ },
-/* 187 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(188).addModules({
-	  InterpolatedPointLayout: __webpack_require__(189),
-	  PointLayoutBase: __webpack_require__(190),
-	  PointLayout: __webpack_require__(191)
+	module.exports = __webpack_require__(181).addModules({
+	  InterpolatedPointLayout: __webpack_require__(182),
+	  PointLayoutBase: __webpack_require__(183),
+	  PointLayout: __webpack_require__(184)
 	});
 
 
 /***/ },
-/* 188 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Engine, Layout,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Layout || Engine.addNamespace('Layout', Layout = (function(superClass) {
 	  extend(Layout, superClass);
@@ -24924,7 +24982,7 @@
 
 
 /***/ },
-/* 189 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Foundation, InterpolatedPointLayout, PointLayoutBase, log,
@@ -24933,7 +24991,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	PointLayoutBase = __webpack_require__(190);
+	PointLayoutBase = __webpack_require__(183);
 
 	log = Foundation.log;
 
@@ -24999,14 +25057,14 @@
 
 
 /***/ },
-/* 190 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Foundation, Point, PointLayoutBase, inspect, inspectedObjectLiteral, isFunction, isNumber, isPlainObject, log, nearInfinity, nearInfinityResult, point, point0,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	Foundation = __webpack_require__(19);
 
@@ -25201,13 +25259,13 @@
 
 
 /***/ },
-/* 191 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(125), __webpack_require__(19), __webpack_require__(190)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Atomic, Foundation, PointLayoutBase) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(129), __webpack_require__(19), __webpack_require__(183)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Atomic, Foundation, PointLayoutBase) {
 	  var BaseObject, Components, Point, PointLayout, inspect, inspectLean, isFunction, isNumber, isPlainObject, isString, log, max, min, point, point0;
 	  point = Atomic.point, Point = Atomic.Point;
 	  point0 = Point.point0;
@@ -25623,7 +25681,7 @@
 
 
 /***/ },
-/* 192 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, ElementBase, EventedEpochedObject, Foundation, compact, elementFactory, inspect, inspectLean, isFunction, isObject, log, merge, peek, present,
@@ -25631,13 +25689,13 @@
 	  hasProp = {}.hasOwnProperty,
 	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	Foundation = __webpack_require__(19);
 
-	elementFactory = __webpack_require__(160).elementFactory;
+	elementFactory = __webpack_require__(126).elementFactory;
 
-	EventedEpochedObject = __webpack_require__(193);
+	EventedEpochedObject = __webpack_require__(186);
 
 	log = Foundation.log, inspect = Foundation.inspect, merge = Foundation.merge, peek = Foundation.peek, present = Foundation.present, isFunction = Foundation.isFunction, inspectLean = Foundation.inspectLean, compact = Foundation.compact, isObject = Foundation.isObject;
 
@@ -26002,7 +26060,7 @@
 
 
 /***/ },
-/* 193 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var EpochedObject, EventedBaseMixin, EventedEpochedObject, Events, Foundation, StateEpoch, blankOptions, isPlainObject, log,
@@ -26011,11 +26069,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
-	StateEpoch = __webpack_require__(194);
+	StateEpoch = __webpack_require__(187);
 
-	EpochedObject = __webpack_require__(200);
+	EpochedObject = __webpack_require__(193);
 
 	EventedBaseMixin = Events.EventedBaseMixin;
 
@@ -26132,14 +26190,14 @@
 
 
 /***/ },
-/* 194 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(195)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, StateEpochLayout) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(188)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, StateEpochLayout) {
 	  var Epoch, Point, StateEpoch, childrenDrawChanged, childrenDrawUnchanged, globalCount, inspect, log, longestCommonSubsequence, point, requestAnimationFrame, select;
 	  point = Atomic.point, Point = Atomic.Point;
 	  log = Foundation.log, requestAnimationFrame = Foundation.requestAnimationFrame, longestCommonSubsequence = Foundation.longestCommonSubsequence, select = Foundation.select, inspect = Foundation.inspect, Epoch = Foundation.Epoch, globalCount = Foundation.globalCount;
@@ -26479,7 +26537,7 @@
 
 
 /***/ },
-/* 195 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ArtEngineCore, Atomic, BaseObject, Basics, CoreLayout, FlexLayout, Foundation, Point, StateEpochLayout, Unique, abs, deinfinitize, eachRunAsCharCodes, floatEq, getGlobalEpochCycle, inspect, isFunction, isInfiniteResult, isNumber, layoutChildrenFlex, layoutMargin, layoutPadding, log, longestCommonSubsequence, max, nearInfiniteSize, nearInfinity, nearInfinityResult, partition, peek, perimeter, point, point0, select, shallowEq, sizeWithPadding,
@@ -26488,15 +26546,15 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	ArtEngineCore = __webpack_require__(158);
+	ArtEngineCore = __webpack_require__(124);
 
-	CoreLayout = __webpack_require__(196);
+	CoreLayout = __webpack_require__(189);
 
-	FlexLayout = __webpack_require__(197);
+	FlexLayout = __webpack_require__(190);
 
-	Basics = __webpack_require__(198);
+	Basics = __webpack_require__(191);
 
 
 	/*
@@ -26967,14 +27025,14 @@
 
 
 /***/ },
-/* 196 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Core, EpochLayout,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Core = __webpack_require__(158);
+	Core = __webpack_require__(124);
 
 	module.exports = Core.EpochLayout || Core.addNamespace('EpochLayout', EpochLayout = (function(superClass) {
 	  extend(EpochLayout, superClass);
@@ -26989,7 +27047,7 @@
 
 
 /***/ },
-/* 197 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Basics, CoreLayout, FlexLayout, Foundation, Point, abs, floatEq, inspect, layoutMargin, log, max, peek, perimeter, point, point0, select, shallowEq, sizeWithPadding,
@@ -26998,11 +27056,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	CoreLayout = __webpack_require__(196);
+	CoreLayout = __webpack_require__(189);
 
-	Basics = __webpack_require__(198);
+	Basics = __webpack_require__(191);
 
 	point = Atomic.point, Point = Atomic.Point, perimeter = Atomic.perimeter;
 
@@ -27198,7 +27256,7 @@
 
 
 /***/ },
-/* 198 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Basics, Foundation, Point, abs, isFunction, isInfiniteResult, nearInfiniteSize, nearInfinity, nearInfinityResult, perimeter, point, ref,
@@ -27207,13 +27265,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	point = Atomic.point, Point = Atomic.Point, perimeter = Atomic.perimeter;
 
 	BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, abs = Foundation.abs;
 
-	ref = __webpack_require__(199), nearInfiniteSize = ref.nearInfiniteSize, nearInfinity = ref.nearInfinity, nearInfinityResult = ref.nearInfinityResult, isInfiniteResult = ref.isInfiniteResult;
+	ref = __webpack_require__(192), nearInfiniteSize = ref.nearInfiniteSize, nearInfinity = ref.nearInfinity, nearInfinityResult = ref.nearInfinityResult, isInfiniteResult = ref.isInfiniteResult;
 
 	module.exports = Basics = (function(superClass) {
 	  extend(Basics, superClass);
@@ -27260,14 +27318,14 @@
 
 
 /***/ },
-/* 199 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Foundation, abs, isFunction, isPlainObject, log, nearInfinitePoint, nearInfinity, nearInfinityResult, point;
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	BaseObject = Foundation.BaseObject, isPlainObject = Foundation.isPlainObject, log = Foundation.log, isFunction = Foundation.isFunction, nearInfinity = Foundation.nearInfinity, nearInfinityResult = Foundation.nearInfinityResult, abs = Foundation.abs;
 
@@ -27285,7 +27343,7 @@
 
 
 /***/ },
-/* 200 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EasingPersistantAnimator, EpochedObject, Events, Foundation, GlobalEpochCycle, PeriodicPersistantAnimator, PersistantAnimator, StateEpoch, blankOptions, capitalize, compactFlatten, globalEpochCycle, inspect, isFunction, isNumber, isPlainArray, isPlainObject, isString, log, merge, mergeInto, nextTick, plainObjectsDeepEq, propInternalName, ref, shallowEq, stateEpoch,
@@ -27295,13 +27353,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
-	StateEpoch = __webpack_require__(194);
+	StateEpoch = __webpack_require__(187);
 
-	GlobalEpochCycle = __webpack_require__(201);
+	GlobalEpochCycle = __webpack_require__(194);
 
-	ref = __webpack_require__(205), PersistantAnimator = ref.PersistantAnimator, EasingPersistantAnimator = ref.EasingPersistantAnimator, PeriodicPersistantAnimator = ref.PeriodicPersistantAnimator;
+	ref = __webpack_require__(198), PersistantAnimator = ref.PersistantAnimator, EasingPersistantAnimator = ref.EasingPersistantAnimator, PeriodicPersistantAnimator = ref.PeriodicPersistantAnimator;
 
 	log = Foundation.log, merge = Foundation.merge, mergeInto = Foundation.mergeInto, BaseObject = Foundation.BaseObject, capitalize = Foundation.capitalize, compactFlatten = Foundation.compactFlatten, isNumber = Foundation.isNumber, isFunction = Foundation.isFunction, shallowEq = Foundation.shallowEq, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isString = Foundation.isString, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, isPlainArray = Foundation.isPlainArray, nextTick = Foundation.nextTick;
 
@@ -28122,7 +28180,7 @@
 
 
 /***/ },
-/* 201 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DrawCacheManager, DrawEpoch, DummyEpoch, Epoch, EventEpoch, Foundation, GlobalEpochCycle, IdleEpoch, Map, StateEpoch, arrayWithout, currentSecond, drawCacheManager, drawEpoch, dummyEpoch, durationString, eventEpoch, fastBind, fluxEpoch, globalCount, idleEpoch, isPlainObject, log, miniInspect, reactEpoch, requestAnimationFrame, stateEpoch, time, toMs,
@@ -28131,15 +28189,15 @@
 
 	Foundation = __webpack_require__(19);
 
-	EventEpoch = __webpack_require__(168).EventEpoch;
+	EventEpoch = __webpack_require__(161).EventEpoch;
 
-	StateEpoch = __webpack_require__(194);
+	StateEpoch = __webpack_require__(187);
 
-	DrawEpoch = __webpack_require__(202);
+	DrawEpoch = __webpack_require__(195);
 
-	IdleEpoch = __webpack_require__(204);
+	IdleEpoch = __webpack_require__(197);
 
-	DrawCacheManager = __webpack_require__(203);
+	DrawCacheManager = __webpack_require__(196);
 
 	log = Foundation.log, requestAnimationFrame = Foundation.requestAnimationFrame, Map = Foundation.Map, miniInspect = Foundation.miniInspect, time = Foundation.time, arrayWithout = Foundation.arrayWithout, currentSecond = Foundation.currentSecond, Epoch = Foundation.Epoch, globalCount = Foundation.globalCount, isPlainObject = Foundation.isPlainObject, durationString = Foundation.durationString, fastBind = Foundation.fastBind;
 
@@ -28438,13 +28496,13 @@
 
 
 /***/ },
-/* 202 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(203)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, DrawCacheManager) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(196)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, DrawCacheManager) {
 	  var DrawEpoch, Epoch, Point, drawCacheManager, globalCount, inspect, log, longestCommonSubsequence, point, requestAnimationFrame, select;
 	  point = Atomic.point, Point = Atomic.Point;
 	  log = Foundation.log, requestAnimationFrame = Foundation.requestAnimationFrame, longestCommonSubsequence = Foundation.longestCommonSubsequence, select = Foundation.select, inspect = Foundation.inspect, Epoch = Foundation.Epoch, globalCount = Foundation.globalCount;
@@ -28470,13 +28528,13 @@
 
 
 /***/ },
-/* 203 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(158), __webpack_require__(19), __webpack_require__(125), __webpack_require__(137)], __WEBPACK_AMD_DEFINE_RESULT__ = function(ArtEngineCore, Foundation, Atomic, Canvas) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(124), __webpack_require__(19), __webpack_require__(129), __webpack_require__(141)], __WEBPACK_AMD_DEFINE_RESULT__ = function(ArtEngineCore, Foundation, Atomic, Canvas) {
 	  var BaseObject, Bitmap, CacheBitmap, DrawCacheManager, Map, Matrix, Point, Rectangle, getGlobalEpochCycle, inspect, log, matrix, point, rect, remove, timeout;
 	  point = Atomic.point, Point = Atomic.Point, rect = Atomic.rect, Rectangle = Atomic.Rectangle, matrix = Atomic.matrix, Matrix = Atomic.Matrix;
 	  inspect = Foundation.inspect, BaseObject = Foundation.BaseObject, Map = Foundation.Map, timeout = Foundation.timeout, remove = Foundation.remove, log = Foundation.log;
@@ -28708,7 +28766,7 @@
 
 
 /***/ },
-/* 204 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -28737,27 +28795,27 @@
 
 
 /***/ },
-/* 205 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(206).addModules({
-	  Animator: __webpack_require__(185),
-	  EasingFunctions: __webpack_require__(186),
-	  EasingPersistantAnimator: __webpack_require__(207),
-	  PeriodicPersistantAnimator: __webpack_require__(209),
-	  PersistantAnimator: __webpack_require__(208)
+	module.exports = __webpack_require__(199).addModules({
+	  Animator: __webpack_require__(178),
+	  EasingFunctions: __webpack_require__(179),
+	  EasingPersistantAnimator: __webpack_require__(200),
+	  PeriodicPersistantAnimator: __webpack_require__(202),
+	  PersistantAnimator: __webpack_require__(201)
 	});
 
 
 /***/ },
-/* 206 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Animation, Engine,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Animation || Engine.addNamespace('Animation', Animation = (function(superClass) {
 	  extend(Animation, superClass);
@@ -28772,7 +28830,7 @@
 
 
 /***/ },
-/* 207 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EasingFunctions, EasingPersistantAnimator, EventedObject, Events, Foundation, PersistantAnimator, interpolate, isFunction, isNumber, isString, log, max, min,
@@ -28781,11 +28839,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
-	EasingFunctions = __webpack_require__(186);
+	EasingFunctions = __webpack_require__(179);
 
-	PersistantAnimator = __webpack_require__(208);
+	PersistantAnimator = __webpack_require__(201);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, isNumber = Foundation.isNumber, min = Foundation.min, max = Foundation.max;
 
@@ -28843,7 +28901,7 @@
 
 
 /***/ },
-/* 208 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EventedMixin, Events, Foundation, PersistantAnimator, capitalize, eq, inspectedObjectLiteral, isFunction, isPlainObject, isString, log, plainObjectsDeepEq, rubyOr,
@@ -28852,7 +28910,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, capitalize = Foundation.capitalize, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isPlainObject = Foundation.isPlainObject, eq = Foundation.eq, rubyOr = Foundation.rubyOr;
 
@@ -29357,7 +29415,7 @@
 
 
 /***/ },
-/* 209 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EasingFunctions, EventedObject, Events, Foundation, PeriodicPersistantAnimator, PersistantAnimator, interpolate, isFunction, isNumber, isString, log, max, min,
@@ -29366,11 +29424,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Events = __webpack_require__(168);
+	Events = __webpack_require__(161);
 
-	EasingFunctions = __webpack_require__(186);
+	EasingFunctions = __webpack_require__(179);
 
-	PersistantAnimator = __webpack_require__(208);
+	PersistantAnimator = __webpack_require__(201);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, isNumber = Foundation.isNumber, min = Foundation.min, max = Foundation.max;
 
@@ -29403,7 +29461,7 @@
 
 
 /***/ },
-/* 210 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -29463,44 +29521,44 @@
 
 
 /***/ },
-/* 211 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(196).addModules({
-	  Basics: __webpack_require__(198),
-	  FlexLayout: __webpack_require__(197),
-	  Infinity: __webpack_require__(199),
-	  StateEpochLayout: __webpack_require__(195)
+	module.exports = __webpack_require__(189).addModules({
+	  Basics: __webpack_require__(191),
+	  FlexLayout: __webpack_require__(190),
+	  Infinity: __webpack_require__(192),
+	  StateEpochLayout: __webpack_require__(188)
 	});
 
 
 /***/ },
-/* 212 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(213).includeInNamespace(__webpack_require__(214)).addModules({
-	  Base: __webpack_require__(219),
-	  FillableBase: __webpack_require__(218)
+	module.exports = __webpack_require__(206).includeInNamespace(__webpack_require__(207)).addModules({
+	  Base: __webpack_require__(212),
+	  FillableBase: __webpack_require__(211)
 	});
 
-	__webpack_require__(232);
+	__webpack_require__(225);
 
-	__webpack_require__(241);
+	__webpack_require__(234);
 
-	__webpack_require__(215);
+	__webpack_require__(208);
 
-	__webpack_require__(237);
+	__webpack_require__(230);
 
 
 /***/ },
-/* 213 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Elements, Engine,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Elements || Engine.addNamespace('Elements', Elements = (function(superClass) {
 	  extend(Elements, superClass);
@@ -29515,33 +29573,33 @@
 
 
 /***/ },
-/* 214 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = [__webpack_require__(215), __webpack_require__(232), __webpack_require__(237), __webpack_require__(241)];
+	module.exports = [__webpack_require__(208), __webpack_require__(225), __webpack_require__(230), __webpack_require__(234)];
 
 
 /***/ },
-/* 215 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(216).addModules({
-	  BitmapElement: __webpack_require__(217),
-	  RectangleElement: __webpack_require__(220),
-	  ShapeElement: __webpack_require__(230),
-	  TextElement: __webpack_require__(231)
+	module.exports = __webpack_require__(209).addModules({
+	  BitmapElement: __webpack_require__(210),
+	  RectangleElement: __webpack_require__(213),
+	  ShapeElement: __webpack_require__(223),
+	  TextElement: __webpack_require__(224)
 	});
 
 
 /***/ },
-/* 216 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Elements, Shapes,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Elements = __webpack_require__(213);
+	Elements = __webpack_require__(206);
 
 	module.exports = Elements.Shapes || Elements.addNamespace('Shapes', Shapes = (function(superClass) {
 	  extend(Shapes, superClass);
@@ -29556,7 +29614,7 @@
 
 
 /***/ },
-/* 217 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, BitmapElement, Canvas, FillableBase, Foundation, Matrix, bound, ceil, createWithPostCreate, inspect, isNumber, isString, log, max, min, point, point0, point1, rect, round,
@@ -29565,11 +29623,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
 	ceil = Math.ceil, round = Math.round;
 
@@ -29800,7 +29858,7 @@
 
 
 /***/ },
-/* 218 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Base, Canvas, Color, FillableBase, Foundation, GradientFillStyle, Matrix, Point, PointLayout, PointLayoutBase, Rectangle, createWithPostCreate, isNumber, isPlainObject, log, matrix, max, merge, min, point, point0, point1, rect, ref, rgbColor,
@@ -29809,13 +29867,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	Base = __webpack_require__(219);
+	Base = __webpack_require__(212);
 
-	ref = __webpack_require__(187), PointLayout = ref.PointLayout, PointLayoutBase = ref.PointLayoutBase;
+	ref = __webpack_require__(180), PointLayout = ref.PointLayout, PointLayoutBase = ref.PointLayoutBase;
 
 	log = Foundation.log, isPlainObject = Foundation.isPlainObject, min = Foundation.min, max = Foundation.max, createWithPostCreate = Foundation.createWithPostCreate, isNumber = Foundation.isNumber, merge = Foundation.merge;
 
@@ -29977,7 +30035,7 @@
 
 
 /***/ },
-/* 219 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Base, Element, Foundation, createWithPostCreate, inspect, rgbColor,
@@ -29986,9 +30044,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Element = __webpack_require__(184);
+	Element = __webpack_require__(177);
 
 	inspect = Foundation.inspect, createWithPostCreate = Foundation.createWithPostCreate;
 
@@ -30070,7 +30128,7 @@
 
 
 /***/ },
-/* 220 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, FillableBase, Foundation, Paths, RectangleElement, Text, base, createWithPostCreate, curriedRoundedRectangle, floatEq, isNumber, isPlainObject, pureMerge,
@@ -30079,13 +30137,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Text = __webpack_require__(221);
+	Text = __webpack_require__(214);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
-	Paths = __webpack_require__(137).Paths;
+	Paths = __webpack_require__(141).Paths;
 
 	pureMerge = Foundation.pureMerge, floatEq = Foundation.floatEq, base = Foundation.base, createWithPostCreate = Foundation.createWithPostCreate, isPlainObject = Foundation.isPlainObject, isNumber = Foundation.isNumber;
 
@@ -30146,32 +30204,32 @@
 
 
 /***/ },
-/* 221 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(222);
+	module.exports = __webpack_require__(215);
 
 
 /***/ },
-/* 222 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(223).includeInNamespace(__webpack_require__(225)).addModules({
-	  Layout: __webpack_require__(227),
-	  Metrics: __webpack_require__(228),
-	  TextLayoutFragment: __webpack_require__(229)
+	module.exports = __webpack_require__(216).includeInNamespace(__webpack_require__(218)).addModules({
+	  Layout: __webpack_require__(220),
+	  Metrics: __webpack_require__(221),
+	  TextLayoutFragment: __webpack_require__(222)
 	});
 
 
 /***/ },
-/* 223 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Text,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(224);
+	Art = __webpack_require__(217);
 
 	module.exports = Art.Text || Art.addNamespace('Text', Text = (function(superClass) {
 	  extend(Text, superClass);
@@ -30186,7 +30244,7 @@
 
 
 /***/ },
-/* 224 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -30208,21 +30266,21 @@
 
 
 /***/ },
-/* 225 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _package;
 
 	module.exports = [
 	  {
-	    "package": _package = __webpack_require__(226),
+	    "package": _package = __webpack_require__(219),
 	    version: _package.version
 	  }
 	];
 
 
 /***/ },
-/* 226 */
+/* 219 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30256,7 +30314,7 @@
 	};
 
 /***/ },
-/* 227 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Bitmap, Foundation, Layout, Matrix, Metrics, Rectangle, ceil, emptyOptions, flatten, float32Eq, float32Eq0, floor, inspect, isNumber, log, matrix, max, merge, min, nearInfinity, nearInfinityResult, peek, point, pureMerge, rect, time, toFontCss,
@@ -30265,11 +30323,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Bitmap = __webpack_require__(137).Bitmap;
+	Bitmap = __webpack_require__(141).Bitmap;
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Metrics = __webpack_require__(228);
+	Metrics = __webpack_require__(221);
 
 	rect = Atomic.rect, matrix = Atomic.matrix, Matrix = Atomic.Matrix, Rectangle = Atomic.Rectangle, point = Atomic.point;
 
@@ -30690,7 +30748,7 @@
 
 
 /***/ },
-/* 228 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {
@@ -30710,11 +30768,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	TextLayoutFragment = __webpack_require__(229);
+	TextLayoutFragment = __webpack_require__(222);
 
 	point = Atomic.point, rect = Atomic.rect, point0 = Atomic.point0, Rectangle = Atomic.Rectangle;
 
@@ -30999,7 +31057,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 229 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
@@ -31016,7 +31074,7 @@
 	var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(137)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(141)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas) {
 	  var BaseObject, TextLayoutFragment, inspect, log, point, point0, rect;
 	  point = Atomic.point, rect = Atomic.rect, point0 = Atomic.point0;
 	  log = Foundation.log, BaseObject = Foundation.BaseObject, inspect = Foundation.inspect;
@@ -31159,7 +31217,7 @@
 
 
 /***/ },
-/* 230 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, FillableBase, Foundation, ShapeElement, Text, createWithPostCreate, isFunction, pureMerge,
@@ -31168,11 +31226,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Text = __webpack_require__(221);
+	Text = __webpack_require__(214);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
 	pureMerge = Foundation.pureMerge, isFunction = Foundation.isFunction, createWithPostCreate = Foundation.createWithPostCreate;
 
@@ -31249,7 +31307,7 @@
 
 
 /***/ },
-/* 231 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, FillableBase, Foundation, GlobalEpochCycle, Text, TextElement, createWithPostCreate, globalEpochCycle, isNumber, isPlainArray, isString, log, merge, normalizeFontOptions, point, propInternalName, propSetterName, pureMerge, rect, shallowClone,
@@ -31258,13 +31316,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Text = __webpack_require__(221);
+	Text = __webpack_require__(214);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
-	GlobalEpochCycle = __webpack_require__(201);
+	GlobalEpochCycle = __webpack_require__(194);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, pureMerge = Foundation.pureMerge, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, isPlainArray = Foundation.isPlainArray, isString = Foundation.isString, isNumber = Foundation.isNumber;
 
@@ -31445,25 +31503,25 @@
 
 
 /***/ },
-/* 232 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(233).addModules({
-	  BlurElement: __webpack_require__(234),
-	  FilterElement: __webpack_require__(235),
-	  ShadowElement: __webpack_require__(236)
+	module.exports = __webpack_require__(226).addModules({
+	  BlurElement: __webpack_require__(227),
+	  FilterElement: __webpack_require__(228),
+	  ShadowElement: __webpack_require__(229)
 	});
 
 
 /***/ },
-/* 233 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Elements, Filters,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Elements = __webpack_require__(213);
+	Elements = __webpack_require__(206);
 
 	module.exports = Elements.Filters || Elements.addNamespace('Filters', Filters = (function(superClass) {
 	  extend(Filters, superClass);
@@ -31478,7 +31536,7 @@
 
 
 /***/ },
-/* 234 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, BlurElement, FilterElement, Foundation, defineModule,
@@ -31487,9 +31545,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	FilterElement = __webpack_require__(235);
+	FilterElement = __webpack_require__(228);
 
 	defineModule = Foundation.defineModule;
 
@@ -31515,7 +31573,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 235 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, CoreElementsBase, FilterElement, Foundation, Matrix, createWithPostCreate, isString, log,
@@ -31524,9 +31582,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	CoreElementsBase = __webpack_require__(219);
+	CoreElementsBase = __webpack_require__(212);
 
 	log = Foundation.log, isString = Foundation.isString, createWithPostCreate = Foundation.createWithPostCreate;
 
@@ -31766,7 +31824,7 @@
 
 
 /***/ },
-/* 236 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, FilterElement, Foundation, ShadowElement, createWithPostCreate, log,
@@ -31775,9 +31833,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	FilterElement = __webpack_require__(235);
+	FilterElement = __webpack_require__(228);
 
 	createWithPostCreate = Foundation.createWithPostCreate, log = Foundation.log;
 
@@ -31825,24 +31883,24 @@
 
 
 /***/ },
-/* 237 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(238).addModules({
-	  PagingScrollElementWip: __webpack_require__(239),
-	  PagingScrollElement: __webpack_require__(240)
+	module.exports = __webpack_require__(231).addModules({
+	  PagingScrollElementWip: __webpack_require__(232),
+	  PagingScrollElement: __webpack_require__(233)
 	});
 
 
 /***/ },
-/* 238 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Elements, Widgets,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Elements = __webpack_require__(213);
+	Elements = __webpack_require__(206);
 
 	module.exports = Elements.Widgets || Elements.addNamespace('Widgets', Widgets = (function(superClass) {
 	  extend(Widgets, superClass);
@@ -31857,7 +31915,7 @@
 
 
 /***/ },
-/* 239 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AnimatorSupport, Atomic, BaseModule, BaseObject, Element, EventEpoch, Foundation, GestureRecognizer, Matrix, PagingScrollElementWip, Point, Rectangle, ScrollAnimator, abs, absGt, absGte, absLt, absLte, animatorSpringConstant, animatorSpringFriction, bound, brakingFactor, ceil, createGestureRecognizer, createWithPostCreate, crossScrollProperties, currentSecond, eventEpoch, first, flickSpeedMultiplier, formattedInspect, inspect, isPlainArray, isPoint, last, log, matrix, max, maxChange, maxMagnitude, merge, min, minMagnitude, minimumFlickVelocity, neq, peek, point, point0, pointNearInfinity, rect, requestAnimationFrame, round, scrollProperties, timeout,
@@ -31866,13 +31924,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	EventEpoch = __webpack_require__(168).EventEpoch;
+	EventEpoch = __webpack_require__(161).EventEpoch;
 
-	Element = __webpack_require__(184);
+	Element = __webpack_require__(177);
 
-	GestureRecognizer = __webpack_require__(165);
+	GestureRecognizer = __webpack_require__(158);
 
 	log = Foundation.log, inspect = Foundation.inspect, currentSecond = Foundation.currentSecond, bound = Foundation.bound, round = Foundation.round, first = Foundation.first, last = Foundation.last, peek = Foundation.peek, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, BaseObject = Foundation.BaseObject, timeout = Foundation.timeout, ceil = Foundation.ceil, round = Foundation.round, isPlainArray = Foundation.isPlainArray, BaseModule = Foundation.BaseModule, absLt = Foundation.absLt, absLte = Foundation.absLte, absGt = Foundation.absGt, absGte = Foundation.absGte, minMagnitude = Foundation.minMagnitude, maxMagnitude = Foundation.maxMagnitude, maxChange = Foundation.maxChange, absLt = Foundation.absLt, requestAnimationFrame = Foundation.requestAnimationFrame, formattedInspect = Foundation.formattedInspect, neq = Foundation.neq;
 
@@ -33052,7 +33110,7 @@
 
 
 /***/ },
-/* 240 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AnimatorSupport, Atomic, BaseObject, Element, EventEpoch, Foundation, GestureRecognizer, Matrix, PagingScrollElement, Point, Rectangle, ScrollAnimator, abs, absGt, absGte, absLt, absLte, animatorSpringConstant, animatorSpringFriction, bound, brakingFactor, ceil, createGestureRecognizer, createWithPostCreate, crossScrollProperties, currentSecond, eventEpoch, first, flickSpeedMultiplier, inspect, isPlainArray, isPoint, last, log, matrix, max, maxChange, maxMagnitude, merge, min, minMagnitude, minimumFlickVelocity, peek, point, point0, pointNearInfinity, rect, requestAnimationFrame, round, scrollProperties, timeout,
@@ -33061,13 +33119,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	EventEpoch = __webpack_require__(168).EventEpoch;
+	EventEpoch = __webpack_require__(161).EventEpoch;
 
-	Element = __webpack_require__(184);
+	Element = __webpack_require__(177);
 
-	GestureRecognizer = __webpack_require__(165);
+	GestureRecognizer = __webpack_require__(158);
 
 	log = Foundation.log, inspect = Foundation.inspect, currentSecond = Foundation.currentSecond, bound = Foundation.bound, round = Foundation.round, first = Foundation.first, last = Foundation.last, peek = Foundation.peek, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, BaseObject = Foundation.BaseObject, timeout = Foundation.timeout, ceil = Foundation.ceil, round = Foundation.round, isPlainArray = Foundation.isPlainArray, absLt = Foundation.absLt, absLte = Foundation.absLte, absGt = Foundation.absGt, absGte = Foundation.absGte, minMagnitude = Foundation.minMagnitude, maxMagnitude = Foundation.maxMagnitude, maxChange = Foundation.maxChange, absLt = Foundation.absLt, requestAnimationFrame = Foundation.requestAnimationFrame;
 
@@ -34207,24 +34265,24 @@
 
 
 /***/ },
-/* 241 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(242).addModules({
-	  FillElement: __webpack_require__(243),
-	  OutlineElement: __webpack_require__(244)
+	module.exports = __webpack_require__(235).addModules({
+	  FillElement: __webpack_require__(236),
+	  OutlineElement: __webpack_require__(237)
 	});
 
 
 /***/ },
-/* 242 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Elements, ShapeChildren,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Elements = __webpack_require__(213);
+	Elements = __webpack_require__(206);
 
 	module.exports = Elements.ShapeChildren || Elements.addNamespace('ShapeChildren', ShapeChildren = (function(superClass) {
 	  extend(ShapeChildren, superClass);
@@ -34239,7 +34297,7 @@
 
 
 /***/ },
-/* 243 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Canvas, FillElement, FillableBase, Foundation, GradientFillStyle, createWithPostCreate, log,
@@ -34248,11 +34306,11 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
 	log = Foundation.log, createWithPostCreate = Foundation.createWithPostCreate;
 
@@ -34304,7 +34362,7 @@
 
 
 /***/ },
-/* 244 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Color, FillableBase, Foundation, Matrix, OutlineElement, Point, Rectangle, color, createWithPostCreate, isPlainArray, log, matrix, merge, point, rect,
@@ -34314,9 +34372,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	FillableBase = __webpack_require__(218);
+	FillableBase = __webpack_require__(211);
 
 	merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, log = Foundation.log, isPlainArray = Foundation.isPlainArray;
 
@@ -34418,24 +34476,24 @@
 
 
 /***/ },
-/* 245 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(246).addModules({
-	  SynchronizedDomOverlay: __webpack_require__(247),
-	  TextInput: __webpack_require__(248)
+	module.exports = __webpack_require__(239).addModules({
+	  SynchronizedDomOverlay: __webpack_require__(240),
+	  TextInput: __webpack_require__(241)
 	});
 
 
 /***/ },
-/* 246 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Engine, Forms,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.Forms || Engine.addNamespace('Forms', Forms = (function(superClass) {
 	  extend(Forms, superClass);
@@ -34450,7 +34508,7 @@
 
 
 /***/ },
-/* 247 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Element, Foundation, SynchronizedDomOverlay, float32Eq, inspect, log, merge, point, point1, rect,
@@ -34459,9 +34517,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Element = __webpack_require__(184);
+	Element = __webpack_require__(177);
 
 	log = Foundation.log, merge = Foundation.merge, inspect = Foundation.inspect, float32Eq = Foundation.float32Eq;
 
@@ -34597,7 +34655,7 @@
 
 
 /***/ },
-/* 248 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Foundation, Input, SynchronizedDomOverlay, TextArea, TextInput, createElementFromHtml, createWithPostCreate, inspect, log, merge, ref, rgbColor, select, timeout, wordsArray,
@@ -34606,9 +34664,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	SynchronizedDomOverlay = __webpack_require__(247);
+	SynchronizedDomOverlay = __webpack_require__(240);
 
 	rgbColor = Atomic.rgbColor;
 
@@ -34792,7 +34850,7 @@
 
 
 /***/ },
-/* 249 */
+/* 242 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -34831,7 +34889,7 @@
 	};
 
 /***/ },
-/* 250 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Foundation, FullScreenApp, Link, Meta, Promise, log, merge, parseQuery, ref;
@@ -34847,7 +34905,7 @@
 
 	  FullScreenApp._domReady = function() {
 	    var DomConsole, Engine, query;
-	    Engine = __webpack_require__(152);
+	    Engine = __webpack_require__(118);
 	    query = parseQuery();
 	    log("Art.Engine.FullScreenApp options:\n  ?dev=true\n    show DomConsole\n  ?perfGraphs=true\n    show performance graphs");
 	    if (query.dev === "true" || query.perfGraphs === "true") {
@@ -34859,7 +34917,7 @@
 	      2) I'd like a way to easily build production vs dev code.
 	      3) DomConsole should only be included in dev code.
 	       */
-	      DomConsole = __webpack_require__(251);
+	      DomConsole = __webpack_require__(244);
 	      DomConsole.enable();
 	      if (query.perfGraphs === "true") {
 	        Engine.DevTools.GlobalEpochStats.enable();
@@ -34968,34 +35026,34 @@
 
 
 /***/ },
-/* 251 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(252);
+	module.exports = __webpack_require__(245);
 
 
 /***/ },
-/* 252 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253).includeInNamespace(__webpack_require__(255)).addModules({
-	  Chart: __webpack_require__(265),
-	  Console: __webpack_require__(256),
-	  ToolBar: __webpack_require__(261)
+	module.exports = __webpack_require__(246).includeInNamespace(__webpack_require__(248)).addModules({
+	  Chart: __webpack_require__(258),
+	  Console: __webpack_require__(249),
+	  ToolBar: __webpack_require__(254)
 	});
 
-	__webpack_require__(262);
+	__webpack_require__(255);
 
 
 /***/ },
-/* 253 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DevTools, DomConsole,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	DevTools = __webpack_require__(254);
+	DevTools = __webpack_require__(247);
 
 	module.exports = DevTools.DomConsole || DevTools.addNamespace('DomConsole', DomConsole = (function(superClass) {
 	  extend(DomConsole, superClass);
@@ -35010,7 +35068,7 @@
 
 
 /***/ },
-/* 254 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, DevTools,
@@ -35032,7 +35090,7 @@
 
 
 /***/ },
-/* 255 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Foundation, console,
@@ -35040,7 +35098,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	console = __webpack_require__(256).console;
+	console = __webpack_require__(249).console;
 
 	module.exports = [
 	  {
@@ -35093,7 +35151,7 @@
 
 
 /***/ },
-/* 256 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -35107,14 +35165,14 @@
 	  slice = [].slice;
 
 	if (self.document) {
-	  __webpack_require__(257);
+	  __webpack_require__(250);
 	}
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	ToolBar = __webpack_require__(261);
+	ToolBar = __webpack_require__(254);
 
 	rgbColor = Atomic.rgbColor, Color = Atomic.Color, point = Atomic.point, point0 = Atomic.point0;
 
@@ -35714,16 +35772,16 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 257 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(258);
+	var content = __webpack_require__(251);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(253)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -35740,10 +35798,10 @@
 	}
 
 /***/ },
-/* 258 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(259)();
+	exports = module.exports = __webpack_require__(252)();
 	// imports
 
 
@@ -35754,7 +35812,7 @@
 
 
 /***/ },
-/* 259 */
+/* 252 */
 /***/ function(module, exports) {
 
 	/*
@@ -35810,7 +35868,7 @@
 
 
 /***/ },
-/* 260 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -36062,7 +36120,7 @@
 
 
 /***/ },
-/* 261 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -36076,9 +36134,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	DomConsole = __webpack_require__(253);
+	DomConsole = __webpack_require__(246);
 
-	Component = __webpack_require__(262).Component;
+	Component = __webpack_require__(255).Component;
 
 	BaseObject = Foundation.BaseObject, createWithPostCreate = Foundation.createWithPostCreate, wordsArray = Foundation.wordsArray;
 
@@ -36145,23 +36203,23 @@
 
 
 /***/ },
-/* 262 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(263).addModules({
-	  Component: __webpack_require__(264)
+	module.exports = __webpack_require__(256).addModules({
+	  Component: __webpack_require__(257)
 	});
 
 
 /***/ },
-/* 263 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DomConsole, PseudoReact,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	DomConsole = __webpack_require__(253);
+	DomConsole = __webpack_require__(246);
 
 	module.exports = DomConsole.PseudoReact || DomConsole.addNamespace('PseudoReact', PseudoReact = (function(superClass) {
 	  extend(PseudoReact, superClass);
@@ -36176,7 +36234,7 @@
 
 
 /***/ },
-/* 264 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Component, Div, Foundation, createObjectTreeFactory, merge, ref,
@@ -36315,12 +36373,12 @@
 
 
 /***/ },
-/* 265 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, Chart, Foundation, Matrix, inspect, log, point, rect, rgbColor;
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
 	Foundation = __webpack_require__(19);
 
@@ -36399,23 +36457,23 @@
 
 
 /***/ },
-/* 266 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(267).addModules({
-	  GlobalEpochStats: __webpack_require__(268)
+	module.exports = __webpack_require__(260).addModules({
+	  GlobalEpochStats: __webpack_require__(261)
 	});
 
 
 /***/ },
-/* 267 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DevTools, Engine,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.DevTools || Engine.addNamespace('DevTools', DevTools = (function(superClass) {
 	  extend(DevTools, superClass);
@@ -36430,13 +36488,13 @@
 
 
 /***/ },
-/* 268 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(125), __webpack_require__(137), __webpack_require__(157)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas, EngineCore) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(129), __webpack_require__(141), __webpack_require__(123)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Foundation, Atomic, Canvas, EngineCore) {
 	  var GlobalEpochCycle, GlobalEpochStat, GlobalEpochStats, Map, Matrix, aimColor, currentSecond, floor, globalEpochCycle, log, max, min, miniInspect, peek, point, reactColor, rect, rgbColor, timeout;
 	  log = Foundation.log, Map = Foundation.Map, miniInspect = Foundation.miniInspect, currentSecond = Foundation.currentSecond, max = Foundation.max, min = Foundation.min, timeout = Foundation.timeout, peek = Foundation.peek;
 	  point = Atomic.point, rect = Atomic.rect, Matrix = Atomic.Matrix, rgbColor = Atomic.rgbColor;
@@ -36745,24 +36803,24 @@
 
 
 /***/ },
-/* 269 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(270).addModules({
-	  V1Loader: __webpack_require__(271),
-	  V1Writer: __webpack_require__(280)
+	module.exports = __webpack_require__(263).addModules({
+	  V1Loader: __webpack_require__(264),
+	  V1Writer: __webpack_require__(273)
 	});
 
 
 /***/ },
-/* 270 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Engine, File,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Engine = __webpack_require__(154);
+	Engine = __webpack_require__(120);
 
 	module.exports = Engine.File || Engine.addNamespace('File', File = (function(superClass) {
 	  extend(File, superClass);
@@ -36777,7 +36835,7 @@
 
 
 /***/ },
-/* 271 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Atomic, BaseObject, Binary, Canvas, Core, Element, Elements, EncodedImage, Foundation, Promise, StateEpoch, V1Loader, Xbd, compositeModes, inspect, layoutModes, log, lowerCamelCase, matrix, merge, mergeInto, point, rect, stateEpoch, supportedCompositeModes,
@@ -36786,15 +36844,15 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	Xbd = __webpack_require__(272);
+	Xbd = __webpack_require__(265);
 
-	Core = __webpack_require__(157);
+	Core = __webpack_require__(123);
 
-	Elements = __webpack_require__(212);
+	Elements = __webpack_require__(205);
 
 	Binary = Foundation.Binary, inspect = Foundation.inspect, BaseObject = Foundation.BaseObject, Promise = Foundation.Promise, log = Foundation.log, mergeInto = Foundation.mergeInto, lowerCamelCase = Foundation.lowerCamelCase, merge = Foundation.merge;
 
@@ -37174,31 +37232,31 @@
 
 
 /***/ },
-/* 272 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(273);
+	module.exports = __webpack_require__(266);
 
 
 /***/ },
-/* 273 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(274).includeInNamespace(__webpack_require__(276)).addModules({
-	  XbdDictionary: __webpack_require__(278),
-	  XbdTag: __webpack_require__(277)
+	module.exports = __webpack_require__(267).includeInNamespace(__webpack_require__(269)).addModules({
+	  XbdDictionary: __webpack_require__(271),
+	  XbdTag: __webpack_require__(270)
 	});
 
 
 /***/ },
-/* 274 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Xbd,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(275);
+	Art = __webpack_require__(268);
 
 	module.exports = Art.Xbd || Art.addNamespace('Xbd', Xbd = (function(superClass) {
 	  extend(Xbd, superClass);
@@ -37213,7 +37271,7 @@
 
 
 /***/ },
-/* 275 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -37235,26 +37293,26 @@
 
 
 /***/ },
-/* 276 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Xbd, XbdTag, _package;
 
-	Xbd = __webpack_require__(274);
+	Xbd = __webpack_require__(267);
 
-	XbdTag = __webpack_require__(277);
+	XbdTag = __webpack_require__(270);
 
 	module.exports = [
 	  [XbdTag, "fromXbd", "createTagFactories"], {
 	    parse: XbdTag.fromXbd,
-	    "package": _package = __webpack_require__(279),
+	    "package": _package = __webpack_require__(272),
 	    version: _package.version
 	  }
 	];
 
 
 /***/ },
-/* 277 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Binary, Foundation, WriteStream, Xbd, XbdDictionary, XbdTag, binary, countKeys, createObjectTreeFactories, inspect, isFunction, log, plainObjectsDeepEq, stream, upperCamelCase,
@@ -37263,9 +37321,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Xbd = __webpack_require__(274);
+	Xbd = __webpack_require__(267);
 
-	XbdDictionary = __webpack_require__(278);
+	XbdDictionary = __webpack_require__(271);
 
 	Binary = Foundation.Binary, isFunction = Foundation.isFunction, BaseObject = Foundation.BaseObject, log = Foundation.log, countKeys = Foundation.countKeys, upperCamelCase = Foundation.upperCamelCase, createObjectTreeFactories = Foundation.createObjectTreeFactories, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, inspect = Foundation.inspect;
 
@@ -37596,7 +37654,7 @@
 
 
 /***/ },
-/* 278 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Binary, WriteStream, XbdDictionary, binary, inspect, log, ref, stream,
@@ -37738,7 +37796,7 @@
 
 
 /***/ },
-/* 279 */
+/* 272 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -37771,7 +37829,7 @@
 	};
 
 /***/ },
-/* 280 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtBitmapTag, ArtFileTag, ArtRectangleTag, ArtSolidFillTag, ArtStencilShapeTag, Atomic, BaseObject, BitmapTag, BitmapsTag, Canvas, ChildrenTag, Core, Elements, Foundation, PegoTag, RootTag, V1Writer, Xbd, XbdTag, createObjectTreeFactories, createTagFactories, createWithPostCreate, elementNameToV1NameMap, elementToTagFactory, floatEq, log, point, propsEq, ref,
@@ -37781,15 +37839,15 @@
 
 	Foundation = __webpack_require__(19);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Canvas = __webpack_require__(137);
+	Canvas = __webpack_require__(141);
 
-	Xbd = __webpack_require__(272);
+	Xbd = __webpack_require__(265);
 
-	Core = __webpack_require__(157);
+	Core = __webpack_require__(123);
 
-	Elements = __webpack_require__(212);
+	Elements = __webpack_require__(205);
 
 	BaseObject = Foundation.BaseObject, log = Foundation.log, createObjectTreeFactories = Foundation.createObjectTreeFactories, createWithPostCreate = Foundation.createWithPostCreate, floatEq = Foundation.floatEq;
 
@@ -38078,130 +38136,23 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 281 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(282);
+	module.exports = __webpack_require__(275).includeInNamespace(__webpack_require__(277));
+
+	__webpack_require__(278);
 
 
 /***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Aim, CanvasElement, Element, ElementFactory, Engine, FullScreenApp, React, log,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	log = __webpack_require__(19).log;
-
-	Engine = __webpack_require__(152);
-
-	React = __webpack_require__(283);
-
-	ElementFactory = Engine.ElementFactory, Element = Engine.Element, CanvasElement = Engine.CanvasElement, FullScreenApp = Engine.FullScreenApp;
-
-	module.exports = React;
-
-	Aim = __webpack_require__(300);
-
-	React.addElementFactories = function(elementClassNames) {
-	  var factories, k, ref, v;
-	  ref = factories = Aim.createVirtualElementFactories(React.VirtualElementArtEngine, elementClassNames);
-	  for (k in ref) {
-	    v = ref[k];
-	    React[k] || (React[k] = v);
-	  }
-	  return factories;
-	};
-
-	React.VirtualElementArtEngine = (function(superClass) {
-	  extend(VirtualElementArtEngine, superClass);
-
-	  function VirtualElementArtEngine() {
-	    return VirtualElementArtEngine.__super__.constructor.apply(this, arguments);
-	  }
-
-	  VirtualElementArtEngine.prototype._updateElementProps = function(newProps) {
-	    var addedOrChanged, removed;
-	    addedOrChanged = (function(_this) {
-	      return function(k, v) {
-	        return _this.element.setProperty(k, v);
-	      };
-	    })(this);
-	    removed = (function(_this) {
-	      return function(k, v) {
-	        return _this.element.resetProperty(k);
-	      };
-	    })(this);
-	    return this._updateElementPropsHelper(newProps, addedOrChanged, removed);
-	  };
-
-	  VirtualElementArtEngine.prototype._setElementChildren = function(childElements) {
-	    return this.element.setChildren(childElements);
-	  };
-
-	  VirtualElementArtEngine.prototype._newElement = function(elementClassName, props, childElements, bindToOrCreateNewParentElementProps) {
-	    var element;
-	    element = ElementFactory.newElement(this.elementClassName, props, childElements);
-	    if (bindToOrCreateNewParentElementProps) {
-	      if (bindToOrCreateNewParentElementProps instanceof Element) {
-	        bindToOrCreateNewParentElementProps.addChild(element);
-	      } else {
-	        props = merge(bindToOrCreateNewParentElementProps, {
-	          webgl: Browser.Parse.query().webgl === "true",
-	          children: [element]
-	        });
-	        new CanvasElement(props);
-	      }
-	    }
-	    element.creator = this;
-	    return element;
-	  };
-
-	  VirtualElementArtEngine.prototype._newErrorElement = function() {
-	    return this._newElement("RectangleElement", {
-	      key: "ART_REACT_ERROR_CREATING_CHILD_PLACEHOLDER",
-	      color: "orange"
-	    });
-	  };
-
-	  return VirtualElementArtEngine;
-
-	})(React.VirtualElement);
-
-	React.fullScreenReactAppInit = function(a, b) {
-	  var initOptions, topComponent;
-	  initOptions = isPlainObject(a) ? (topComponent = b, a) : (topComponent = a, b || {});
-	  return FullScreenApp.init(initOptions).then(function() {
-	    return Promise.resolve(topComponent).then(function(topComponent) {
-	      return topComponent.instantiateAsTopComponent();
-	    });
-	  })["catch"](function(error) {
-	    return log.error("ArtReact.fullScreenReactAppInit failed", error);
-	  });
-	};
-
-	React.addElementFactories();
-
-
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(284).includeInNamespace(__webpack_require__(286));
-
-	__webpack_require__(287);
-
-
-/***/ },
-/* 284 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, React,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(285);
+	Art = __webpack_require__(276);
 
 	module.exports = Art.React || Art.addNamespace('React', React = (function(superClass) {
 	  extend(React, superClass);
@@ -38216,7 +38167,7 @@
 
 
 /***/ },
-/* 285 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -38238,34 +38189,34 @@
 
 
 /***/ },
-/* 286 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(287);
+	module.exports = __webpack_require__(278);
 
 
 /***/ },
-/* 287 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(288).includeInNamespace(__webpack_require__(289)).addModules({
-	  Component: __webpack_require__(290),
-	  HotStyleProps: __webpack_require__(298),
-	  ReactArtEngineEpoch: __webpack_require__(292),
-	  VirtualElement: __webpack_require__(299),
-	  VirtualNode: __webpack_require__(291)
+	module.exports = __webpack_require__(279).includeInNamespace(__webpack_require__(280)).addModules({
+	  Component: __webpack_require__(281),
+	  HotStyleProps: __webpack_require__(289),
+	  ReactArtEngineEpoch: __webpack_require__(283),
+	  VirtualElement: __webpack_require__(290),
+	  VirtualNode: __webpack_require__(282)
 	});
 
 
 /***/ },
-/* 288 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Core, React,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	React = __webpack_require__(284);
+	React = __webpack_require__(275);
 
 	module.exports = React.Core || React.addNamespace('Core', Core = (function(superClass) {
 	  extend(Core, superClass);
@@ -38280,14 +38231,14 @@
 
 
 /***/ },
-/* 289 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, _package, arrayWith, isPlainArray, isString, log, reactArtEngineEpoch, ref;
 
-	Component = __webpack_require__(290);
+	Component = __webpack_require__(281);
 
-	reactArtEngineEpoch = __webpack_require__(292).reactArtEngineEpoch;
+	reactArtEngineEpoch = __webpack_require__(283).reactArtEngineEpoch;
 
 	ref = __webpack_require__(19), isPlainArray = ref.isPlainArray, isString = ref.isString, arrayWith = ref.arrayWith, log = ref.log;
 
@@ -38300,7 +38251,7 @@
 	    onNextReady: function(callback) {
 	      return reactArtEngineEpoch.onNextReady(callback);
 	    },
-	    "package": _package = __webpack_require__(297),
+	    "package": _package = __webpack_require__(288),
 	    version: _package.version,
 	    objectTreeFactoryOptions: {
 	      mergePropsInto: function(into, props) {
@@ -38326,7 +38277,7 @@
 
 
 /***/ },
-/* 290 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEngineCore, BaseObject, Foundation, GlobalEpochCycle, HotLoader, InstanceFunctionBindingMixin, React, ReactArtEngineEpoch, StateEpoch, VirtualNode, arrayWithout, clone, compactFlatten, countStep, createObjectTreeFactory, createWithPostCreate, defineModule, fastBind, formattedInspect, getModuleBeingDefined, globalCount, globalEpochCycle, inspect, isArray, isFunction, isObject, isString, keepIfRubyTrue, log, merge, mergeInto, onNextStateEpochReady, reactArtEngineEpoch, runHot, select, shallowClone, slice, stackTime, stateEpoch, time, timePerformance, upperCamelCase,
@@ -38335,17 +38286,17 @@
 
 	Foundation = __webpack_require__(19);
 
-	VirtualNode = __webpack_require__(291);
+	VirtualNode = __webpack_require__(282);
 
-	ReactArtEngineEpoch = __webpack_require__(292);
+	ReactArtEngineEpoch = __webpack_require__(283);
 
 	defineModule = Foundation.defineModule, log = Foundation.log, merge = Foundation.merge, mergeInto = Foundation.mergeInto, clone = Foundation.clone, shallowClone = Foundation.shallowClone, inspect = Foundation.inspect, compactFlatten = Foundation.compactFlatten, keepIfRubyTrue = Foundation.keepIfRubyTrue, BaseObject = Foundation.BaseObject, fastBind = Foundation.fastBind, slice = Foundation.slice, isObject = Foundation.isObject, isString = Foundation.isString, isArray = Foundation.isArray, isFunction = Foundation.isFunction, globalCount = Foundation.globalCount, time = Foundation.time, stackTime = Foundation.stackTime, countStep = Foundation.countStep, createWithPostCreate = Foundation.createWithPostCreate, arrayWithout = Foundation.arrayWithout, upperCamelCase = Foundation.upperCamelCase, createObjectTreeFactory = Foundation.createObjectTreeFactory, select = Foundation.select, formattedInspect = Foundation.formattedInspect, getModuleBeingDefined = Foundation.getModuleBeingDefined, InstanceFunctionBindingMixin = Foundation.InstanceFunctionBindingMixin;
 
 	reactArtEngineEpoch = ReactArtEngineEpoch.reactArtEngineEpoch;
 
-	React = __webpack_require__(288);
+	React = __webpack_require__(279);
 
-	HotLoader = __webpack_require__(293).HotLoader;
+	HotLoader = __webpack_require__(284).HotLoader;
 
 	runHot = HotLoader.runHot;
 
@@ -39163,7 +39114,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 291 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Foundation, ReactArtEngineEpoch, VirtualNode, compact, deepEach, emptyObject, flatten, globalCount, inspect, isObject, isPlainObject, keepIfRubyTrue, log, objectKeyCount, propsEq, reactArtEngineEpoch, shallowClone,
@@ -39173,7 +39124,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	ReactArtEngineEpoch = __webpack_require__(292);
+	ReactArtEngineEpoch = __webpack_require__(283);
 
 	log = Foundation.log, compact = Foundation.compact, globalCount = Foundation.globalCount, flatten = Foundation.flatten, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, inspect = Foundation.inspect, objectKeyCount = Foundation.objectKeyCount, isObject = Foundation.isObject, deepEach = Foundation.deepEach, isPlainObject = Foundation.isPlainObject, keepIfRubyTrue = Foundation.keepIfRubyTrue, propsEq = Foundation.propsEq;
 
@@ -39347,7 +39298,7 @@
 
 
 /***/ },
-/* 292 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ArtEngineCore, BaseObject, Epoch, Foundation, GlobalEpochCycle, ReactArtEngineEpoch, clone, globalCount, inspect, isWebWorker, log, merge, peek, stackTime, timeout,
@@ -39396,30 +39347,30 @@
 
 
 /***/ },
-/* 293 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(294);
+	module.exports = __webpack_require__(285);
 
 
 /***/ },
-/* 294 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(295).addModules({
-	  HotLoader: __webpack_require__(296)
+	module.exports = __webpack_require__(286).addModules({
+	  HotLoader: __webpack_require__(287)
 	});
 
 
 /***/ },
-/* 295 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DevTools, Webpack,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	DevTools = __webpack_require__(254);
+	DevTools = __webpack_require__(247);
 
 	module.exports = DevTools.Webpack || DevTools.addNamespace('Webpack', Webpack = (function(superClass) {
 	  extend(Webpack, superClass);
@@ -39434,7 +39385,7 @@
 
 
 /***/ },
-/* 296 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, HotLoader, log, peek, ref,
@@ -39484,7 +39435,7 @@
 
 
 /***/ },
-/* 297 */
+/* 288 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -39519,7 +39470,7 @@
 	};
 
 /***/ },
-/* 298 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Foundation, HotStyleProps,
@@ -39528,7 +39479,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	Component = __webpack_require__(290);
+	Component = __webpack_require__(281);
 
 	module.exports = HotStyleProps = (function(superClass) {
 	  extend(HotStyleProps, superClass);
@@ -39552,7 +39503,7 @@
 
 
 /***/ },
-/* 299 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Browser, Foundation, Promise, VirtualElement, VirtualNode, compactFlatten, globalCount, inspect, isPlainObject, isWebWorker, keepIfRubyTrue, log, merge, objectDiff, propsEq, shallowClone, stackTime, time,
@@ -39561,7 +39512,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	VirtualNode = __webpack_require__(291);
+	VirtualNode = __webpack_require__(282);
 
 	log = Foundation.log, compactFlatten = Foundation.compactFlatten, globalCount = Foundation.globalCount, time = Foundation.time, stackTime = Foundation.stackTime, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, inspect = Foundation.inspect, keepIfRubyTrue = Foundation.keepIfRubyTrue, stackTime = Foundation.stackTime, isPlainObject = Foundation.isPlainObject, compactFlatten = Foundation.compactFlatten, isWebWorker = Foundation.isWebWorker, objectDiff = Foundation.objectDiff, Browser = Foundation.Browser, merge = Foundation.merge, Promise = Foundation.Promise, propsEq = Foundation.propsEq;
 
@@ -39826,20 +39777,20 @@
 
 
 /***/ },
-/* 300 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Aim, Foundation, React, VirtualElement, createObjectTreeFactories, createObjectTreeFactory, getNextPageIndexes, log, mergeInto, objectTreeFactoryOptions, standardArtEngineElementClassNames;
 
 	Foundation = __webpack_require__(19);
 
-	React = __webpack_require__(287);
+	React = __webpack_require__(278);
 
 	log = Foundation.log, createObjectTreeFactories = Foundation.createObjectTreeFactories, mergeInto = Foundation.mergeInto, createObjectTreeFactory = Foundation.createObjectTreeFactory;
 
 	VirtualElement = React.VirtualElement, objectTreeFactoryOptions = React.objectTreeFactoryOptions;
 
-	getNextPageIndexes = __webpack_require__(301).getNextPageIndexes;
+	getNextPageIndexes = __webpack_require__(292).getNextPageIndexes;
 
 	standardArtEngineElementClassNames = "BitmapElement BlurElement CanvasElement ShapeElement Element FillElement OutlineElement PagingScrollElement RectangleElement ShadowElement TextElement TextInput";
 
@@ -39869,7 +39820,7 @@
 
 
 /***/ },
-/* 301 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Foundation, PagingScrollElement, bound, max, min;
@@ -39960,55 +39911,216 @@
 
 
 /***/ },
-/* 302 */
+/* 293 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
+		"dependencies": {
+			"art-suite": "git://github.com/imikimi/art-suite.git",
+			"chai": "^3.5.0",
+			"coffee-loader": "^0.7.2",
+			"coffee-script": "^1.11.1",
+			"css-loader": "^0.23.1",
+			"json-loader": "^0.5.4",
+			"mocha": "^2.5.3",
+			"neptune-namespaces": "^1.5.0",
+			"script-loader": "^0.7.0",
+			"sourcemapped-stacktrace": "^1.1.3",
+			"style-loader": "^0.13.1",
+			"webpack": "^1.13.2",
+			"webpack-dev-server": "^1.16.2"
+		},
+		"license": "ISC",
+		"name": "nvc_app",
+		"scripts": {
+			"dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
+			"hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
+			"nn": "neptune-namespaces --std",
+			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
+			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
+		},
+		"version": "1.5.1"
+	};
+
+/***/ },
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(152);
+	module.exports = __webpack_require__(295).addModules({
+	  Main: __webpack_require__(296)
+	});
 
-	__webpack_require__(281);
+	__webpack_require__(358);
 
-	module.exports = __webpack_require__(303);
+	__webpack_require__(355);
+
+	__webpack_require__(297);
 
 
 /***/ },
-/* 303 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(304).includeInNamespace(__webpack_require__(306));
-
-	__webpack_require__(307);
-
-	__webpack_require__(319);
-
-	__webpack_require__(324);
-
-	__webpack_require__(314);
-
-
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Flux,
+	var App, Nvc,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(305);
+	Nvc = __webpack_require__(3);
 
-	module.exports = Art.Flux || Art.addNamespace('Flux', Flux = (function(superClass) {
-	  extend(Flux, superClass);
+	module.exports = Nvc.App || Nvc.addNamespace('App', App = (function(superClass) {
+	  extend(App, superClass);
 
-	  function Flux() {
-	    return Flux.__super__.constructor.apply(this, arguments);
+	  function App() {
+	    return App.__super__.constructor.apply(this, arguments);
 	  }
 
-	  return Flux;
+	  return App;
 
 	})(Neptune.Base));
 
 
 /***/ },
-/* 305 */
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, AppNamespace, FullScreenApp, log, ref;
+
+	AppNamespace = __webpack_require__(295);
+
+	__webpack_require__(297);
+
+	__webpack_require__(355);
+
+	App = __webpack_require__(358).App;
+
+	ref = __webpack_require__(300), FullScreenApp = ref.FullScreenApp, log = ref.log;
+
+	FullScreenApp.init({
+	  title: "Needs",
+	  meta: {
+	    "apple-mobile-web-app-status-bar-style": "default"
+	  },
+	  manifest: "assets/needs.manifest",
+	  link: {
+	    "apple-touch-icon": {
+	      href: "assets/needs256.png"
+	    },
+	    "apple-touch-startup-image": {
+	      href: "assets/loading320x480.png"
+	    }
+	  }
+	}).then(function() {
+	  return App().instantiateAsTopComponent();
+	})["catch"](function(e) {
+	  return log.error("Failed to init NVC app", e);
+	});
+
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(298).addModules({
+	  StyleProps: __webpack_require__(299)
+	});
+
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var App, Styles,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	App = __webpack_require__(295);
+
+	module.exports = App.Styles || App.addNamespace('Styles', Styles = (function(superClass) {
+	  extend(Styles, superClass);
+
+	  function Styles() {
+	    return Styles.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Styles;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {var HotStyleProps, StyleProps, defineModule, ref, rgbColor,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	ref = __webpack_require__(300), defineModule = ref.defineModule, rgbColor = ref.rgbColor, HotStyleProps = ref.HotStyleProps;
+
+	defineModule(module, StyleProps = (function(superClass) {
+	  var a;
+
+	  extend(StyleProps, superClass);
+
+	  function StyleProps() {
+	    return StyleProps.__super__.constructor.apply(this, arguments);
+	  }
+
+	  StyleProps.primaryColor = a = rgbColor("#8ebdf6");
+
+	  StyleProps.leafColor = a;
+
+	  StyleProps.textStyle = {
+	    color: "#000a",
+	    fontFamily: "sans-serif",
+	    fontSize: 18
+	  };
+
+	  return StyleProps;
+
+	})(HotStyleProps));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(301);
+
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(302).includeInNamespace(__webpack_require__(304));
+
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Suite,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(303);
+
+	module.exports = Art.Suite || Art.addNamespace('Suite', Suite = (function(superClass) {
+	  extend(Suite, superClass);
+
+	  function Suite() {
+	    return Suite.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Suite;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -40030,16 +40142,108 @@
 
 
 /***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ArtEry, ArtEryFlux, Atomic, Canvas, Engine, Flux, Foundation, React, merge;
+
+	merge = (Foundation = __webpack_require__(19)).merge;
+
+	module.exports = [
+	  merge(Foundation, Atomic = __webpack_require__(129), Canvas = __webpack_require__(141), Engine = __webpack_require__(118), React = __webpack_require__(116), Flux = __webpack_require__(305), ArtEry = __webpack_require__(332), ArtEryFlux = __webpack_require__(346), __webpack_require__(351), {
+	    Foundation: Foundation,
+	    Atomic: Atomic,
+	    Canvas: Canvas,
+	    Engine: Engine,
+	    React: React,
+	    Flux: Flux,
+	    ArtEry: ArtEry,
+	    Ery: ArtEry
+	  })
+	];
+
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(118);
+
+	__webpack_require__(116);
+
+	module.exports = __webpack_require__(306);
+
+
+/***/ },
 /* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(307).includeInNamespace(__webpack_require__(309));
+
+	__webpack_require__(310);
+
+	__webpack_require__(322);
+
+	__webpack_require__(327);
+
+	__webpack_require__(317);
+
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Flux,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(308);
+
+	module.exports = Art.Flux || Art.addNamespace('Flux', Flux = (function(superClass) {
+	  extend(Flux, superClass);
+
+	  function Flux() {
+	    return Flux.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Flux;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Neptune,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Neptune = __webpack_require__(4);
+
+	module.exports = Neptune.Art || Neptune.addNamespace('Art', Art = (function(superClass) {
+	  extend(Art, superClass);
+
+	  function Art() {
+	    return Art.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Art;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var FluxComponent, FluxCore, FluxModel, FluxStore, FluxSubscriptionsMixin, ModelRegistry, _package, defineModule, fluxStore;
 
 	defineModule = __webpack_require__(19).defineModule;
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
-	FluxComponent = __webpack_require__(314).FluxComponent;
+	FluxComponent = __webpack_require__(317).FluxComponent;
 
 	FluxStore = FluxCore.FluxStore, ModelRegistry = FluxCore.ModelRegistry, FluxModel = FluxCore.FluxModel, FluxSubscriptionsMixin = FluxCore.FluxSubscriptionsMixin;
 
@@ -40052,7 +40256,7 @@
 	    FluxModel: FluxModel,
 	    ModelRegistry: ModelRegistry,
 	    FluxComponent: FluxComponent,
-	    ApplicationState: __webpack_require__(317),
+	    ApplicationState: __webpack_require__(320),
 	    models: ModelRegistry.models,
 	    createFluxComponentFactory: FluxComponent.createFluxComponentFactory,
 	    fluxStore: fluxStore,
@@ -40060,7 +40264,7 @@
 	      fluxStore._reset();
 	      return ModelRegistry._reset();
 	    },
-	    "package": _package = __webpack_require__(318),
+	    "package": _package = __webpack_require__(321),
 	    version: _package.version
 	  }
 	]);
@@ -40068,27 +40272,27 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 307 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(308).addModules({
-	  FluxEntry: __webpack_require__(309),
-	  FluxModel: __webpack_require__(310),
-	  FluxStore: __webpack_require__(311),
-	  FluxSubscriptionsMixin: __webpack_require__(313),
-	  ModelRegistry: __webpack_require__(312)
+	module.exports = __webpack_require__(311).addModules({
+	  FluxEntry: __webpack_require__(312),
+	  FluxModel: __webpack_require__(313),
+	  FluxStore: __webpack_require__(314),
+	  FluxSubscriptionsMixin: __webpack_require__(316),
+	  ModelRegistry: __webpack_require__(315)
 	});
 
 
 /***/ },
-/* 308 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Core, Flux,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Flux = __webpack_require__(304);
+	Flux = __webpack_require__(307);
 
 	module.exports = Flux.Core || Flux.addNamespace('Core', Core = (function(superClass) {
 	  extend(Core, superClass);
@@ -40103,7 +40307,7 @@
 
 
 /***/ },
-/* 309 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Epoch, FluxEntry, Foundation, Unique, clone, defineModule, failure, inspect, isPlainObject, log, merge, pending, propsEq, pushIfNotPresent, removeFirstMatch, shallowClone, success,
@@ -40235,7 +40439,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 310 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, FluxModel, Foundation, InstanceFunctionBindingMixin, ModelRegistry, Promise, capitalize, compactFlatten, decapitalize, defineModule, emailRegexp, failure, fluxStore, globalCount, inspect, isFunction, isNumber, isString, isoDateRegexp, log, missing, nextTick, pending, pluralize, pureMerge, ref, shallowClone, success, time, urlRegexp, validStatus,
@@ -40246,9 +40450,9 @@
 
 	ref = Foundation.CommunicationStatus, missing = ref.missing, success = ref.success, pending = ref.pending, failure = ref.failure, validStatus = ref.validStatus, defineModule = ref.defineModule;
 
-	fluxStore = __webpack_require__(311).fluxStore;
+	fluxStore = __webpack_require__(314).fluxStore;
 
-	ModelRegistry = __webpack_require__(312);
+	ModelRegistry = __webpack_require__(315);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, pureMerge = Foundation.pureMerge, shallowClone = Foundation.shallowClone, isString = Foundation.isString, emailRegexp = Foundation.emailRegexp, urlRegexp = Foundation.urlRegexp, isNumber = Foundation.isNumber, nextTick = Foundation.nextTick, capitalize = Foundation.capitalize, inspect = Foundation.inspect, isFunction = Foundation.isFunction, pureMerge = Foundation.pureMerge, isoDateRegexp = Foundation.isoDateRegexp, time = Foundation.time, globalCount = Foundation.globalCount, compactFlatten = Foundation.compactFlatten, InstanceFunctionBindingMixin = Foundation.InstanceFunctionBindingMixin, Promise = Foundation.Promise, defineModule = Foundation.defineModule;
 
@@ -40493,7 +40697,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 311 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Epoch, FluxEntry, FluxStore, Foundation, GlobalEpochCycle, ModelRegistry, Unique, clone, consistentJsonStringify, defineModule, failure, globalCount, inspect, isFunction, isString, log, merge, missing, pending, pushIfNotPresent, ref, ref1, removeFirstMatch, success, time, timeout,
@@ -40502,9 +40706,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxEntry = __webpack_require__(309);
+	FluxEntry = __webpack_require__(312);
 
-	ModelRegistry = __webpack_require__(312);
+	ModelRegistry = __webpack_require__(315);
 
 	BaseObject = Foundation.BaseObject, merge = Foundation.merge, removeFirstMatch = Foundation.removeFirstMatch, pushIfNotPresent = Foundation.pushIfNotPresent, removeFirstMatch = Foundation.removeFirstMatch, Epoch = Foundation.Epoch, log = Foundation.log, isFunction = Foundation.isFunction, Unique = Foundation.Unique, clone = Foundation.clone, consistentJsonStringify = Foundation.consistentJsonStringify, isString = Foundation.isString, timeout = Foundation.timeout, globalCount = Foundation.globalCount, time = Foundation.time, inspect = Foundation.inspect, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -40829,7 +41033,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 312 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, ModelRegistry, decapitalize, defineModule, inspect, isClass, log, ref,
@@ -40886,7 +41090,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 313 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, ModelRegistry, capitalize, defineModule, fluxStore, globalCount, isString, log, mergeInfo, nextTick, ref, time,
@@ -40895,9 +41099,9 @@
 
 	ref = __webpack_require__(19), isString = ref.isString, defineModule = ref.defineModule, log = ref.log, BaseObject = ref.BaseObject, nextTick = ref.nextTick, mergeInfo = ref.mergeInfo, capitalize = ref.capitalize, globalCount = ref.globalCount, time = ref.time;
 
-	fluxStore = __webpack_require__(311).fluxStore;
+	fluxStore = __webpack_require__(314).fluxStore;
 
-	ModelRegistry = __webpack_require__(312);
+	ModelRegistry = __webpack_require__(315);
 
 	defineModule(module, function() {
 	  return function(superClass) {
@@ -40989,23 +41193,23 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 314 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(315).addModules({
-	  FluxComponent: __webpack_require__(316)
+	module.exports = __webpack_require__(318).addModules({
+	  FluxComponent: __webpack_require__(319)
 	});
 
 
 /***/ },
-/* 315 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Flux, React,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Flux = __webpack_require__(304);
+	Flux = __webpack_require__(307);
 
 	module.exports = Flux.React || Flux.addNamespace('React', React = (function(superClass) {
 	  extend(React, superClass);
@@ -41020,7 +41224,7 @@
 
 
 /***/ },
-/* 316 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Component, FluxComponent, FluxCore, FluxSubscriptionsMixin, Foundation, ModelRegistry, Validator, compactFlatten, createComponentFactory, defineModule, globalCount, inspect, isFunction, isPlainObject, isString, log, mergeInfo, nextTick, pending, ref, rubyFalse, rubyTrue, success, time,
@@ -41029,7 +41233,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
 	ref = Neptune.Art.React, Component = ref.Component, createComponentFactory = ref.createComponentFactory;
 
@@ -41425,7 +41629,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 317 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ApplicationState, BaseObject, CommunicationStatus, FluxCore, FluxModel, FluxStore, Foundation, Unique, clone, defineModule, failure, fluxStore, isPlainObject, isString, log, merge, mergeInto, missing, pending, propsEq, success,
@@ -41434,7 +41638,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
 	clone = Foundation.clone, BaseObject = Foundation.BaseObject, log = Foundation.log, isString = Foundation.isString, isPlainObject = Foundation.isPlainObject, merge = Foundation.merge, propsEq = Foundation.propsEq, mergeInto = Foundation.mergeInto, Unique = Foundation.Unique, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -41744,7 +41948,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 318 */
+/* 321 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -41778,25 +41982,25 @@
 	};
 
 /***/ },
-/* 319 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(320).addModules({
-	  FluxDbModelBase: __webpack_require__(321),
-	  FluxDbModel: __webpack_require__(322),
-	  FluxDbQueryModel: __webpack_require__(323)
+	module.exports = __webpack_require__(323).addModules({
+	  FluxDbModelBase: __webpack_require__(324),
+	  FluxDbModel: __webpack_require__(325),
+	  FluxDbQueryModel: __webpack_require__(326)
 	});
 
 
 /***/ },
-/* 320 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Db, Flux,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Flux = __webpack_require__(304);
+	Flux = __webpack_require__(307);
 
 	module.exports = Flux.Db || Flux.addNamespace('Db', Db = (function(superClass) {
 	  extend(Db, superClass);
@@ -41811,7 +42015,7 @@
 
 
 /***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, FluxCore, FluxDbModelBase, FluxModel, FluxStore, Foundation, ModelRegistry, capitalize, decapitalize, defineModule, emailRegexp, failure, fluxStore, globalCount, idRegExpStr, inspect, isFunction, isHexColor, isId, isNumber, isString, log, merge, missing, nextTick, objectWithout, pending, pluralize, pureMerge, shallowClone, success, time, urlRegexp,
@@ -41820,7 +42024,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, pureMerge = Foundation.pureMerge, shallowClone = Foundation.shallowClone, isString = Foundation.isString, emailRegexp = Foundation.emailRegexp, urlRegexp = Foundation.urlRegexp, isNumber = Foundation.isNumber, nextTick = Foundation.nextTick, capitalize = Foundation.capitalize, inspect = Foundation.inspect, isFunction = Foundation.isFunction, merge = Foundation.merge, objectWithout = Foundation.objectWithout, shallowClone = Foundation.shallowClone, time = Foundation.time, globalCount = Foundation.globalCount, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -42063,7 +42267,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, FluxCore, FluxDbModel, FluxDbModelBase, FluxModel, FluxStore, Foundation, ModelRegistry, capitalize, compact, decapitalize, defineModule, emailRegexp, failure, fluxStore, idRegExpStr, inspect, isFunction, isHexColor, isId, isNumber, isPlainArray, isPlainObject, isString, log, merge, missing, nextTick, objectWithout, pending, pluralize, pureMerge, shallowClone, success, urlRegexp,
@@ -42072,9 +42276,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
-	FluxDbModelBase = __webpack_require__(321);
+	FluxDbModelBase = __webpack_require__(324);
 
 	log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, pureMerge = Foundation.pureMerge, shallowClone = Foundation.shallowClone, isString = Foundation.isString, emailRegexp = Foundation.emailRegexp, urlRegexp = Foundation.urlRegexp, isNumber = Foundation.isNumber, nextTick = Foundation.nextTick, capitalize = Foundation.capitalize, inspect = Foundation.inspect, isFunction = Foundation.isFunction, merge = Foundation.merge, objectWithout = Foundation.objectWithout, isPlainObject = Foundation.isPlainObject, isPlainArray = Foundation.isPlainArray, compact = Foundation.compact, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -42432,7 +42636,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, FluxDbModelBase, FluxDbQueryModel, Foundation, capitalize, decapitalize, defineModule, emailRegexp, inspect, isFunction, isNumber, isString, log, nextTick, objectWithout, pluralize, pureMerge, shallowClone, urlRegexp,
@@ -42441,7 +42645,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxDbModelBase = __webpack_require__(321);
+	FluxDbModelBase = __webpack_require__(324);
 
 	defineModule = Foundation.defineModule, log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, pureMerge = Foundation.pureMerge, shallowClone = Foundation.shallowClone, isString = Foundation.isString, emailRegexp = Foundation.emailRegexp, urlRegexp = Foundation.urlRegexp, isNumber = Foundation.isNumber, nextTick = Foundation.nextTick, capitalize = Foundation.capitalize, inspect = Foundation.inspect, isFunction = Foundation.isFunction, objectWithout = Foundation.objectWithout;
 
@@ -42489,26 +42693,26 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 324 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(325).addModules({
-	  ApplicationState: __webpack_require__(317),
-	  VolatileModel: __webpack_require__(326),
-	  VolatileQueryModel: __webpack_require__(328),
-	  VolatileStore: __webpack_require__(327)
+	module.exports = __webpack_require__(328).addModules({
+	  ApplicationState: __webpack_require__(320),
+	  VolatileModel: __webpack_require__(329),
+	  VolatileQueryModel: __webpack_require__(331),
+	  VolatileStore: __webpack_require__(330)
 	});
 
 
 /***/ },
-/* 325 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Flux, Models,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Flux = __webpack_require__(304);
+	Flux = __webpack_require__(307);
 
 	module.exports = Flux.Models || Flux.addNamespace('Models', Models = (function(superClass) {
 	  extend(Models, superClass);
@@ -42523,7 +42727,7 @@
 
 
 /***/ },
-/* 326 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, FluxCore, FluxDb, FluxDbModel, FluxModel, FluxStore, Foundation, ModelRegistry, VolatileModel, VolatileQueryModel, VolatileStore, decapitalize, defineModule, fluxStore, log, pluralize, volatileStore,
@@ -42532,13 +42736,13 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
-	VolatileStore = __webpack_require__(327);
+	VolatileStore = __webpack_require__(330);
 
-	VolatileQueryModel = __webpack_require__(328);
+	VolatileQueryModel = __webpack_require__(331);
 
-	FluxDb = __webpack_require__(319);
+	FluxDb = __webpack_require__(322);
 
 	defineModule = Foundation.defineModule, log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, defineModule = Foundation.defineModule;
 
@@ -42607,7 +42811,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 327 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, FluxCore, FluxStore, Foundation, VolatileStore, arrayWithOne, clone, defineModule, fluxStore, log, merge, mergeInfo, missing, simulateAsyncRequest, slice, success,
@@ -42616,7 +42820,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxCore = __webpack_require__(307);
+	FluxCore = __webpack_require__(310);
 
 	FluxStore = FluxCore.FluxStore;
 
@@ -42720,7 +42924,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 328 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var FluxDbQueryModel, Foundation, VolatileQueryModel, defineModule, failure, log, missing, objectWithout, pending, ref, success,
@@ -42730,7 +42934,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	FluxDbQueryModel = __webpack_require__(323);
+	FluxDbQueryModel = __webpack_require__(326);
 
 	ref = Foundation.CommunicationStatus, success = ref.success, failure = ref.failure, pending = ref.pending, missing = ref.missing, defineModule = ref.defineModule;
 
@@ -42780,38 +42984,38 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 329 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(330);
+	module.exports = __webpack_require__(333);
 
 
 /***/ },
-/* 330 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(331).includeInNamespace(__webpack_require__(333)).addModules({
-	  ArtEryBaseObject: __webpack_require__(336),
-	  Config: __webpack_require__(337),
-	  Filter: __webpack_require__(338),
-	  Pipeline: __webpack_require__(342),
-	  PipelineRegistry: __webpack_require__(334),
-	  Request: __webpack_require__(339),
-	  RequestResponseBase: __webpack_require__(340),
-	  Response: __webpack_require__(341),
-	  Session: __webpack_require__(335)
+	module.exports = __webpack_require__(334).includeInNamespace(__webpack_require__(336)).addModules({
+	  ArtEryBaseObject: __webpack_require__(339),
+	  Config: __webpack_require__(340),
+	  Filter: __webpack_require__(341),
+	  Pipeline: __webpack_require__(345),
+	  PipelineRegistry: __webpack_require__(337),
+	  Request: __webpack_require__(342),
+	  RequestResponseBase: __webpack_require__(343),
+	  Response: __webpack_require__(344),
+	  Session: __webpack_require__(338)
 	});
 
 
 /***/ },
-/* 331 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Ery,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(332);
+	Art = __webpack_require__(335);
 
 	module.exports = Art.Ery || Art.addNamespace('Ery', Ery = (function(superClass) {
 	  extend(Ery, superClass);
@@ -42826,7 +43030,7 @@
 
 
 /***/ },
-/* 332 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -42848,19 +43052,19 @@
 
 
 /***/ },
-/* 333 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = [
 	  {
-	    pipelines: (__webpack_require__(334)).pipelines,
-	    session: (__webpack_require__(335)).singleton
-	  }, __webpack_require__(337)
+	    pipelines: (__webpack_require__(337)).pipelines,
+	    session: (__webpack_require__(338)).singleton
+	  }, __webpack_require__(340)
 	];
 
 
 /***/ },
-/* 334 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, PipelineRegistry, decapitalize, defineModule, inspect, isClass, log, ref,
@@ -42913,7 +43117,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 335 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EventedMixin, Foundation, JsonStore, Session, Validator, inspect, isObject, isString, log, merge, plainObjectsDeepEq,
@@ -42922,7 +43126,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	EventedMixin = __webpack_require__(168).EventedMixin;
+	EventedMixin = __webpack_require__(161).EventedMixin;
 
 	BaseObject = Foundation.BaseObject, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, JsonStore = Foundation.JsonStore;
 
@@ -42991,11 +43195,11 @@
 
 	  return Session;
 
-	})(EventedMixin(__webpack_require__(336)));
+	})(EventedMixin(__webpack_require__(339)));
 
 
 /***/ },
-/* 336 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, defineModule, ref,
@@ -43004,7 +43208,7 @@
 
 	ref = __webpack_require__(19), BaseObject = ref.BaseObject, defineModule = ref.defineModule;
 
-	ArtEry = __webpack_require__(331);
+	ArtEry = __webpack_require__(334);
 
 	defineModule(module, ArtEryBaseObject = (function(superClass) {
 	  extend(ArtEryBaseObject, superClass);
@@ -43031,7 +43235,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 337 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, Config, defineModule, mergeInto, ref,
@@ -43069,7 +43273,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 338 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Filter, Foundation, Promise, Request, Response, defineModule, failure, getInspectedObjects, isPlainObject, log, merge, mergeInto, shallowClone, success,
@@ -43078,9 +43282,9 @@
 
 	Foundation = __webpack_require__(19);
 
-	Request = __webpack_require__(339);
+	Request = __webpack_require__(342);
 
-	Response = __webpack_require__(341);
+	Response = __webpack_require__(344);
 
 	getInspectedObjects = Foundation.getInspectedObjects, defineModule = Foundation.defineModule, BaseObject = Foundation.BaseObject, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, mergeInto = Foundation.mergeInto, merge = Foundation.merge, shallowClone = Foundation.shallowClone, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -43231,12 +43435,12 @@
 
 	  return Filter;
 
-	})(__webpack_require__(336)));
+	})(__webpack_require__(339)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 339 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ArtEry, BaseObject, CommunicationStatus, Foundation, Request, RestClient, Validator, arrayWith, failure, inspect, isObject, isString, log, merge, missing, present, success, validStatus, validator, w,
@@ -43247,7 +43451,7 @@
 
 	present = Foundation.present, BaseObject = Foundation.BaseObject, RestClient = Foundation.RestClient, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, CommunicationStatus = Foundation.CommunicationStatus, arrayWith = Foundation.arrayWith, w = Foundation.w;
 
-	ArtEry = __webpack_require__(331);
+	ArtEry = __webpack_require__(334);
 
 	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure, validStatus = CommunicationStatus.validStatus;
 
@@ -43386,11 +43590,11 @@
 
 	  return Request;
 
-	})(__webpack_require__(340));
+	})(__webpack_require__(343));
 
 
 /***/ },
-/* 340 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, CommunicationStatus, RequestResponseBase, arrayWith, defineModule, failure, inspect, inspectedObjectLiteral, isJsonType, isPlainObject, isString, log, merge, missing, ref, success, toInspectedObjects,
@@ -43399,9 +43603,9 @@
 
 	ref = __webpack_require__(19), BaseObject = ref.BaseObject, CommunicationStatus = ref.CommunicationStatus, log = ref.log, arrayWith = ref.arrayWith, defineModule = ref.defineModule, merge = ref.merge, isJsonType = ref.isJsonType, isString = ref.isString, isPlainObject = ref.isPlainObject, inspect = ref.inspect, inspectedObjectLiteral = ref.inspectedObjectLiteral, toInspectedObjects = ref.toInspectedObjects;
 
-	ArtEry = __webpack_require__(331);
+	ArtEry = __webpack_require__(334);
 
-	ArtEryBaseObject = __webpack_require__(336);
+	ArtEryBaseObject = __webpack_require__(339);
 
 	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure;
 
@@ -43555,7 +43759,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 341 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, CommunicationStatus, Foundation, Request, Response, Validator, arrayWith, failure, formattedInspect, inspect, isJsonType, isPlainObject, log, merge, missing, responseValidator, success, w,
@@ -43564,7 +43768,7 @@
 
 	Foundation = __webpack_require__(19);
 
-	Request = __webpack_require__(339);
+	Request = __webpack_require__(342);
 
 	BaseObject = Foundation.BaseObject, arrayWith = Foundation.arrayWith, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, Validator = Foundation.Validator, merge = Foundation.merge, isJsonType = Foundation.isJsonType, formattedInspect = Foundation.formattedInspect, w = Foundation.w;
 
@@ -43654,11 +43858,11 @@
 
 	  return Response;
 
-	})(__webpack_require__(340));
+	})(__webpack_require__(343));
 
 
 /***/ },
-/* 342 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Config, Filter, Foundation, Pipeline, PipelineRegistry, Promise, Request, Response, Session, Validator, arrayToTruthMap, compactFlatten, decapitalize, defineModule, escapeRegExp, failure, inspect, inspectedObjectLiteral, isClass, isFunction, isPlainArray, isPlainObject, isString, log, lowerCamelCase, merge, mergeInto, missing, newObjectFromEach, normalizeFieldProps, peek, reverseForEach, success,
@@ -43668,17 +43872,17 @@
 
 	Foundation = __webpack_require__(19);
 
-	Response = __webpack_require__(341);
+	Response = __webpack_require__(344);
 
-	Request = __webpack_require__(339);
+	Request = __webpack_require__(342);
 
-	Filter = __webpack_require__(338);
+	Filter = __webpack_require__(341);
 
-	Session = __webpack_require__(335);
+	Session = __webpack_require__(338);
 
-	Config = __webpack_require__(337);
+	Config = __webpack_require__(340);
 
-	PipelineRegistry = __webpack_require__(334);
+	PipelineRegistry = __webpack_require__(337);
 
 	newObjectFromEach = Foundation.newObjectFromEach, compactFlatten = Foundation.compactFlatten, BaseObject = Foundation.BaseObject, reverseForEach = Foundation.reverseForEach, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect, isString = Foundation.isString, isClass = Foundation.isClass, isFunction = Foundation.isFunction, inspect = Foundation.inspect, CommunicationStatus = Foundation.CommunicationStatus, merge = Foundation.merge, isPlainArray = Foundation.isPlainArray, decapitalize = Foundation.decapitalize, defineModule = Foundation.defineModule, Validator = Foundation.Validator, mergeInto = Foundation.mergeInto, arrayToTruthMap = Foundation.arrayToTruthMap, lowerCamelCase = Foundation.lowerCamelCase, peek = Foundation.peek, inspectedObjectLiteral = Foundation.inspectedObjectLiteral, escapeRegExp = Foundation.escapeRegExp;
 
@@ -44188,36 +44392,36 @@
 
 	  return Pipeline;
 
-	})(__webpack_require__(336)));
+	})(__webpack_require__(339)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 343 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(344);
+	module.exports = __webpack_require__(347);
 
 
 /***/ },
-/* 344 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(345).addModules({
-	  ArtEryFluxModel: __webpack_require__(346),
-	  ArtEryQueryFluxModel: __webpack_require__(347)
+	module.exports = __webpack_require__(348).addModules({
+	  ArtEryFluxModel: __webpack_require__(349),
+	  ArtEryQueryFluxModel: __webpack_require__(350)
 	});
 
 
 /***/ },
-/* 345 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ery, Flux,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Ery = __webpack_require__(331);
+	Ery = __webpack_require__(334);
 
 	module.exports = Ery.Flux || Ery.addNamespace('Flux', Flux = (function(superClass) {
 	  extend(Flux, superClass);
@@ -44232,7 +44436,7 @@
 
 
 /***/ },
-/* 346 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryFluxModel, ArtEryQueryFluxModel, CommunicationStatus, Flux, FluxModel, Foundation, Promise, arrayWith, arrayWithElementReplaced, createWithPostCreate, decapitalize, defineModule, eq, failure, fastBind, formattedInspect, inspect, isFunction, isString, log, merge, missing, models, pending, select, success, upperCamelCase,
@@ -44247,9 +44451,9 @@
 	  throw new Error("Neptune.Art.Flux not loaded. Please pre-require Flux or Flux/web_worker.");
 	}
 
-	ArtEry = __webpack_require__(329);
+	ArtEry = __webpack_require__(332);
 
-	ArtEryQueryFluxModel = __webpack_require__(347);
+	ArtEryQueryFluxModel = __webpack_require__(350);
 
 	log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, select = Foundation.select, isString = Foundation.isString, isFunction = Foundation.isFunction, fastBind = Foundation.fastBind, decapitalize = Foundation.decapitalize, merge = Foundation.merge, Promise = Foundation.Promise, eq = Foundation.eq, upperCamelCase = Foundation.upperCamelCase, arrayWith = Foundation.arrayWith, arrayWithElementReplaced = Foundation.arrayWithElementReplaced, formattedInspect = Foundation.formattedInspect, defineModule = Foundation.defineModule, createWithPostCreate = Foundation.createWithPostCreate, inspect = Foundation.inspect;
 
@@ -44604,7 +44808,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 347 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryQueryFluxModel, CommunicationStatus, Flux, FluxModel, Foundation, Promise, arrayWith, arrayWithElementReplaced, decapitalize, defineModule, eq, failure, formattedInspect, isFunction, isString, log, merge, missing, pending, propsEq, select, success, upperCamelCase,
@@ -44615,7 +44819,7 @@
 
 	Flux = Neptune.Art.Flux;
 
-	ArtEry = __webpack_require__(329);
+	ArtEry = __webpack_require__(332);
 
 	log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, select = Foundation.select, isString = Foundation.isString, isFunction = Foundation.isFunction, decapitalize = Foundation.decapitalize, merge = Foundation.merge, Promise = Foundation.Promise, eq = Foundation.eq, upperCamelCase = Foundation.upperCamelCase, arrayWith = Foundation.arrayWith, arrayWithElementReplaced = Foundation.arrayWithElementReplaced, formattedInspect = Foundation.formattedInspect, propsEq = Foundation.propsEq, defineModule = Foundation.defineModule;
 
@@ -44764,30 +44968,30 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 348 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(349);
+	module.exports = __webpack_require__(352);
 
 
 /***/ },
-/* 349 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(350).addModules({
-	  PointerActionsMixin: __webpack_require__(351)
+	module.exports = __webpack_require__(353).addModules({
+	  PointerActionsMixin: __webpack_require__(354)
 	});
 
 
 /***/ },
-/* 350 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Mixins, React,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	React = __webpack_require__(284);
+	React = __webpack_require__(275);
 
 	module.exports = React.Mixins || React.addNamespace('Mixins', Mixins = (function(superClass) {
 	  extend(Mixins, superClass);
@@ -44802,7 +45006,7 @@
 
 
 /***/ },
-/* 351 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var defineModule,
@@ -44893,23 +45097,23 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 352 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(353).addModules({
-	  Selected: __webpack_require__(354)
+	module.exports = __webpack_require__(356).addModules({
+	  Selected: __webpack_require__(357)
 	});
 
 
 /***/ },
-/* 353 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Models,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	App = __webpack_require__(115);
+	App = __webpack_require__(295);
 
 	module.exports = App.Models || App.addNamespace('Models', Models = (function(superClass) {
 	  extend(Models, superClass);
@@ -44924,16 +45128,18 @@
 
 
 /***/ },
-/* 354 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var A, ApplicationState, Selected, arrayWith, compactFlatten, defineModule, log, merge, newObjectFromEach, ref, sendEmail, timeout,
+	/* WEBPACK VAR INJECTION */(function(module) {var A, ApplicationState, Selected, arrayWith, compactFlatten, defineModule, getSelectedStatement, log, merge, newObjectFromEach, ref, sendEmail, timeout,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	ref = __webpack_require__(120), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState, compactFlatten = ref.compactFlatten, newObjectFromEach = ref.newObjectFromEach, merge = ref.merge, timeout = ref.timeout;
+	ref = __webpack_require__(300), log = ref.log, defineModule = ref.defineModule, arrayWith = ref.arrayWith, ApplicationState = ref.ApplicationState, compactFlatten = ref.compactFlatten, newObjectFromEach = ref.newObjectFromEach, merge = ref.merge, timeout = ref.timeout;
 
 	A = __webpack_require__(19).Browser.DomElementFactories.A;
+
+	getSelectedStatement = Neptune.Nvc.Data.Nvc.getSelectedStatement;
 
 	sendEmail = function(arg) {
 	  var address, body, link, params, subject;
@@ -44974,9 +45180,19 @@
 	  };
 
 	  Selected.prototype.email = function() {
+	    var k, v;
 	    return sendEmail({
-	      subject: "Needs and Emotions (v" + Neptune.Nvc.version + ")",
-	      body: Object.keys(this.savableState).sort().join('\n')
+	      subject: "My current needs and emotions",
+	      body: (((function() {
+	        var ref1, results;
+	        ref1 = this.state;
+	        results = [];
+	        for (k in ref1) {
+	          v = ref1[k];
+	          results.push(getSelectedStatement(k.split(' > ')));
+	        }
+	        return results;
+	      }).call(this)).sort().join('\n')) + "\n\n(Needs and Emotions App v" + Neptune.Nvc.version + ")"
 	    });
 	  };
 
@@ -44991,27 +45207,27 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 355 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(356).addModules({
-	  App: __webpack_require__(357),
+	module.exports = __webpack_require__(359).addModules({
+	  App: __webpack_require__(360),
 	  Button: __webpack_require__(363),
 	  CategoryButton: __webpack_require__(362),
 	  LeafButton: __webpack_require__(364),
-	  ShowMap: __webpack_require__(358)
+	  ShowMap: __webpack_require__(361)
 	});
 
 
 /***/ },
-/* 356 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App, Components,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	App = __webpack_require__(115);
+	App = __webpack_require__(295);
 
 	module.exports = App.Components || App.addNamespace('Components', Components = (function(superClass) {
 	  extend(Components, superClass);
@@ -45026,7 +45242,7 @@
 
 
 /***/ },
-/* 357 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var App, CanvasElement, Component, Element, FluxComponent, Foundation, Namespace, Nvc, PagingScrollElement, React, RectangleElement, ShowMap, TextElement, defineModule, inspect, log, merge, ref, textStyle, version, w,
@@ -45035,17 +45251,17 @@
 
 	Foundation = __webpack_require__(19);
 
-	React = __webpack_require__(281);
+	React = __webpack_require__(116);
 
-	Namespace = __webpack_require__(356);
+	Namespace = __webpack_require__(359);
 
-	ShowMap = __webpack_require__(358);
+	ShowMap = __webpack_require__(361);
 
-	Nvc = __webpack_require__(359).Nvc;
+	Nvc = Neptune.Nvc.Data.Nvc;
 
-	version = __webpack_require__(113).version;
+	version = __webpack_require__(293).version;
 
-	ref = __webpack_require__(120), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
+	ref = __webpack_require__(300), w = ref.w, log = ref.log, inspect = ref.inspect, defineModule = ref.defineModule, merge = ref.merge, CanvasElement = ref.CanvasElement, RectangleElement = ref.RectangleElement, PagingScrollElement = ref.PagingScrollElement, TextElement = ref.TextElement, Element = ref.Element, Component = ref.Component, FluxComponent = ref.FluxComponent;
 
 	textStyle = Neptune.Nvc.App.Styles.StyleProps.textStyle;
 
@@ -45130,7 +45346,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 358 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Atomic, Button, CanvasElement, CategoryButton, Component, Element, FillElement, FluxComponent, Foundation, LeafButton, Nvc, OutlineElement, React, RectangleElement, StyleProps, TextElement, arrayWith, arrayWithout, capitalize, createComponentFactory, createFluxComponentFactory, createWithPostCreate, defineModule, eq, inspect, isPlainObject, isString, log, peek, point, ref, ref1, textStyle,
@@ -45139,15 +45355,15 @@
 
 	Foundation = __webpack_require__(19);
 
-	React = __webpack_require__(281);
+	React = __webpack_require__(116);
 
-	Atomic = __webpack_require__(125);
+	Atomic = __webpack_require__(129);
 
-	Nvc = __webpack_require__(359).Nvc;
+	Nvc = Neptune.Nvc.Data.Nvc;
 
-	ref = __webpack_require__(302), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
+	ref = __webpack_require__(305), createFluxComponentFactory = ref.createFluxComponentFactory, FluxComponent = ref.FluxComponent;
 
-	ref1 = __webpack_require__(120), point = ref1.point, arrayWith = ref1.arrayWith, defineModule = ref1.defineModule, log = ref1.log, inspect = ref1.inspect, isPlainObject = ref1.isPlainObject, capitalize = ref1.capitalize, peek = ref1.peek, arrayWith = ref1.arrayWith, eq = ref1.eq, createWithPostCreate = ref1.createWithPostCreate, isString = ref1.isString, createComponentFactory = ref1.createComponentFactory, Component = ref1.Component, Element = ref1.Element, CanvasElement = ref1.CanvasElement, RectangleElement = ref1.RectangleElement, TextElement = ref1.TextElement, OutlineElement = ref1.OutlineElement, FillElement = ref1.FillElement, arrayWithout = ref1.arrayWithout;
+	ref1 = __webpack_require__(300), point = ref1.point, arrayWith = ref1.arrayWith, defineModule = ref1.defineModule, log = ref1.log, inspect = ref1.inspect, isPlainObject = ref1.isPlainObject, capitalize = ref1.capitalize, peek = ref1.peek, arrayWith = ref1.arrayWith, eq = ref1.eq, createWithPostCreate = ref1.createWithPostCreate, isString = ref1.isString, createComponentFactory = ref1.createComponentFactory, Component = ref1.Component, Element = ref1.Element, CanvasElement = ref1.CanvasElement, RectangleElement = ref1.RectangleElement, TextElement = ref1.TextElement, OutlineElement = ref1.OutlineElement, FillElement = ref1.FillElement, arrayWithout = ref1.arrayWithout;
 
 	CategoryButton = __webpack_require__(362);
 
@@ -45159,7 +45375,7 @@
 
 	textStyle = StyleProps.textStyle;
 
-	Nvc = __webpack_require__(359).Nvc;
+	Nvc = Neptune.Nvc.Data.Nvc;
 
 	defineModule(module, function() {
 	  var SubMap, SubMapFactory;
@@ -45228,9 +45444,13 @@
 	          text: map,
 	          padding: 10
 	        }), LeafButton({
-	          text: "select: " + (peek(path)),
-	          selectedText: "selected: " + (peek(path)),
 	          path: path
+	        }, path[0] === "needs" ? {
+	          text: "I have all the " + (peek(path)) + " I need.",
+	          selectedText: "I need more " + (peek(path)) + "."
+	        } : {
+	          text: "I am feeling neutral.",
+	          selectedText: "I am feeling " + (peek(path)) + "."
 	        })
 	      ] : Element({
 	        size: {
@@ -45311,181 +45531,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
 
 /***/ },
-/* 359 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(360).addModules({
-	  Nvc: __webpack_require__(361)
-	});
-
-
-/***/ },
-/* 360 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var App, Data,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	App = __webpack_require__(115);
-
-	module.exports = App.Data || App.addNamespace('Data', Data = (function(superClass) {
-	  extend(Data, superClass);
-
-	  function Data() {
-	    return Data.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Data;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 361 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {var Foundation, HotStyleProps, Nvc, arrayToFalseMap, deepMap, defineModule, log, normalizeList, sbdNeedsList, splitOnLines, w, wordsArray,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Foundation = __webpack_require__(19);
-
-	HotStyleProps = __webpack_require__(281).HotStyleProps;
-
-	defineModule = Foundation.defineModule, log = Foundation.log, arrayToFalseMap = Foundation.arrayToFalseMap, wordsArray = Foundation.wordsArray, deepMap = Foundation.deepMap, w = Foundation.w;
-
-	splitOnLines = function(str) {
-	  return str.split("\n");
-	};
-
-	normalizeList = function(string) {
-	  var list;
-	  list = w(string);
-	  list.sort();
-	  return list.join(', ');
-	};
-
-
-	/*
-	 unsorted needs:
-
-	   quality
-	   mourning
-	 */
-
-	sbdNeedsList = {
-	  surviving: {
-	    metabolism: "Plenty of air, food, water and sleep.",
-	    health: "Feeling 100% well, or healing and on the way to full recovery.",
-	    energy: "Rested, restored, energized and vital.",
-	    environment: "Comfortable temperature, humidity, atmosphere, clothing and shelter.",
-	    "physical-safety": "Living free from violence, accidents, illness and disasters.",
-	    security: "Life is stable, predictable, and sustainable.",
-	    procreation: "Have, or are working on having all the children one wants."
-	  },
-	  thriving: {
-	    enjoyment: {
-	      senses: "All five senses are simulated and alive: sight, smell, touch, sound, and taste.\n\nExamples: beautiful sight, lovely fragrance, pleasurable texture, calming or energizing or inspiring music, delicious food and drink",
-	      body: "Plenty of Exercise, fitness, movement, dance, sex and eroticism.",
-	      variety: "Plenty of variety and novelty.",
-	      comfort: "Plenty of quiet, space, sanctuary, ergonomics, leisure and time.",
-	      play: "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
-	    },
-	    social: {
-	      sharing: "For each important experience, interest and value, having plenty of people who understand and share ones passions.",
-	      physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection.",
-	      closeness: "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship, and feeling free to be 100% oneself with those people.",
-	      balance: "All important relationships are balanced and mutual.",
-	      belonging: "Accepted, acknowledged, included and equal.",
-	      participation: "Plenty of collaboration, cooperation, opportunities for service and sharing.",
-	      appreciation: "Valued, recognized, and wanted.",
-	      nurturing: "Receiving all the care, help, kindness, affection, support and helpful feedback one needs.",
-	      understanding: "Feeling completely understood by those who matter: empathized, heard, known, seen and respected.",
-	      compassion: "Receiving all the attention, consideration, forgiveness, presence, tenderness, vulnerability and love one needs.",
-	      social_safety: "All important relationships are reliable, honest, and full of mutual trust.\n\nAll relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe."
-	    }
-	  },
-	  transcending: {
-	    self_acceptance: "Accept and love oneself\n\nAllow, approve, care, have empathy and compassion for oneself\n\nTrust and honest with oneself",
-	    self_awareness: "Know oneself at ever deeper levels.\n\nNeeds and emotional awareness\n\nKnow one's genius, strengths and weaknesses\n\nKnow what does and doesn't work fulfilling one's own needs.",
-	    self_growth: "Intentionally and continually improve oneself.",
-	    self_expression: "Create and be creative.\n\nImagine, innovate and invent.\n\nActualize and realize ones dreams fully.",
-	    self_respect: "Respect oneself and be worthy of others' respect.\n\nIngredients: responsible, authentic, confident, courageous, dignified, honorable, honest, worthy, always acting with integrity",
-	    autonomy: "Feeling enabled, empowered and challenged.\n\nFeeling free to make ones own choices. Given complete flexibility.\n\nFeeling limitless, full of possibility and full of potential.",
-	    engagement: "Plenty of flow, mindfulness and gratitude.",
-	    mastery: "Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful.",
-	    meaning: "Ever deepening understanding and celebration of life, the universe and everything.\n\nIngredients: perspective, awareness, celebration, deepening, discovery, exploration, legacy and spirituality.",
-	    peace: "Complete ease, balance, clarity, faith, grace, harmony, hope, order, structure, tranquility, beauty, unity and oneness with the universe.",
-	    purpose: "Have a greater purpose.\n\nHave impact, importance, do something that matters, and contribute something of significance.\n\nHave dedication, inspiration, passion and vision.\n\nDream vividly of a better world and a better life."
-	  }
-	};
-
-	defineModule(module, Nvc = (function(superClass) {
-	  extend(Nvc, superClass);
-
-	  function Nvc() {
-	    return Nvc.__super__.constructor.apply(this, arguments);
-	  }
-
-	  Nvc.categories = ["needs", "posEmotions", "negEmotions"];
-
-	  Nvc.needs = sbdNeedsList;
-
-	  Nvc.nvcNeeds = {
-	    "connection a-h": "acceptance affection appreciation belonging cooperation communication closeness community companionship compassion consideration consistency empathy",
-	    "connection i-z": "inclusion intimacy love mutuality nurturing respect self-respect safety security stability support to know to be known to see to be seen to understand to be understood trust warmth",
-	    "physical well being": "air food movement/exercise rest/sleep sexual expression safety shelter touch water",
-	    honesty: "authenticity integrity presence",
-	    play: "joy humor",
-	    peace: "beauty communion ease equality harmony inspiration order",
-	    autonomy: "choice freedom independence space spontaneity",
-	    meaning: "awareness celebration of life challenge clarity competence consciousness contribution creativity discovery efficacy effectiveness growth hope learning mourning participation purpose self-expression stimulation to matter understanding"
-	  };
-
-	  Nvc.posEmotions = {
-	    affectionate: normalizeList("compassionate friendly loving open-hearted sympathetic tender warm"),
-	    engaged: normalizeList("absorbed alert curious engrossed enchanted entranced fascinated interested intrigued involved spellbound stimulated"),
-	    hopeful: normalizeList("expectant encouraged optimistic"),
-	    confident: normalizeList("empowered open proud safe secure"),
-	    excited: normalizeList("amazed animated ardent aroused astonished dazzled eager energetic enthusiastic giddy invigorated lively passionate surprised vibrant"),
-	    grateful: normalizeList("appreciative moved thankful touched"),
-	    inspired: normalizeList("amazed awed wonder"),
-	    joyful: normalizeList("amused delighted glad happy jubilant pleased tickled"),
-	    exhilarated: normalizeList("blissful ecstatic elated enthralled exuberant radiant rapturous thrilled"),
-	    peaceful: normalizeList("calm clear-headed comfortable centered content equanimous fulfilled mellow quiet relaxed relieved satisfied serene still tranquil trusting")
-	  };
-
-	  Nvc.negEmotions = {
-	    afraid: normalizeList("apprehensive dread foreboding frightened mistrustful panicked petrified scared suspicious terrified wary worried"),
-	    annoyed: normalizeList("aggravated dismayed disgruntled displeased exasperated frustrated impatient irritated irked"),
-	    angry: normalizeList("enraged furious incensed indignant irate livid outraged resentful"),
-	    aversion: normalizeList("animosity appalled contempt disgusted dislike hate horrified hostile repulsed"),
-	    confused: normalizeList("ambivalent baffled bewildered dazed hesitant lost mystified perplexed puzzled torn"),
-	    disconnected: normalizeList("alienated aloof apathetic bored cold detached distant distracted indifferent numb removed uninterested withdrawn"),
-	    disquiet: normalizeList("agitated alarmed discombobulated disconcerted disturbed perturbed rattled restless shocked startled surprised troubled turbulent turmoil uncomfortable uneasy unnerved unsettled upset"),
-	    embarrassed: normalizeList("ashamed chagrined flustered guilty mortified self-conscious"),
-	    fatigue: normalizeList("beat burnt-out depleted exhausted lethargic listless sleepy tired weary worn-out"),
-	    pain: normalizeList("agony anguished bereaved devastated grief heartbroken hurt lonely miserable regretful remorseful"),
-	    sad: normalizeList("depressed dejected despair despondent disappointed discouraged disheartened forlorn gloomy heavy-hearted hopeless melancholy unhappy wretched"),
-	    tense: normalizeList("anxious cranky distressed distraught edgy fidgety frazzled irritable jittery nervous overwhelmed restless stressed out"),
-	    vulnerable: normalizeList("fragile guarded helpless insecure leery reserved sensitive shaky"),
-	    yearning: normalizeList("envious jealous longing nostalgic pining wistful")
-	  };
-
-	  Nvc.core = {
-	    needs: Nvc.needs,
-	    posEmotions: Nvc.posEmotions,
-	    negEmotions: Nvc.negEmotions
-	  };
-
-	  return Nvc;
-
-	})(HotStyleProps));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(93)(module)))
-
-/***/ },
 /* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -45493,11 +45538,11 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
+	ref = __webpack_require__(300), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(351).PointerActionsMixin;
 
 	Button = __webpack_require__(363);
 
@@ -45561,9 +45606,9 @@
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	ref = __webpack_require__(120), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log, rgbColor = ref.rgbColor;
+	ref = __webpack_require__(300), defineModule = ref.defineModule, Component = ref.Component, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log, rgbColor = ref.rgbColor;
 
-	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(351).PointerActionsMixin;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
@@ -45691,18 +45736,20 @@
 /* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var Button, Element, FillElement, FluxComponent, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, log, ref,
+	/* WEBPACK VAR INJECTION */(function(module) {var Button, Element, FillElement, FluxComponent, PointerActionsMixin, RectangleElement, StyleProps, TextElement, defineModule, getSelectedStatement, log, ref,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty,
 	  slice = [].slice;
 
-	ref = __webpack_require__(120), defineModule = ref.defineModule, FluxComponent = ref.FluxComponent, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
+	ref = __webpack_require__(300), defineModule = ref.defineModule, FluxComponent = ref.FluxComponent, Element = ref.Element, TextElement = ref.TextElement, FillElement = ref.FillElement, RectangleElement = ref.RectangleElement, log = ref.log;
 
 	StyleProps = Neptune.Nvc.App.Styles.StyleProps;
 
-	PointerActionsMixin = __webpack_require__(348).PointerActionsMixin;
+	PointerActionsMixin = __webpack_require__(351).PointerActionsMixin;
 
 	Button = __webpack_require__(363);
+
+	getSelectedStatement = Neptune.Nvc.Data.Nvc.getSelectedStatement;
 
 	defineModule(module, function() {
 	  var LeafButton;
@@ -45737,10 +45784,10 @@
 	    };
 
 	    LeafButton.prototype.render = function() {
-	      var first, i, last, middle, name, parentName, ref1, ref2, secondToLast, selectedText, text;
+	      var first, i, last, middle, name, parentName, path, ref1, ref2, selectedText, text;
 	      ref1 = this.props, name = ref1.name, parentName = ref1.parentName, text = ref1.text, selectedText = ref1.selectedText;
 	      if (name != null ? name.match(/\ >\ /) : void 0) {
-	        ref2 = name.split(" > "), first = ref2[0], middle = 4 <= ref2.length ? slice.call(ref2, 1, i = ref2.length - 2) : (i = 1, []), secondToLast = ref2[i++], last = ref2[i++];
+	        ref2 = path = name.split(" > "), first = ref2[0], middle = 3 <= ref2.length ? slice.call(ref2, 1, i = ref2.length - 1) : (i = 1, []), last = ref2[i++];
 	        first = (function() {
 	          switch (first) {
 	            case "needs":
@@ -45753,7 +45800,7 @@
 	              return first;
 	          }
 	        })();
-	        name = first + " " + secondToLast + " > " + last;
+	        name = first + " " + (getSelectedStatement(path));
 	      }
 	      return Button({
 	        color: StyleProps.leafColor,
