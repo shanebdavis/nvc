@@ -12732,7 +12732,7 @@
 
 	sbdNeedsList = {
 	  surviving: {
-	    sustenance: "Getting all the healthy food and clean water the body needs.",
+	    sustenance: "Getting all the healthy food and clean water my body needs.",
 	    sleep: "Getting pleanty of sleep. Waking every day fully rested and alive.\n\nadult: 7.5 to 9 hours\nteen: 9 to 9.5 hours",
 	    comfortable_climate: "At work, at home and everywhere in between:\n\nCozy and warm when it's cold outside,\nShady and cool when it's hot,\nDry and clean when it's wet,\nMoist and refreshed when it's dry.",
 	    health: "Feeling 100% well, or healing and on the way to full recovery.",
@@ -12744,7 +12744,7 @@
 	  },
 	  thriving: {
 	    enjoyment: {
-	      pleasure: "Plenty of Exercise, fitness, movement, dance, sex and eroticism. All five senses are simulated and alive.\n\nPleasurable stimulation: beautiful sights, lovely fragrances, pleasurable textures, calming or energizing or inspiring music, delicious food and drink",
+	      pleasure: "Plenty of beautiful sights, lovely fragrances, pleasurable textures, wonderful music, exhilarating exercise, erotic sex, movement, dance, delicious food and drink.\n\nAll five senses are simulated and alive.",
 	      variety: "Plenty of variety and novelty.",
 	      leisure: "Plenty of quiet, relaxing, comfortable, space and time.",
 	      play: "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
@@ -12838,18 +12838,22 @@
 	  };
 
 	  Nvc.getNotSelectedStatement = function(path) {
+	    var last;
+	    last = peek(path).replace(/_/g, ' ');
 	    if (path[0] === "needs") {
-	      return "I have all the " + (peek(path)) + " I need.";
+	      return "I have all the " + last + " I need.";
 	    } else {
 	      return "I am feeling neutral.";
 	    }
 	  };
 
 	  Nvc.getSelectedStatement = function(path) {
+	    var last;
+	    last = peek(path).replace(/_/g, ' ');
 	    if (path[0] === "needs") {
-	      return "I need more " + (peek(path)) + ".";
+	      return "I need more " + last + ".";
 	    } else {
-	      return "I am feeling " + (peek(path)) + ".";
+	      return "I am feeling " + last + ".";
 	    }
 	  };
 
@@ -39940,7 +39944,7 @@
 			"nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
 			"test": "neptune-namespaces --std; webpack-dev-server -d --progress"
 		},
-		"version": "1.5.1"
+		"version": "1.5.2"
 	};
 
 /***/ },
