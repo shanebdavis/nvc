@@ -3,4 +3,5 @@
 
 module.exports = require './namespace'
 .addModules
-  Nvc: require './nvc'
+  Needs: require './needs'
+  Nvc:   require './nvc'  
