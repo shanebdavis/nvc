@@ -71,8 +71,12 @@ thriving:
   social:
     sharing:          "For each important experience, interest and value, having plenty of people who understand and share ones passions."
     physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection."
-    closeness:        "Plenty of close, meaningful relationships with friends, family and lovers. A sense of openness, good communication, intimate sharing, companionship,
-                      and feeling free to be 100% oneself with those people."
+    closeness:
+      ""
+                      Plenty of close, meaningful relationships with friends, family and lovers.
+                      A sense of openness, good communication, intimate sharing, companionship,
+                      and feeling free to be 100% oneself with those people.
+
     social_balance:   "All important relationships are balanced and mutual."
     belonging:        "Accepted, acknowledged, included and equal."
     participation:    "Plenty of collaboration, cooperation, opportunities for service and sharing."

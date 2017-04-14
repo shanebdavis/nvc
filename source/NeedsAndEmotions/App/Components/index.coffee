@@ -3,9 +3,11 @@
 
 module.exports = require './namespace'
 .addModules
-  App:            require './App'           
-  Button:         require './Button'        
-  CategoryButton: require './CategoryButton'
-  Leaf:           require './Leaf'          
-  LeafButton:     require './LeafButton'    
-  ShowMap:        require './ShowMap'       
+  App:             require './App'            
+  Button:          require './Button'         
+  CategoryButton:  require './CategoryButton' 
+  CategoryButton2: require './CategoryButton2'
+  Leaf:            require './Leaf'           
+  LeafButton:      require './LeafButton'     
+  Menu:            require './Menu'           
+  ShowMap:         require './ShowMap'        

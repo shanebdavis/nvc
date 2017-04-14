@@ -5,10 +5,7 @@ Foundation = require 'art-foundation'
 
 splitOnLines = (str) -> str.split "\n"
 
-normalizeList = (string) ->
-  list = w string
-  list.sort()
-  list.join ', '
+{flatten} = require './Tools'
 
 defineModule module, class Nvc extends HotStyleProps
   @categories: ["needs", "posEmotions" ,"negEmotions"]
@@ -21,6 +18,10 @@ defineModule module, class Nvc extends HotStyleProps
     needs:        @needs
     posEmotions:  @posEmotions
     negEmotions:  @negEmotions
+
+  @flattened: flatten
+    core: @core
+    {}
 
   @getNotSelectedStatement: (path) ->
     last = peek(path).replace /_/g, ' '

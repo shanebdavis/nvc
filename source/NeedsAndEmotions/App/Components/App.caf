@@ -1,0 +1,50 @@
+import &ArtSuite
+
+&ShowMap
+{Nvc}       = &Data
+{version}   = &Package
+{textStyle} = &StyleProps
+
+class App extends FluxComponent
+  @subscriptions "selected.selected"
+
+  @stateFields
+    canvasSize: null
+    initialContentSize: null
+
+  ready: ({target}) ->
+    @canvasSize = target.currentSize
+
+  initialContentReady: ({target}) ->
+    @initialContentSize ||= target.currentSize
+
+  render: ->
+    {canvasSize, initialContentSize} = @state
+    selectedNames = array selected, name from @selected || {} when selected with name
+
+    CanvasElement
+      canvasId:       :artCanvas
+      childrenLayout: :column
+      # on: ready: @ready
+      RectangleElement inFlow: false, color: #f9f9f9
+
+      PagingScrollElement
+        startAtEnd: true
+
+        Element
+          size: ww: 1, hch:1
+          padding: 5
+          childrenLayout: :column
+
+          TextElement
+            # inFlow: false
+            size: ww: 1, hch: 1
+            align:      :center
+            fontFamily: :arial
+            color:      #0004
+            padding:    10
+            text: "Needs and Emotions v#{version} by Shane Brinkman-Davis Delamore"
+
+          ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
+          # NEW STUFF: - comment out the line above, uncomment this line:
+          # &Menu key: "core"

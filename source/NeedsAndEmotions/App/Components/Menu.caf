@@ -1,0 +1,50 @@
+import &ArtSuite
+
+DataNodes = &Data.Nvc.flattened
+
+&CategoryButton2
+
+MenuFactory = class Menu extends FluxComponent
+
+  @stateFields selectedKey: null
+
+  render: ->
+    {childKeys, description, parentKey} = DataNodes[@props.key]
+
+    Element
+      size: ww: 1, hch: 1
+      clip: true
+      childrenLayout: :column
+      animators: size: toFrom: ww: 1, h: 0
+
+      Element
+        size: ww: 1, hch: 1
+        cacheDraw: true
+        childrenLayout:     :column
+        childrenAlignment:  :center
+        margin: 10
+
+        if parentKey
+          RectangleElement color: #0001, margin: 10, size: ww: 1, h: 2
+
+        if description
+          TextElement
+            &StyleProps.textStyle
+            size:     ww: 1, hch: 1
+            align:    :center
+            text:     description
+            padding:  10
+
+        else
+          Element
+            size: ww: 1, hch: 1
+            childrenAlignment:  :bottomCenter
+            childrenLayout:     :flow
+            array childKey from childKeys.sort()
+              CategoryButton2
+                key:      childKey
+                category: childKey
+                action:   @setSelectedKey
+
+      if @selectedKey
+        MenuFactory key: @selectedKey

@@ -4,3 +4,17 @@ normalizeList: (string) ->
   w string
   .sort()
   .join ', '
+
+flatten: flatten = (map, intoObject, parentKey) ->
+  each v, k from map
+    throw new Error "key #{k} already exists" if intoObject[k]
+    intoObject[k] =  merge
+      if isPlainObject v
+        flatten v, intoObject, k
+        childKeys: Object.keys v
+      else if isString v
+        description: v
+
+      parentKey: parentKey
+
+  intoObject

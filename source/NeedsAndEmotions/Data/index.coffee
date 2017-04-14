@@ -3,5 +3,8 @@
 
 module.exports = require './namespace'
 .addModules
-  Needs: require './needs'
-  Nvc:   require './nvc'  
+  Needs:            require './needs'           
+  NegativeEmotions: require './NegativeEmotions'
+  Nvc:              require './nvc'             
+  PositiveEmotions: require './PositiveEmotions'
+  Tools:            require './Tools'           

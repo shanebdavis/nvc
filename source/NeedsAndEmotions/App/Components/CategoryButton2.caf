@@ -1,0 +1,31 @@
+import &ArtSuite
+
+emojiMap =
+  needs: "🌳"
+  negEmotions: "☹️"
+  posEmotions: "😀"
+  selected: "💡"
+
+subtextMap =
+  needs:        "needs"
+  negEmotions:  "emotions"
+  posEmotions:  "emotions"
+  living:       "animal"
+  thriving:     "mamal"
+  transcending: "human"
+  selected:     "my selection"
+
+class CategoryButton2 extends Component
+
+  doAction: ->
+    @props.action? @props.category
+
+  render: ->
+    {category, selected} = @props
+    &Button
+      selected: selected
+      color:    &StyleProps.primaryColor
+      emoji:    emojiMap[category]
+      text:     category
+      subtext:  subtextMap[category]
+      action:   @doAction

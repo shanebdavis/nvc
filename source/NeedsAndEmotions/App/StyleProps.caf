@@ -2,10 +2,10 @@ import &ArtSuite
 
 class StyleProps extends HotStyleProps
 
-  @primaryColor: :#8ebdf6
-  @leafColor:    :#8ebdf6
+  @primaryColor: #8ebdf6
+  @leafColor:    #8ebdf6
 
   @textStyle:
-    color:      :#000a
+    color:      #000a
     fontFamily: :sans-serif
     fontSize:   18
