@@ -45,6 +45,6 @@ class App extends FluxComponent
             padding:    10
             text: "Needs and Emotions v#{version} by Shane Brinkman-Davis Delamore"
 
-          ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
+          # ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
           # NEW STUFF: - comment out the line above, uncomment this line:
-          # &Menu key: "core"
+          &Menu key: "core"
