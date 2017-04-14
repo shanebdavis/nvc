@@ -1,0 +1,11 @@
+import &ArtSuite
+
+class StyleProps extends HotStyleProps
+
+  @primaryColor: a = rgbColor :#8ebdf6
+  @leafColor:    a
+
+  @textStyle:
+    color:      :#000a
+    fontFamily: :sans-serif
+    fontSize:   18

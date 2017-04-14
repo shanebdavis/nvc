@@ -1,0 +1,4 @@
+&Data
+
+package: &Package
+version: &Package.version
