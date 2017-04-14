@@ -9,7 +9,7 @@ MenuFactory = class Menu extends FluxComponent
   @stateFields selectedKey: null
 
   render: ->
-    {childKeys, description, parentKey} = DataNodes[@props.key]
+    {childKeys, description, parentKey, rootKey} = DataNodes[@props.key]
 
     Element
       size: ww: 1, hch: 1
@@ -35,7 +35,8 @@ MenuFactory = class Menu extends FluxComponent
               align:    :center
               text:     description
               padding:  10
-            &SetStatusWidget key: @props.key
+            if rootKey == "needs"
+              &SetStatusWidget key: @props.key
         else
           Element
             size: ww: 1, hch: 1

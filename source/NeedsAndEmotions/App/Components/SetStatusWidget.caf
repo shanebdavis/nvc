@@ -35,9 +35,9 @@ class SetStatusWidget extends FluxComponent
         RectangleElement
           size: switch status
             when 1 then 40
-            when 2 then 25
-            when 3 then 25
-            when 4 then 25
+            when 2 then 30
+            when 3 then 20
+            when 4 then 30
             when 5 then 40
           animators: color: true, location: true, size: true
           axis: :centerCenter
