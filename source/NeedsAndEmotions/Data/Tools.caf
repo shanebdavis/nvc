@@ -1,0 +1,6 @@
+import &ArtSuite
+
+normalizeList: (string) ->
+  w string
+  .sort()
+  .join ', '

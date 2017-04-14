@@ -2,8 +2,8 @@ import &ArtSuite
 
 class StyleProps extends HotStyleProps
 
-  @primaryColor: a = rgbColor :#8ebdf6
-  @leafColor:    a
+  @primaryColor: :#8ebdf6
+  @leafColor:    :#8ebdf6
 
   @textStyle:
     color:      :#000a
