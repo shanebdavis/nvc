@@ -104,17 +104,6 @@ defineModule module, ->
               else if isPlainObject map
                   for name in Object.keys(map).sort()
                     v = map[name]
-                    # if isString v
-                    #   log isString:v
-                    #   CategoryButton
-                    #     key: name
-                    #     name: name
-                    #     parentName: key
-                    #     path: path
-                    #     category: name
-                    #     subMap: v
-                    #     drillIn: @drillIn
-                    # else
                     CategoryButton
                       key: name
                       category: name
