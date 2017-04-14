@@ -1,0 +1,28 @@
+import &ArtSuite
+
+class SetStatusWidget extends FluxComponent
+  @subscriptions
+    status: (props) -> props.key
+
+  render: ->
+    {status = 3} = @
+
+    Element
+      childrenLayout: :column
+      childrenAlignment: :center
+
+      Element
+        childrenLayout: :row
+        size: cs: 1
+        margin: 10
+
+        array statValue in 1 2 3 4 5
+          &Button
+            selected: statValue == status
+            # emoji:    emojiMap[category]
+            text:     "#{statValue}"
+            action:   -> @models.status.set @props.key, statValue
+
+      TextElement
+        &StyleProps.textStyle
+        text: @models.status.statuses[status]

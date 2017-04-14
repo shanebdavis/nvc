@@ -1,7 +1,7 @@
 import &ArtSuite
 
 class Status extends ApplicationState
-  @statuses:
+  statuses:
     1: "" greatly unfulfilled
     2: "" somewhat unfulfilled
     3: "" undecided

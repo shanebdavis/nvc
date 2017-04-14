@@ -28,13 +28,14 @@ MenuFactory = class Menu extends FluxComponent
           RectangleElement color: #0001, margin: 10, size: ww: 1, h: 2
 
         if description
-          TextElement
-            &StyleProps.textStyle
-            size:     ww: 1, hch: 1
-            align:    :center
-            text:     description
-            padding:  10
-
+          []
+            TextElement
+              &StyleProps.textStyle
+              size:     ww: 1, hch: 1
+              align:    :center
+              text:     description
+              padding:  10
+            &SetStatusWidget key: @props.key
         else
           Element
             size: ww: 1, hch: 1

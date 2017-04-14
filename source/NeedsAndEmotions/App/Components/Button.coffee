@@ -11,7 +11,7 @@ defineModule module, ->
     render: ->
       {text, subtext, emoji, selected, color, small} = @props
 
-      color = rgbColor color
+      color = rgbColor color || StyleProps.primaryColor
       color = switch
         when selected then color
         when @pointerIsDown then color.blend "white", .5

@@ -24,7 +24,6 @@ class CategoryButton2 extends Component
     {category, selected} = @props
     &Button
       selected: selected
-      color:    &StyleProps.primaryColor
       emoji:    emojiMap[category]
       text:     category
       subtext:  subtextMap[category]
