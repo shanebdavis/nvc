@@ -8,14 +8,17 @@
     Is this a real need???
     By real, as always, I mean something that 99%+ of people feel to some
     extent.
+    related:
+      "shared values" - the quality of the thing shows a common shared value with the creator
+      "beauty"
 
-  authenticity
+  authenticity - somewhere in: thriving > social
     in other people
 
   mourning
     if you have loss, you may have a need to mourn
 
-  progress
+  progress / growth
     I think most people have a general need to make progress in their life.
     They want tomorrow to be better than today.
 
@@ -42,7 +45,7 @@ living:
   physical_safety:    "Living free from violence, accidents, illness and disasters."
   security:           "Life is stable, predictable, and sustainable."
   children:           "Have, or are working on having all the children one wants."
-  ergonomics:
+  comfort:
     """
                       All the built-things around me support my body's health and comfort. Examples:
 
@@ -71,7 +74,7 @@ thriving:
   social:
     sharing:          "For each important experience, interest and value, having plenty of people who understand and share ones passions."
     physical_bonding: "Plenty of hugs, touch, cuddles and sexual-connection."
-    closeness:
+    connection:
       ""
                       Plenty of close, meaningful relationships with friends, family and lovers.
                       A sense of openness, good communication, intimate sharing, companionship,
@@ -112,7 +115,14 @@ transcending:
 
                       Know what does and doesn't work fulfilling one's own needs.
 
-  self_growth:        "" Intentionally and continually improve oneself.
+  progress:
+    """
+                      To make progress in one's own life.
+                      To see improvement over time of one's external circumstance.
+
+  self_growth:
+    """
+                      Intentionally and continually improve oneself.
 
   self_expression:
     """

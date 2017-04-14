@@ -4,24 +4,68 @@ class SetStatusWidget extends FluxComponent
   @subscriptions
     status: (props) -> props.key
 
+  updateFromPointerEvent: ({location, target}) ->
+    {x, y} = target.currentSize
+    @models.status.set
+      @props.key
+      location.x - y / 2
+      / x
+        - y
+      * 4
+      + 1
+
   render: ->
     {status = 3} = @
 
     Element
+      size: ww: 1, hch: 1
       childrenLayout: :column
       childrenAlignment: :center
+      padding: bottom: 25
 
       Element
-        childrenLayout: :row
-        size: cs: 1
+        size: w: 300, h: 60
         margin: 10
 
-        array statValue in 1 2 3 4 5
-          &Button
-            selected: statValue == status
-            # emoji:    emojiMap[category]
-            text:     "#{statValue}"
-            action:   -> @models.status.set @props.key, statValue
+        on:
+          pointerUp: @updateFromPointerEvent
+          pointerMove: @updateFromPointerEvent
+
+        RectangleElement padding: 25, radius: 10000, color: #0001
+        RectangleElement
+          size: switch status
+            when 1 then 40
+            when 2 then 25
+            when 3 then 25
+            when 4 then 25
+            when 5 then 40
+          animators: color: true, location: true, size: true
+          axis: :centerCenter
+          radius: 10000
+          shadow: true
+
+          location: yh: .5, x: (ps) ->
+            (ps.x - ps.y) * (status - 1)
+            / 4
+            + ps.y / 2
+
+          color: switch status
+            when 1 then :red
+            when 2 then #fbfb83
+            when 3 then #bbb
+            when 4 then #82fb82
+            when 5 then #8ebdf6
+
+          FillElement()
+          OutlineElement lineWidth: 2, color: :white
+          OutlineElement lineWidth: 1, color: #0002
+
+        # array statValue in 1 2 3 4 5
+        #   &Button
+        #     selected: statValue == status
+        #     # emoji:    emojiMap[category]
+        #     text:     "#{statValue}"
+        #     action:   -> @models.status.set @props.key, statValue
 
       TextElement
         &StyleProps.textStyle

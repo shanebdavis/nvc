@@ -2,13 +2,13 @@ import &ArtSuite
 
 class Status extends ApplicationState
   statuses:
-    1: "" greatly unfulfilled
-    2: "" somewhat unfulfilled
+    1: "" tragically unfulfilled
+    2: "" unfulfilled
     3: "" undecided
-    4: "" somewhat fulfilled
-    5: "" greatly fulfilled
+    4: "" fulfilled
+    5: "" joyfully fulfilled
 
   @persistant()
 
   set: (key, status) ->
-    @setState key, bound 1, status | 0, 5
+    @setState key, bound 1, status + .5 | 0, 5

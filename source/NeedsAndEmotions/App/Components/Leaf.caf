@@ -3,6 +3,7 @@ class Leaf extends FluxComponent
   render: ->
     # {isNeed,
     Element
+      size: ww:1, hch:1
       childrenLayout: :column
       childrenAlignment: :center
 
