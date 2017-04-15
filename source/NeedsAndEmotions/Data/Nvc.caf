@@ -1,0 +1,10 @@
+import &ArtSuite
+
+class Nvc extends HotStyleProps
+
+  @DataNodes: &Tools.flatten
+    core:
+      needs:       &SbdNeeds
+      emotions:
+        positive:  &PositiveEmotions
+        negative:  &NegativeEmotions

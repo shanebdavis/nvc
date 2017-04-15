@@ -1,48 +1,33 @@
 import &ArtSuite
 
-# &ShowMap
-{Nvc}       = &Data
-{version}   = &Package
-{textStyle} = &StyleProps
-
 class App extends FluxComponent
 
-  @stateFields
-    canvasSize: null
-    initialContentSize: null
-
-  ready: ({target}) ->
-    @canvasSize = target.currentSize
-
-  initialContentReady: ({target}) ->
-    @initialContentSize ||= target.currentSize
-
   render: ->
-    {canvasSize, initialContentSize} = @state
-
     CanvasElement
       canvasId:       :artCanvas
       childrenLayout: :column
-      # on: ready: @ready
+
       RectangleElement inFlow: false, color: #f9f9f9
 
       PagingScrollElement
         startAtEnd: true
 
         Element
-          size: w: 414, hch:1, max: ww: 1
-          axis: :topCenter
-          location: xw: .5
-          padding: v: 5
+          size:           w: 414, hch:1, max: ww: 1
+          axis:           :topCenter
+          location:       xw: .5
+          padding:        v: 5
           childrenLayout: :column
 
           TextElement
-            # inFlow: false
-            size: ww: 1, hch: 1
+            size:       ww: 1, hch: 1
             align:      :center
             fontFamily: :arial
             color:      #0004
             padding:    10
-            text: "Needs and Emotions v#{version} by Shane Brinkman-Davis Delamore"
+            text:
+              """
+                Needs and Emotions v#{&Package.version}
+                by Shane Brinkman-Davis Delamore
 
-          &Menu key: "core"
+          &Menu key: :core

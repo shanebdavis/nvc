@@ -1,5 +1,4 @@
 import &ArtSuite
-
 {DataNodes} = &Data.Nvc
 
 &CategoryButton

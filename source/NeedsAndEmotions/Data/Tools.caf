@@ -5,7 +5,7 @@ normalizeList: (string) ->
   .sort()
   .join ', '
 
-flatten: flatten = (map, intoObject, parentKey, rootKey) ->
+flatten: flatten = (map, intoObject = {}, parentKey, rootKey) ->
   if !rootKey && parentKey != "core"
     rootKey = parentKey
   each v, k from map
