@@ -75,7 +75,7 @@ class SetStatusWidget extends FluxComponent
           key: "#{@status}"
           size: w: 300, h: 350
           animators: opacity: from: 0, to: .99
-          source: switch @status
+          source: switch @status || 3
             when 1 then :assets/winter.png
             when 2 then :assets/fall.png
             when 3 then :assets/unknown.png
