@@ -7450,11 +7450,11 @@ Caf.defMod(module, () => {
         5: "Joyfully fulfilled"
       };
       this.colors = {
-        1: "#bfe1ed",
+        1: "#99dbef",
         2: "#f5b87a",
         3: "#bbb",
         4: "#a7df6f",
-        5: "#689239"
+        5: "#ffa9f7"
       };
     }
   );
@@ -41866,7 +41866,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "1.9.0"
+	"version": "1.9.1"
 };
 
 /***/ }),
