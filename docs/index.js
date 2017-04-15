@@ -26269,7 +26269,7 @@ Caf.defMod(module, () => {
               size: { w: 300, h: 350 },
               animators: { opacity: { from: 0, to: 0.99 } },
               source: (() => {
-                switch (this.status) {
+                switch (this.status || 3) {
                   case 1:
                     return "assets/winter.png";
                   case 2:
