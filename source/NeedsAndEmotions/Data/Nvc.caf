@@ -6,5 +6,5 @@ class Nvc extends HotStyleProps
     core:
       needs:       &SbdNeeds
       emotions:
-        positive:  &PositiveEmotions
-        negative:  &NegativeEmotions
+        pleasurable:  &PositiveEmotions
+        painful:      &NegativeEmotions
