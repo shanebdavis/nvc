@@ -2,7 +2,7 @@ import &ArtSuite
 
 {DataNodes} = &Data.Nvc
 
-&CategoryButton2
+&CategoryButton
 
 MenuFactory = class Menu extends FluxComponent
 
@@ -43,11 +43,15 @@ MenuFactory = class Menu extends FluxComponent
             childrenAlignment:  :bottomCenter
             childrenLayout:     :flow
             array childKey from childKeys.sort()
-              CategoryButton2
+              CategoryButton
                 key:      childKey
                 category: childKey
                 selected: childKey == @selectedKey
-                action:   @setSelectedKey
+                action:   ->
+                  @selectedKey = if childKey == @selectedKey
+                    null
+                  else
+                    childKey
 
       if @selectedKey
         MenuFactory key: @selectedKey

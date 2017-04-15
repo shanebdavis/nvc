@@ -16,8 +16,9 @@ defineModule module, class Nvc extends HotStyleProps
 
   @core:
     needs:        @needs
-    posEmotions:  @posEmotions
-    negEmotions:  @negEmotions
+    emotions:
+      positive:  @posEmotions
+      negative:  @negEmotions
 
   @flattened: flatten
     core: @core

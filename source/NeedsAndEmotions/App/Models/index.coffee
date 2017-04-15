@@ -3,5 +3,4 @@
 
 module.exports = require './namespace'
 .addModules
-  Selected: require './Selected'
-  Status:   require './Status'  
+  Status: require './Status'

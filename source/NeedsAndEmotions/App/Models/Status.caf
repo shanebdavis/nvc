@@ -1,20 +1,6 @@
 import &ArtSuite
 
 class Status extends ApplicationState
-  statuses:
-    1: "" Tragically unfulfilled
-    2: "" Somewhat unfulfilled
-    3: "" Undecided
-    4: "" Somewhat fulfilled
-    5: "" Joyfully fulfilled
-
-  colors:
-    # brightness: 88%, sat: 100% or 50%, color: 0deg, 30deg, 60deg, 90deg, 120deg
-    1:  #e00000
-    2:  #f5b87a
-    3:  #bbb
-    4:  #a7df6f
-    5:  #1edb27
 
   @persistant()
 

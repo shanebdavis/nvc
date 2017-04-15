@@ -42,6 +42,7 @@ defineModule module, ->
               blur: 12, color: "#0004", offset: y: 2
             else
               blur: 8, color: "#0002", offset: y: 2
+
         if emoji
           Element
             size: 100

@@ -50,7 +50,7 @@ class SetStatusWidget extends FluxComponent
             / 4
             + ps.y / 2
 
-          color: @models.status.colors[status]
+          color: &StyleProps.colors[status]
 
           FillElement()
           OutlineElement lineWidth: 2, color: :white
@@ -65,5 +65,19 @@ class SetStatusWidget extends FluxComponent
 
       TextElement
         &StyleProps.textStyle
-        color: @models.status.colors[status]
-        text: @models.status.statuses[status]
+        color: &StyleProps.colors[status]
+        text: &StyleProps.statuses[status]
+        margin: 25
+
+      Element
+        size: w: 300, h: 350
+        BitmapElement
+          key: "#{@status}"
+          size: w: 300, h: 350
+          animators: opacity: from: 0, to: .99
+          source: switch @status
+            when 1 then :assets/winter.png
+            when 2 then :assets/fall.png
+            when 3 then :assets/unknown.png
+            when 4 then :assets/summer.png
+            when 5 then :assets/spring.png

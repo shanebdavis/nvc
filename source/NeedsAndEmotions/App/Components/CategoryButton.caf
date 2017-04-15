@@ -5,18 +5,20 @@ emojiMap =
   needs: "🌳"
   negEmotions: "☹️"
   posEmotions: "😀"
+  emotions: "😀"
   selected: "💡"
 
 subtextMap =
   needs:        "needs"
-  negEmotions:  "emotions"
-  posEmotions:  "emotions"
+  negative:     "emotions"
+  positive:     "emotions"
+  emotions:     "emotions"
   living:       "animal"
   thriving:     "mamal"
   transcending: "human"
   selected:     "my selection"
 
-class CategoryButton2 extends FluxComponent
+class CategoryButton extends FluxComponent
   @subscriptions
     status: (props) -> props.category
 
@@ -34,4 +36,4 @@ class CategoryButton2 extends FluxComponent
       color:
         if DataNodes[category].rootKey == "needs"
           if @status != 3
-            @models.status.colors[@status]
+            &StyleProps.colors[@status]

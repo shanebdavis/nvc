@@ -1,12 +1,11 @@
 import &ArtSuite
 
-&ShowMap
+# &ShowMap
 {Nvc}       = &Data
 {version}   = &Package
 {textStyle} = &StyleProps
 
 class App extends FluxComponent
-  @subscriptions "selected.selected"
 
   @stateFields
     canvasSize: null
@@ -20,7 +19,6 @@ class App extends FluxComponent
 
   render: ->
     {canvasSize, initialContentSize} = @state
-    selectedNames = array selected, name from @selected || {} when selected with name
 
     CanvasElement
       canvasId:       :artCanvas
@@ -32,8 +30,10 @@ class App extends FluxComponent
         startAtEnd: true
 
         Element
-          size: ww: 1, hch:1
-          padding: 5
+          size: w: 414, hch:1, max: ww: 1
+          axis: :topCenter
+          location: xw: .5
+          padding: v: 5
           childrenLayout: :column
 
           TextElement
@@ -45,6 +45,4 @@ class App extends FluxComponent
             padding:    10
             text: "Needs and Emotions v#{version} by Shane Brinkman-Davis Delamore"
 
-          # ShowMap path: [], map: merge Nvc.core, (selectedNames.length > 0) && selected: selectedNames
-          # NEW STUFF: - comment out the line above, uncomment this line:
           &Menu key: "core"
