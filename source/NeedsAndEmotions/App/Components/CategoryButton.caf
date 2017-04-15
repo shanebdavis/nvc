@@ -12,7 +12,7 @@ subtextMap =
   positive:     :emotions
   emotions:     :emotions
   living:       :animal
-  thriving:     :mamal
+  thriving:     :mammal
   transcending: :human
   selected:     :my-selection
 
