@@ -26000,7 +26000,7 @@ Caf.defMod(module, () => {
     positive: "emotions",
     emotions: "emotions",
     living: "animal",
-    thriving: "mamal",
+    thriving: "mammal",
     transcending: "human",
     selected: "my-selection"
   };
@@ -41866,7 +41866,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "1.9.1"
+	"version": "1.9.2"
 };
 
 /***/ }),
@@ -43912,7 +43912,7 @@ Caf.defMod(module, () => {
     this.DataNodes = Tools.flatten({
       core: {
         needs: SbdNeeds,
-        emotions: { positive: PositiveEmotions, negative: NegativeEmotions }
+        emotions: { pleasurable: PositiveEmotions, painful: NegativeEmotions }
       }
     });
   });
