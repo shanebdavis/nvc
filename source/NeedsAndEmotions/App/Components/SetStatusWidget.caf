@@ -26,6 +26,7 @@ class SetStatusWidget extends FluxComponent
       Element
         size: w: 300, h: 60
         margin: 10
+        cursor: :pointer
 
         on:
           pointerUp: @updateFromPointerEvent
@@ -49,12 +50,7 @@ class SetStatusWidget extends FluxComponent
             / 4
             + ps.y / 2
 
-          color: switch status
-            when 1 then :red
-            when 2 then #fbfb83
-            when 3 then #bbb
-            when 4 then #82fb82
-            when 5 then #8ebdf6
+          color: @models.status.colors[status]
 
           FillElement()
           OutlineElement lineWidth: 2, color: :white
@@ -69,4 +65,5 @@ class SetStatusWidget extends FluxComponent
 
       TextElement
         &StyleProps.textStyle
+        color: @models.status.colors[status]
         text: @models.status.statuses[status]

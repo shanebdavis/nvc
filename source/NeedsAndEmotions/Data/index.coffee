@@ -2,6 +2,7 @@
 # file: NeedsAndEmotions/Data/index.coffee
 
 module.exports = require './namespace'
+.includeInNamespace require './Data'
 .addModules
   Needs:            require './needs'           
   NegativeEmotions: require './NegativeEmotions'

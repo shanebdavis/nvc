@@ -1,4 +1,5 @@
 import &ArtSuite
+{DataNodes} = &Data
 
 emojiMap =
   needs: "🌳"
@@ -15,7 +16,9 @@ subtextMap =
   transcending: "human"
   selected:     "my selection"
 
-class CategoryButton2 extends Component
+class CategoryButton2 extends FluxComponent
+  @subscriptions
+    status: (props) -> props.category
 
   doAction: ->
     @props.action? @props.category
@@ -28,3 +31,7 @@ class CategoryButton2 extends Component
       text:     category
       subtext:  subtextMap[category]
       action:   @doAction
+      color:
+        if DataNodes[category].rootKey == "needs"
+          if @status != 3
+            @models.status.colors[@status]

@@ -11,11 +11,15 @@ defineModule module, ->
     render: ->
       {text, subtext, emoji, selected, color, small} = @props
 
-      color = rgbColor color || StyleProps.primaryColor
+      color = color && rgbColor color
       color = switch
-        when selected then color
-        when @pointerIsDown then color.blend "white", .5
-        else "white"
+        when selected || @pointerIsDown then color || StyleProps.primaryColor
+        # when @pointerIsDown then color.blend "white", .5
+        else
+          if color
+            color.blend "white", .5
+          else
+            "white"
 
       Element
         size: wcw:1, hch: 1

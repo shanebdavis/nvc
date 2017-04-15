@@ -23,6 +23,8 @@ defineModule module, class Nvc extends HotStyleProps
     core: @core
     {}
 
+  @DataNodes: @flattened
+
   @getNotSelectedStatement: (path) ->
     last = peek(path).replace /_/g, ' '
     if path[0] == "needs"

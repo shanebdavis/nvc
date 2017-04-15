@@ -1,6 +1,6 @@
 import &ArtSuite
 
-DataNodes = &Data.Nvc.flattened
+{DataNodes} = &Data.Nvc
 
 &CategoryButton2
 
