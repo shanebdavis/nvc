@@ -1,5 +1,9 @@
 CACHE MANIFEST
 
 assets/needs256.png
-assets/loading320x480.png
-app.js
+assets/fall.png
+assets/spring.png
+assets/winter.png
+assets/unknown.png
+assets/summer.png
+index.js

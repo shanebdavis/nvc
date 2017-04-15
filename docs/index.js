@@ -41866,7 +41866,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "1.8.0"
+	"version": "1.9.0"
 };
 
 /***/ }),
@@ -43849,7 +43849,6 @@ Caf.defMod(module, () => {
     .init({
       title: "Needs and Emotions",
       meta: { "apple-mobile-web-app-status-bar-style": "default" },
-      manifest: "assets/needs.manifest",
       link: {
         "apple-touch-icon": { href: "assets/needs256.png" },
         "apple-touch-startup-image": { href: "assets/loading320x480.png" }

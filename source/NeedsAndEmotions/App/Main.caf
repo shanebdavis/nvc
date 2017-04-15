@@ -4,7 +4,7 @@ import &ArtSuite
 FullScreenApp.init
   title:    "" Needs and Emotions
   meta:     apple-mobile-web-app-status-bar-style: :default
-  manifest: :assets/needs.manifest
+  # manifest: :needs.manifest
   link:
     apple-touch-icon:           href: :assets/needs256.png
     apple-touch-startup-image:  href: :assets/loading320x480.png
