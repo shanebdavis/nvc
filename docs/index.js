@@ -17836,7 +17836,7 @@ Caf.defMod(module, () => {
                 size: { cs: 1 },
                 align: "centerCenter",
                 text: text.replace(/_/g, " "),
-                padding: 15
+                padding: 18
               }),
           emoji &&
             subtext &&
@@ -26080,7 +26080,7 @@ Caf.defMod(module, () => {
         return Element(
           RectangleElement({ inFlow: false, color: "#f9f9f9" }),
           Element(
-            { size: { ww: 1, hh: 1, h: -95 } },
+            { size: { ww: 1, hh: 1, h: -110 } },
             showSetStatus
               ? SetStatusWidget({ key: this.selectedKey })
               : undefined
@@ -26099,7 +26099,7 @@ Caf.defMod(module, () => {
               : undefined,
             Element(
               {
-                size: { ww: 1, h: 50 },
+                size: { ww: 1, h: 60 },
                 childrenLayout: "row",
                 childrenAlignment: "centerCenter"
               },
@@ -26274,10 +26274,7 @@ Caf.defMod(module, () => {
         let description, StyleProps = __webpack_require__(20);
         ({ description } = dataNodes[this.props.key]);
         return TextElement(StyleProps.textStyle, {
-          size: {
-            ww: 1,
-            h: StyleProps.textStyle.fontSize * 6 * StyleProps.textStyle.leading
-          },
+          size: { ps: 1 },
           align: "centerCenter",
           text: description,
           padding: { h: 10 },
@@ -42021,7 +42018,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "2.0.1"
+	"version": "2.0.2"
 };
 
 /***/ }),
