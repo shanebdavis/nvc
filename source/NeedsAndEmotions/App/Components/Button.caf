@@ -3,7 +3,7 @@ import &ArtSuite
 class Button extends PointerActionsMixin Component
 
   render: ->
-    {text, subtext, emoji, selected, color, small, style, hidden} = @props
+    {text, subtext, emoji, selected, color, style} = @props
 
     color = rgbColor switch
       when selected || @pointerIsDown then color || &StyleProps.primaryColor
@@ -14,9 +14,6 @@ class Button extends PointerActionsMixin Component
       size: if style == :tab then ps: 1 else wcw: 1, hch: 1
       cursor:     :pointer
       on:         @buttonHandlers
-      # animators:
-      #   opacity: toFrom: 0
-      #   size: toFrom: hch: 1, w: 0
       clip:       true
 
       RectangleElement
@@ -28,25 +25,13 @@ class Button extends PointerActionsMixin Component
           color:  {}
           shadow: duration: .3
 
-        # if style != :tab
-        #   padding:  v: 5, h: 3
-          # shadow: switch
-          #   when @pointerIsDown || (selected && !@hover)
-          #                     blur: 4   color: #0002    offset: y: 1
-          #   when @hover then  blur: 12  color: #0004    offset: y: 2
-          #   else              blur: 8   color: #0002    offset: y: 2
-
       if emoji
         Element
-          if style == :tab
-            padding:
-              if subtext
-                bottom: 12, top: 6
-              else
-                6
-          else
-            size:   100
-            padding:  18
+          padding:
+            if subtext
+              bottom: 12, top: 6
+            else
+              6
 
           TextElement
             text:       emoji
