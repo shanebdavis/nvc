@@ -42021,7 +42021,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "2.0.0"
+	"version": "2.0.1"
 };
 
 /***/ }),
