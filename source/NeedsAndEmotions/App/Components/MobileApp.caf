@@ -17,7 +17,7 @@ class MobileApp extends FluxComponent
 
       RectangleElement inFlow: false, color: #f9f9f9
       Element
-        size: ww:1, hh: 1, h: -95
+        size: ww:1, hh: 1, h: -110
         if showSetStatus
           &SetStatusWidget key: @selectedKey
 
@@ -35,7 +35,7 @@ class MobileApp extends FluxComponent
           &ShowMenu key: @selectedKey
 
         Element
-          size: ww:1, h: 50
+          size: ww:1, h: 60
           childrenLayout: :row
           childrenAlignment: :centerCenter
           array key in :needs :emotions :about

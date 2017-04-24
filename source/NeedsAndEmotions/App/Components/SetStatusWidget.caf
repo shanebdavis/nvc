@@ -86,9 +86,7 @@ class SetStatusWidget extends FluxComponent
     {description} = dataNodes[@props.key]
     TextElement
       &StyleProps.textStyle
-      size:
-        ww: 1
-        h: &StyleProps.textStyle.fontSize * 6 * &StyleProps.textStyle.leading
+      size: ps: 1
       align:    :centerCenter
       text:     description
       padding:  h: 10

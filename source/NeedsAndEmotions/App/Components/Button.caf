@@ -62,7 +62,7 @@ class Button extends PointerActionsMixin Component
           size:     cs: 1
           align:    :centerCenter
           text:     text.replace /_/g, ' '
-          padding:  15
+          padding:  18
 
       emoji && subtext &&
         TextElement
