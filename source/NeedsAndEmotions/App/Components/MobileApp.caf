@@ -1,0 +1,48 @@
+import &ArtSuite
+{dataNodes} = &Data
+
+class MobileApp extends FluxComponent
+  @subscriptions "navState.keyPath navState.selectedKey"
+
+  showNeeds:    -> @models.navState.selectKey :needs
+  showAbout:    -> @models.navState.selectKey :about
+  showEmotions: -> @models.navState.selectKey :emotions
+
+  render: ->
+    selectedNode = dataNodes[@selectedKey]
+    showSetStatus = selectedNode?.description
+
+    Element
+      # childrenLayout: :column
+
+      RectangleElement inFlow: false, color: #f9f9f9
+      Element
+        size: ww:1, hh: 1, h: -95
+        if showSetStatus
+          &SetStatusWidget key: @selectedKey
+
+      Element
+        size: ww:1, hch:1
+        axis: :bottomLeft
+        location: yh: 1
+        childrenLayout: :column
+        RectangleElement inFlow: false, color: :white
+
+        if @keyPath.length > 0
+          &ShowPath()
+
+        if !showSetStatus && @selectedKey
+          &ShowMenu key: @selectedKey
+
+        Element
+          size: ww:1, h: 50
+          childrenLayout: :row
+          childrenAlignment: :centerCenter
+          array key in :needs :emotions :about
+            &Button
+              style: :tab
+              subtext: key
+              emoji: &Data.EmojiMap[key]
+              action: -> @models.navState.selectKey key
+              size: ps: 1
+

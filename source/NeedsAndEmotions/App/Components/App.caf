@@ -1,33 +1,13 @@
 import &ArtSuite
 
 class App extends FluxComponent
+  @subscriptions "viewState.isMobile"
 
   render: ->
     CanvasElement
       canvasId:       :artCanvas
       childrenLayout: :column
+      on: ready: ({target}) =>
+        @models.viewState.deviceSize = target.currentSize
 
-      RectangleElement inFlow: false, color: #f9f9f9
-
-      PagingScrollElement
-        startAtEnd: true
-
-        Element
-          size:           w: 414, hch:1, max: ww: 1
-          axis:           :topCenter
-          location:       xw: .5
-          padding:        v: 5
-          childrenLayout: :column
-
-          TextElement
-            size:       ww: 1, hch: 1
-            align:      :center
-            fontFamily: :arial
-            color:      #0004
-            padding:    10
-            text:
-              """
-                Needs and Emotions v#{&Package.version}
-                by Shane Brinkman-Davis Delamore
-
-          &Menu key: :core
+      &MobileApp()

@@ -1,0 +1,9 @@
+dataNodes: &Tools.flatten
+  core:
+    needs:       &SbdNeeds
+    emotions:
+      pleasurable:  &PositiveEmotions
+      painful:      &NegativeEmotions
+    about:
+      author: "" Shane Brinkman-Davis Delamore
+      version: &Package.version

@@ -5,19 +5,21 @@ normalizeList: (string) ->
   .sort()
   .join ', '
 
-flatten: flatten = (map, intoObject = {}, parentKey, rootKey) ->
+flatten: flatten = (map, intoObject = {}, parentKey, rootKey, depth = -1) ->
   if !rootKey && parentKey != "core"
     rootKey = parentKey
   each v, k from map
     throw new Error "key #{k} already exists" if intoObject[k]
     intoObject[k] =  merge
       if isPlainObject v
-        flatten v, intoObject, k, rootKey
+        flatten v, intoObject, k, rootKey, depth + 1
         childKeys: Object.keys v
       else if isString v
         description: v
 
+      key:        k
       parentKey:  parentKey
       rootKey:    rootKey
+      depth:      depth
 
   intoObject

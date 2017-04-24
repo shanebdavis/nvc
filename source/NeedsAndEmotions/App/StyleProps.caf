@@ -9,6 +9,7 @@ class StyleProps extends HotStyleProps
     color:      #000a
     fontFamily: :sans-serif
     fontSize:   18
+    leading:    1.25
 
   @statuses:
     1: "" Tragically unfulfilled
@@ -19,7 +20,7 @@ class StyleProps extends HotStyleProps
 
   @colors:
     # brightness: 88%, sat: 100% or 50%, color: 0deg, 30deg, 60deg, 90deg, 120deg
-    1:  #99dbef
+    1:  #bd954c # #99dbef
     2:  #f5b87a
     3:  #bbb
     4:  #a7df6f

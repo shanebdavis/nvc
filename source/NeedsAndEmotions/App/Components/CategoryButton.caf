@@ -1,10 +1,7 @@
 import &ArtSuite
-{DataNodes} = &Data.Nvc
+{dataNodes} = &Data
 
-emojiMap =
-  needs:        :🌳
-  emotions:     :😀
-  selected:     :💡
+emojiMap = &Data.EmojiMap
 
 subtextMap =
   needs:        :needs
@@ -18,20 +15,21 @@ subtextMap =
 
 class CategoryButton extends FluxComponent
   @subscriptions
-    status: (props) -> props.category
+    "navState.keyPath"
+    status: (props) -> props.key
 
   doAction: ->
-    @props.action? @props.category
+    @models.navState.selectKey @props.key
 
   render: ->
-    {category, selected} = @props
+    {key} = @props
     &Button
-      selected: selected
-      emoji:    emojiMap[category]
-      text:     category
-      subtext:  subtextMap[category]
+      selected: key in @keyPath
+      text:     key
       action:   @doAction
       color:
-        if DataNodes[category].rootKey == "needs"
-          if @status != 3
-            &StyleProps.colors[@status]
+        if key == "needs" || dataNodes[key].rootKey == "needs"
+          &StyleProps.colors[@status||3]
+
+        else
+          #ffe838

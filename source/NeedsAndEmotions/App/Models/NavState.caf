@@ -1,0 +1,28 @@
+import &ArtSuite
+{dataNodes} = &Data
+
+class NavState extends ApplicationState
+
+  @stateFields
+    selectedKey: null
+    keyPath: []
+
+  selectKey: (key) ->
+    {depth} = node = &Data.dataNodes[key]
+    if @keyPath[depth] == key
+
+      keyPath = @keyPath.slice 0, depth +
+        if dataNodes[key]?.description
+          0
+        else
+          1
+    else
+      keyPath = new Array depth + 1
+      while node?.depth >= 0
+        keyPath[node.depth] = node.key
+        node = dataNodes[node.parentKey]
+
+    @setState
+      selectedKey:  peek keyPath
+      keyPath:      keyPath
+    keyPath

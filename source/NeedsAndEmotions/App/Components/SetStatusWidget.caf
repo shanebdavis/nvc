@@ -1,8 +1,15 @@
 import &ArtSuite
+{dataNodes} = &Data
 
 class SetStatusWidget extends FluxComponent
   @subscriptions
+    "viewState.viewState"
     status: (props) -> props.key
+
+  @stateFields
+    descriptionFocused: false
+
+  toggleDescriptionFocused: -> @descriptionFocused = !@descriptionFocused
 
   updateFromPointerEvent: ({location, target}) ->
     {x, y} = target.currentSize
@@ -14,70 +21,116 @@ class SetStatusWidget extends FluxComponent
       * 4
       + 1
 
-  render: ->
-    {status = 3} = @
+  renderSlider: ->
+    Element
+      size: size = w: 300, h: 44
+      margin: 10
+      cursor: :pointer
+
+      on:
+        pointerUp: @updateFromPointerEvent
+        pointerMove: @updateFromPointerEvent
+
+      RectangleElement padding: 15, radius: 10000, color: #0001
+      # RectangleElement color: #f007
+      RectangleElement
+        size: switch @status
+          when 1 then 40
+          when 2 then 30
+          when 3 then 20
+          when 4 then 30
+          when 5 then 40
+        animators: color: true, location: true, size: true
+        axis: :centerCenter
+        radius: 10000
+        shadow: true
+
+        location: yh: .5, x:
+          (size.w - size.h) * (@status - 1)
+          / 4
+          + size.h / 2
+
+        color: &StyleProps.colors[@status]
+
+        FillElement()
+        OutlineElement lineWidth: 2, color: :white
+        OutlineElement lineWidth: 1, color: #0002
+
+  renderText: ->
+    TextElement
+      &StyleProps.textStyle
+      color: &StyleProps.colors[@status]
+      text: &StyleProps.statuses[@status]
+      margin: 10
+
+  renderBitmap: ->
 
     Element
-      size: ww: 1, hch: 1
+      size:
+        if @landscape
+          hh: 1, wh: 1
+        else
+          ps: 1
+      BitmapElement
+        key: "#{@status}"
+        layout: :fit
+        animators: opacity: from: 0, to: .99
+        source: switch @status
+          when 1 then :assets/winter.png
+          when 2 then :assets/fall.png
+          when 3 then :assets/unknown.png
+          when 4 then :assets/summer.png
+          when 5 then :assets/spring.png
+
+  renderDescription: ->
+    {description} = dataNodes[@props.key]
+    TextElement
+      &StyleProps.textStyle
+      size:
+        ww: 1
+        h: &StyleProps.textStyle.fontSize * 6 * &StyleProps.textStyle.leading
+      align:    :centerCenter
+      text:     description
+      padding:  h: 10
+      margin:   bottom: 20
+
+  @getter
+    status: -> @state.status || 3
+    isMobile: -> @models.viewState.isMobile
+
+  renderLandscape: ->
+    Element
+      childrenLayout: :row
+      childrenAlignment: :center
+
+      @renderBitmap()
+
+      Element
+        childrenLayout: :column
+        childrenAlignment: :bottomCenter
+        padding: bottom: 10
+
+        @renderDescription()
+        @renderText()
+        @renderSlider()
+
+  renderPortrait: ->
+    Element
       childrenLayout: :column
       childrenAlignment: :center
       padding: bottom: 25
 
-      Element
-        size: w: 300, h: 60
-        margin: 10
-        cursor: :pointer
+      @renderBitmap()
+      @renderDescription()
+      @renderText()
+      @renderSlider()
 
-        on:
-          pointerUp: @updateFromPointerEvent
-          pointerMove: @updateFromPointerEvent
+  @getter
+    landscape: -> @viewState.deviceSize.aspectRatio > 1
 
-        RectangleElement padding: 25, radius: 10000, color: #0001
-        RectangleElement
-          size: switch status
-            when 1 then 40
-            when 2 then 30
-            when 3 then 20
-            when 4 then 30
-            when 5 then 40
-          animators: color: true, location: true, size: true
-          axis: :centerCenter
-          radius: 10000
-          shadow: true
+  render: ->
 
-          location: yh: .5, x: (ps) ->
-            (ps.x - ps.y) * (status - 1)
-            / 4
-            + ps.y / 2
-
-          color: &StyleProps.colors[status]
-
-          FillElement()
-          OutlineElement lineWidth: 2, color: :white
-          OutlineElement lineWidth: 1, color: #0002
-
-        # array statValue in 1 2 3 4 5
-        #   &Button
-        #     selected: statValue == status
-        #     # emoji:    emojiMap[category]
-        #     text:     "#{statValue}"
-        #     action:   -> @models.status.set @props.key, statValue
-
-      TextElement
-        &StyleProps.textStyle
-        color: &StyleProps.colors[status]
-        text: &StyleProps.statuses[status]
-        margin: 25
-
-      Element
-        size: w: 300, h: 350
-        BitmapElement
-          key: "#{@status}"
-          size: w: 300, h: 350
-          animators: opacity: from: 0, to: .99
-          source: switch @status || 3
-            when 1 then :assets/winter.png
-            when 2 then :assets/fall.png
-            when 3 then :assets/unknown.png
-            when 4 then :assets/summer.png
-            when 5 then :assets/spring.png
+    if @landscape
+      @renderLandscape()
+    else
+      @renderPortrait()

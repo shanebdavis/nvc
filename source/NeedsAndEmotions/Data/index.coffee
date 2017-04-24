@@ -2,9 +2,10 @@
 # file: NeedsAndEmotions/Data/index.coffee
 
 module.exports = require './namespace'
+.includeInNamespace require './Data'
 .addModules
+  EmojiMap:         require './EmojiMap'        
   NegativeEmotions: require './NegativeEmotions'
-  Nvc:              require './Nvc'             
   PositiveEmotions: require './PositiveEmotions'
   SbdNeeds:         require './SbdNeeds'        
   Tools:            require './Tools'           
