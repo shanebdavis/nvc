@@ -6,4 +6,4 @@ module.exports =
   webpack:
     common: {}
     targets:
-      App: {}
+      index: {}

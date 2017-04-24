@@ -26426,7 +26426,7 @@ Caf.defMod(module, () => {
                 ? TextElement({
                     align: "centerCenter",
                     size: { hh: 1, wcw: 1 },
-                    text: "▶",
+                    text: ">",
                     fontSize: 12,
                     layoutMode: "tight",
                     color: "#ccc"
