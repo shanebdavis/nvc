@@ -1,35 +1,48 @@
 import &ArtSuite
 {dataNodes} = &Data
 
-emojiMap = &Data.EmojiMap
-
-subtextMap =
-  needs:        :needs
-  negative:     :emotions
-  positive:     :emotions
-  emotions:     :emotions
-  living:       :animal
-  thriving:     :mammal
-  transcending: :human
-  selected:     :my-selection
-
-class CategoryButton extends FluxComponent
+class CategoryButton extends PointerActionsMixin FluxComponent
   @subscriptions
-    "navState.keyPath"
+    :navState.keyPath
     status: (props) -> props.key
 
-  doAction: ->
+  action: ->
     @models.navState.selectKey @props.key
 
   render: ->
     {key} = @props
-    &Button
-      selected: key in @keyPath
-      text:     key
-      action:   @doAction
-      color:
-        if key == "needs" || dataNodes[key].rootKey == "needs"
-          &StyleProps.colors[@status||3]
 
-        else
-          #ffe838
+    selected = key in @keyPath
+    text =     key
+    color =
+      if key == "needs" || dataNodes[key].rootKey == "needs"
+        &StyleProps.colors[@status||3] || &StyleProps.primaryColor
+
+      else
+        #ffe838
+
+    color = rgbColor switch
+    when selected || @pointerIsDown then color
+    else rgbColor(color).blend :white, .5
+
+    Element
+      size:       wcw: 1, hch: 1
+      cursor:     :pointer
+      on:         @buttonHandlers
+      clip:       true
+
+      RectangleElement
+        inFlow:   false
+        color:    color
+        radius:   100
+        padding:  5
+        animators:
+          color:  {}
+          shadow: duration: .3
+
+      TextElement
+        &StyleProps.textStyle
+        size:     cs: 1
+        align:    :centerCenter
+        text:     text.replace /_/g, ' '
+        padding:  18

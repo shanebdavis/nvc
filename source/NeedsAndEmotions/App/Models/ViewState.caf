@@ -1,12 +1,6 @@
 import &ArtSuite
-{isMobileBrowser} = &ArtFoundation.Browser
 
 class ViewState extends ApplicationState
 
   @stateFields
-    isMobile: isMobileBrowser() || true
     deviceSize: null
-
-  @setter
-    deviceSize: (deviceSize) ->
-      @setState deviceSize: deviceSize

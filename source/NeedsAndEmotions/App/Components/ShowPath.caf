@@ -4,22 +4,24 @@ import &ArtSuite
 &CategoryButton
 
 class ShowPath extends FluxComponent
-  @subscriptions "navState.keyPath"
+  @subscriptions :navState.keyPath
 
   render: ->
     Element
-      size: ww:1, hch:1
-      childrenLayout: :row
-      animators: size: toFrom: ww:1, h: 0
-      clip: true
+      childrenLayout:           :row
+      clip:                     true
+      size:                     ww: 1   hch:  1
+      animators: size: toFrom:  ww: 1   h:    0
+
       array key, i from @keyPath
         []
           CategoryButton key: key
+
           if dataNodes[key].childKeys
             TextElement
-              align: :centerCenter
-              size: hh: 1, wcw:1
-              text: ">"
-              fontSize: 12
-              layoutMode: "tight"
-              color: #ccc
+              align:      :centerCenter
+              size:       hh: 1 wcw:1
+              text:       :⟩
+              fontSize:   28
+              layoutMode: :tight
+              color:      #bbb

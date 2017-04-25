@@ -8,10 +8,12 @@ class ShowMenu extends FluxComponent
     {childKeys} = dataNodes[@props.key]
 
     Element
-      size: ww:1, hch:1
-      childrenLayout: :flow
-      childrenAlignment: :bottomCenter
-      animators: size: toFrom: ww:1, h: 0
-      clip: true
+      clip:               true
+      childrenLayout:     :flow
+      childrenAlignment:  :bottomCenter
+
+      size:                     ww: 1  hch: 1
+      animators: size: toFrom:  ww: 1  h: 0
+
       array key from childKeys?.sort()
         CategoryButton key: key

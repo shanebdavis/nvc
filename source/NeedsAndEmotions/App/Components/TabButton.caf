@@ -1,0 +1,40 @@
+import &ArtSuite
+
+class TabButton extends PointerActionsMixin Component
+
+  render: ->
+    {subtext, emoji, selected} = @props
+
+    Element
+      size:       ps: 1
+      cursor:     :pointer
+      on:         @buttonHandlers
+      clip:       true
+
+      RectangleElement
+        inFlow:     false
+        animators:  color:  true
+        color:
+          if selected || @pointerIsDown
+            &StyleProps.primaryColor
+          else
+            :transparent
+
+      emoji && Element
+        padding: bottom: 12 top: 6
+
+        TextElement
+          text:       emoji
+          location:   ps: .5
+          axis:       :centerCenter
+          scale:      (ps, cs) -> ps.div(cs).min()
+          layoutMode: :tight
+          fontSize:   64
+
+      subtext && TextElement
+        &StyleProps.textStyle
+        fontSize: 9
+        location: ww: .5 yh: 1 y: -3
+        size:     cs: 1
+        axis:     :bottomCenter
+        text:     subtext

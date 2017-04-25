@@ -5,7 +5,7 @@ module.exports = require './namespace'
 .includeInNamespace require './Data'
 .addModules
   EmojiMap:         require './EmojiMap'        
+  Needs:            require './Needs'           
   NegativeEmotions: require './NegativeEmotions'
   PositiveEmotions: require './PositiveEmotions'
-  SbdNeeds:         require './SbdNeeds'        
   Tools:            require './Tools'           

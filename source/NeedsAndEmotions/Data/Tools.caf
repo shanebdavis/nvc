@@ -1,19 +1,18 @@
 import &ArtSuite
 
-normalizeList: (string) ->
-  w string
-  .sort()
-  .join ', '
-
 flatten: flatten = (map, intoObject = {}, parentKey, rootKey, depth = -1) ->
-  if !rootKey && parentKey != "core"
+
+  if !rootKey && parentKey != :core
     rootKey = parentKey
-  each v, k from map
+
+  object v, k from map into intoObject
     throw new Error "key #{k} already exists" if intoObject[k]
-    intoObject[k] =  merge
+
+    merge
       if isPlainObject v
         flatten v, intoObject, k, rootKey, depth + 1
         childKeys: Object.keys v
+
       else if isString v
         description: v
 
@@ -21,5 +20,3 @@ flatten: flatten = (map, intoObject = {}, parentKey, rootKey, depth = -1) ->
       parentKey:  parentKey
       rootKey:    rootKey
       depth:      depth
-
-  intoObject

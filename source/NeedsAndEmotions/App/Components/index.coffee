@@ -4,9 +4,8 @@
 module.exports = require './namespace'
 .addModules
   App:             require './App'            
-  Button:          require './Button'         
   CategoryButton:  require './CategoryButton' 
-  MobileApp:       require './MobileApp'      
   SetStatusWidget: require './SetStatusWidget'
   ShowMenu:        require './ShowMenu'       
   ShowPath:        require './ShowPath'       
+  TabButton:       require './TabButton'      

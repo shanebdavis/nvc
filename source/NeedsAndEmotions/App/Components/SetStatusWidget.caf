@@ -3,11 +3,15 @@ import &ArtSuite
 
 class SetStatusWidget extends FluxComponent
   @subscriptions
-    "viewState.viewState"
+    :viewState.viewState
     status: (props) -> props.key
 
   @stateFields
     descriptionFocused: false
+
+  @getter
+    status:    -> @state.status || 3
+    landscape: -> @viewState.deviceSize.aspectRatio > 1
 
   toggleDescriptionFocused: -> @descriptionFocused = !@descriptionFocused
 
@@ -16,55 +20,11 @@ class SetStatusWidget extends FluxComponent
     @models.status.set
       @props.key
       location.x - y / 2
-      / x
-        - y
+      / (x - y)
       * 4
       + 1
 
-  renderSlider: ->
-    Element
-      size: size = w: 300, h: 44
-      margin: 10
-      cursor: :pointer
-
-      on:
-        pointerUp: @updateFromPointerEvent
-        pointerMove: @updateFromPointerEvent
-
-      RectangleElement padding: 15, radius: 10000, color: #0001
-      # RectangleElement color: #f007
-      RectangleElement
-        size: switch @status
-          when 1 then 40
-          when 2 then 30
-          when 3 then 20
-          when 4 then 30
-          when 5 then 40
-        animators: color: true, location: true, size: true
-        axis: :centerCenter
-        radius: 10000
-        shadow: true
-
-        location: yh: .5, x:
-          (size.w - size.h) * (@status - 1)
-          / 4
-          + size.h / 2
-
-        color: &StyleProps.colors[@status]
-
-        FillElement()
-        OutlineElement lineWidth: 2, color: :white
-        OutlineElement lineWidth: 1, color: #0002
-
-  renderText: ->
-    TextElement
-      &StyleProps.textStyle
-      color: &StyleProps.colors[@status]
-      text: &StyleProps.statuses[@status]
-      margin: 10
-
   renderBitmap: ->
-
     Element
       size:
         if @landscape
@@ -83,30 +43,70 @@ class SetStatusWidget extends FluxComponent
           when 5 then :assets/spring.png
 
   renderDescription: ->
-    {description} = dataNodes[@props.key]
+    {textStyle} = &StyleProps
     TextElement
-      &StyleProps.textStyle
-      size: ps: 1
+      textStyle
+      axis:     x:  .5
+      location: xw: .5
+      size:     w: 300, h: 6 * textStyle.fontSize * textStyle.leading
       align:    :centerCenter
-      text:     description
-      padding:  h: 10
+      text:     dataNodes[@props.key].description
       margin:   bottom: 20
 
-  @getter
-    status: -> @state.status || 3
-    isMobile: -> @models.viewState.isMobile
+  renderText: ->
+    TextElement
+      &StyleProps.textStyle
+      color: &StyleProps.colors[@status]
+      text: &StyleProps.statuses[@status]
+      margin: 10
+
+  renderSlider: ->
+    Element
+      size: size = w: 300, h: 44
+      margin: 10
+      cursor: :pointer
+
+      on:
+        pointerUp:    @updateFromPointerEvent
+        pointerMove:  @updateFromPointerEvent
+
+      RectangleElement padding: 15, radius: 10000, color: #0001
+
+      RectangleElement
+        size: switch @status
+          when 1 then 40
+          when 2 then 30
+          when 3 then 20
+          when 4 then 30
+          when 5 then 40
+
+        animators: color: true, location: true, size: true
+        axis:   :centerCenter
+        radius: 10000
+        shadow: true
+
+        location: yh: .5, x:
+          (size.w - size.h) * (@status - 1)
+          / 4
+          + size.h / 2
+
+        color: &StyleProps.colors[@status]
+
+        FillElement()
+        OutlineElement lineWidth: 2 color: :white
+        OutlineElement lineWidth: 1 color: #0002
 
   renderLandscape: ->
     Element
-      childrenLayout: :row
-      childrenAlignment: :center
+      childrenLayout:     :row
+      childrenAlignment:  :center
 
       @renderBitmap()
 
       Element
-        childrenLayout: :column
-        childrenAlignment: :bottomCenter
-        padding: bottom: 10
+        childrenLayout:     :column
+        childrenAlignment:  :bottomCenter
+        padding: bottom:    10
 
         @renderDescription()
         @renderText()
@@ -114,20 +114,16 @@ class SetStatusWidget extends FluxComponent
 
   renderPortrait: ->
     Element
-      childrenLayout: :column
-      childrenAlignment: :center
-      padding: bottom: 25
+      childrenLayout:     :column
+      childrenAlignment:  :center
+      padding: bottom:    25
 
       @renderBitmap()
       @renderDescription()
       @renderText()
       @renderSlider()
 
-  @getter
-    landscape: -> @viewState.deviceSize.aspectRatio > 1
-
   render: ->
-
     if @landscape
       @renderLandscape()
     else
