@@ -5769,7 +5769,7 @@ elliptic.version = __webpack_require__(522).version;
 elliptic.utils = __webpack_require__(501);
 elliptic.rand = __webpack_require__(150);
 elliptic.hmacDRBG = __webpack_require__(499);
-elliptic.curve = __webpack_require__(82);
+elliptic.curve = __webpack_require__(83);
 elliptic.curves = __webpack_require__(492);
 
 // Protocols
@@ -5801,7 +5801,7 @@ module.exports = __webpack_require__(455);
 
 Foundation = __webpack_require__(0);
 
-Request = __webpack_require__(67);
+Request = __webpack_require__(68);
 
 Response = __webpack_require__(108);
 
@@ -6056,10 +6056,10 @@ module.exports = Art.Engine || Art.addNamespace('Engine', Engine = (function(sup
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(443).includeInNamespace(__webpack_require__(442)).addModules({
-  ArrayCompactFlatten: __webpack_require__(75),
+  ArrayCompactFlatten: __webpack_require__(76),
   Merge: __webpack_require__(231),
   StringCase: __webpack_require__(232),
-  Types: __webpack_require__(76)
+  Types: __webpack_require__(77)
 });
 
 
@@ -6294,7 +6294,7 @@ Caf.defMod(module, () => {
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Atomic, Base, Canvas, Color, FillableBase, Foundation, GradientFillStyle, Matrix, Point, PointLayout, PointLayoutBase, Rectangle, createWithPostCreate, isNumber, isPlainObject, log, matrix, max, merge, min, point, point0, point1, rect, ref, rgbColor,
+var Atomic, Canvas, Color, FillableBase, FilterAndFillableBase, Foundation, GradientFillStyle, Matrix, Point, PointLayout, PointLayoutBase, Rectangle, createWithPostCreate, isNumber, isPlainObject, log, matrix, max, merge, min, point, point0, point1, rect, ref, rgbColor,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -6304,9 +6304,9 @@ Atomic = __webpack_require__(3);
 
 Canvas = __webpack_require__(12);
 
-Base = __webpack_require__(97);
+FilterAndFillableBase = __webpack_require__(98);
 
-ref = __webpack_require__(102), PointLayout = ref.PointLayout, PointLayoutBase = ref.PointLayoutBase;
+ref = __webpack_require__(66), PointLayout = ref.PointLayout, PointLayoutBase = ref.PointLayoutBase;
 
 log = Foundation.log, isPlainObject = Foundation.isPlainObject, min = Foundation.min, max = Foundation.max, createWithPostCreate = Foundation.createWithPostCreate, isNumber = Foundation.isNumber, merge = Foundation.merge;
 
@@ -6315,7 +6315,7 @@ rgbColor = Atomic.rgbColor, Color = Atomic.Color, point = Atomic.point, Point = 
 GradientFillStyle = Canvas.GradientFillStyle;
 
 module.exports = createWithPostCreate(FillableBase = (function(superClass) {
-  var defaultFrom, defaultOffset, defaultTo, noShadow;
+  var defaultOffset, noShadow;
 
   extend(FillableBase, superClass);
 
@@ -6333,12 +6333,6 @@ module.exports = createWithPostCreate(FillableBase = (function(superClass) {
     }
   });
 
-  defaultFrom = new PointLayout();
-
-  defaultTo = new PointLayout({
-    hh: 1
-  });
-
   defaultOffset = new PointLayout({
     y: 2
   });
@@ -6350,22 +6344,6 @@ module.exports = createWithPostCreate(FillableBase = (function(superClass) {
   };
 
   FillableBase.drawProperty({
-    from: {
-      preprocess: function(v) {
-        return v && (v instanceof PointLayoutBase ? v : new PointLayout(v));
-      }
-    },
-    to: {
-      preprocess: function(v) {
-        return v && (v instanceof PointLayoutBase ? v : new PointLayout(v));
-      }
-    },
-    colors: {
-      "default": null
-    },
-    gradientRadius: {
-      "default": null
-    },
     shadow: {
       "default": null,
       validate: function(v) {
@@ -6411,14 +6389,13 @@ module.exports = createWithPostCreate(FillableBase = (function(superClass) {
     }
   });
 
-  FillableBase.prototype._expandRectangleByShadow = function(r, pending) {
-    var blur, expandBottom, expandLeft, expandRight, expandTop, h, offsetX, offsetY, ref1, shadow, w, x, y;
-    shadow = this.getShadow(pending);
-    if (!shadow) {
+  FillableBase.prototype._expandRectangleByShadow = function(r, pending, normalizedShadow) {
+    var blur, expandBottom, expandLeft, expandRight, expandTop, h, offsetX, offsetY, w, x, y;
+    if (!normalizedShadow) {
       return r;
     }
     x = r.x, y = r.y, w = r.w, h = r.h;
-    ref1 = this.getNormalizedShadow(pending), blur = ref1.blur, offsetX = ref1.offsetX, offsetY = ref1.offsetY;
+    blur = normalizedShadow.blur, offsetX = normalizedShadow.offsetX, offsetY = normalizedShadow.offsetY;
     offsetX || (offsetX = 0);
     offsetY || (offsetY = 0);
     blur || (blur = 0);
@@ -6434,45 +6411,18 @@ module.exports = createWithPostCreate(FillableBase = (function(superClass) {
       return 0;
     },
     baseDrawArea: function(pending) {
-      return this._expandRectangleByShadow(this.getPreFilteredBaseDrawArea(pending), pending);
+      return this._expandRectangleByShadow(this.getPreFilteredBaseDrawArea(pending), pending, this.getNormalizedShadow(pending));
     }
   });
 
   FillableBase.prototype._prepareDrawOptions = function(drawOptions, compositeMode, opacity) {
-    var _colors, _currentSize, _from, _gradientRadius, _to, gradientScale, r1, r2, ref1, ref2;
     FillableBase.__super__._prepareDrawOptions.apply(this, arguments);
-    ref1 = this, _colors = ref1._colors, _currentSize = ref1._currentSize;
-    drawOptions.shadow = this.normalizedShadow;
-    drawOptions.colors = null;
-    drawOptions.gradientRadius = null;
-    drawOptions.gradientRadius1 = null;
-    drawOptions.gradientRadius2 = null;
-    drawOptions.from = null;
-    drawOptions.to = null;
-    if (_colors) {
-      ref2 = this, _from = ref2._from, _to = ref2._to, _gradientRadius = ref2._gradientRadius;
-      _from || (_from = defaultFrom);
-      drawOptions.colors = _colors;
-      if (_gradientRadius != null) {
-        _to || (_to = _from);
-        gradientScale = _currentSize.min() / 2;
-        if (isNumber(_gradientRadius)) {
-          drawOptions.gradientRadius = _gradientRadius * gradientScale;
-        } else {
-          r1 = _gradientRadius[0], r2 = _gradientRadius[1];
-          drawOptions.gradientRadius1 = r1 * gradientScale;
-          drawOptions.gradientRadius2 = r2 * gradientScale;
-        }
-      }
-      _to || (_to = defaultTo);
-      drawOptions.from = _from.layout(_currentSize);
-      return drawOptions.to = _to.layout(_currentSize);
-    }
+    return drawOptions.shadow = this.normalizedShadow;
   };
 
   return FillableBase;
 
-})(Base));
+})(FilterAndFillableBase));
 
 
 /***/ }),
@@ -7976,7 +7926,7 @@ Canvas = __webpack_require__(12);
 
 Animator = __webpack_require__(173);
 
-Layout = __webpack_require__(102);
+Layout = __webpack_require__(66);
 
 ElementBase = __webpack_require__(175);
 
@@ -10770,7 +10720,7 @@ module.exports = Hash
 
 module.exports = Stream;
 
-var EE = __webpack_require__(83).EventEmitter;
+var EE = __webpack_require__(84).EventEmitter;
 var inherits = __webpack_require__(6);
 
 inherits(Stream, EE);
@@ -12093,7 +12043,7 @@ module.exports = __webpack_require__(64).includeInNamespace(__webpack_require__(
   DrawEpoch: __webpack_require__(62),
   Element: __webpack_require__(30),
   ElementBase: __webpack_require__(175),
-  ElementFactory: __webpack_require__(95),
+  ElementFactory: __webpack_require__(96),
   EngineStat: __webpack_require__(176),
   EpochedObject: __webpack_require__(180),
   EventedEpochedObject: __webpack_require__(181),
@@ -12224,7 +12174,7 @@ module.exports = Art.Foundation || Art.addNamespace('Foundation', Foundation = (
 
 module.exports = __webpack_require__(124).includeInNamespace(__webpack_require__(444)).addModules({
   FormattedInspect: __webpack_require__(235),
-  InspectedObjectLiteral: __webpack_require__(77),
+  InspectedObjectLiteral: __webpack_require__(78),
   InspectedObjects: __webpack_require__(122),
   Inspector: __webpack_require__(123),
   Inspector2: __webpack_require__(450),
@@ -14631,8 +14581,8 @@ module.exports = Engine.Core || Engine.addNamespace('Core', Core = (function(sup
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(44).includeInNamespace(__webpack_require__(329)).addModules({
-  Base: __webpack_require__(97),
-  FillableBase: __webpack_require__(21)
+  FillableBase: __webpack_require__(21),
+  FilterAndFillableBase: __webpack_require__(98)
 });
 
 __webpack_require__(183);
@@ -14646,6 +14596,17 @@ __webpack_require__(186);
 
 /***/ }),
 /* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(356).addModules({
+  InterpolatedPointLayout: __webpack_require__(354),
+  PointLayout: __webpack_require__(355),
+  PointLayoutBase: __webpack_require__(102)
+});
+
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(366).includeInNamespace(__webpack_require__(364)).addModules({
@@ -14662,7 +14623,7 @@ module.exports = __webpack_require__(366).includeInNamespace(__webpack_require__
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ArtEry, BaseObject, CommunicationStatus, Foundation, Promise, Request, RestClient, Validator, _validator, arrayWith, each, failure, inspect, isFunction, isObject, isPlainObject, isString, log, merge, missing, object, objectHasKeys, objectKeyCount, objectWithout, present, ref, requestConstructorValidator, success, validStatus, w,
@@ -14952,7 +14913,7 @@ module.exports = Request = (function(superClass) {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var BaseObject, ModelRegistry, Promise, decapitalize, defineModule, formattedInspect, inspect, isClass, log, ref, timeout,
@@ -15044,7 +15005,7 @@ defineModule(module, ModelRegistry = (function(superClass) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(379).addModules({
@@ -15052,12 +15013,12 @@ module.exports = __webpack_require__(379).addModules({
   FluxModel: __webpack_require__(377),
   FluxStore: __webpack_require__(111),
   FluxSubscriptionsMixin: __webpack_require__(378),
-  ModelRegistry: __webpack_require__(68)
+  ModelRegistry: __webpack_require__(69)
 });
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Art, Flux,
@@ -15079,7 +15040,7 @@ module.exports = Art.Flux || Art.addNamespace('Flux', Flux = (function(superClas
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var StandardLib, WebWorker, log;
@@ -15122,7 +15083,7 @@ module.exports = WebWorker = (function() {
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ArtEngineCore, BaseObject, Epoch, Foundation, GlobalEpochCycle, ReactArtEngineEpoch, clone, globalCount, inspect, isWebWorker, log, merge, peek, stackTime, timeout,
@@ -15171,7 +15132,7 @@ if (ArtEngineCore = Neptune.Art.Engine.Core) {
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ArrayExtensions, bound, exactlyOneWordRegex, intRand, isNumber, isString, max, modulo, ref, ref1, ref2, wordsRegex,
@@ -15772,7 +15733,7 @@ module.exports = ArrayExtensions = (function() {
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var CommonJs, isClass, isFunction, ref;
@@ -15812,7 +15773,7 @@ module.exports = CommonJs = (function() {
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports) {
 
 var ArrayCompactFlatten;
@@ -15969,7 +15930,7 @@ module.exports = ArrayCompactFlatten = (function() {
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -16179,7 +16140,7 @@ module.exports = Types = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var InspectedObjectLiteral, compare;
@@ -16214,7 +16175,7 @@ module.exports = InspectedObjectLiteral = (function() {
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -16446,7 +16407,7 @@ module.exports = global.Map || (Map = (function(superClass) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ObjectExtensions, compactFlatten, deepArrayEach, isArrayOrArguments, isFunction, isObject, isPlainArray, isPlainObject, mergeInto, object, present, ref, ref1,
@@ -16735,7 +16696,7 @@ module.exports = ObjectExtensions = (function() {
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ParseUrl;
@@ -16829,7 +16790,7 @@ module.exports = ParseUrl = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var BlueBirdPromise, ErrorWithInfo, deepEach, deepMap, defineModule, getEnv, isFunction, isPlainObject, promiseDebug, ref;
@@ -16838,9 +16799,9 @@ BlueBirdPromise = __webpack_require__(288);
 
 ref = __webpack_require__(11), deepMap = ref.deepMap, deepEach = ref.deepEach, isFunction = ref.isFunction, isPlainObject = ref.isPlainObject;
 
-defineModule = __webpack_require__(74).defineModule;
+defineModule = __webpack_require__(75).defineModule;
 
-getEnv = __webpack_require__(80).getEnv;
+getEnv = __webpack_require__(81).getEnv;
 
 if (promiseDebug = getEnv().artPromiseDebug) {
   console.log("Art.StandardLib.Promise: BlueBirdPromise debug ENABLED");
@@ -17228,7 +17189,7 @@ defineModule(module, function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17243,7 +17204,7 @@ curve.edwards = __webpack_require__(489);
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -17551,7 +17512,7 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var md5 = __webpack_require__(253)
@@ -17626,13 +17587,13 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var asn1 = __webpack_require__(526)
 var aesid = __webpack_require__(523)
 var fixProc = __webpack_require__(527)
-var ciphers = __webpack_require__(87)
+var ciphers = __webpack_require__(88)
 var compat = __webpack_require__(259)
 module.exports = parseKeys
 
@@ -17734,7 +17695,7 @@ function decrypt (data, password) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17828,7 +17789,7 @@ Caf.defMod(module, () => {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module), __webpack_require__(5)))
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ciphers = __webpack_require__(290)
@@ -17845,7 +17806,7 @@ exports.listCiphers = exports.getCiphers = getCiphers
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var bn = __webpack_require__(8);
@@ -17892,7 +17853,7 @@ function getr(priv) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18008,7 +17969,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Atomic, AtomicBase, Foundation, Point, Rectangle, bound, ceil, floatEq, floatEq0, floor, isArray, isFunction, isNumber, isString, log, max, min, point, round, stringToNumberArray,
@@ -18447,7 +18408,7 @@ module.exports = Rectangle = (function(superClass) {
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var Atomic, BaseObject, Binary, BinaryString, BitmapBase, Color, Foundation, Matrix, Point, Rectangle, alphaChannelOffset, bound, ceil, floor, halfPoint, inspect, isNumber, isString, log, matrix, max, merge, min, nextTick, pixelStep, point, point0, pureMerge, quarterPoint, rect, rgbColor, round, toChannelNumberMap,
@@ -19267,7 +19228,7 @@ module.exports = BitmapBase = (function(superClass) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ref, ref1;
@@ -19276,7 +19237,7 @@ module.exports = (ref = typeof Neptune !== "undefined" && Neptune !== null ? (re
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BaseObject, EventedMixin, Events, Foundation, PersistantAnimator, capitalize, eq, inspectedObjectLiteral, isFunction, isPlainObject, isString, log, plainObjectsDeepEq, rubyOr,
@@ -19790,7 +19751,7 @@ module.exports = PersistantAnimator = (function(superClass) {
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(322).addModules({
@@ -19798,12 +19759,12 @@ module.exports = __webpack_require__(322).addModules({
   EasingFunctions: __webpack_require__(60),
   EasingPersistantAnimator: __webpack_require__(320),
   PeriodicPersistantAnimator: __webpack_require__(321),
-  PersistantAnimator: __webpack_require__(93)
+  PersistantAnimator: __webpack_require__(94)
 });
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BaseObject, ElementFactory, Foundation, inspect, timeout,
@@ -19861,7 +19822,7 @@ module.exports = ElementFactory = (function(superClass) {
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Core, EpochLayout,
@@ -19883,63 +19844,116 @@ module.exports = Core.EpochLayout || Core.addNamespace('EpochLayout', EpochLayou
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Atomic, Base, Element, Foundation, createWithPostCreate, inspect, rgbColor,
+/* WEBPACK VAR INJECTION */(function(module) {var Color, Element, FilterAndFillableBase, PointLayout, PointLayoutBase, defaultFrom, defaultTo, defineModule, inspect, isNumber, isPlainArray, isPlainObject, log, ref, ref1, ref2, rgbColor,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Foundation = __webpack_require__(0);
+ref = __webpack_require__(4), inspect = ref.inspect, defineModule = ref.defineModule, isPlainArray = ref.isPlainArray, isNumber = ref.isNumber, log = ref.log, isPlainObject = ref.isPlainObject;
 
-Atomic = __webpack_require__(3);
+ref1 = __webpack_require__(3), rgbColor = ref1.rgbColor, Color = ref1.Color;
 
 Element = __webpack_require__(30);
 
-inspect = Foundation.inspect, createWithPostCreate = Foundation.createWithPostCreate;
+ref2 = __webpack_require__(66), PointLayout = ref2.PointLayout, PointLayoutBase = ref2.PointLayoutBase;
 
-rgbColor = Atomic.rgbColor;
+defaultFrom = new PointLayout();
 
-module.exports = createWithPostCreate(Base = (function(superClass) {
-  extend(Base, superClass);
+defaultTo = new PointLayout({
+  hh: 1
+});
 
-  Base.registerWithElementFactory = function() {
-    return this !== Base;
+defineModule(module, FilterAndFillableBase = (function(superClass) {
+  extend(FilterAndFillableBase, superClass);
+
+  FilterAndFillableBase.registerWithElementFactory = function() {
+    return this !== FilterAndFillableBase;
   };
 
-  function Base() {
-    Base.__super__.constructor.apply(this, arguments);
+  function FilterAndFillableBase() {
+    FilterAndFillableBase.__super__.constructor.apply(this, arguments);
     this._drawOptions = {};
   }
 
-  Base.drawProperty({
+  FilterAndFillableBase.drawProperty({
     color: {
       "default": null,
       preprocess: function(v) {
+
+        /*
+        TODO:
+          - merge 'color' and 'colors' into, one unified property
+          - make everything animatable: gradient <=> gradient, gradient <=> color, color <=> color
+          - do all the object-creation here; right now gradients create an object every render
+            NOTE - though we create the gradient-object here, the to/from can change
+              idependently - they should mutate nor re-create the basic gradient-object.
+        
+              This means ArtCanvas needs to have a refactor for how it handles gradients.
+         */
+        var a, b, g, r, ref3, ref4;
         if (v) {
-          return rgbColor(v);
+          if (isPlainArray(v) && !isNumber(v[0])) {
+            return v;
+          } else if (isPlainObject(v)) {
+            r = v.r, g = v.g, b = v.b, a = v.a;
+            if (((ref3 = (ref4 = r != null ? r : g) != null ? ref4 : b) != null ? ref3 : a) != null) {
+              return rgbColor(v);
+            } else {
+              return v;
+            }
+          } else {
+            return rgbColor(v);
+          }
         } else {
           return null;
         }
+      },
+      setter: function(v) {
+        if ((v != null ? v.constructor : void 0) === Color) {
+          return v;
+        } else {
+          if (v) {
+            this.setColors(v);
+          }
+          return null;
+        }
       }
+    },
+    colors: {
+      "default": null
+    },
+    from: {
+      preprocess: function(v) {
+        return v && (v instanceof PointLayoutBase ? v : new PointLayout(v));
+      }
+    },
+    to: {
+      preprocess: function(v) {
+        return v && (v instanceof PointLayoutBase ? v : new PointLayout(v));
+      }
+    },
+    gradientRadius: {
+      "default": null
     }
   });
 
-  Base.prototype.drawBasic = function(target, elementToTargetMatrix, compositeMode, opacity) {
+  FilterAndFillableBase.prototype.drawBasic = function(target, elementToTargetMatrix, compositeMode, opacity) {
     this._prepareDrawOptions(this._drawOptions, compositeMode, opacity);
     return this.fillShape(target, elementToTargetMatrix, this._drawOptions);
   };
 
-  Base.prototype._useStagingBitmap = function() {
+  FilterAndFillableBase.prototype._useStagingBitmap = function() {
     if (this.getHasChildren()) {
-      return Base.__super__._useStagingBitmap.apply(this, arguments);
+      return FilterAndFillableBase.__super__._useStagingBitmap.apply(this, arguments);
     }
     return this.getChildRequiresParentStagingBitmap() || this.getIsMask();
   };
 
-  Base.prototype._drawChildren = function(target, elementToTargetMatrix, usingStagingBitmap) {
+  FilterAndFillableBase.prototype._drawChildren = function(target, elementToTargetMatrix, usingStagingBitmap) {
     if (this.hasChildren) {
-      return Base.__super__._drawChildren.apply(this, arguments);
+      return FilterAndFillableBase.__super__._drawChildren.apply(this, arguments);
     }
     if (usingStagingBitmap) {
       return this.drawBasic(target, elementToTargetMatrix);
@@ -19953,7 +19967,7 @@ module.exports = createWithPostCreate(Base = (function(superClass) {
   Either fillShape or drawBasic must be overridden by each inheriting class
    */
 
-  Base.prototype.fillShape = function(target, elementToTargetMatrix, options) {
+  FilterAndFillableBase.prototype.fillShape = function(target, elementToTargetMatrix, options) {
     throw new Error("fillShape or drawBasic must be overridden");
   };
 
@@ -19964,22 +19978,54 @@ module.exports = createWithPostCreate(Base = (function(superClass) {
   purpose: to re-use the plain-object for draw options instead of creating a new one every time.
    */
 
-  Base.prototype._prepareDrawOptions = function(drawOptions, compositeMode, opacity) {
+  FilterAndFillableBase.prototype._prepareDrawOptions = function(drawOptions, compositeMode, opacity) {
     drawOptions.compositeMode = compositeMode;
     drawOptions.opacity = opacity;
-    return drawOptions.color = this._color;
+    return this._prepareColorOptions(drawOptions);
   };
 
-  return Base;
+  FilterAndFillableBase.prototype._prepareColorOptions = function(drawOptions) {
+    var _color, _colors, _currentSize, _from, _gradientRadius, _to, gradientScale, r1, r2, ref3, ref4;
+    ref3 = this, _color = ref3._color, _colors = ref3._colors, _currentSize = ref3._currentSize;
+    drawOptions.color = _color;
+    drawOptions.colors = null;
+    drawOptions.gradientRadius = null;
+    drawOptions.gradientRadius1 = null;
+    drawOptions.gradientRadius2 = null;
+    drawOptions.from = null;
+    drawOptions.to = null;
+    if (_colors) {
+      ref4 = this, _from = ref4._from, _to = ref4._to, _gradientRadius = ref4._gradientRadius;
+      _from || (_from = defaultFrom);
+      drawOptions.colors = _colors;
+      if (_gradientRadius != null) {
+        _to || (_to = _from);
+        gradientScale = _currentSize.min() / 2;
+        if (isNumber(_gradientRadius)) {
+          drawOptions.gradientRadius = _gradientRadius * gradientScale;
+        } else {
+          r1 = _gradientRadius[0], r2 = _gradientRadius[1];
+          drawOptions.gradientRadius1 = r1 * gradientScale;
+          drawOptions.gradientRadius2 = r2 * gradientScale;
+        }
+      }
+      _to || (_to = defaultTo);
+      drawOptions.from = _from.layout(_currentSize);
+      return drawOptions.to = _to.layout(_currentSize);
+    }
+  };
+
+  return FilterAndFillableBase;
 
 })(Element));
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Atomic, CoreElementsBase, FilterElement, Foundation, Matrix, createWithPostCreate, isString, log,
+var Atomic, FilterAndFillableBase, FilterElement, Foundation, Matrix, createWithPostCreate, isString, log,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -19987,7 +20033,7 @@ Foundation = __webpack_require__(0);
 
 Atomic = __webpack_require__(3);
 
-CoreElementsBase = __webpack_require__(97);
+FilterAndFillableBase = __webpack_require__(98);
 
 log = Foundation.log, isString = Foundation.isString, createWithPostCreate = Foundation.createWithPostCreate;
 
@@ -20085,7 +20131,7 @@ module.exports = createWithPostCreate(FilterElement = (function(superClass) {
     NOTE: you can, and should if possible, re-use filterScratchBitmap
    */
 
-  FilterElement.prototype.filter = function(filterScratchBitmap, scale) {
+  FilterElement.prototype.filter = function(filterScratchBitmap, scale, elementToFilterScratchMatrix, options) {
     var imageData;
     imageData = filterScratchBitmap.getImageData();
     this.filterPixelData(filterScratchBitmap, imageData.data, scale);
@@ -20096,7 +20142,7 @@ module.exports = createWithPostCreate(FilterElement = (function(superClass) {
   FilterElement.prototype.fillShape = function(target, elementToTargetMatrix, options) {
     var filterTarget, filterTargetToElementMatrix, ref, scale;
     scale = elementToTargetMatrix.exactScaler;
-    ref = this._filterFilterSource(scale, target), filterTargetToElementMatrix = ref.filterTargetToElementMatrix, filterTarget = ref.filterTarget;
+    ref = this._filterFilterSource(scale, target, options), filterTargetToElementMatrix = ref.filterTargetToElementMatrix, filterTarget = ref.filterTarget;
     return target.drawBitmap(filterTargetToElementMatrix.mul(elementToTargetMatrix), filterTarget, options);
   };
 
@@ -20174,7 +20220,7 @@ module.exports = createWithPostCreate(FilterElement = (function(superClass) {
   I.E. in the middle of a draw cycle.
    */
 
-  FilterElement.prototype._filterFilterSource = function(scale, bitmapFactory) {
+  FilterElement.prototype._filterFilterSource = function(scale, bitmapFactory, options) {
     var elementSpaceDrawArea, elementToFilterScratchMatrix, filterScratch, filterSource, filterSourceTargetToFilterScratchMatrix;
     filterSource = this.getFilterSourceElement();
     elementSpaceDrawArea = this.getElementSpaceDrawArea();
@@ -20183,7 +20229,7 @@ module.exports = createWithPostCreate(FilterElement = (function(superClass) {
     filterScratch = bitmapFactory.newBitmap(elementSpaceDrawArea.size.add(this.radius * 2).mul(scale)).drawBitmap(filterSourceTargetToFilterScratchMatrix, filterSource._currentDrawTarget);
     return {
       filterTargetToElementMatrix: elementToFilterScratchMatrix.inv,
-      filterTarget: this.filter(filterScratch, scale)
+      filterTarget: this.filter(filterScratch, scale, elementToFilterScratchMatrix, options)
     };
   };
 
@@ -20223,11 +20269,11 @@ module.exports = createWithPostCreate(FilterElement = (function(superClass) {
 
   return FilterElement;
 
-})(CoreElementsBase));
+})(FilterAndFillableBase));
 
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var Atomic, BaseObject, Foundation, GestureRecognizer, Pointer, abs, clone, defineModule, first, inspect, isFunction, isPlainObject, matrix, objectWithout, peek, point, pointerDeadZone, pointerDeadZoneSquared, rect, select,
@@ -20238,7 +20284,7 @@ Foundation = __webpack_require__(0);
 
 Atomic = __webpack_require__(3);
 
-Pointer = __webpack_require__(100);
+Pointer = __webpack_require__(101);
 
 defineModule = Foundation.defineModule, inspect = Foundation.inspect, clone = Foundation.clone, peek = Foundation.peek, first = Foundation.first, BaseObject = Foundation.BaseObject, isPlainObject = Foundation.isPlainObject, clone = Foundation.clone, abs = Foundation.abs, isFunction = Foundation.isFunction, select = Foundation.select, objectWithout = Foundation.objectWithout;
 
@@ -20410,7 +20456,7 @@ defineModule(module, GestureRecognizer = (function(superClass) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var Atomic, BaseObject, Foundation, Pointer, clone, defineModule, first, inspect, matrix, peek, point, rect,
@@ -20507,7 +20553,7 @@ defineModule(module, Pointer = (function(superClass) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Atomic, BaseObject, Foundation, Point, PointLayoutBase, inspect, inspectedObjectLiteral, isFunction, isNumber, isPlainObject, log, nearInfinity, nearInfinityResult, point, point0,
@@ -20706,17 +20752,6 @@ module.exports = PointLayoutBase = (function(superClass) {
   return PointLayoutBase;
 
 })(BaseObject);
-
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(356).addModules({
-  InterpolatedPointLayout: __webpack_require__(354),
-  PointLayout: __webpack_require__(355),
-  PointLayoutBase: __webpack_require__(101)
-});
 
 
 /***/ }),
@@ -21429,7 +21464,7 @@ var BaseObject, CommunicationStatus, ErrorWithInfo, Foundation, Promise, Request
 
 Foundation = __webpack_require__(0);
 
-Request = __webpack_require__(67);
+Request = __webpack_require__(68);
 
 pureMerge = Foundation.pureMerge, Promise = Foundation.Promise, BaseObject = Foundation.BaseObject, object = Foundation.object, isPlainArray = Foundation.isPlainArray, objectKeyCount = Foundation.objectKeyCount, arrayWith = Foundation.arrayWith, inspect = Foundation.inspect, ErrorWithInfo = Foundation.ErrorWithInfo, isPlainObject = Foundation.isPlainObject, log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, Validator = Foundation.Validator, merge = Foundation.merge, isJsonType = Foundation.isJsonType, formattedInspect = Foundation.formattedInspect, w = Foundation.w;
 
@@ -21952,7 +21987,7 @@ Foundation = __webpack_require__(0);
 
 FluxEntry = __webpack_require__(204);
 
-ModelRegistry = __webpack_require__(68);
+ModelRegistry = __webpack_require__(69);
 
 BaseObject = Foundation.BaseObject, merge = Foundation.merge, removeFirstMatch = Foundation.removeFirstMatch, pushIfNotPresent = Foundation.pushIfNotPresent, removeFirstMatch = Foundation.removeFirstMatch, Epoch = Foundation.Epoch, log = Foundation.log, isFunction = Foundation.isFunction, Unique = Foundation.Unique, clone = Foundation.clone, consistentJsonStringify = Foundation.consistentJsonStringify, isString = Foundation.isString, timeout = Foundation.timeout, globalCount = Foundation.globalCount, time = Foundation.time, inspect = Foundation.inspect, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -22391,7 +22426,7 @@ Foundation = __webpack_require__(0);
 
 VirtualNode = __webpack_require__(117);
 
-ReactArtEngineEpoch = __webpack_require__(72);
+ReactArtEngineEpoch = __webpack_require__(73);
 
 defineModule = Foundation.defineModule, log = Foundation.log, merge = Foundation.merge, mergeInto = Foundation.mergeInto, clone = Foundation.clone, shallowClone = Foundation.shallowClone, inspect = Foundation.inspect, compactFlatten = Foundation.compactFlatten, keepIfRubyTrue = Foundation.keepIfRubyTrue, BaseObject = Foundation.BaseObject, fastBind = Foundation.fastBind, slice = Foundation.slice, isObject = Foundation.isObject, isString = Foundation.isString, isArray = Foundation.isArray, isFunction = Foundation.isFunction, globalCount = Foundation.globalCount, time = Foundation.time, stackTime = Foundation.stackTime, countStep = Foundation.countStep, createWithPostCreate = Foundation.createWithPostCreate, arrayWithout = Foundation.arrayWithout, upperCamelCase = Foundation.upperCamelCase, createObjectTreeFactory = Foundation.createObjectTreeFactory, select = Foundation.select, formattedInspect = Foundation.formattedInspect, getModuleBeingDefined = Foundation.getModuleBeingDefined, InstanceFunctionBindingMixin = Foundation.InstanceFunctionBindingMixin;
 
@@ -23301,7 +23336,7 @@ defineModule(module, function() {
 
 Foundation = __webpack_require__(0);
 
-ReactArtEngineEpoch = __webpack_require__(72);
+ReactArtEngineEpoch = __webpack_require__(73);
 
 log = Foundation.log, compact = Foundation.compact, globalCount = Foundation.globalCount, flatten = Foundation.flatten, BaseObject = Foundation.BaseObject, shallowClone = Foundation.shallowClone, inspect = Foundation.inspect, objectKeyCount = Foundation.objectKeyCount, isObject = Foundation.isObject, deepEach = Foundation.deepEach, isPlainObject = Foundation.isPlainObject, keepIfRubyTrue = Foundation.keepIfRubyTrue, propsEq = Foundation.propsEq, defineModule = Foundation.defineModule;
 
@@ -23482,7 +23517,7 @@ defineModule(module, VirtualNode = (function(superClass) {
 module.exports = __webpack_require__(227).includeInNamespace(__webpack_require__(429)).addModules({
   Component: __webpack_require__(116),
   HotStyleProps: __webpack_require__(430),
-  ReactArtEngineEpoch: __webpack_require__(72),
+  ReactArtEngineEpoch: __webpack_require__(73),
   VirtualElement: __webpack_require__(431),
   VirtualNode: __webpack_require__(117)
 });
@@ -23518,7 +23553,7 @@ var CallStack, inspect, isString, parseUrl;
 
 isString = __webpack_require__(11).isString;
 
-parseUrl = __webpack_require__(80).parseUrl;
+parseUrl = __webpack_require__(81).parseUrl;
 
 inspect = __webpack_require__(48).inspect;
 
@@ -23678,9 +23713,9 @@ module.exports = CallStack = (function() {
 var Eq, floatTrue0, isNumber, isString, min, objectKeyCount, ref, remove,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-remove = __webpack_require__(73).remove;
+remove = __webpack_require__(74).remove;
 
-objectKeyCount = __webpack_require__(79).objectKeyCount;
+objectKeyCount = __webpack_require__(80).objectKeyCount;
 
 floatTrue0 = __webpack_require__(34).floatTrue0;
 
@@ -23987,7 +24022,7 @@ ref = __webpack_require__(11), isDate = ref.isDate, deepMap = ref.deepMap, isNon
 
 escapeJavascriptString = __webpack_require__(24).escapeJavascriptString;
 
-inspectedObjectLiteral = __webpack_require__(77).inspectedObjectLiteral;
+inspectedObjectLiteral = __webpack_require__(78).inspectedObjectLiteral;
 
 dateFormat = __webpack_require__(254);
 
@@ -24065,7 +24100,7 @@ module.exports = InspectedObjects = (function() {
 /* WEBPACK VAR INJECTION */(function(global) {var Inspector, Map, escapeJavascriptString, isArray, isBrowserObject, isClass, isFunction, isObject, isPlainArray, isPlainObject, isString, objectName, ref,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-Map = __webpack_require__(78);
+Map = __webpack_require__(79);
 
 escapeJavascriptString = __webpack_require__(24).escapeJavascriptString;
 
@@ -25205,14 +25240,14 @@ var Stream;
   try {
     Stream = __webpack_require__(37);
   } catch (_) {} finally {
-    if (!Stream) Stream = __webpack_require__(83).EventEmitter;
+    if (!Stream) Stream = __webpack_require__(84).EventEmitter;
   }
 })();
 /*</replacement>*/
 
 var Buffer = __webpack_require__(2).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(89);
+var bufferShim = __webpack_require__(90);
 /*</replacement>*/
 
 util.inherits(Writable, Stream);
@@ -26028,7 +26063,11 @@ Caf.defMod(module, () => {
           { size: this.landscape ? { hh: 1, wh: 1 } : { ps: 1 } },
           BitmapElement({
             key: `${Caf.toString(this.status)}`,
-            layout: "fit",
+            location: { ps: 0.5 },
+            axis: 0.5,
+            size: (ps, cs) => {
+              return ps.gt(cs) ? cs : cs.mul(ps.div(cs).min());
+            },
             animators: { opacity: { from: 0, to: 0.99 } },
             source: (() => {
               switch (this.status) {
@@ -26142,7 +26181,11 @@ Caf.defMod(module, () => {
         );
       };
       this.prototype.render = function() {
-        return this.landscape ? this.renderLandscape() : this.renderPortrait();
+        return Element(
+          this.viewState.deviceSize
+            ? this.landscape ? this.renderLandscape() : this.renderPortrait()
+            : undefined
+        );
       };
     }
   );
@@ -26161,7 +26204,7 @@ Caf.defMod(module, () => {
   let ArtSuite = __webpack_require__(15),
     dataNodes,
     Data = __webpack_require__(25),
-    CategoryButton = __webpack_require__(86),
+    CategoryButton = __webpack_require__(87),
     ShowMenu,
     FluxComponent,
     Element;
@@ -26211,7 +26254,7 @@ Caf.defMod(module, () => {
   let ArtSuite = __webpack_require__(15),
     dataNodes,
     Data = __webpack_require__(25),
-    CategoryButton = __webpack_require__(86),
+    CategoryButton = __webpack_require__(87),
     ShowPath,
     FluxComponent,
     Element,
@@ -28479,7 +28522,7 @@ AtomicBase = __webpack_require__(29);
 
 Point = __webpack_require__(40);
 
-Rectangle = __webpack_require__(90);
+Rectangle = __webpack_require__(91);
 
 point = Point.point;
 
@@ -29165,7 +29208,7 @@ Foundation = __webpack_require__(0);
 
 GradientFillStyle = __webpack_require__(166);
 
-BitmapBase = __webpack_require__(91);
+BitmapBase = __webpack_require__(92);
 
 Paths = __webpack_require__(168);
 
@@ -30193,7 +30236,7 @@ ref1 = __webpack_require__(4), defineModule = ref1.defineModule, inspect = ref1.
 
 BaseClass = __webpack_require__(7).BaseClass;
 
-__webpack_require__(91);
+__webpack_require__(92);
 
 defineModule(module, function() {
   var BlurStack;
@@ -31009,7 +31052,7 @@ Atomic = __webpack_require__(3);
 
 Foundation = __webpack_require__(0);
 
-elementFactory = __webpack_require__(95).elementFactory;
+elementFactory = __webpack_require__(96).elementFactory;
 
 EventedEpochedObject = __webpack_require__(181);
 
@@ -31449,7 +31492,7 @@ Foundation = __webpack_require__(0);
 
 Atomic = __webpack_require__(3);
 
-CoreLayout = __webpack_require__(96);
+CoreLayout = __webpack_require__(97);
 
 Basics = __webpack_require__(63);
 
@@ -31685,7 +31728,7 @@ Atomic = __webpack_require__(3);
 
 ArtEngineCore = __webpack_require__(64);
 
-CoreLayout = __webpack_require__(96);
+CoreLayout = __webpack_require__(97);
 
 FlexLayout = __webpack_require__(177);
 
@@ -32176,7 +32219,7 @@ StateEpoch = __webpack_require__(42);
 
 GlobalEpochCycle = __webpack_require__(41);
 
-ref = __webpack_require__(94), PersistantAnimator = ref.PersistantAnimator, EasingPersistantAnimator = ref.EasingPersistantAnimator, PeriodicPersistantAnimator = ref.PeriodicPersistantAnimator;
+ref = __webpack_require__(95), PersistantAnimator = ref.PersistantAnimator, EasingPersistantAnimator = ref.EasingPersistantAnimator, PeriodicPersistantAnimator = ref.PeriodicPersistantAnimator;
 
 log = Foundation.log, merge = Foundation.merge, mergeInto = Foundation.mergeInto, BaseObject = Foundation.BaseObject, capitalize = Foundation.capitalize, compactFlatten = Foundation.compactFlatten, isNumber = Foundation.isNumber, isFunction = Foundation.isFunction, shallowEq = Foundation.shallowEq, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, isString = Foundation.isString, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, isPlainArray = Foundation.isPlainArray, nextTick = Foundation.nextTick;
 
@@ -33162,7 +33205,7 @@ module.exports = IdleEpoch = (function(superClass) {
 
 module.exports = __webpack_require__(332).addModules({
   BlurElement: __webpack_require__(330),
-  FilterElement: __webpack_require__(98),
+  FilterElement: __webpack_require__(99),
   ShadowElement: __webpack_require__(331)
 });
 
@@ -33399,9 +33442,9 @@ defineModule(module, PointerEvent = (function(superClass) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(346).addModules({
-  GestureRecognizer: __webpack_require__(99),
+  GestureRecognizer: __webpack_require__(100),
   KeyEvent: __webpack_require__(187),
-  Pointer: __webpack_require__(100),
+  Pointer: __webpack_require__(101),
   PointerEvent: __webpack_require__(188),
   PointerEventManager: __webpack_require__(345)
 });
@@ -34480,7 +34523,7 @@ Foundation = __webpack_require__(0);
 
 Response = __webpack_require__(108);
 
-Request = __webpack_require__(67);
+Request = __webpack_require__(68);
 
 Filter = __webpack_require__(16);
 
@@ -34488,7 +34531,7 @@ Session = __webpack_require__(109);
 
 config = __webpack_require__(31).config;
 
-Filters = __webpack_require__(66);
+Filters = __webpack_require__(67);
 
 PipelineQuery = __webpack_require__(201);
 
@@ -35734,7 +35777,7 @@ defineModule(module, FluxEntry = (function(superClass) {
 
 Foundation = __webpack_require__(0);
 
-FluxCore = __webpack_require__(69);
+FluxCore = __webpack_require__(70);
 
 clone = Foundation.clone, BaseObject = Foundation.BaseObject, log = Foundation.log, isString = Foundation.isString, isPlainObject = Foundation.isPlainObject, merge = Foundation.merge, propsEq = Foundation.propsEq, mergeInto = Foundation.mergeInto, Unique = Foundation.Unique, defineModule = Foundation.defineModule, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -37453,7 +37496,7 @@ module.exports = DomElementFactories = (function() {
 
 ref = __webpack_require__(4), defineModule = ref.defineModule, Promise = ref.Promise, log = ref.log, objectKeyCount = ref.objectKeyCount;
 
-isWebWorker = __webpack_require__(71).isWebWorker;
+isWebWorker = __webpack_require__(72).isWebWorker;
 
 workerRpc = __webpack_require__(223).workerRpc;
 
@@ -38124,7 +38167,7 @@ StandardLib = __webpack_require__(4);
 
 ClassSystem = __webpack_require__(7);
 
-WebWorker = __webpack_require__(71);
+WebWorker = __webpack_require__(72);
 
 Promise = StandardLib.Promise, log = StandardLib.log, isPlainArray = StandardLib.isPlainArray, isFunction = StandardLib.isFunction, isString = StandardLib.isString, mergeInto = StandardLib.mergeInto;
 
@@ -38551,7 +38594,7 @@ module.exports = __webpack_require__(416).includeInNamespace(__webpack_require__
   Stat: __webpack_require__(412),
   Transaction: __webpack_require__(414),
   Validator: __webpack_require__(415),
-  WebWorker: __webpack_require__(71),
+  WebWorker: __webpack_require__(72),
   WorkerRpc: __webpack_require__(223)
 });
 
@@ -38622,7 +38665,7 @@ module.exports = (ref = typeof Neptune !== "undefined" && Neptune !== null ? (re
 
 var AsyncExtensions, Promise;
 
-Promise = __webpack_require__(81);
+Promise = __webpack_require__(82);
 
 module.exports = AsyncExtensions = (function() {
   var timeout;
@@ -38690,7 +38733,7 @@ populateClone would need to take an additional argument - the clone function to 
  */
 var Clone, Map, Unique, byProperties, byStructure, clonedMap, inspect, topObject, uniquePropertyName;
 
-Map = __webpack_require__(78);
+Map = __webpack_require__(79);
 
 Unique = __webpack_require__(126);
 
@@ -38795,9 +38838,9 @@ module.exports = Clone = (function() {
 
 var Merge, compactFlatten, isPlainObject;
 
-compactFlatten = __webpack_require__(75).compactFlatten;
+compactFlatten = __webpack_require__(76).compactFlatten;
 
-isPlainObject = __webpack_require__(76).isPlainObject;
+isPlainObject = __webpack_require__(77).isPlainObject;
 
 module.exports = Merge = (function() {
   var deepMerge, merge, mergeInto, pureMerge;
@@ -38963,7 +39006,7 @@ module.exports = Merge = (function() {
 
 var StringCase, compactFlatten;
 
-compactFlatten = __webpack_require__(75).compactFlatten;
+compactFlatten = __webpack_require__(76).compactFlatten;
 
 module.exports = StringCase = (function() {
   function StringCase() {}
@@ -39044,7 +39087,7 @@ module.exports = StringCase = (function() {
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-defineModule = __webpack_require__(74).defineModule;
+defineModule = __webpack_require__(75).defineModule;
 
 formattedInspect = __webpack_require__(48).formattedInspect;
 
@@ -39167,7 +39210,7 @@ ref1 = __webpack_require__(24), pad = ref1.pad, stripTrailingWhitespace = ref1.s
 
 inspect = __webpack_require__(123).inspect;
 
-objectKeyCount = __webpack_require__(79).objectKeyCount;
+objectKeyCount = __webpack_require__(80).objectKeyCount;
 
 toInspectedObjects = __webpack_require__(122).toInspectedObjects;
 
@@ -39538,7 +39581,7 @@ var PlainObjects, deepMap, hasKeys, inspectedObjectLiteral, isClass, isFunction,
 
 ref = __webpack_require__(11), deepMap = ref.deepMap, hasKeys = ref.hasKeys, isPlainArray = ref.isPlainArray, isPlainObject = ref.isPlainObject, isFunction = ref.isFunction, isClass = ref.isClass;
 
-inspectedObjectLiteral = __webpack_require__(77).inspectedObjectLiteral;
+inspectedObjectLiteral = __webpack_require__(78).inspectedObjectLiteral;
 
 module.exports = PlainObjects = (function() {
   var toPlainObjects;
@@ -39586,7 +39629,7 @@ callStack = __webpack_require__(120).callStack;
 
 isString = __webpack_require__(11).isString;
 
-peek = __webpack_require__(73).peek;
+peek = __webpack_require__(74).peek;
 
 module.exports = Log = (function() {
   var getLogger, noOptions;
@@ -39938,7 +39981,7 @@ module.exports = ObjectDiff = (function() {
 
 var Promise, PromisedFileReader;
 
-Promise = __webpack_require__(81);
+Promise = __webpack_require__(82);
 
 module.exports = PromisedFileReader = (function() {
   function PromisedFileReader() {}
@@ -41342,7 +41385,7 @@ module.exports = ArrayCompactFlatten = (function() {
 
 module.exports = __webpack_require__(472).addModules({
   App: __webpack_require__(271),
-  CategoryButton: __webpack_require__(86),
+  CategoryButton: __webpack_require__(87),
   SetStatusWidget: __webpack_require__(138),
   ShowMenu: __webpack_require__(139),
   ShowPath: __webpack_require__(140),
@@ -41911,7 +41954,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "2.0.4"
+	"version": "2.0.5"
 };
 
 /***/ }),
@@ -42215,7 +42258,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(83).EventEmitter;
+var EE = __webpack_require__(84).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -42228,14 +42271,14 @@ var Stream;
   try {
     Stream = __webpack_require__(37);
   } catch (_) {} finally {
-    if (!Stream) Stream = __webpack_require__(83).EventEmitter;
+    if (!Stream) Stream = __webpack_require__(84).EventEmitter;
   }
 })();
 /*</replacement>*/
 
 var Buffer = __webpack_require__(2).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(89);
+var bufferShim = __webpack_require__(90);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -43953,7 +43996,7 @@ Caf.defMod(module, () => {
   return NavState = Caf.defClass(
     class NavState extends ApplicationState {},
     function(NavState, classSuper, instanceSuper) {
-      this.stateFields({ selectedKey: null, keyPath: [] });
+      this.stateFields({ selectedKey: "about", keyPath: ["about"] });
       this.prototype.selectKey = function(key) {
         let depth, node, keyPath;
         ({ depth } = node = Data.dataNodes[key]);
@@ -45231,7 +45274,7 @@ var inherits = __webpack_require__(6)
 var modes = __webpack_require__(55)
 var StreamCipher = __webpack_require__(158)
 var AuthCipher = __webpack_require__(151)
-var ebtk = __webpack_require__(84)
+var ebtk = __webpack_require__(85)
 
 inherits(Decipher, Transform)
 function Decipher (mode, key, iv) {
@@ -45373,7 +45416,7 @@ exports.createDecipheriv = createDecipheriv
 var Transform = __webpack_require__(28)
 var inherits = __webpack_require__(6)
 var modes = __webpack_require__(55)
-var ebtk = __webpack_require__(84)
+var ebtk = __webpack_require__(85)
 var StreamCipher = __webpack_require__(158)
 var AuthCipher = __webpack_require__(151)
 inherits(Cipher, Transform)
@@ -45603,8 +45646,8 @@ function xor (a, b) {
 /* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ebtk = __webpack_require__(84)
-var aes = __webpack_require__(87)
+var ebtk = __webpack_require__(85)
+var aes = __webpack_require__(88)
 var DES = __webpack_require__(293)
 var desModes = __webpack_require__(294)
 var aesModes = __webpack_require__(55)
@@ -45874,10 +45917,10 @@ module.exports = {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var createHmac = __webpack_require__(132)
-var crt = __webpack_require__(88)
+var crt = __webpack_require__(89)
 var curves = __webpack_require__(160)
 var elliptic = __webpack_require__(13)
-var parseKeys = __webpack_require__(85)
+var parseKeys = __webpack_require__(86)
 
 var BN = __webpack_require__(8)
 var EC = elliptic.ec
@@ -46067,7 +46110,7 @@ module.exports.makeKey = makeKey
 /* WEBPACK VAR INJECTION */(function(Buffer) {// much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var curves = __webpack_require__(160)
 var elliptic = __webpack_require__(13)
-var parseKeys = __webpack_require__(85)
+var parseKeys = __webpack_require__(86)
 
 var BN = __webpack_require__(8)
 var EC = elliptic.ec
@@ -46180,7 +46223,7 @@ Color = __webpack_require__(161);
 
 Point = __webpack_require__(40);
 
-Rectangle = __webpack_require__(90);
+Rectangle = __webpack_require__(91);
 
 Matrix = __webpack_require__(162);
 
@@ -46204,7 +46247,7 @@ module.exports = __webpack_require__(163).includeInNamespace(__webpack_require__
   Matrix: __webpack_require__(162),
   Perimeter: __webpack_require__(164),
   Point: __webpack_require__(40),
-  Rectangle: __webpack_require__(90)
+  Rectangle: __webpack_require__(91)
 });
 
 
@@ -46513,7 +46556,7 @@ module.exports = GoogleFontLoader = (function(superClass) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(167).includeInNamespace(__webpack_require__(302)).addModules({
-  BitmapBase: __webpack_require__(91),
+  BitmapBase: __webpack_require__(92),
   Bitmap: __webpack_require__(165),
   FontLoader: __webpack_require__(301),
   GoogleFontLoader: __webpack_require__(303),
@@ -47073,7 +47116,7 @@ Events = __webpack_require__(14);
 
 EasingFunctions = __webpack_require__(60);
 
-PersistantAnimator = __webpack_require__(93);
+PersistantAnimator = __webpack_require__(94);
 
 log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, isNumber = Foundation.isNumber, min = Foundation.min, max = Foundation.max;
 
@@ -47144,7 +47187,7 @@ Events = __webpack_require__(14);
 
 EasingFunctions = __webpack_require__(60);
 
-PersistantAnimator = __webpack_require__(93);
+PersistantAnimator = __webpack_require__(94);
 
 log = Foundation.log, BaseObject = Foundation.BaseObject, isFunction = Foundation.isFunction, isString = Foundation.isString, isNumber = Foundation.isNumber, min = Foundation.min, max = Foundation.max;
 
@@ -47961,7 +48004,7 @@ module.exports = createWithPostCreate(CanvasElement = (function(superClass) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-  newElement: (__webpack_require__(95)).newElement
+  newElement: (__webpack_require__(96)).newElement
 };
 
 
@@ -47969,7 +48012,7 @@ module.exports = {
 /* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(96).addModules({
+module.exports = __webpack_require__(97).addModules({
   Basics: __webpack_require__(63),
   FlexLayout: __webpack_require__(177),
   Infinity: __webpack_require__(178),
@@ -48359,7 +48402,7 @@ Foundation = __webpack_require__(0);
 
 Atomic = __webpack_require__(3);
 
-FilterElement = __webpack_require__(98);
+FilterElement = __webpack_require__(99);
 
 defineModule = Foundation.defineModule;
 
@@ -48388,19 +48431,15 @@ defineModule(module, BlurElement = (function(superClass) {
 /* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Atomic, FilterElement, Foundation, ShadowElement, createWithPostCreate, log,
+/* WEBPACK VAR INJECTION */(function(module) {var FilterElement, ShadowElement, defineModule, log, merge, ref,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Foundation = __webpack_require__(0);
+ref = __webpack_require__(4), defineModule = ref.defineModule, log = ref.log, merge = ref.merge;
 
-Atomic = __webpack_require__(3);
+FilterElement = __webpack_require__(99);
 
-FilterElement = __webpack_require__(98);
-
-createWithPostCreate = Foundation.createWithPostCreate, log = Foundation.log;
-
-module.exports = createWithPostCreate(ShadowElement = (function(superClass) {
+defineModule(module, ShadowElement = (function(superClass) {
   extend(ShadowElement, superClass);
 
   function ShadowElement() {
@@ -48415,14 +48454,21 @@ module.exports = createWithPostCreate(ShadowElement = (function(superClass) {
     }
   });
 
-  ShadowElement.prototype.filter = function(elementSpaceTarget, scale) {
+  ShadowElement.prototype.filter = function(elementSpaceTarget, scale, elementToFilterScratchMatrix, options) {
     elementSpaceTarget.blurAlpha(this._radius * scale, {
       inverted: this.inverted
     });
-    return elementSpaceTarget.drawRectangle(null, elementSpaceTarget.size, {
-      color: this._color,
-      compositeMode: "targetAlphaMask"
+    options = merge(options, {
+      compositeMode: "targetAlphaMask",
+      opacity: 1
     });
+    if (options.from) {
+      options.from = elementToFilterScratchMatrix.transform(options.from);
+    }
+    if (options.to) {
+      options.to = elementToFilterScratchMatrix.transform(options.to);
+    }
+    return elementSpaceTarget.drawRectangle(null, elementSpaceTarget.size, options);
   };
 
 
@@ -48442,6 +48488,7 @@ module.exports = createWithPostCreate(ShadowElement = (function(superClass) {
 
 })(FilterElement));
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
 
 /***/ }),
 /* 332 */
@@ -48497,6 +48544,10 @@ module.exports = createWithPostCreate(FillElement = (function(superClass) {
   FillElement.virtualProperty({
     preFilteredBaseDrawArea: function(pending) {
       return this.getParent(pending).getPreFilteredBaseDrawArea(pending);
+    },
+    baseDrawArea: function(pending) {
+      var ref;
+      return this._expandRectangleByShadow(this.getPreFilteredBaseDrawArea(pending), pending, this.getNormalizedShadow(pending) || ((ref = this.getParent(pending)) != null ? ref.getNormalizedShadow(pending) : void 0));
     }
   });
 
@@ -48941,7 +48992,7 @@ defineModule(module, BitmapElement = (function(superClass) {
 /* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Atomic, FillableBase, Foundation, Paths, RectangleElement, Text, base, createWithPostCreate, curriedRoundedRectangle, floatEq, isNumber, isPlainObject, pureMerge,
+var Atomic, FillableBase, FilterAndFillableBase, Foundation, Paths, RectangleElement, Text, createWithPostCreate, curriedRoundedRectangle, floatEq, isNumber, isPlainObject, pureMerge,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -48955,7 +49006,7 @@ FillableBase = __webpack_require__(21);
 
 Paths = __webpack_require__(12).Paths;
 
-pureMerge = Foundation.pureMerge, floatEq = Foundation.floatEq, base = Foundation.base, createWithPostCreate = Foundation.createWithPostCreate, isPlainObject = Foundation.isPlainObject, isNumber = Foundation.isNumber;
+pureMerge = Foundation.pureMerge, floatEq = Foundation.floatEq, FilterAndFillableBase = Foundation.FilterAndFillableBase, createWithPostCreate = Foundation.createWithPostCreate, isPlainObject = Foundation.isPlainObject, isNumber = Foundation.isNumber;
 
 curriedRoundedRectangle = Paths.curriedRoundedRectangle;
 
@@ -49337,7 +49388,7 @@ EventEpoch = __webpack_require__(14).EventEpoch;
 
 Element = __webpack_require__(30);
 
-GestureRecognizer = __webpack_require__(99);
+GestureRecognizer = __webpack_require__(100);
 
 log = Foundation.log, inspect = Foundation.inspect, currentSecond = Foundation.currentSecond, bound = Foundation.bound, round = Foundation.round, first = Foundation.first, last = Foundation.last, peek = Foundation.peek, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, BaseObject = Foundation.BaseObject, timeout = Foundation.timeout, ceil = Foundation.ceil, round = Foundation.round, isPlainArray = Foundation.isPlainArray, absLt = Foundation.absLt, absLte = Foundation.absLte, absGt = Foundation.absGt, absGte = Foundation.absGte, minMagnitude = Foundation.minMagnitude, maxMagnitude = Foundation.maxMagnitude, maxChange = Foundation.maxChange, absLt = Foundation.absLt, requestAnimationFrame = Foundation.requestAnimationFrame;
 
@@ -50492,7 +50543,7 @@ EventEpoch = __webpack_require__(14).EventEpoch;
 
 Element = __webpack_require__(30);
 
-GestureRecognizer = __webpack_require__(99);
+GestureRecognizer = __webpack_require__(100);
 
 log = Foundation.log, inspect = Foundation.inspect, currentSecond = Foundation.currentSecond, bound = Foundation.bound, round = Foundation.round, first = Foundation.first, last = Foundation.last, peek = Foundation.peek, min = Foundation.min, max = Foundation.max, abs = Foundation.abs, merge = Foundation.merge, createWithPostCreate = Foundation.createWithPostCreate, BaseObject = Foundation.BaseObject, timeout = Foundation.timeout, ceil = Foundation.ceil, round = Foundation.round, isPlainArray = Foundation.isPlainArray, BaseModule = Foundation.BaseModule, absLt = Foundation.absLt, absLte = Foundation.absLte, absGt = Foundation.absGt, absGte = Foundation.absGte, minMagnitude = Foundation.minMagnitude, maxMagnitude = Foundation.maxMagnitude, maxChange = Foundation.maxChange, absLt = Foundation.absLt, requestAnimationFrame = Foundation.requestAnimationFrame, formattedInspect = Foundation.formattedInspect, neq = Foundation.neq;
 
@@ -51700,7 +51751,7 @@ module.exports = Elements.Widgets || Elements.addNamespace('Widgets', Widgets = 
 var _package;
 
 module.exports = [
-  __webpack_require__(43), __webpack_require__(65), __webpack_require__(94), __webpack_require__(191), {
+  __webpack_require__(43), __webpack_require__(65), __webpack_require__(95), __webpack_require__(191), {
     "package": _package = __webpack_require__(512),
     version: _package.version
   }
@@ -51828,7 +51879,7 @@ Foundation = __webpack_require__(0);
 
 Events = __webpack_require__(14);
 
-Pointer = __webpack_require__(100);
+Pointer = __webpack_require__(101);
 
 PointerEvent = __webpack_require__(188);
 
@@ -53589,7 +53640,7 @@ var Foundation, InterpolatedPointLayout, PointLayoutBase, log,
 
 Foundation = __webpack_require__(0);
 
-PointLayoutBase = __webpack_require__(101);
+PointLayoutBase = __webpack_require__(102);
 
 log = Foundation.log;
 
@@ -53666,7 +53717,7 @@ Atomic = __webpack_require__(3);
 
 Foundation = __webpack_require__(0);
 
-PointLayoutBase = __webpack_require__(101);
+PointLayoutBase = __webpack_require__(102);
 
 point = Atomic.point, Point = Atomic.Point;
 
@@ -54114,7 +54165,7 @@ module.exports = __webpack_require__(17).includeInNamespace(__webpack_require__(
   FullScreenApp: __webpack_require__(353)
 });
 
-__webpack_require__(94);
+__webpack_require__(95);
 
 __webpack_require__(43);
 
@@ -54128,7 +54179,7 @@ __webpack_require__(349);
 
 __webpack_require__(191);
 
-__webpack_require__(102);
+__webpack_require__(66);
 
 
 /***/ }),
@@ -54443,7 +54494,7 @@ var Filters, PipelineRegistry, Promise, _package, log, ref;
 
 PipelineRegistry = __webpack_require__(106);
 
-Filters = __webpack_require__(66);
+Filters = __webpack_require__(67);
 
 ref = __webpack_require__(4), log = ref.log, Promise = ref.Promise;
 
@@ -54574,7 +54625,7 @@ Pipeline = __webpack_require__(200);
 
 KeyFieldsMixin = __webpack_require__(199);
 
-AfterEventsFilter = __webpack_require__(66).AfterEventsFilter;
+AfterEventsFilter = __webpack_require__(67).AfterEventsFilter;
 
 defineModule(module, function() {
   return function(superClass) {
@@ -54797,14 +54848,14 @@ module.exports = __webpack_require__(32).includeInNamespace(__webpack_require__(
   Pipeline: __webpack_require__(200),
   PipelineQuery: __webpack_require__(201),
   PipelineRegistry: __webpack_require__(106),
-  Request: __webpack_require__(67),
+  Request: __webpack_require__(68),
   RequestResponseBase: __webpack_require__(107),
   Response: __webpack_require__(108),
   Session: __webpack_require__(109),
   UpdateAfterMixin: __webpack_require__(367)
 });
 
-__webpack_require__(66);
+__webpack_require__(67);
 
 
 /***/ }),
@@ -55086,7 +55137,7 @@ ref = Foundation.CommunicationStatus, missing = ref.missing, success = ref.succe
 
 fluxStore = __webpack_require__(111).fluxStore;
 
-ModelRegistry = __webpack_require__(68);
+ModelRegistry = __webpack_require__(69);
 
 log = Foundation.log, BaseObject = Foundation.BaseObject, decapitalize = Foundation.decapitalize, pluralize = Foundation.pluralize, pureMerge = Foundation.pureMerge, shallowClone = Foundation.shallowClone, isString = Foundation.isString, emailRegexp = Foundation.emailRegexp, urlRegexp = Foundation.urlRegexp, isNumber = Foundation.isNumber, nextTick = Foundation.nextTick, capitalize = Foundation.capitalize, inspect = Foundation.inspect, isFunction = Foundation.isFunction, pureMerge = Foundation.pureMerge, isoDateRegexp = Foundation.isoDateRegexp, time = Foundation.time, globalCount = Foundation.globalCount, compactFlatten = Foundation.compactFlatten, InstanceFunctionBindingMixin = Foundation.InstanceFunctionBindingMixin, Promise = Foundation.Promise, formattedInspect = Foundation.formattedInspect, isPlainObject = Foundation.isPlainObject, defineModule = Foundation.defineModule;
 
@@ -55414,7 +55465,7 @@ success = CommunicationStatus.success;
 
 fluxStore = __webpack_require__(111).fluxStore;
 
-ModelRegistry = __webpack_require__(68);
+ModelRegistry = __webpack_require__(69);
 
 defineModule(module, function() {
   return function(superClass) {
@@ -55593,7 +55644,7 @@ var Core, Flux,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Flux = __webpack_require__(70);
+Flux = __webpack_require__(71);
 
 module.exports = Flux.Core || Flux.addNamespace('Core', Core = (function(superClass) {
   extend(Core, superClass);
@@ -55615,7 +55666,7 @@ module.exports = Flux.Core || Flux.addNamespace('Core', Core = (function(superCl
 
 defineModule = __webpack_require__(0).defineModule;
 
-FluxCore = __webpack_require__(69);
+FluxCore = __webpack_require__(70);
 
 FluxComponent = __webpack_require__(206).FluxComponent;
 
@@ -55662,7 +55713,7 @@ var Flux, Models,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Flux = __webpack_require__(70);
+Flux = __webpack_require__(71);
 
 module.exports = Flux.Models || Flux.addNamespace('Models', Models = (function(superClass) {
   extend(Models, superClass);
@@ -55686,7 +55737,7 @@ module.exports = Flux.Models || Flux.addNamespace('Models', Models = (function(s
 
 Foundation = __webpack_require__(0);
 
-FluxCore = __webpack_require__(69);
+FluxCore = __webpack_require__(70);
 
 ref = Neptune.Art.React, Component = ref.Component, createComponentFactory = ref.createComponentFactory;
 
@@ -55965,7 +56016,7 @@ var Flux, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Flux = __webpack_require__(70);
+Flux = __webpack_require__(71);
 
 module.exports = Flux.React || Flux.addNamespace('React', React = (function(superClass) {
   extend(React, superClass);
@@ -55983,9 +56034,9 @@ module.exports = Flux.React || Flux.addNamespace('React', React = (function(supe
 /* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(70).includeInNamespace(__webpack_require__(380));
+module.exports = __webpack_require__(71).includeInNamespace(__webpack_require__(380));
 
-__webpack_require__(69);
+__webpack_require__(70);
 
 __webpack_require__(381);
 
@@ -57579,8 +57630,8 @@ module.exports = Stat = (function(superClass) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = [
-  [__webpack_require__(221), "executePromiseSequence"], __webpack_require__(71), __webpack_require__(220), {
-    CommunicationStatus: __webpack_require__(92),
+  [__webpack_require__(221), "executePromiseSequence"], __webpack_require__(72), __webpack_require__(220), {
+    CommunicationStatus: __webpack_require__(93),
     RestClient: __webpack_require__(228)
   }, __webpack_require__(115)
 ];
@@ -57881,7 +57932,7 @@ StandardLib = __webpack_require__(4);
 
 merge = StandardLib.merge, log = StandardLib.log, BaseObject = StandardLib.BaseObject, shallowClone = StandardLib.shallowClone, isNumber = StandardLib.isNumber, isString = StandardLib.isString, isPlainObject = StandardLib.isPlainObject, isPlainArray = StandardLib.isPlainArray, Promise = StandardLib.Promise, isBoolean = StandardLib.isBoolean, formattedInspect = StandardLib.formattedInspect, present = StandardLib.present, select = StandardLib.select, emailRegexp = StandardLib.emailRegexp, mergeIntoUnless = StandardLib.mergeIntoUnless, w = StandardLib.w, isFunction = StandardLib.isFunction, clone = StandardLib.clone, ErrorWithInfo = StandardLib.ErrorWithInfo, array = StandardLib.array, object = StandardLib.object, isDate = StandardLib.isDate;
 
-validStatus = __webpack_require__(92).validStatus;
+validStatus = __webpack_require__(93).validStatus;
 
 
 /*
@@ -59203,7 +59254,7 @@ var Component, _package, arrayWith, isPlainArray, isString, log, reactArtEngineE
 
 Component = __webpack_require__(116);
 
-reactArtEngineEpoch = __webpack_require__(72).reactArtEngineEpoch;
+reactArtEngineEpoch = __webpack_require__(73).reactArtEngineEpoch;
 
 ref = __webpack_require__(0), isPlainArray = ref.isPlainArray, isString = ref.isString, arrayWith = ref.arrayWith, log = ref.log;
 
@@ -59598,7 +59649,7 @@ StandardLib = __webpack_require__(4);
 
 objectWithout = StandardLib.objectWithout, formattedInspect = StandardLib.formattedInspect, present = StandardLib.present, Promise = StandardLib.Promise, merge = StandardLib.merge, isNumber = StandardLib.isNumber, timeout = StandardLib.timeout, log = StandardLib.log, objectKeyCount = StandardLib.objectKeyCount, appendQuery = StandardLib.appendQuery, object = StandardLib.object, ErrorWithInfo = StandardLib.ErrorWithInfo;
 
-ref = __webpack_require__(92), success = ref.success, serverFailure = ref.serverFailure, failure = ref.failure, failureTypes = ref.failureTypes, decodeHttpStatus = ref.decodeHttpStatus;
+ref = __webpack_require__(93), success = ref.success, serverFailure = ref.serverFailure, failure = ref.failure, failureTypes = ref.failureTypes, decodeHttpStatus = ref.decodeHttpStatus;
 
 __webpack_require__(435);
 
@@ -60008,14 +60059,14 @@ module.exports = (ref = typeof Neptune !== "undefined" && Neptune !== null ? (re
 /* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(76);
+module.exports = __webpack_require__(77);
 
 
 /***/ }),
 /* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = [__webpack_require__(75), __webpack_require__(232), __webpack_require__(231), __webpack_require__(76)];
+module.exports = [__webpack_require__(76), __webpack_require__(232), __webpack_require__(231), __webpack_require__(77)];
 
 
 /***/ }),
@@ -60049,7 +60100,7 @@ module.exports = StandardLib.Core || StandardLib.addNamespace('Core', Core = (fu
 TODO: refactor so nothing in inspect/* uses BaseObject
 Then, move into StandardLib.
  */
-module.exports = [[__webpack_require__(123), "shallowInspect inspectLean inspect"], __webpack_require__(235), __webpack_require__(122), __webpack_require__(237), __webpack_require__(77)];
+module.exports = [[__webpack_require__(123), "shallowInspect inspectLean inspect"], __webpack_require__(235), __webpack_require__(122), __webpack_require__(237), __webpack_require__(78)];
 
 
 /***/ }),
@@ -60266,7 +60317,7 @@ var Inspected, Inspector2, Map, MinimalBaseObject, escapeJavascriptString, isArr
 
 MinimalBaseObject = __webpack_require__(23);
 
-Map = __webpack_require__(78);
+Map = __webpack_require__(79);
 
 Inspected = __webpack_require__(236);
 
@@ -60483,7 +60534,7 @@ module.exports = Inspector2 = (function(superClass) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = [
-  __webpack_require__(18), [__webpack_require__(81), "testPromise", "containsPromises", "deepAll"], __webpack_require__(73), __webpack_require__(229), __webpack_require__(79), __webpack_require__(24), __webpack_require__(121), __webpack_require__(234), __webpack_require__(240), __webpack_require__(239), __webpack_require__(34), __webpack_require__(80), __webpack_require__(241), __webpack_require__(49), __webpack_require__(242), __webpack_require__(243), __webpack_require__(244), __webpack_require__(11), __webpack_require__(74), __webpack_require__(125), __webpack_require__(48), __webpack_require__(230), __webpack_require__(238), __webpack_require__(120), {
+  __webpack_require__(18), [__webpack_require__(82), "testPromise", "containsPromises", "deepAll"], __webpack_require__(74), __webpack_require__(229), __webpack_require__(80), __webpack_require__(24), __webpack_require__(121), __webpack_require__(234), __webpack_require__(240), __webpack_require__(239), __webpack_require__(34), __webpack_require__(81), __webpack_require__(241), __webpack_require__(49), __webpack_require__(242), __webpack_require__(243), __webpack_require__(244), __webpack_require__(11), __webpack_require__(75), __webpack_require__(125), __webpack_require__(48), __webpack_require__(230), __webpack_require__(238), __webpack_require__(120), {
     dateFormat: __webpack_require__(254)
   }
 ];
@@ -60494,24 +60545,24 @@ module.exports = [
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(127).includeInNamespace(__webpack_require__(451)).addModules({
-  ArrayExtensions: __webpack_require__(73),
+  ArrayExtensions: __webpack_require__(74),
   AsyncExtensions: __webpack_require__(229),
   CallStack: __webpack_require__(120),
   Clone: __webpack_require__(230),
-  CommonJs: __webpack_require__(74),
+  CommonJs: __webpack_require__(75),
   Eq: __webpack_require__(121),
   ErrorWithInfo: __webpack_require__(233),
   Function: __webpack_require__(234),
   Iteration: __webpack_require__(125),
   Log: __webpack_require__(238),
-  Map: __webpack_require__(78),
+  Map: __webpack_require__(79),
   MapExtensions: __webpack_require__(239),
   MathExtensions: __webpack_require__(34),
   MinimalBaseObject: __webpack_require__(23),
   ObjectDiff: __webpack_require__(240),
-  ObjectExtensions: __webpack_require__(79),
-  ParseUrl: __webpack_require__(80),
-  Promise: __webpack_require__(81),
+  ObjectExtensions: __webpack_require__(80),
+  ParseUrl: __webpack_require__(81),
+  Promise: __webpack_require__(82),
   PromisedFileReader: __webpack_require__(241),
   Regexp: __webpack_require__(49),
   Ruby: __webpack_require__(242),
@@ -63581,7 +63632,7 @@ BasePoint.prototype.dblp = function dblp(k) {
 "use strict";
 
 
-var curve = __webpack_require__(82);
+var curve = __webpack_require__(83);
 var elliptic = __webpack_require__(13);
 var BN = __webpack_require__(8);
 var inherits = __webpack_require__(6);
@@ -64021,7 +64072,7 @@ Point.prototype.mixedAdd = Point.prototype.add;
 "use strict";
 
 
-var curve = __webpack_require__(82);
+var curve = __webpack_require__(83);
 var BN = __webpack_require__(8);
 var inherits = __webpack_require__(6);
 var Base = curve.base;
@@ -64208,7 +64259,7 @@ Point.prototype.getX = function getX() {
 "use strict";
 
 
-var curve = __webpack_require__(82);
+var curve = __webpack_require__(83);
 var elliptic = __webpack_require__(13);
 var BN = __webpack_require__(8);
 var inherits = __webpack_require__(6);
@@ -68747,7 +68798,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "1.28.2"
+	"version": "1.29.0"
 };
 
 /***/ }),
@@ -69580,8 +69631,8 @@ exports.signature = asn1.define('signature', function () {
 var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m
 var startRegex = /^-----BEGIN (.*) KEY-----\r?\n/m
 var fullRegex = /^-----BEGIN (.*) KEY-----\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n-----END \1 KEY-----$/m
-var evp = __webpack_require__(84)
-var ciphers = __webpack_require__(87)
+var evp = __webpack_require__(85)
+var ciphers = __webpack_require__(88)
 module.exports = function (okey, password) {
   var key = okey.toString()
   var match = key.match(findProc)
@@ -69652,11 +69703,11 @@ exports.publicDecrypt = function publicDecrypt(key, buf) {
 /* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(85);
+/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(86);
 var mgf = __webpack_require__(260);
 var xor = __webpack_require__(262);
 var bn = __webpack_require__(8);
-var crt = __webpack_require__(88);
+var crt = __webpack_require__(89);
 var createHash = __webpack_require__(35);
 var withPublic = __webpack_require__(261);
 module.exports = function privateDecrypt(private_key, enc, reverse) {
@@ -69766,14 +69817,14 @@ function compare(a, b){
 /* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(85);
+/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(86);
 var randomBytes = __webpack_require__(52);
 var createHash = __webpack_require__(35);
 var mgf = __webpack_require__(260);
 var xor = __webpack_require__(262);
 var bn = __webpack_require__(8);
 var withPublic = __webpack_require__(261);
-var crt = __webpack_require__(88);
+var crt = __webpack_require__(89);
 
 var constants = {
   RSA_PKCS1_OAEP_PADDING: 4,
@@ -69879,7 +69930,7 @@ module.exports = __webpack_require__(27)
 
 var Buffer = __webpack_require__(2).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(89);
+var bufferShim = __webpack_require__(90);
 /*</replacement>*/
 
 module.exports = BufferList;
