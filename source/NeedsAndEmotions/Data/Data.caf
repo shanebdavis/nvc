@@ -1,9 +1,10 @@
 dataNodes: &Tools.flatten
   core:
-    needs:       &Needs
+    needs:          &Needs
     emotions:
       pleasurable:  &PositiveEmotions
       painful:      &NegativeEmotions
+
     about:
       """
         Needs & Emotions v#{&Package.version}
