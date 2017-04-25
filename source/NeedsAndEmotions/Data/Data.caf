@@ -6,10 +6,7 @@ dataNodes: &Tools.flatten
       painful:      &NegativeEmotions
     about:
       """
-        Needs & Emotions
+        Needs & Emotions v#{&Package.version}
 
-        by
         Shane Brinkman-Davis Delamore
         shanebdavis@gmail.com
-
-        v#{&Package.version}
