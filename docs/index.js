@@ -41911,7 +41911,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "2.0.3"
+	"version": "2.0.4"
 };
 
 /***/ }),
@@ -44042,9 +44042,9 @@ Caf.defMod(module, () => {
       core: {
         needs: Needs,
         emotions: { pleasurable: PositiveEmotions, painful: NegativeEmotions },
-        about: `Needs & Emotions\n\nby\nShane Brinkman-Davis Delamore\nshanebdavis@gmail.com\n\nv${Caf.toString(
+        about: `Needs & Emotions v${Caf.toString(
           Package.version
-        )}`
+        )}\n\nShane Brinkman-Davis Delamore\nshanebdavis@gmail.com`
       }
     })
   };
