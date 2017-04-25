@@ -33,7 +33,14 @@ class SetStatusWidget extends FluxComponent
           ps: 1
       BitmapElement
         key: "#{@status}"
-        layout: :fit
+        location: ps: .5
+        axis: .5
+        size: (ps, cs) ->
+          if ps.gt cs
+            cs
+          else
+            cs.mul ps.div(cs).min()
+        # layout: :fit
         animators: opacity: from: 0, to: .99
         source: switch @status
           when 1 then :assets/winter.png
@@ -124,7 +131,9 @@ class SetStatusWidget extends FluxComponent
       @renderSlider()
 
   render: ->
-    if @landscape
-      @renderLandscape()
-    else
-      @renderPortrait()
+    Element
+      if @viewState.deviceSize
+        if @landscape
+          @renderLandscape()
+        else
+          @renderPortrait()

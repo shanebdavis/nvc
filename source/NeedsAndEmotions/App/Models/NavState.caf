@@ -4,8 +4,8 @@ import &ArtSuite
 class NavState extends ApplicationState
 
   @stateFields
-    selectedKey: null
-    keyPath: []
+    selectedKey: :about
+    keyPath: [] :about
 
   selectKey: (key) ->
     {depth} = node = &Data.dataNodes[key]
