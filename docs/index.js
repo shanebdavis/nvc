@@ -25226,7 +25226,7 @@ module.exports = {
 		"start": "webpack-dev-server --hot --inline --progress",
 		"test": "webpack-dev-server --progress"
 	},
-	"version": "2.1.0"
+	"version": "2.1.1"
 };
 
 /***/ }),
@@ -26464,21 +26464,8 @@ Caf.defMod(module, () => {
           RectangleElement({ padding: 15, radius: 10000, color: "#0001" }),
           RectangleElement(
             {
-              size: (() => {
-                switch (this.status) {
-                  case 1:
-                    return 40;
-                  case 2:
-                    return 30;
-                  case 3:
-                    return 20;
-                  case 4:
-                    return 30;
-                  case 5:
-                    return 40;
-                }
-              })(),
-              animators: { color: true, location: true, size: true },
+              size: 40,
+              animators: { color: true, location: true },
               axis: "centerCenter",
               radius: 10000,
               shadow: true,
