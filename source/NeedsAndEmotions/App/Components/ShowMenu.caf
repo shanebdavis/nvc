@@ -1,11 +1,9 @@
 import &ArtSuite
 {dataNodes} = &Data
 
-&CategoryButton
-
 class ShowMenu extends FluxComponent
   render: ->
-    {childKeys} = dataNodes[@props.key]
+    keys = @props.keys || dataNodes[@props.key]?.childKeys
 
     Element
       clip:               true
@@ -15,5 +13,5 @@ class ShowMenu extends FluxComponent
       size:                     ww: 1  hch: 1
       animators: size: toFrom:  ww: 1  h: 0
 
-      array key from childKeys?.sort()
-        CategoryButton key: key
+      array key from keys?.sort()
+        &CategoryButton key: key

@@ -1,0 +1,35 @@
+import &ArtSuite
+# {dataNodes} = &Data
+
+# &CategoryButton
+
+class SearchBar extends FluxComponent
+
+  valueChanged: ({props}) ->
+    @models.navState.search props.value
+
+  render: ->
+    Element
+      childrenLayout: :row
+      size: ww: 1  h: 50
+      padding: h: 10
+      animators: size: toFrom: ww:1, h: 0
+      clip: true
+
+      Element
+        padding: 5
+        RectangleElement color: #e8e8e8 radius: 1000
+        TextInput
+          padding: h: 15
+          placeholder: "search needs and emotions"
+          on: valueChanged: @valueChanged
+          value: @models.navState.searchQuery
+
+      TextElement
+        padding: 5
+        text:       :🔍
+        location:   ps: .5
+        axis:       :centerCenter
+        # scale:      (ps, cs) -> ps.div(cs).min()
+        layoutMode: :tight
+        fontSize:   32

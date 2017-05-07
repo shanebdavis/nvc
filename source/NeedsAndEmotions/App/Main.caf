@@ -5,7 +5,3 @@ FullScreenApp.init
   meta:     apple-mobile-web-app-status-bar-style:  :default
   link:     apple-touch-icon: href:                 :assets/needs256.png
 .then       -> &Components.App().instantiateAsTopComponent()
-.catch (e)  ->
-  log.error
-    "" Failed to init NVC app
-    e

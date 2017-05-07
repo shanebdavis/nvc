@@ -1,8 +1,6 @@
 import &ArtSuite
 {dataNodes} = &Data
 
-&CategoryButton
-
 class ShowPath extends FluxComponent
   @subscriptions :navState.keyPath
 
@@ -15,7 +13,7 @@ class ShowPath extends FluxComponent
 
       array key, i from @keyPath
         []
-          CategoryButton key: key
+          &CategoryButton key: key
 
           if dataNodes[key].childKeys
             TextElement

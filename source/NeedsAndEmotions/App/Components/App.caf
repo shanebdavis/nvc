@@ -2,7 +2,11 @@ import &ArtSuite
 {dataNodes} = &Data
 
 class App extends FluxComponent
-  @subscriptions :navState.keyPath :navState.selectedKey
+  @subscriptions
+    :navState.keyPath
+    :navState.selectedKey
+    :navState.searchVisible
+    :navState.searchResults
 
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
@@ -29,8 +33,13 @@ class App extends FluxComponent
 
           RectangleElement inFlow: false, color: :white
 
-          &ShowPath()                 if @keyPath.length > 0
-          &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
+          if @searchVisible
+            []
+              &ShowMenu keys: @searchResults
+              &SearchBar()
+          else []
+            &ShowPath()                 if @keyPath.length > 0
+            &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
           Element
             size: ww:1, h: 60
@@ -43,3 +52,10 @@ class App extends FluxComponent
                 emoji: &Data.EmojiMap[key]
                 action: -> @models.navState.selectKey key
                 size: ps: 1
+
+            &TabButton
+              style: :tab
+              subtext: "search"
+              emoji: :🔍
+              action: @models.navState.toggleSearchVisible
+              size: ps: 1

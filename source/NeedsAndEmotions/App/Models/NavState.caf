@@ -6,8 +6,12 @@ class NavState extends ApplicationState
   @stateFields
     selectedKey: :about
     keyPath: [] :about
+    searchVisible: false
+    searchResults: []
+    searchQuery: null
 
   selectKey: (key) ->
+    @clearSearchVisible()
     {depth} = node = &Data.dataNodes[key]
     if @keyPath[depth] == key
 
@@ -26,3 +30,31 @@ class NavState extends ApplicationState
       selectedKey:  peek keyPath
       keyPath:      keyPath
     keyPath
+
+  clearSelectedKey: ->
+    @setState
+      selectedKey: null
+      keyPath: []
+
+  toggleSearchVisible: ->
+    if @searchVisible
+      @searchVisible = false
+    else
+      @setSearchVisible()
+      @clearSelectedKey()
+
+  searchNodes = (regexps) ->
+    array v, k from dataNodes
+      toTest = "" #{k} #{v.description}
+      matchedAll = true
+      each reg from regexps
+        matchedAll = false unless reg.test toTest
+      if matchedAll then k
+
+  search: (query) ->
+    @searchQuery = query
+    @searchResults = if query.length > 1
+      compactFlatten searchNodes array term from query.split /\s+/
+        ///i #{escapeRegExp term}
+    else
+      []
