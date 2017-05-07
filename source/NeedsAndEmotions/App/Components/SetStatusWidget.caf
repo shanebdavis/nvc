@@ -80,14 +80,9 @@ class SetStatusWidget extends FluxComponent
       RectangleElement padding: 15, radius: 10000, color: #0001
 
       RectangleElement
-        size: switch @status
-          when 1 then 40
-          when 2 then 30
-          when 3 then 20
-          when 4 then 30
-          when 5 then 40
+        size: 40
 
-        animators: color: true, location: true, size: true
+        animators: color: true, location: true
         axis:   :centerCenter
         radius: 10000
         shadow: true
