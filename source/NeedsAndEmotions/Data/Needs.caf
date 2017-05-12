@@ -2,6 +2,8 @@
 ##
   unsorted needs:
 
+  simplicity
+
   quality
     I feel a strong need for quality in things. Things should
     be well built with indention and caring, even if they are mass produced.
@@ -11,16 +13,6 @@
     related:
       "shared values" - the quality of the thing shows a common shared value with the creator
       "beauty"
-
-  authenticity - somewhere in: thriving > social
-    in other people
-
-  mourning
-    if you have loss, you may have a need to mourn
-
-  progress / growth
-    I think most people have a general need to make progress in their life.
-    They want tomorrow to be better than today.
 
 living:
   sustenance:         "Getting all the healthy food and clean water my body needs."
@@ -53,12 +45,15 @@ living:
 thriving:
     pleasure:
       ""
-                      Plenty of rejuvenating light and darkness, lovely fragrances, pleasurable textures, wonderful music, exercise, movement, dance, delicious food and drink.
+                      Plenty of rejuvenating light and darkness, lovely fragrances, pleasurable textures, wonderful music, delicious food and drink.
 
                       All five senses are simulated and alive.
 
-    variety:          "Plenty of variety and novelty."
-    leisure:          "Plenty of quiet, relaxing, comfortable, space and time."
+    movement:         "" Plenty of exercise, movement and dance.
+
+    variety:          "" Plenty of variety and novelty.
+    leisure:          "" Plenty of comforable, relaxing time without stress or expectations.
+    solitude:         "" Plenty of quiet, solo, alone time. Recharge-time for the introvert.
 
     play:             "Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter."
 
@@ -70,14 +65,18 @@ thriving:
                       A sense of openness, good communication, intimate sharing, companionship,
                       and feeling free to be 100% oneself with those people.
 
-    social_balance:   "All important relationships are balanced and mutual."
-    belonging:        "Accepted, acknowledged, included and equal."
-    participation:    "Plenty of collaboration, cooperation, opportunities for service and sharing."
-    appreciation:     "Valued, recognized, and wanted."
+    social_balance:   "" All important relationships are balanced and mutual.
+    belonging:        "" Accepted, acknowledged, included and equal. Valued and have influence within your groups.
+    participation:    "" Plenty of collaboration, cooperation, opportunities for service and sharing.
+    appreciation:     "" Valued, recognized, and wanted.
 
-    nurturing:        "Receiving all the care, help, kindness, affection, support and helpful feedback one needs."
-    understanding:    "Feeling completely understood by those who matter: empathized, heard, known, seen and respected."
-    compassion:       "Receiving all the attention, consideration, forgiveness, presence, tenderness,
+    substance:        "" Plenty of quality, authenticity, simplicity and depth in people, organizations and objects which embody these values.
+
+    nurturing:        "" Receiving all the care, help, kindness, affection, support and helpful feedback one needs.
+    understanding:    "" Feeling completely understood by those who matter: empathized, heard, known, seen and respected.
+    compassion:
+      ""
+                      Receiving all the attention, consideration, forgiveness, presence, tenderness,
                       vulnerability and love one needs."
 
     social_safety:
@@ -85,6 +84,11 @@ thriving:
                       All important relationships are reliable, honest, and full of mutual trust.
 
                       All relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe.
+
+
+    mourning:
+      ""
+                      Plenty of space, time and support to morn a loss.
 
 transcending:
   acceptance:
@@ -107,7 +111,7 @@ transcending:
 
   progress:
     ""
-                      To make progress in one's own life.
+                      To make progress and accomplishment in one's own life.
                       To see improvement over time of one's external circumstance.
 
   growth:
@@ -130,9 +134,9 @@ transcending:
 
   autonomy:
     ""
-                      Feeling enabled, empowered and challenged.
+                      Feeling enabled, empowered and in control.
 
-                      Feeling free to make ones own choices and be spontaneous. Given complete flexibility.
+                      Feeling free to make ones own choices and be spontaneous. Given complete flexibility and independence.
 
                       Feeling limitless, full of possibility and full of potential.
 
@@ -141,6 +145,7 @@ transcending:
   mastery:
     ""
                       Competent, efficient and effective. Constantly improving, feeling ever more skillful and masterful.
+                      Intellectually stimulated and challenged.
 
   meaning:
     ""
@@ -150,10 +155,14 @@ transcending:
 
   peace:
     ""
-                      Complete ease, balance, clarity, faith, grace, sanctuary, harmony, hope, order, structure,
-                      tranquility, unity and oneness with the universe.
+                      Complete ease, balance, clarity, faith, grace, sanctuary, harmony, hope,
+                      order, structure, tranquility, unity and oneness with the universe.
+                      A sense of stillness.
 
-  beauty:             "My life is beautiful. My home, workplace, city, public spaces, people, landscape, and personal possessions all stimulate my sense of beauty."
+  beauty:
+    ""
+                      My life is beautiful. My home, workplace, city, public spaces, people,
+                      landscape, and personal possessions all stimulate my sense of beauty.
 
   purpose:
     ""

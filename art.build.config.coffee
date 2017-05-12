@@ -4,6 +4,7 @@ module.exports =
       "art-suite":      "git://github.com/imikimi/art-suite.git"
 
   webpack:
-    common: {}
+    common:
+      output: path: "./docs"
     targets:
       index: {}
