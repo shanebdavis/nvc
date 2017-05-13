@@ -2,7 +2,7 @@
 
 ### Run it now, Live on the Web
 
-[Launch Needs and Emptions App](https://shanebdavis.github.io/nvc/)
+[Launch Needs and Emotions App](https://shanebdavis.github.io/nvc/)
 
 ### Install and Run Locally
 
