@@ -1,66 +1,190 @@
 afraid:
   ""
-    apprehensive dread foreboding frightened mistrustful panicked petrified
-    scared suspicious terrified wary worried
+    apprehensive
+    dread
+    foreboding
+    frightened
+    mistrustful
+    panicked
+    petrified
+    scared
+    suspicious
+    terrified
+    wary
+    worried
 
 annoyed:
   ""
-    aggravated dismayed disgruntled displeased exasperated frustrated
-    impatient irritated irked
+    aggravated
+    dismayed
+    disgruntled
+    displeased
+    exasperated
+    frustrated
+    impatient
+    irritated
+    irked
 
 angry:
   ""
-    enraged furious incensed indignant irate livid outraged resentful
+    enraged
+    furious
+    incensed
+    indignant
+    irate
+    livid
+    outraged
+    resentful
 
 aversion:
   ""
-    animosity appalled contempt disgusted dislike hate horrified hostile
+    animosity
+    appalled
+    contempt
+    disgusted
+    dislike
+    hate
+    horrified
+    hostile
     repulsed
 
 confused:
   ""
-    ambivalent baffled bewildered dazed hesitant lost mystified perplexed
-    puzzled torn
+    ambivalent
+    baffled
+    bewildered
+    dazed
+    hesitant
+    lost
+    mystified
+    perplexed
+    puzzled
+    torn
 
 disconnected:
   ""
-    alienated aloof apathetic bored cold detached distant distracted indifferent
-    numb removed uninterested withdrawn
+    alienated
+    aloof
+    apathetic
+    bored
+    cold
+    detached
+    distant
+    distracted
+    indifferent
+    numb
+    removed
+    uninterested
+    withdrawn
 
 disquiet:
   ""
-    agitated alarmed discombobulated disconcerted disturbed perturbed rattled
-    restless shocked startled surprised troubled turbulent turmoil uncomfortable
-    uneasy unnerved unsettled upset
+    agitated
+    alarmed
+    discombobulated
+    disconcerted
+    disturbed
+    perturbed
+    rattled
+    restless
+    shocked
+    startled
+    surprised
+    troubled
+    turbulent
+    turmoil
+    uncomfortable
+    uneasy
+    unnerved
+    unsettled
+    upset
 
 embarrassed:
   ""
-    ashamed chagrined flustered guilty mortified self-conscious
+    ashamed
+    chagrined
+    flustered
+    guilty
+    mortified
+    self-conscious
 
 fatigued:
   ""
-    beat burnt-out depleted exhausted lethargic listless sleepy tired weary
+    beat
+    burnt-out
+    depleted
+    exhausted
+    lethargic
+    listless
+    sleepy
+    tired
+    weary
     worn-out
 
 pain:
   ""
-    agony anguished bereaved devastated grief heartbroken hurt lonely miserable
-    regretful remorseful
+    agony
+    anguished
+    bereaved
+    devastated
+    grief
+    heartbroken
+    hurt
+    lonely
+    miserable
+    regretful
+    remorseful
 
 sad:
   ""
-    depressed dejected despair despondent disappointed discouraged disheartened
-    forlorn gloomy heavy-hearted hopeless melancholy unhappy wretched
+    depressed
+    dejected
+    despair
+    despondent
+    disappointed
+    discouraged
+    disheartened
+    forlorn
+    gloomy
+    heavy-hearted
+    hopeless
+    melancholy
+    unhappy
+    wretched
 
 tense:
   ""
-    anxious cranky distressed distraught edgy fidgety frazzled irritable jittery
-    nervous overwhelmed restless stressed out
+    anxious
+    cranky
+    distressed
+    distraught
+    edgy
+    fidgety
+    frazzled
+    irritable
+    jittery
+    nervous
+    overwhelmed
+    restless
+    stressed
+    out
 
 vulnerable:
   ""
-    fragile guarded helpless insecure leery reserved sensitive shaky
+    fragile
+    guarded
+    helpless
+    insecure
+    leery
+    reserved
+    sensitive
+    shaky
 
 yearning:
   ""
-    envious jealous longing nostalgic pining wistful
+    envious
+    jealous
+    longing
+    nostalgic
+    pining
+    wistful

@@ -13,7 +13,7 @@
     "coffee-script": "^1.12.3",
     "css-loader": "^0.26.1",
     "json-loader": "^0.5.4",
-    "neptune-namespaces": "^1.9.1",
+    "neptune-namespaces": "^2.0.0",
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
@@ -25,7 +25,8 @@
   "scripts": {
     "build": "webpack --progress",
     "start": "webpack-dev-server --hot --inline --progress",
-    "test": "webpack-dev-server --progress"
+    "test": "webpack-dev-server --progress",
+    "testInBrowser": "webpack-dev-server --progress"
   },
   "version": "2.2.0"
 }

@@ -1,9 +1,22 @@
+import &ArtSuite
+
+normalizeEmotions = (emotionTree) ->
+  object val from emotionTree
+    if isPlainObject val
+      normalizeEmotions val
+    else if isString val
+      w val
+      .sort()
+      .join ', '
+    else
+      val
+
 dataNodes: &Tools.flatten
   core:
     needs:          &Needs
     emotions:
-      pleasurable:  &PositiveEmotions
-      painful:      &NegativeEmotions
+      pleasurable:  normalizeEmotions &PositiveEmotions
+      painful:      normalizeEmotions &NegativeEmotions
 
     about:
       """

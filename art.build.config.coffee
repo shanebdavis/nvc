@@ -5,6 +5,6 @@ module.exports =
 
   webpack:
     common:
-      output: path: "./docs"
+      output: path: "#{__dirname}/docs"
     targets:
       index: {}
