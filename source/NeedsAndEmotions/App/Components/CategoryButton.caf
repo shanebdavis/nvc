@@ -9,6 +9,17 @@ class CategoryButton extends PointerActionsMixin FluxComponent
   action: ->
     @models.navState.selectKey @props.key
 
+  hasAncestorKey = (key, lookFor) ->
+    if key == lookFor
+      true
+    else
+      {parentKey} = dataNodes[key]
+      if parentKey
+        hasAncestorKey parentKey, lookFor
+      else
+        false
+
+
   render: ->
     {key} = @props
 
@@ -18,8 +29,14 @@ class CategoryButton extends PointerActionsMixin FluxComponent
       if key == "needs" || dataNodes[key].rootKey == "needs"
         &StyleProps.colors[@status||3] || &StyleProps.primaryColor
 
-      else
+      else if hasAncestorKey key, "painful"
+        #3399fe # faac11
+      else if hasAncestorKey key, "about"
+        #ffa9f7
+      else if hasAncestorKey key, "pleasurable"
         #ffe838
+      else
+        #bbb
 
     color = rgbColor switch
     when selected || @pointerIsDown then color

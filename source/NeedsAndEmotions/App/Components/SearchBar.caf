@@ -19,7 +19,7 @@ class SearchBar extends FluxComponent
       Element
         padding: 5
         RectangleElement color: #e8e8e8 radius: 1000
-        TextInput
+        TextInputElement
           padding: h: 15
           placeholder: "search needs and emotions"
           on: valueChanged: @valueChanged
