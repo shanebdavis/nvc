@@ -4,5 +4,8 @@
 module.exports = require './namespace'
 module.exports
 .includeInNamespace require './NeedsAndEmotions'
+.addModules
+  StandardImport: require './StandardImport'
 require './App'
 require './Data'
+require './Pipelines'

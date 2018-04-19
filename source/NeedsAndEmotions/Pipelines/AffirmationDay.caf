@@ -1,0 +1,12 @@
+import &StandardImport
+
+class AffirmationDay extends IndexedDbPipeline
+  dbName: "SbdSelfImprovementApp"
+  @indexes
+    affirmationDayByAffirmation: :affirmationId/createdAt
+
+  @addDatabaseFilters
+    affirmation: "required link"
+    count:            :count
+    objectionCount:   :count
+

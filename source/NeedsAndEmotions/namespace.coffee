@@ -4,4 +4,5 @@
 module.exports = (require 'neptune-namespaces').addNamespace 'NeedsAndEmotions', class NeedsAndEmotions extends Neptune.PackageNamespace
   @version: require('../../package.json').version
 require './App/namespace';
-require './Data/namespace'
+require './Data/namespace';
+require './Pipelines/namespace'

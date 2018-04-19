@@ -1,0 +1,19 @@
+import &StandardImport
+
+class Affirmation extends IndexedDbPipeline
+  dbName: "SbdSelfImprovementApp"
+
+  @addDatabaseFilters
+    text:             "required trimmedString"
+    lastWorkedAt:     :timestamp
+    lastRemindedAt:   :timestamp
+    count:            :count
+    objectionCount:   :count
+
+  @query
+    allAffirmations:
+      query: (request) ->
+        request.subrequest :Affirmation :getAll
+        .then (affirmations) -> affirmations.sort (a, b) -> b.updatedAt - a.updatedAt
+
+      dataToKeyString: -> "all"

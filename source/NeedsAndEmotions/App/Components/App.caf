@@ -4,8 +4,8 @@ import &ArtSuite
 class App extends FluxComponent
   @subscriptions
     :navState.keyPath
+    :navState.currentTab
     :navState.selectedKey
-    :navState.searchVisible
     :navState.searchResults
 
   render: ->
@@ -33,13 +33,17 @@ class App extends FluxComponent
 
           RectangleElement inFlow: false, color: :white
 
-          if @searchVisible
+          switch @currentTab
+          when :search
             []
               &ShowMenu keys: @searchResults
               &SearchBar()
-          else []
-            &ShowPath()                 if @keyPath.length > 0
-            &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
+          when :affirmations
+            &Affirmations()
+          else
+            []
+              &ShowPath()                 if @keyPath.length > 0
+              &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
           Element
             size: ww:1, h: 60
@@ -52,6 +56,13 @@ class App extends FluxComponent
                 emoji: &Data.EmojiMap[key]
                 action: -> @models.navState.selectKey key
                 size: ps: 1
+
+            &TabButton
+              style: :tab
+              subtext: "affirmations"
+              emoji: :👍
+              action: @models.navState.showAffirmations
+              size: ps: 1
 
             &TabButton
               style: :tab

@@ -6,12 +6,12 @@ class NavState extends ApplicationState
   @stateFields
     selectedKey: :about
     keyPath: [] :about
-    searchVisible: false
-    searchResults: []
-    searchQuery: null
+    currentTab:     null
+    searchResults:  []
+    searchQuery:    null
 
   selectKey: (key) ->
-    @clearSearchVisible()
+    @clearCurrentTab()
     {depth} = node = &Data.dataNodes[key]
     if @keyPath[depth] == key
 
@@ -37,11 +37,14 @@ class NavState extends ApplicationState
       keyPath: []
 
   toggleSearchVisible: ->
-    if @searchVisible
-      @searchVisible = false
+    if @currentTab == :search
+      @currentTab = null
     else
-      @setSearchVisible()
+      @currentTab = :search
       @clearSelectedKey()
+
+  showAffirmations: ->
+    @currentTab = :affirmations
 
   searchNodes = (regexps) ->
     array v, k from dataNodes
