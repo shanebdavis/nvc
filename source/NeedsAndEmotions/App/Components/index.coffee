@@ -7,6 +7,7 @@ module.exports
   Affirmations:    require './Affirmations'   
   App:             require './App'            
   CategoryButton:  require './CategoryButton' 
+  NeedsDashboard:  require './NeedsDashboard' 
   SearchBar:       require './SearchBar'      
   SetStatusWidget: require './SetStatusWidget'
   ShowMenu:        require './ShowMenu'       

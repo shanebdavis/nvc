@@ -10,6 +10,8 @@ class App extends FluxComponent
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
 
+    log {@currentTab, @keyPath}
+
     CanvasElement
       canvasId:       :artCanvas
       childrenLayout: :column
@@ -20,9 +22,12 @@ class App extends FluxComponent
         draw: #f9f9f9
 
         Element
+          key: "status"
           size: ww:1, hh: 1, h: -110
           if showSetStatus
             &SetStatusWidget key: @selectedKey
+          else if @keyPath[0] == :needs
+            &NeedsDashboard()
 
         Element
           size: ww:1, hch:1

@@ -1,0 +1,50 @@
+import &StandardImport
+
+class NeedStatus extends FluxComponent
+  @subscriptions
+    status: ({need}) -> need
+
+  pointerClick: ->
+    @models.navState.setKeyPath [] :needs, @props.category, @props.need
+
+  render: ->
+    Element
+      cursor: :pointer
+      on: {} @pointerClick
+      draw: StyleProps.colors[@status]
+
+class NeedsDashboardSection extends FluxComponent
+  render: ->
+    Element
+      size: :parentWidthChildrenHeight
+      childrenLayout: :column
+      childrenMargins: 10
+      TextElement
+        StyleProps.textStyle
+        size: :childrenSize
+        @props.category + " needs summary"
+
+      Element
+        childrenLayout: :row
+        size: h: 25
+        padding: h: 10
+        draw:
+          :padded
+          #eee
+          :children
+          # outline: #0007
+
+        array v, need in @props.needs
+          NeedStatus {} @props.category, need
+
+
+class NeedsDashboard extends FluxComponent
+
+  render: ->
+    Element
+      childrenLayout: :column
+      childrenMargins: 20
+      padding: 10
+
+      array needs, category in Needs
+        NeedsDashboardSection {} category, needs

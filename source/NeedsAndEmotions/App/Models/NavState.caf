@@ -26,6 +26,9 @@ class NavState extends ApplicationState
         keyPath[node.depth] = node.key
         node = dataNodes[node.parentKey]
 
+    @setKeyPath keyPath
+
+  setKeyPath: (keyPath) ->
     @setState
       selectedKey:  peek keyPath
       keyPath:      keyPath
