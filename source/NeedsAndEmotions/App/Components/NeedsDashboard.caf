@@ -11,7 +11,7 @@ class NeedStatus extends FluxComponent
     Element
       cursor: :pointer
       on: {} @pointerClick
-      draw: StyleProps.colors[@status]
+      draw: StyleProps.colors[@status] ? #eee
 
 class NeedsDashboardSection extends FluxComponent
   render: ->
@@ -26,11 +26,11 @@ class NeedsDashboardSection extends FluxComponent
 
       Element
         childrenLayout: :row
+        childrenMargins: 1
         size: h: 25
         padding: h: 10
         draw:
           :padded
-          #eee
           :children
           # outline: #0007
 
