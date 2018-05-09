@@ -1,4 +1,4 @@
-import &ArtSuite
+import &StandardImport
 
 class TabButton extends PointerActionsMixin Component
 
@@ -6,35 +6,32 @@ class TabButton extends PointerActionsMixin Component
     {subtext, emoji, selected} = @props
 
     Element
+      childrenLayout: :column
+      childrenAlignment: :centerCenter
+      childrenMargins: 5
+
       size:       ps: 1
       cursor:     :pointer
       on:         @buttonHandlers
       clip:       true
 
-      RectangleElement
-        inFlow:     false
-        animators:  color:  true
+      animators:  :draw
+      draw:
+        radius: 10
         color:
           if selected || @pointerIsDown
-            &StyleProps.primaryColor
+            StyleProps.primaryColor
           else
             :transparent
 
-      emoji && Element
-        padding: bottom: 12 top: 6
-
-        TextElement
-          text:       emoji
-          location:   ps: .5
-          axis:       :centerCenter
-          scale:      (ps, cs) -> ps.div(cs).min()
-          layoutMode: :tight
-          fontSize:   64
+      emoji && TextElement
+        size:       :childrenSize
+        text:       emoji
+        layoutMode: :tight
+        fontSize:   32
 
       subtext && TextElement
-        &StyleProps.textStyle
+        StyleProps.textStyle
         fontSize: 9
-        location: ww: .5 yh: 1 y: -3
-        size:     cs: 1
-        axis:     :bottomCenter
+        size:     :childrenSize
         text:     subtext

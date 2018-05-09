@@ -1,0 +1,4 @@
+&ArtSuite.merge
+  &ArtSuite
+  &ArtEryIndexedDb
+  {} &StyleProps

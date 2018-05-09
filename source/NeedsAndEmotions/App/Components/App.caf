@@ -1,5 +1,4 @@
-import &ArtSuite
-{dataNodes} = &Data
+import &StandardImport, &Data
 
 class App extends FluxComponent
   @subscriptions
@@ -18,7 +17,7 @@ class App extends FluxComponent
         @models.viewState.deviceSize = target.currentSize
 
       Element
-        RectangleElement inFlow: false, color: #f9f9f9
+        draw: #f9f9f9
 
         Element
           size: ww:1, hh: 1, h: -110
@@ -31,7 +30,7 @@ class App extends FluxComponent
           location: yh: 1
           childrenLayout: :column
 
-          RectangleElement inFlow: false, color: :white
+          draw: :white
 
           switch @currentTab
           when :search
@@ -46,14 +45,15 @@ class App extends FluxComponent
               &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
           Element
-            size: ww:1, h: 60
+            size: ww:1, h: 70
+            padding: 5
             childrenLayout: :row
             childrenAlignment: :centerCenter
-            array key in :needs :emotions :about
+            array key in :needs :emotions
               &TabButton
                 style: :tab
                 subtext: key
-                emoji: &Data.EmojiMap[key]
+                emoji: EmojiMap[key]
                 action: -> @models.navState.selectKey key
                 size: ps: 1
 
@@ -62,6 +62,13 @@ class App extends FluxComponent
               subtext: "affirmations"
               emoji: :👍
               action: @models.navState.showAffirmations
+              size: ps: 1
+
+            &TabButton
+              style: :tab
+              subtext: :about
+              emoji: EmojiMap.about
+              action: -> @models.navState.selectKey :about
               size: ps: 1
 
             &TabButton

@@ -1,5 +1,4 @@
-import &ArtSuite
-{dataNodes} = &Data
+import &StandardImport, &Data
 
 class CategoryButton extends PointerActionsMixin FluxComponent
   @subscriptions
@@ -25,9 +24,9 @@ class CategoryButton extends PointerActionsMixin FluxComponent
 
     selected = key in @keyPath
     text =     key
-    color =
+    color = rgbColor
       if key == "needs" || dataNodes[key].rootKey == "needs"
-        &StyleProps.colors[@status||3] || &StyleProps.primaryColor
+        StyleProps.colors[@status||3] || StyleProps.primaryColor
 
       else if hasAncestorKey key, "painful"
         #3399fe # faac11
@@ -38,28 +37,23 @@ class CategoryButton extends PointerActionsMixin FluxComponent
       else
         #bbb
 
-    color = rgbColor switch
-    when selected || @pointerIsDown then color
-    else rgbColor(color).blend :white, .5
-
     Element
       size:       wcw: 1, hch: 1
       cursor:     :pointer
       on:         @buttonHandlers
       clip:       true
 
-      RectangleElement
-        inFlow:   false
-        color:    color
+      animators: :draw
+      draw:
         radius:   100
         padding:  5
-        animators:
-          color:  {}
-          shadow: duration: .3
+        color:
+          if selected || @pointerIsDown then color
+          else color.blend :white, .5
 
       TextElement
-        &StyleProps.textStyle
-        size:     cs: 1
+        StyleProps.textStyle
+        size:     :childrenSize
         align:    :centerCenter
-        text:     text.replace /_/g, ' '
         padding:  18
+        text.replace /_/g, ' '

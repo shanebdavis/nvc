@@ -1,12 +1,16 @@
-import &ArtSuite
+import &StandardImport
 
 class Affirmations extends FluxComponent
   @subscriptions
     affirmations: model: :allAffirmations
 
   render: ->
-    log {@state}
     Element
       childrenLayout: "column"
       childrenMargins: 10
+      padding: 10
 
+      TextElement
+        StyleProps.textStyle
+        align: .5
+        "Affirmations - WIP"

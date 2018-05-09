@@ -1,5 +1,4 @@
-import &ArtSuite
-{dataNodes} = &Data
+import &StandardImport, &Data
 
 class ShowMenu extends FluxComponent
   render: ->

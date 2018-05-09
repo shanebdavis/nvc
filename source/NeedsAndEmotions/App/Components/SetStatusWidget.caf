@@ -1,5 +1,4 @@
-import &ArtSuite
-{dataNodes} = &Data
+import &StandardImport, &Data
 
 class SetStatusWidget extends FluxComponent
   @subscriptions
@@ -31,6 +30,7 @@ class SetStatusWidget extends FluxComponent
           hh: 1, wh: 1
         else
           ps: 1
+
       BitmapElement
         key: "#{@status}"
         location: ps: .5
@@ -40,17 +40,17 @@ class SetStatusWidget extends FluxComponent
             cs
           else
             cs.mul ps.div(cs).min()
-        # layout: :fit
+
         animators: opacity: from: 0, to: .99
-        source: switch @status
-          when 1 then :assets/winter.png
-          when 2 then :assets/fall.png
-          when 3 then :assets/unknown.png
-          when 4 then :assets/summer.png
-          when 5 then :assets/spring.png
+        source: :assets/ + switch @status
+          when 1 then :winter.png
+          when 2 then :fall.png
+          when 3 then :unknown.png
+          when 4 then :summer.png
+          when 5 then :spring.png
 
   renderDescription: ->
-    {textStyle} = &StyleProps
+    {textStyle} = StyleProps
     TextElement
       textStyle
       axis:     x:  .5
@@ -62,10 +62,11 @@ class SetStatusWidget extends FluxComponent
 
   renderText: ->
     TextElement
-      &StyleProps.textStyle
-      color: &StyleProps.colors[@status]
-      text: &StyleProps.statuses[@status]
+      StyleProps.textStyle
+      color:  StyleProps.colors[@status]
+      text:   StyleProps.statuses[@status]
       margin: 10
+      size: :childrenSize
 
   renderSlider: ->
     Element
@@ -77,26 +78,24 @@ class SetStatusWidget extends FluxComponent
         pointerUp:    @updateFromPointerEvent
         pointerMove:  @updateFromPointerEvent
 
-      RectangleElement padding: 15, radius: 10000, color: #0001
+      draw: padding: 15, radius: 10000, color: #0001
 
-      RectangleElement
+      Element
         size: 40
 
-        animators: color: true, location: true
-        axis:   :centerCenter
-        radius: 10000
-        shadow: true
+        animators:  :draw :location
+        axis:       :centerCenter
 
         location: yh: .5, x:
           (size.w - size.h) * (@status - 1)
           / 4
           + size.h / 2
 
-        color: &StyleProps.colors[@status]
-
-        FillElement()
-        OutlineElement lineWidth: 2 color: :white
-        OutlineElement lineWidth: 1 color: #0002
+        draw:
+          :circle
+          color:  StyleProps.colors[@status]
+          shadow: true
+          {} outline: lineWidth: 2 color: :white
 
   renderLandscape: ->
     Element

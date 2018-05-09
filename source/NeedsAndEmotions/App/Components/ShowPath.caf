@@ -1,5 +1,4 @@
-import &ArtSuite
-{dataNodes} = &Data
+import &StandardImport, &Data
 
 class ShowPath extends FluxComponent
   @subscriptions :navState.keyPath
@@ -18,7 +17,7 @@ class ShowPath extends FluxComponent
           if dataNodes[key].childKeys
             TextElement
               align:      :centerCenter
-              size:       hh: 1 wcw:1
+              size:       :parentHeightChildrenWidth
               text:       :⟩
               fontSize:   28
               layoutMode: :tight

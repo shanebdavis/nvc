@@ -1,7 +1,4 @@
-import &ArtSuite
-# {dataNodes} = &Data
-
-# &CategoryButton
+import &StandardImport
 
 class SearchBar extends FluxComponent
 
@@ -18,7 +15,7 @@ class SearchBar extends FluxComponent
 
       Element
         padding: 5
-        RectangleElement color: #e8e8e8 radius: 1000
+        draw: padding: 5, color: #e8e8e8 radius: 1000
         TextInputElement
           padding: h: 15
           placeholder: "search needs and emotions"
@@ -26,10 +23,10 @@ class SearchBar extends FluxComponent
           value: @models.navState.searchQuery
 
       TextElement
-        padding: 5
+        size:       :childrenSize
+        padding:    5
         text:       :🔍
         location:   ps: .5
         axis:       :centerCenter
-        # scale:      (ps, cs) -> ps.div(cs).min()
         layoutMode: :tight
         fontSize:   32

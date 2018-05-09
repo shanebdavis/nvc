@@ -70,7 +70,7 @@ thriving:
     participation:    "" Plenty of collaboration, cooperation, opportunities for service and sharing.
     appreciation:     "" Valued, recognized, and wanted.
 
-    substance:        "" Plenty of quality, authenticity, simplicity and depth in people, organizations and objects which embody these values.
+    # substance:        "" Plenty of quality, authenticity, simplicity and depth in people, organizations and objects which embody these values.
 
     nurturing:        "" Receiving all the care, help, kindness, affection, support and helpful feedback one needs.
     understanding:    "" Feeling completely understood by those who matter: empathized, heard, known, seen and respected.
@@ -86,9 +86,9 @@ thriving:
                       All relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and completely safe.
 
 
-    mourning:
-      ""
-                      Plenty of space, time and support to morn a loss.
+    # mourning:
+    #   ""
+    #                   Plenty of space, time and support to morn a loss.
 
 transcending:
   acceptance:
