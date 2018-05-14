@@ -28653,9 +28653,25 @@ Caf.defMod(module, () => {
 let Caf = __webpack_require__(8);
 Caf.defMod(module, () => {
   return Caf.importInvoke(
-    ["FluxComponent", "Element", "StyleProps", "TextElement", "Needs"],
+    [
+      "FluxComponent",
+      "codeWords",
+      "Element",
+      "StyleProps",
+      "TextElement",
+      "ScrollElement",
+      "Needs"
+    ],
     [global, __webpack_require__(18)],
-    (FluxComponent, Element, StyleProps, TextElement, Needs) => {
+    (
+      FluxComponent,
+      codeWords,
+      Element,
+      StyleProps,
+      TextElement,
+      ScrollElement,
+      Needs
+    ) => {
       let NeedStatus, NeedsDashboardSection, NeedsDashboard;
       NeedStatus = Caf.defClass(
         class NeedStatus extends FluxComponent {},
@@ -28673,21 +28689,48 @@ Caf.defMod(module, () => {
             ]);
           };
           this.prototype.render = function() {
-            let cafTemp;
-            return Element({
-              cursor: "pointer",
-              on: { pointerClick: this.pointerClick },
-              draw:
-                (cafTemp = StyleProps.colors[this.status]) != null
-                  ? cafTemp
-                  : "#eee"
-            });
+            let initials, cafTemp;
+            initials = codeWords(this.props.need)[0].slice(0, 3);
+            return Element(
+              {
+                cursor: "pointer",
+                size: 44,
+                margin: 2,
+                on: { pointerClick: this.pointerClick },
+                draw: [
+                  { radius: 3 },
+                  (cafTemp = StyleProps.colors[this.status]) != null
+                    ? cafTemp
+                    : "#eee"
+                ]
+              },
+              TextElement(
+                StyleProps.textStyle,
+                { fontSize: 9, align: 0.5, color: "#0006" },
+                initials
+              )
+            );
           };
         }
       );
       NeedsDashboardSection = Caf.defClass(
         class NeedsDashboardSection extends FluxComponent {},
         function(NeedsDashboardSection, classSuper, instanceSuper) {
+          this.getter({
+            sortedNeeds: function() {
+              let statusMap;
+              statusMap = this.models.status.state;
+              return Caf.array(this.props.needs, (v, need) => {
+                let cafTemp;
+                return {
+                  need,
+                  status: (cafTemp = statusMap[need]) != null ? cafTemp : 0
+                };
+              }).sort(
+                (a, b) => b.status - a.status || a.need.localeCompare(b.need)
+              );
+            }
+          });
           this.prototype.render = function() {
             return Element(
               {
@@ -28698,17 +28741,17 @@ Caf.defMod(module, () => {
               TextElement(
                 StyleProps.textStyle,
                 { size: "childrenSize" },
-                this.props.category + " needs summary"
+                this.props.category
               ),
               Element(
                 {
-                  childrenLayout: "row",
+                  childrenLayout: "flow",
                   childrenMargins: 1,
-                  size: { h: 25 },
+                  size: "parentWidthChildrenHeight",
                   padding: { h: 10 },
                   draw: ["padded", "children"]
                 },
-                Caf.array(this.props.needs, (v, need) =>
+                Caf.array(this.sortedNeeds, ({ need }) =>
                   NeedStatus({ category: this.props.category, need })
                 )
               )
@@ -28720,7 +28763,7 @@ Caf.defMod(module, () => {
         class NeedsDashboard extends FluxComponent {},
         function(NeedsDashboard, classSuper, instanceSuper) {
           this.prototype.render = function() {
-            return Element(
+            return ScrollElement(
               { childrenLayout: "column", childrenMargins: 20, padding: 10 },
               Caf.array(Needs, (needs, category) =>
                 NeedsDashboardSection({ category, needs })
@@ -40282,17 +40325,6 @@ defineModule(module, Pipeline = (function(superClass) {
     if (responseSession) {
       currentSession = this.session.data;
       message = requestStartTime > mostRecentSessionUpdatedAt ? (mostRecentSessionUpdatedAt = requestStartTime, this.session.data = responseSession, "updated") : "out-of-order update blocked";
-      log({
-        "ArtEry.Pipeline._processResponseSession": {
-          message: message,
-          pipeline: response.pipelineName,
-          type: response.type,
-          key: response.key,
-          currentSession: currentSession,
-          responseSession: responseSession,
-          changed: !plainObjectsDeepEq(currentSession, responseSession)
-        }
-      });
     }
     return response;
   };
@@ -75875,7 +75907,7 @@ module.exports = function(arr, obj){
 /* 585 */
 /***/ (function(module, exports) {
 
-module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-config":"*","art-standard-lib":"*","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.2","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.2.1","commander":"^2.15.1","css-loader":"^0.28.4","dateformat":"^3.0.3","detect-node":"^2.0.3","fs-extra":"^5.0.0","glob":"^7.1.2","glob-promise":"^3.4.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0"},"description":"Art.Binary","license":"ISC","name":"art-binary","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"nn -s;mocha -u tdd --compilers coffee:coffee-script/register","testInBrowser":"webpack-dev-server --progress"},"version":"0.2.0"}
+module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-communication-status":"*","art-config":"*","art-rest-client":"*","art-standard-lib":"*","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.2","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.2.1","commander":"^2.15.1","css-loader":"^0.28.4","dateformat":"^3.0.3","detect-node":"^2.0.3","fs-extra":"^5.0.0","glob":"^7.1.2","glob-promise":"^3.4.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0"},"description":"Art.Binary","license":"ISC","name":"art-binary","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"nn -s;mocha -u tdd --compilers coffee:coffee-script/register","testInBrowser":"webpack-dev-server --progress"},"version":"0.2.1"}
 
 /***/ }),
 /* 586 */
@@ -75935,7 +75967,7 @@ module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","depende
 /* 595 */
 /***/ (function(module, exports) {
 
-module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-communication-status":"^1.0.0","art-config":"*","art-standard-lib":"*","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.1","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.1.2","commander":"^2.9.0","css-loader":"^0.28.4","dateformat":"^2.0.0","detect-node":"^2.0.3","fs-extra":"^3.0.1","glob":"^7.1.2","glob-promise":"^3.1.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0","xhr2":"^0.1.4"},"description":"Promise-based rest-client library. Makes HTTP/HTTPS easy in both NODE and BROWSER.","license":"ISC","name":"art-rest-client","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"nn -s;mocha -u tdd --compilers coffee:coffee-script/register","testInBrowser":"webpack-dev-server --progress"},"version":"1.6.3"}
+module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-communication-status":"^1.0.0","art-config":"*","art-standard-lib":"*","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.2","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.2.1","commander":"^2.15.1","css-loader":"^0.28.4","dateformat":"^3.0.3","detect-node":"^2.0.3","fs-extra":"^5.0.0","glob":"^7.1.2","glob-promise":"^3.4.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0","xhr2":"^0.1.4"},"description":"Promise-based rest-client library. Makes HTTP/HTTPS easy in both NODE and BROWSER.","license":"ISC","name":"art-rest-client","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"nn -s;mocha -u tdd --compilers coffee:coffee-script/register","testInBrowser":"webpack-dev-server --progress"},"version":"1.6.4"}
 
 /***/ }),
 /* 596 */
