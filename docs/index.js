@@ -19521,7 +19521,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 /* 102 */
 /***/ (function(module, exports) {
 
-module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-config":"*","art-standard-lib":"*","art-suite":"git://github.com/imikimi/art-suite.git","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.2","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.2.1","commander":"^2.15.1","css-loader":"^0.28.4","dateformat":"^3.0.3","detect-node":"^2.0.3","fs-extra":"^5.0.0","glob":"^7.1.2","glob-promise":"^3.4.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0"},"license":"ISC","name":"nvc","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"webpack-dev-server --progress","testInBrowser":"webpack-dev-server --progress"},"version":"2.5.0"}
+module.exports = {"author":"Shane Brinkman-Davis Delamore, Imikimi LLC","dependencies":{"art-build-configurator":"*","art-class-system":"*","art-config":"*","art-standard-lib":"*","art-suite":"git://github.com/imikimi/art-suite.git","art-testbench":"*","bluebird":"^3.5.0","caffeine-script":"*","caffeine-script-runtime":"*","case-sensitive-paths-webpack-plugin":"^2.1.2","chai":"^4.0.1","coffee-loader":"^0.7.3","coffee-script":"^1.12.6","colors":"^1.2.1","commander":"^2.15.1","css-loader":"^0.28.4","dateformat":"^3.0.3","detect-node":"^2.0.3","fs-extra":"^5.0.0","glob":"^7.1.2","glob-promise":"^3.4.0","json-loader":"^0.5.4","mocha":"^3.4.2","neptune-namespaces":"*","script-loader":"^0.7.0","style-loader":"^0.18.1","webpack":"^2.6.1","webpack-dev-server":"^2.4.5","webpack-merge":"^4.1.0","webpack-node-externals":"^1.6.0"},"license":"ISC","name":"nvc","scripts":{"build":"webpack --progress","start":"webpack-dev-server --hot --inline --progress","test":"webpack-dev-server --progress","testInBrowser":"webpack-dev-server --progress"},"version":"2.6.1"}
 
 /***/ }),
 /* 103 */
@@ -28690,11 +28690,11 @@ Caf.defMod(module, () => {
           };
           this.prototype.render = function() {
             let initials, cafTemp;
-            initials = codeWords(this.props.need)[0].slice(0, 3);
+            initials = codeWords(this.props.need).join(" ");
             return Element(
               {
                 cursor: "pointer",
-                size: 44,
+                size: { h: 44, w: 65 },
                 margin: 2,
                 on: { pointerClick: this.pointerClick },
                 draw: [
