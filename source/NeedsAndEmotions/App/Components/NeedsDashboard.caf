@@ -8,10 +8,10 @@ class NeedStatus extends FluxComponent
     @models.navState.setKeyPath [] :needs, @props.category, @props.need
 
   render: ->
-    initials = codeWords(@props.need)[0].slice 0, 3
+    initials = codeWords(@props.need).join ' '
     Element
       cursor: :pointer
-      size: 44
+      size: h: 44, w: 65
       margin: 2
       on: {} @pointerClick
       draw:
