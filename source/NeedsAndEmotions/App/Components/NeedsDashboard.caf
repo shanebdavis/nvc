@@ -8,12 +8,35 @@ class NeedStatus extends FluxComponent
     @models.navState.setKeyPath [] :needs, @props.category, @props.need
 
   render: ->
+    initials = codeWords(@props.need)[0].slice 0, 3
     Element
       cursor: :pointer
+      size: 44
+      margin: 2
       on: {} @pointerClick
-      draw: StyleProps.colors[@status] ? #eee
+      draw:
+        radius: 3
+        StyleProps.colors[@status] ? #eee
+
+      TextElement StyleProps.textStyle,
+        fontSize: 9
+        align: .5
+        color: #0006
+        initials
+
 
 class NeedsDashboardSection extends FluxComponent
+
+  @getter
+    sortedNeeds: ->
+      statusMap = @models.status.state
+      array v, need from @props.needs
+        {} need, status: statusMap[need] ? 0
+      .sort (a, b) ->
+        b.status - a.status
+        || a.need.localeCompare b.need
+
+
   render: ->
     Element
       size: :parentWidthChildrenHeight
@@ -22,26 +45,26 @@ class NeedsDashboardSection extends FluxComponent
       TextElement
         StyleProps.textStyle
         size: :childrenSize
-        @props.category + " needs summary"
+        @props.category
 
       Element
-        childrenLayout: :row
+        childrenLayout: :flow
         childrenMargins: 1
-        size: h: 25
+        size: :parentWidthChildrenHeight
         padding: h: 10
         draw:
           :padded
           :children
           # outline: #0007
 
-        array v, need in @props.needs
+        array {need} in @sortedNeeds
           NeedStatus {} @props.category, need
 
 
 class NeedsDashboard extends FluxComponent
 
   render: ->
-    Element
+    ScrollElement
       childrenLayout: :column
       childrenMargins: 20
       padding: 10
