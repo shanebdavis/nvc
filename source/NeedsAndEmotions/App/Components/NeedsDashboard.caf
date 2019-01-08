@@ -1,29 +1,4 @@
-import &StandardImport
-
-class NeedStatus extends FluxComponent
-  @subscriptions
-    status: ({need}) -> need
-
-  pointerClick: ->
-    @models.navState.setKeyPath [] :needs, @props.category, @props.need
-
-  render: ->
-    initials = codeWords(@props.need).join ' '
-    Element
-      cursor: :pointer
-      size: h: 44, w: 65
-      margin: 2
-      on: {} @pointerClick
-      draw:
-        radius: 3
-        StyleProps.colors[@status] ? #eee
-
-      TextElement StyleProps.textStyle,
-        fontSize: 9
-        align: .5
-        color: #0006
-        initials
-
+import &StandardImport, {} &NeedStatus
 
 class NeedsDashboardSection extends FluxComponent
 
@@ -36,7 +11,6 @@ class NeedsDashboardSection extends FluxComponent
         b.status - a.status
         || a.need.localeCompare b.need
 
-
   render: ->
     Element
       size: :parentWidthChildrenHeight
@@ -44,13 +18,13 @@ class NeedsDashboardSection extends FluxComponent
       childrenMargins: 10
       TextElement
         StyleProps.textStyle
-        size: :childrenSize
-        @props.category
+        :childrenSize
+        text: @props.category
 
       Element
-        childrenLayout: :flow
+        :flow
+        :parentWidthChildrenHeight
         childrenMargins: 1
-        size: :parentWidthChildrenHeight
         padding: h: 10
         draw:
           :padded
@@ -65,7 +39,7 @@ class NeedsDashboard extends FluxComponent
 
   render: ->
     ScrollElement
-      childrenLayout: :column
+      :column
       childrenMargins: 20
       padding: 10
 

@@ -1,5 +1,7 @@
 import &StandardImport, &Data
 
+{simpleBrowserInfo, getCssSafeAreaInset} = &ArtFoundation.Browser
+
 class App extends FluxComponent
   @subscriptions
     :navState.keyPath
@@ -10,7 +12,10 @@ class App extends FluxComponent
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
 
-    log {@currentTab, @keyPath}
+    log {}
+      @currentTab
+      @keyPath
+      getCssSafeAreaInset:getCssSafeAreaInset()
 
     CanvasElement
       canvasId:       :artCanvas
@@ -28,6 +33,12 @@ class App extends FluxComponent
             &SetStatusWidget key: @selectedKey
           else if @keyPath[0] == :needs
             &NeedsDashboard()
+          else
+            TextElement
+              StyleProps.textStyle
+              fontSize: 100
+              text: @models.status.average
+              :textCenterCenter
 
         Element
           size: ww:1, hch:1

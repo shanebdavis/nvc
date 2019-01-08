@@ -8,6 +8,7 @@ module.exports
   App:             require './App'            
   CategoryButton:  require './CategoryButton' 
   NeedsDashboard:  require './NeedsDashboard' 
+  NeedStatus:      require './NeedStatus'     
   SearchBar:       require './SearchBar'      
   SetStatusWidget: require './SetStatusWidget'
   ShowMenu:        require './ShowMenu'       

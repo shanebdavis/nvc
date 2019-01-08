@@ -51,7 +51,7 @@ thriving:
 
     movement:         "" Plenty of exercise, movement and dance.
 
-    variety:          "" Plenty of variety and novelty. Uncertainty.
+    variety:          "" Plenty of variety and novelty.
     leisure:          "" Plenty of comforable, relaxing time without stress or expectations.
     solitude:         "" Plenty of quiet, solo, alone time. Recharge-time for the introvert.
 
@@ -164,11 +164,16 @@ transcending:
                       My life is beautiful. My home, workplace, city, public spaces, people,
                       landscape, and personal possessions all stimulate my sense of beauty.
 
+  impact:
+    ""
+      My contribution matters. People value and treasure my work.
+      I make people's lives better.
+
   purpose:
     ""
                       Have a greater purpose,
 
-                      impact, importance, doing something that matters, contribute something of significance,
+                      importance, contribute something of significance,
 
                       dedication, inspiration, passion and vision.
 

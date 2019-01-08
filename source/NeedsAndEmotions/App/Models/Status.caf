@@ -6,3 +6,9 @@ class Status extends ApplicationState
 
   set: (key, status) ->
     @setState key, bound 1, status + .5 | 0, 5
+
+  @getter
+    average: ->
+      count = 0
+      reduce a, b in @state inject 0 with count++; a + b
+      / count

@@ -1,0 +1,25 @@
+import &StandardImport
+
+class NeedStatus extends FluxComponent
+  @subscriptions
+    status: ({need}) -> need
+
+  pointerClick: ->
+    @models.navState.setKeyPath [] :needs, @props.category, @props.need
+
+  render: ->
+    initials = codeWords(@props.need).join ' '
+    Element
+      cursor: :pointer
+      size: h: 44, w: 65
+      margin: 2
+      on: {} @pointerClick
+      draw:
+        radius: 3
+        StyleProps.colors[@status] ? #eee
+
+      TextElement StyleProps.textStyle,
+        fontSize: 9
+        align: .5
+        color: #0006
+        text: initials

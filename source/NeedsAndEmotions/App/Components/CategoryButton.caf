@@ -56,4 +56,4 @@ class CategoryButton extends PointerActionsMixin FluxComponent
         size:     :childrenSize
         align:    :centerCenter
         padding:  18
-        text.replace /_/g, ' '
+        text: text.replace /_/g, ' '
