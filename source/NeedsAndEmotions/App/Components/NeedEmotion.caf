@@ -31,9 +31,7 @@ class NeedEmotion extends FluxComponent
 
       BitmapElement
         key: "#{@status}"
-        :centerCenter
-        :parentWidthSquare
-
+        layout: :fit
         animators: opacity: from: 0, to: .99
         source: :assets/ + switch @status
           when 1 then :winter.png
@@ -67,13 +65,17 @@ class NeedEmotion extends FluxComponent
       :pointerCursor
 
       on:
+        pointerDown:  (event) -> event.target.capturePointerEvents()
         pointerUp:    @updateFromPointerEvent
-        pointerMove:  @updateFromPointerEvent
+        pointerMove:  (event)->
+          event.target.capturePointerEvents()
+          @updateFromPointerEvent event
 
       draw: padding: 15, radius: 10000, color: #0001
 
       Element
         :centerCenter
+        pointerEventPriority: 1
         size:       40
         animators:  :draw :location
         location: yh: .5, x:

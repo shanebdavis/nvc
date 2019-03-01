@@ -19,7 +19,6 @@ class NeedsEmotionPage extends FluxComponent
       swipeDistanceThreshold = 100
       @_handlers ?= createGestureRecognizer
         flick: ({props:{flickDirection}}) ->
-          log {} flickDirection
           switch flickDirection
           when :right then @gotoPrev()
           when :left  then @gotoNext()
