@@ -1,6 +1,13 @@
-import &ArtSuite
+import &ArtSuite, &ArtFoundation.Browser
 
 class ViewState extends ApplicationState
 
   @stateFields
-    deviceSize: null
+    deviceSize:   null
+    safePadding:  getCssSafeAreaInset()
+
+  @setter
+    deviceSize: (s) ->
+      @setState
+        deviceSize:   s
+        safePadding:  getCssSafeAreaInset()

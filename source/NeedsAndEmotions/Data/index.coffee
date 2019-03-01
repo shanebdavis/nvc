@@ -6,6 +6,7 @@ module.exports
 .includeInNamespace require './Data'
 .addModules
   EmojiMap:         require './EmojiMap'        
+  NavigationGraph:  require './NavigationGraph' 
   Needs:            require './Needs'           
   NegativeEmotions: require './NegativeEmotions'
   PositiveEmotions: require './PositiveEmotions'

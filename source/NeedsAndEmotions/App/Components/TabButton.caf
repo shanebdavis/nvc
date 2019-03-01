@@ -3,35 +3,29 @@ import &StandardImport
 class TabButton extends PointerActionsMixin Component
 
   render: ->
-    {subtext, emoji, selected} = @props
+    @props extract text, emoji, selected
 
     Element
-      childrenLayout: :column
-      childrenAlignment: :centerCenter
+      :column :childrenCenterCenter
+      :pointerCursor :clip
       childrenMargins: 5
-
-      size:       ps: 1
-      cursor:     :pointer
       on:         @buttonHandlers
-      clip:       true
-
       animators:  :draw
       draw:
         radius: 10
         color:
           if selected || @pointerIsDown
             StyleProps.primaryColor
-          else
-            :transparent
+          else :transparent
 
       emoji && TextElement
-        size:       :childrenSize
+        :childrenSize
         text:       emoji
         layoutMode: :tight
         fontSize:   32
 
-      subtext && TextElement
+      text && TextElement
         StyleProps.textStyle
+        :childrenSize
         fontSize: 9
-        size:     :childrenSize
-        text:     subtext
+        text:     text

@@ -1,4 +1,4 @@
-import &StandardImport, &Data
+import &StandardImport, &Data, {} &CategoryButton, &Data/NavigationGraph
 
 class SetStatusWidget extends FluxComponent
   @subscriptions
@@ -7,6 +7,8 @@ class SetStatusWidget extends FluxComponent
 
   @stateFields
     descriptionFocused: false
+
+  @propFields :key
 
   @getter
     status:    -> @state.status || 3
@@ -25,21 +27,12 @@ class SetStatusWidget extends FluxComponent
 
   renderBitmap: ->
     Element
-      size:
-        if @landscape
-          hh: 1, wh: 1
-        else
-          ps: 1
+      :parentHeightSquare if @landscape
 
       BitmapElement
         key: "#{@status}"
-        location: ps: .5
-        axis: .5
-        size: (ps, cs) ->
-          if ps.gt cs
-            cs
-          else
-            cs.mul ps.div(cs).min()
+        :centerCenter
+        :parentWidthSquare
 
         animators: opacity: from: 0, to: .99
         source: :assets/ + switch @status
@@ -53,26 +46,25 @@ class SetStatusWidget extends FluxComponent
     {textStyle} = StyleProps
     TextElement
       textStyle
-      axis:     x:  .5
-      location: xw: .5
+      :textCenterCenter
+      :topCenter
       size:     w: 300, h: 6 * textStyle.fontSize * textStyle.leading
-      align:    :centerCenter
       text:     dataNodes[@props.key].description
       margin:   bottom: 20
 
   renderText: ->
     TextElement
       StyleProps.textStyle
+      :childrenSize
       color:  StyleProps.colors[@status]
       text:   StyleProps.statuses[@status]
       margin: 10
-      size: :childrenSize
 
   renderSlider: ->
     Element
       size: size = w: 300, h: 44
       margin: 10
-      cursor: :pointer
+      :pointerCursor
 
       on:
         pointerUp:    @updateFromPointerEvent
@@ -81,11 +73,9 @@ class SetStatusWidget extends FluxComponent
       draw: padding: 15, radius: 10000, color: #0001
 
       Element
-        size: 40
-
+        :centerCenter
+        size:       40
         animators:  :draw :location
-        axis:       :centerCenter
-
         location: yh: .5, x:
           (size.w - size.h) * (@status - 1)
           / 4
@@ -99,14 +89,12 @@ class SetStatusWidget extends FluxComponent
 
   renderLandscape: ->
     Element
-      childrenLayout:     :row
-      childrenAlignment:  :center
+      :row :childrenCenterCenter
 
       @renderBitmap()
 
       Element
-        childrenLayout:     :column
-        childrenAlignment:  :bottomCenter
+        :column :childrenBottomCenter
         padding: bottom:    10
 
         @renderDescription()
@@ -115,9 +103,8 @@ class SetStatusWidget extends FluxComponent
 
   renderPortrait: ->
     Element
-      childrenLayout:     :column
-      childrenAlignment:  :center
-      padding: bottom:    25
+      :column
+      :childrenCenterCenter
 
       @renderBitmap()
       @renderDescription()
@@ -125,9 +112,18 @@ class SetStatusWidget extends FluxComponent
       @renderSlider()
 
   render: ->
+
+    NavigationGraph[@key] extract? prev, next
     Element
       if @viewState.deviceSize
         if @landscape
           @renderLandscape()
         else
           @renderPortrait()
+
+      Element
+        :parentWidthChildrenHeight
+        :row
+        prev && CategoryButton key: prev
+        Element()
+        next && CategoryButton key: next

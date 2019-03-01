@@ -1,0 +1,23 @@
+generatePrevNextNav = (items, navigation = {}) ->
+
+  lastNeed = null
+  firstNeed = null
+  each subneeds in items
+    each _, need in subneeds
+      firstNeed ?= need
+      navigation[need] = {}
+      if lastNeed
+        navigation[need].prev = lastNeed
+        navigation[lastNeed].next = need
+      lastNeed = need
+
+  navigation[lastNeed].next = firstNeed
+  navigation[firstNeed].prev = lastNeed
+
+  navigation
+
+generatePrevNextNav
+  &Needs
+  generatePrevNextNav {}
+    &NegativeEmotions
+    &PositiveEmotions

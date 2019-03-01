@@ -9,15 +9,10 @@ class CategoryButton extends PointerActionsMixin FluxComponent
     @models.navState.selectKey @props.key
 
   hasAncestorKey = (key, lookFor) ->
-    if key == lookFor
-      true
-    else
-      {parentKey} = dataNodes[key]
-      if parentKey
-        hasAncestorKey parentKey, lookFor
-      else
-        false
-
+    key == lookFor
+    ||
+      dataNodes[key] extract? parentKey
+      && hasAncestorKey parentKey, lookFor
 
   render: ->
     {key} = @props
@@ -25,24 +20,21 @@ class CategoryButton extends PointerActionsMixin FluxComponent
     selected = key in @keyPath
     text =     key
     color = rgbColor
-      if key == "needs" || dataNodes[key].rootKey == "needs"
-        StyleProps.colors[@status||3] || StyleProps.primaryColor
+      switch
+      when key == :needs || dataNodes[key].rootKey == :needs
+        StyleProps.colors[@status||3]
+        || StyleProps.primaryColor
 
-      else if hasAncestorKey key, "painful"
-        #3399fe # faac11
-      else if hasAncestorKey key, "about"
-        #ffa9f7
-      else if hasAncestorKey key, "pleasurable"
-        #ffe838
-      else
-        #bbb
+      when hasAncestorKey key, :painful     then #3399fe
+      when hasAncestorKey key, :about       then #ffa9f7
+      when hasAncestorKey key, :pleasurable then #ffe838
+      else                                       #bbb
 
     Element
-      size:       wcw: 1, hch: 1
-      cursor:     :pointer
+      :childrenSize
+      :pointerCursor
+      :clip
       on:         @buttonHandlers
-      clip:       true
-
       animators: :draw
       draw:
         radius:   100
@@ -53,7 +45,7 @@ class CategoryButton extends PointerActionsMixin FluxComponent
 
       TextElement
         StyleProps.textStyle
-        size:     :childrenSize
-        align:    :centerCenter
+        :childrenSize
+        :textCenterCenter
         padding:  18
-        text: text.replace /_/g, ' '
+        text:     text.replace /_/g, ' '

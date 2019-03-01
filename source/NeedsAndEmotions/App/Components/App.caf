@@ -8,27 +8,26 @@ class App extends FluxComponent
     :navState.currentTab
     :navState.selectedKey
     :navState.searchResults
+    :viewState.safePadding
 
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
-
-    log {}
-      @currentTab
-      @keyPath
-      getCssSafeAreaInset:getCssSafeAreaInset()
+    @ extract safePadding
 
     CanvasElement
       canvasId:       :artCanvas
       childrenLayout: :column
-      on: ready: ({target}) =>
-        @models.viewState.deviceSize = target.currentSize
+      on: ready: (event) =>
+        @models.viewState.deviceSize = event.target.currentSize
 
       Element
-        draw: #f9f9f9
+        draw: #f9
+        padding: {top} = safePadding
 
         Element
-          key: "status"
-          size: ww:1, hh: 1, h: -110
+          key: :status
+          size: ww:1, hh: 1, h: -135 - safePadding.bottom
+          padding: {left, right} = safePadding
           if showSetStatus
             &SetStatusWidget key: @selectedKey
           else if @keyPath[0] == :needs
@@ -41,12 +40,10 @@ class App extends FluxComponent
               :textCenterCenter
 
         Element
-          size: ww:1, hch:1
-          axis: :bottomLeft
-          location: yh: 1
-          childrenLayout: :column
-
           draw: :white
+          padding: {bottom, left, right} = safePadding
+          :parentWidthChildrenHeight
+          :bottomLeft :column
 
           switch @currentTab
           when :search
@@ -63,33 +60,34 @@ class App extends FluxComponent
           Element
             size: ww:1, h: 70
             padding: 5
-            childrenLayout: :row
-            childrenAlignment: :centerCenter
+            :row :childrenCenterCenter
             array key in :needs :emotions
               &TabButton
-                style: :tab
-                subtext: key
-                emoji: EmojiMap[key]
-                action: -> @models.navState.selectKey key
-                size: ps: 1
+                :parentSize
+                style:    :tab
+                text:  key
+                emoji:    EmojiMap[key]
+                action:   -> @models.navState.selectKey key
 
             &TabButton
-              style: :tab
-              subtext: "affirmations"
-              emoji: :👍
+              :parentSize
+              style:    :tab
+              text:  :affirmations
+              emoji:    :👍
               action: @models.navState.showAffirmations
               size: ps: 1
 
             &TabButton
-              style: :tab
-              subtext: :about
-              emoji: EmojiMap.about
-              action: -> @models.navState.selectKey :about
-              size: ps: 1
+              :parentSize
+              style:    :tab
+              text:  :about
+              emoji:    EmojiMap.about
+              action:   -> @models.navState.selectKey :about
 
             &TabButton
-              style: :tab
-              subtext: "search"
-              emoji: :🔍
-              action: @models.navState.toggleSearchVisible
-              size: ps: 1
+              :parentSize
+              style:    :tab
+              text:  :search
+              emoji:    :🔍
+              action:   @models.navState.toggleSearchVisible
+
