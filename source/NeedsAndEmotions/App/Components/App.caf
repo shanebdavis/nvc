@@ -29,7 +29,7 @@ class App extends FluxComponent
           size: ww:1, hh: 1, h: -135 - safePadding.bottom
           padding: {left, right} = safePadding
           if showSetStatus
-            &SetStatusWidget key: @selectedKey
+            &NeedsEmotionPage needEmotion: @selectedKey
           else if @keyPath[0] == :needs
             &NeedsDashboard()
           else

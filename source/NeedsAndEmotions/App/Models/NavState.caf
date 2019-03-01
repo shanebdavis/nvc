@@ -11,22 +11,16 @@ class NavState extends ApplicationState
     searchQuery:    null
 
   selectKey: (key) ->
-    @clearCurrentTab()
-    {depth} = node = &Data.dataNodes[key]
-    if @keyPath[depth] == key
+    if key?
+      @clearCurrentTab()
 
-      keyPath = @keyPath.slice 0, depth +
-        if @keyPath.length - 1 == depth
-          0
-        else
-          1
-    else
-      keyPath = new Array depth + 1
-      while node?.depth >= 0
-        keyPath[node.depth] = node.key
-        node = dataNodes[node.parentKey]
+      n = node = &Data.dataNodes[key]
+      keyPath = []
+      array to node.depth
+        keyPath[n.depth] = n.key
+        n = dataNodes[n.parentKey]
 
-    @setKeyPath keyPath
+      @setKeyPath keyPath
 
   setKeyPath: (keyPath) ->
     @setState

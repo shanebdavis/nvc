@@ -1,14 +1,14 @@
 import &StandardImport, &Data, {} &CategoryButton, &Data/NavigationGraph
 
-class SetStatusWidget extends FluxComponent
+class NeedEmotion extends FluxComponent
   @subscriptions
     :viewState.viewState
-    status: (props) -> props.key
+    status: ({needEmotion}) -> needEmotion
 
   @stateFields
     descriptionFocused: false
 
-  @propFields :key
+  @propFields :needEmotion
 
   @getter
     status:    -> @state.status || 3
@@ -19,7 +19,7 @@ class SetStatusWidget extends FluxComponent
   updateFromPointerEvent: ({location, target}) ->
     {x, y} = target.currentSize
     @models.status.set
-      @props.key
+      @needEmotion
       location.x - y / 2
       / (x - y)
       * 4
@@ -49,7 +49,7 @@ class SetStatusWidget extends FluxComponent
       :textCenterCenter
       :topCenter
       size:     w: 300, h: 6 * textStyle.fontSize * textStyle.leading
-      text:     dataNodes[@props.key].description
+      text:     dataNodes[@needEmotion].description
       margin:   bottom: 20
 
   renderText: ->
@@ -113,7 +113,7 @@ class SetStatusWidget extends FluxComponent
 
   render: ->
 
-    NavigationGraph[@key] extract? prev, next
+    NavigationGraph[@needEmotion] extract? prev, next
     Element
       if @viewState.deviceSize
         if @landscape
