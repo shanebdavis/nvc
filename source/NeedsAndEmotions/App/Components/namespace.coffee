@@ -2,3 +2,4 @@
 # file: NeedsAndEmotions/App/Components/namespace.coffee
 
 module.exports = (require '../namespace').addNamespace('Components', class Components extends Neptune.PackageNamespace)
+require './Widgets/namespace'

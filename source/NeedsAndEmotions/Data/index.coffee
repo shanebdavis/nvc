@@ -9,5 +9,6 @@ module.exports
   NavigationGraph:  require './NavigationGraph' 
   Needs:            require './Needs'           
   NegativeEmotions: require './NegativeEmotions'
+  OrderedNeedsList: require './OrderedNeedsList'
   PositiveEmotions: require './PositiveEmotions'
   Tools:            require './Tools'           

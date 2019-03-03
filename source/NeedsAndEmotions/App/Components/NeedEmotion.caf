@@ -1,4 +1,4 @@
-import &StandardImport, &Data, {} &CategoryButton, &Data/NavigationGraph
+import &StandardImport, &Data, &Widgets, {} &CategoryButton, &Data/NavigationGraph
 
 class NeedEmotion extends FluxComponent
   @subscriptions
@@ -26,19 +26,7 @@ class NeedEmotion extends FluxComponent
       + 1
 
   renderBitmap: ->
-    Element
-      :parentHeightSquare if @landscape
-
-      BitmapElement
-        key: "#{@status}"
-        layout: :fit
-        animators: opacity: from: 0, to: .99
-        source: :assets/ + switch @status
-          when 1 then :winter.png
-          when 2 then :fall.png
-          when 3 then :unknown.png
-          when 4 then :summer.png
-          when 5 then :spring.png
+    NeedStatusBitmap {} @status
 
   renderDescription: ->
     {textStyle} = StyleProps
@@ -56,7 +44,13 @@ class NeedEmotion extends FluxComponent
       :childrenSize
       color:  StyleProps.colors[@status]
       text:   StyleProps.statuses[@status]
-      margin: 10
+
+  renderTitle: ->
+    TextElement
+      StyleProps.titleStyle
+      :childrenSize
+      margin: bottom: 20
+      text:   capitalize @needEmotion
 
   renderSlider: ->
     Element
@@ -99,6 +93,7 @@ class NeedEmotion extends FluxComponent
         :column :childrenBottomCenter
         padding: bottom:    10
 
+        @renderTitle()
         @renderDescription()
         @renderText()
         @renderSlider()
@@ -109,6 +104,7 @@ class NeedEmotion extends FluxComponent
       :childrenCenterCenter
 
       @renderBitmap()
+      @renderTitle()
       @renderDescription()
       @renderText()
       @renderSlider()
@@ -123,9 +119,4 @@ class NeedEmotion extends FluxComponent
         else
           @renderPortrait()
 
-      Element
-        :parentWidthChildrenHeight
-        :row
-        prev && CategoryButton key: prev
-        Element()
-        next && CategoryButton key: next
+

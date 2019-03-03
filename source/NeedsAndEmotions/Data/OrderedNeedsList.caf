@@ -1,0 +1,4 @@
+
+each subneeds in &Needs into out = []
+  each need in Object.keys(subneeds).sort()
+    out.push need

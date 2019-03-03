@@ -13,4 +13,4 @@ class Affirmations extends FluxComponent
       TextElement
         StyleProps.textStyle
         align: .5
-        "Affirmations - WIP"
+        text: "Affirmations - WIP"

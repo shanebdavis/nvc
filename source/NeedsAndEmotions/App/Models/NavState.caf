@@ -4,11 +4,21 @@ import &ArtSuite
 class NavState extends ApplicationState
 
   @stateFields
-    selectedKey: :about
-    keyPath: [] :about
-    currentTab:     null
+    selectedKey:    null
+    keyPath:        []
+    currentTab:     :home
     searchResults:  []
     searchQuery:    null
+
+  toggleKey: (key) ->
+    if key?
+      if key == peek @keyPath
+        @popKeyPath()
+      else
+        @selectKey key
+
+  popKeyPath: ->
+    @selectedKey = peek @keyPath = arrayWithoutLast @keyPath
 
   selectKey: (key) ->
     if key?

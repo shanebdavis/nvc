@@ -1,0 +1,25 @@
+import &StandardImport
+
+class PillButton extends PointerActionsMixin FluxComponent
+  render: ->
+    @props extract text, color = StyleProps.primaryColor
+
+    Element
+      :childrenSize
+      :pointerCursor
+      :clip
+      on:         @buttonHandlers
+      animators: :draw
+      draw:
+        radius:   100
+        padding:  5
+        color:
+          if selected || @pointerIsDown then color
+          else color.blend :white, .5
+
+      TextElement
+        StyleProps.textStyle
+        :childrenSize
+        :textCenterCenter
+        padding:  18
+        text:     text.replace /_/g, ' '

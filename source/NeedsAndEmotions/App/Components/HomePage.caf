@@ -1,0 +1,56 @@
+import &StandardImport, &Widgets
+
+class HomePage extends FluxComponent
+
+  @getter
+    overallRoundedStatus: ->
+      Math.round(@models.status.average)
+      4
+
+  render: ->
+    Element
+      :column :childrenCenterCenter
+      childrenMargins: 20
+      padding: 10
+
+      Element
+        size:   300
+        NeedStatusBitmap status: @overallRoundedStatus
+
+      TextElement
+        StyleProps.textStyle
+        :textCenterCenter
+        size: :childrenSize
+        text:
+          """
+            Needs & Emotions v#{&Package.version}
+
+            Shane Brinkman-Davis Delamore
+            shanebdavis@gmail.com
+
+      Element
+        size: w: 300, h: 30
+        draw:
+          padding:
+            right:
+              300 *
+                1
+                - log @models.status.average / 5
+          fill:
+            StyleProps.colors[@overallRoundedStatus]
+          :reset
+          outline: #7
+
+        TextElement
+          StyleProps.textStyle
+          :childrenSize
+          :centerCenter
+          fontSize: 14
+          text:
+            ""
+              Average:
+              #{} @models.status.average.toFixed 2
+
+      PillButton
+        text: "Start needs assessment"
+        action: -> @models.navState.selectKey OrderedNeedsList[0]

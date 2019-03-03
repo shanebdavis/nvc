@@ -1,0 +1,16 @@
+import &StandardImport
+
+class NeedStatusBitmap extends Component
+
+  @propFields :status
+
+  render: ->
+    BitmapElement
+      layout: :fit
+      animators: opacity: from: 0, to: .99
+      source: :assets/ + switch @status
+        when 1 then :winter.png
+        when 2 then :fall.png
+        when 3 then :unknown.png
+        when 4 then :summer.png
+        when 5 then :spring.png

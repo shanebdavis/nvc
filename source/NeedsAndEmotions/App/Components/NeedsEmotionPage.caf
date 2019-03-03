@@ -48,19 +48,22 @@ class NeedsEmotionPage extends FluxComponent
     if (axisXOffset < 0 && !prev) || (axisXOffset > 0 && !next)
       axisXOffset /= 2
     Element
-      on: @handlers
-      prev && Element
-        key:        prev
-        animators:  !tracking && :axis
-        axis:       x: axisXOffset + 1
-        &NeedEmotion needEmotion: prev
-      next && Element
-        key:        next
-        animators:  !tracking && :axis
-        axis:       x: axisXOffset - 1
-        &NeedEmotion needEmotion: next
+      :column
       Element
-        key: @needEmotion
-        axis:       x: axisXOffset
-        animators:  !tracking && :axis
-        &NeedEmotion needEmotion: @needEmotion
+        on: @handlers
+        prev && Element
+          key:        prev
+          animators:  !tracking && :axis
+          axis:       x: axisXOffset + 1
+          &NeedEmotion needEmotion: prev
+        next && Element
+          key:        next
+          animators:  !tracking && :axis
+          axis:       x: axisXOffset - 1
+          &NeedEmotion needEmotion: next
+        Element
+          key: @needEmotion
+          axis:       x: axisXOffset
+          animators:  !tracking && :axis
+          &NeedEmotion needEmotion: @needEmotion
+      &NeedStrip()

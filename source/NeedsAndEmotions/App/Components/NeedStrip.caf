@@ -1,0 +1,63 @@
+import &StandardImport
+
+class NeedStrip extends FluxComponent
+  @subscriptions :status.status :navState.selectedKey
+
+  @stateFields
+    hoverNeed: null
+
+  pointerMove: (event) ->
+    @models.navState.selectKey @getNeedFromMouseEvent event
+
+  getNeedFromMouseEvent: (event) ->
+    {target, location} = event
+    OrderedNeedsList[Math.floor (location.x / target.currentSize.x) * OrderedNeedsList.length]
+
+  pointerClick: (event) ->
+    @models.navState.selectKey @getNeedFromMouseEvent event
+
+  mouseOut: ->
+    @clearHoverNeed()
+
+  mouseMove: (event) ->
+    @hoverNeed = @getNeedFromMouseEvent event
+
+  render: ->
+    w = 1 / OrderedNeedsList.length
+    key = @hoverNeed ? @selectedKey
+    Element
+      size: h: 30
+      :pointerCursor
+      on: {}
+        @mouseOut
+        @mouseMove
+        @pointerClick
+        @pointerMove
+
+      Element
+        animators: :draw
+        scale:
+          (ps) ->
+            x:  ps.x
+            y:  1
+        draw:
+          array need, i in OrderedNeedsList
+            rectangle:
+            area:
+                rect
+                  i * w
+                  if need != key
+                    20
+                  else
+                    10
+                  w
+                  if need == key
+                    20
+                  else
+                    10
+
+            fill: StyleProps.colors[@status[need]||3]
+            #   if need == @selectedKey
+            #     tl: 5 tr: 5 bl: 0 br: 0
+            #   else
+            #     tl: 0 tr: 0 bl: 0 br: 0

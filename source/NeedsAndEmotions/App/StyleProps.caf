@@ -11,6 +11,8 @@ class StyleProps extends HotStyleProps
     fontSize:     18
     leading:      1.25
 
+  @titleStyle: merge @textStyle, fontSize: 18 * 1.25
+
   @statuses:
     1: "" Tragically unfulfilled
     2: "" Somewhat unfulfilled
