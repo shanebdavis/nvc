@@ -22,7 +22,7 @@ class TabButton extends PointerActionsMixin Component
         :childrenSize
         text:       emoji
         layoutMode: :tight
-        fontSize:   32
+        fontSize:   24
 
       text && TextElement
         StyleProps.textStyle

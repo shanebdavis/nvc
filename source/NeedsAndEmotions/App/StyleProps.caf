@@ -22,8 +22,8 @@ class StyleProps extends HotStyleProps
 
   @colors:
     # brightness: 88%, sat: 100% or 50%, color: 0deg, 30deg, 60deg, 90deg, 120deg
-    1:  #bd954c
-    2:  #f5b87a
+    1:  #b8e2ef
+    2:  #ff9024
     3:  #bbb
     4:  #a7df6f
     5:  #ffa9f7

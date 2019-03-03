@@ -13,6 +13,9 @@ class App extends FluxComponent
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
     @ extract safePadding
+    # safePadding = merge safePadding,
+    #   bottom: 0
+
 
     CanvasElement
       canvasId:       :artCanvas
@@ -57,7 +60,7 @@ class App extends FluxComponent
               &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
           Element
-            size: ww:1, h: 70
+            size: ww:1, h: 50
             padding: 5
             :row :childrenCenterCenter
 

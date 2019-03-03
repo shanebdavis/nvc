@@ -35,7 +35,7 @@ class HomePage extends FluxComponent
             right:
               300 *
                 1
-                - log @models.status.average / 5
+                - @models.status.average / 5
           fill:
             StyleProps.colors[@overallRoundedStatus]
           :reset
