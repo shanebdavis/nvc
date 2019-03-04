@@ -4,6 +4,7 @@ class PillButton extends PointerActionsMixin FluxComponent
   render: ->
     @props extract selected, text, color = StyleProps.primaryColor
 
+
     Element
       :childrenSize
       :pointerCursor
@@ -15,7 +16,9 @@ class PillButton extends PointerActionsMixin FluxComponent
         padding:  5
         color:
           if selected || @pointerIsDown then color
-          else color.blend :white, .5
+          else
+            rgbColor color
+            .blend :white, .5
 
       TextElement
         StyleProps.textStyle

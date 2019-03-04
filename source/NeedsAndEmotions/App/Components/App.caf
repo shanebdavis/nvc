@@ -1,4 +1,4 @@
-import &StandardImport, &Data
+import &StandardImport, &Data, &Pages
 
 {simpleBrowserInfo, getCssSafeAreaInset} = &ArtFoundation.Browser
 
@@ -13,9 +13,6 @@ class App extends FluxComponent
   render: ->
     showSetStatus = dataNodes[@selectedKey]?.description
     @ extract safePadding
-    # safePadding = merge safePadding,
-    #   bottom: 0
-
 
     CanvasElement
       canvasId:       :artCanvas
@@ -31,13 +28,16 @@ class App extends FluxComponent
           key: :status
           size: ww:1, hh: 1, h: -120 - safePadding.bottom
           padding: {left, right} = safePadding
-          switch
-          when @currentTab == :home
-            &HomePage()
-          else if showSetStatus
-            &NeedsEmotionPage needEmotion: @selectedKey
-          else if @keyPath[0] == :needs
-            &NeedsDashboard()
+          switch @currentTab
+          when :home     then HomePage()
+          when :needs    then NeedsEmotionPage needEmotion: @selectedKey
+          when :emotions then NeedsEmotionPage needEmotion: @selectedKey, emotions: true
+
+          else
+            if showSetStatus
+              NeedsEmotionPage needEmotion: @selectedKey
+            else if @keyPath[0] == :needs
+              &NeedsDashboard()
 
         Element
           draw: :white
@@ -59,37 +59,4 @@ class App extends FluxComponent
               &ShowPath()                 if @keyPath.length > 0
               &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
-          Element
-            size: ww:1, h: 50
-            padding: 5
-            :row :childrenCenterCenter
-
-            &TabButton
-              :parentSize
-              style:    :tab
-              text:     :home
-              emoji:    :🏠
-              action:   -> @models.navState.currentTab = :home
-
-            array key in :needs :emotions
-              &TabButton
-                :parentSize
-                style:    :tab
-                text:  key
-                emoji:    EmojiMap[key]
-                action:   -> @models.navState.selectKey key
-
-            &TabButton
-              :parentSize
-              style:    :tab
-              text:  :affirmations
-              emoji:    :👍
-              action: @models.navState.showAffirmations
-              size: ps: 1
-            &TabButton
-              :parentSize
-              style:    :tab
-              text:  :search
-              emoji:    :🔍
-              action:   @models.navState.toggleSearchVisible
-
+          &TabBar()

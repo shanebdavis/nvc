@@ -25,7 +25,7 @@ class CategoryButton extends PointerActionsMixin FluxComponent
           StyleProps.colors[@status||3]
           || StyleProps.primaryColor
 
-        when hasAncestorKey key, :painful     then #3399fe
+        when hasAncestorKey key, :painful     then StyleProps.colors[1]
         when hasAncestorKey key, :about       then #ffa9f7
-        when hasAncestorKey key, :pleasurable then #ffe838
+        when hasAncestorKey key, :pleasurable then StyleProps.colors[5]
         else                                       #bbb

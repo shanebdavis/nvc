@@ -2,7 +2,7 @@ import &ArtSuite
 
 class StyleProps extends HotStyleProps
 
-  @primaryColor:  #ccc
+  @primaryColor:  rgbColor #a7df6f
   @leafColor:     #ccc
 
   @textStyle:
@@ -16,7 +16,7 @@ class StyleProps extends HotStyleProps
   @statuses:
     1: "" Tragically unfulfilled
     2: "" Somewhat unfulfilled
-    3: "" Undecided
+    3: "" << slide to select >>
     4: "" Somewhat fulfilled
     5: "" Joyfully fulfilled
 

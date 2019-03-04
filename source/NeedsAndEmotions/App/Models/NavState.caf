@@ -22,13 +22,14 @@ class NavState extends ApplicationState
 
   selectKey: (key) ->
     if key?
-      @clearCurrentTab()
 
       n = node = &Data.dataNodes[key]
       keyPath = []
       array to node.depth
         keyPath[n.depth] = n.key
         n = dataNodes[n.parentKey]
+
+      @currentTab = keyPath[0]
 
       @setKeyPath keyPath
 

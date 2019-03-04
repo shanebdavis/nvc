@@ -6,3 +6,4 @@ module.exports
 .addModules
   NeedStatusBitmap: require './NeedStatusBitmap'
   PillButton:       require './PillButton'      
+  TabButton:        require './TabButton'       
