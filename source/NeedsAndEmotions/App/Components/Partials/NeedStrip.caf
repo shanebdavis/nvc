@@ -5,6 +5,7 @@ class NeedStrip extends FluxComponent
 
   @stateFields
     hoverNeed: null
+    parentWidth: 0
 
   pointerMove: (event) ->
     @models.navState.selectKey @getNeedFromMouseEvent event
@@ -22,13 +23,21 @@ class NeedStrip extends FluxComponent
   mouseMove: (event) ->
     @hoverNeed = @getNeedFromMouseEvent event
 
+  ready: ({target:{currentSize}}) -> @parentWidth = currentSize.w - padding * 2
+
+  padding = 0
+
   render: ->
+    @ extract parentWidth, selectedKey, hoverNeed
     w = 1 / OrderedNeedsList.length
-    key = @hoverNeed ? @selectedKey
+    key = hoverNeed ? selectedKey
+
     Element
       size: h: 40
+      padding: h: padding
       :pointerCursor
       on: {}
+        @ready
         @mouseOut
         @mouseMove
         @pointerClick
@@ -36,28 +45,29 @@ class NeedStrip extends FluxComponent
 
       Element
         animators: :draw
-        scale:
-          (ps) ->
-            x:  ps.x
-            y:  1
-        draw:
+        draw: if parentWidth > 0
           array need, i in OrderedNeedsList
+            dataNodes[need] extract? parentKey
+            parentNum = switch parentKey
+            when :thriving      then 1
+            when :transcending  then 2
+            else 0
             rectangle:
-            area:
+              area:
                 rect
-                  i * w
+                  parentWidth
+                  - 14
+                  * i * w
+                  + 2.5
+                  + parentNum * 5
                   if need != key
                     20
                   else
                     10
-                  w
+                  parentWidth * w - 1
                   if need == key
                     40
                   else
                     20
 
             fill: StyleProps.colors[@status[need]||3]
-            #   if need == @selectedKey
-            #     tl: 5 tr: 5 bl: 0 br: 0
-            #   else
-            #     tl: 0 tr: 0 bl: 0 br: 0
