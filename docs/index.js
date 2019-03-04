@@ -6929,7 +6929,7 @@ eval("module.exports = __webpack_require__(/*! ./source/NeedsAndEmotions */ \"./
 /*! exports provided: author, dependencies, license, name, scripts, version, default */
 /***/ (function(module) {
 
-eval("module.exports = {\"author\":\"Shane Brinkman-Davis Delamore, Imikimi LLC\",\"dependencies\":{\"art-build-configurator\":\"*\",\"art-suite\":\"git://github.com/imikimi/art-suite.git\"},\"license\":\"ISC\",\"name\":\"nvc\",\"scripts\":{\"build\":\"echo \\\"Building js...\\\"\\nwebpack\\necho \\\"Building manifest...\\\"\\ncaf generateManifest.caf > docs/needs.manifest\\necho \\\"Build done.\\\"\",\"start\":\"webpack-dev-server --hot --inline --progress\",\"test\":\"webpack-dev-server  --progress\",\"testInBrowser\":\"webpack-dev-server --progress\"},\"version\":\"2.7.2\"};\n\n//# sourceURL=webpack:///./package.json?");
+eval("module.exports = {\"author\":\"Shane Brinkman-Davis Delamore, Imikimi LLC\",\"dependencies\":{\"art-build-configurator\":\"*\",\"art-suite\":\"git://github.com/imikimi/art-suite.git\"},\"license\":\"ISC\",\"name\":\"nvc\",\"scripts\":{\"build\":\"echo \\\"Building js...\\\"\\nwebpack\\necho \\\"Building manifest...\\\"\\ncaf generateManifest.caf > docs/needs.manifest\\necho \\\"Build done.\\\"\",\"start\":\"webpack-dev-server --hot --inline --progress\",\"test\":\"webpack-dev-server  --progress\",\"testInBrowser\":\"webpack-dev-server --progress\"},\"version\":\"2.7.3\"};\n\n//# sourceURL=webpack:///./package.json?");
 
 /***/ }),
 
