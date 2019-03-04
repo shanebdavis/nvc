@@ -50,7 +50,7 @@ class NeedEmotion extends FluxComponent
       StyleProps.titleStyle
       :childrenSize
       margin: bottom: 20
-      text:   capitalize @needEmotion
+      text:   upperCamelCase @needEmotion, ' '
 
   renderSlider: ->
     Element

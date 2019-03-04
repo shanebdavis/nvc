@@ -2,7 +2,7 @@ import &StandardImport
 
 class PillButton extends PointerActionsMixin FluxComponent
   render: ->
-    @props extract text, color = StyleProps.primaryColor
+    @props extract selected, text, color = StyleProps.primaryColor
 
     Element
       :childrenSize
