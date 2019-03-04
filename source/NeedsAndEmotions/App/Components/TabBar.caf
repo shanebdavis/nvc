@@ -1,0 +1,40 @@
+import &StandardImport, &Widgets
+
+class TabBar extends FluxComponent
+  @subscriptions :navState.currentTab
+
+  render: ->
+    Element
+      size: ww:1, h: 50
+      padding: 5
+      childrenMargins: 2
+      :row :childrenCenterCenter
+
+      TabButton
+        :parentSize
+        style:    :tab
+        text:     :home
+        selected: @currentTab == :home
+        action:   -> @models.navState.currentTab = :home
+
+      array key in :needs :emotions
+        log {}
+          text:   key
+          selected: @currentTab == key
+          @currentTab
+          two: @models.navState.currentTab
+        TabButton
+          :parentSize
+          style:  :tab
+          text:   key
+          selected: @currentTab == key
+          action: ->
+            @models.navState.selectKey key
+
+      TabButton
+        :parentSize
+        style:    :tab
+        text:     :search
+        selected: @currentTab == :search
+        action:   @models.navState.toggleSearchVisible
+

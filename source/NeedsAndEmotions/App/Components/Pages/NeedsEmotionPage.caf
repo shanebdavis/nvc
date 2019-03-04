@@ -1,0 +1,79 @@
+import &StandardImport
+
+class NeedsEmotionPage extends FluxComponent
+
+  @propFields :needEmotion
+
+  @stateFields
+    axisXOffset:      0
+    tracking:         false
+    absoluteXOffset:  0
+
+  gotoPrev: -> @models.navState.selectKey @prev
+  gotoNext: -> @models.navState.selectKey @next
+
+  @getter
+    prev: -> NavigationGraph[@needEmotion]?.prev
+    next: -> NavigationGraph[@needEmotion]?.next
+    handlers: ->
+      swipeDistanceThreshold = 100
+      @_handlers ?= createGestureRecognizer
+        flick: ({props:{flickDirection}}) ->
+          switch flickDirection
+          when :right then @gotoPrev()
+          when :left  then @gotoNext()
+
+        horizontal:
+          begin: (e) ->
+          move:  (e) ->
+            @tracking = true
+            timeout 100, -> @tracking = false
+            @absoluteXOffset = e.totalParentDelta.x
+            @axisXOffset = -e.totalParentDelta.x / e.target.currentSize.x
+
+          end:   (e) ->
+            switch
+              when @absoluteXOffset < -swipeDistanceThreshold then @gotoNext()
+              when @absoluteXOffset >  swipeDistanceThreshold then @gotoPrev()
+            @axisXOffset = 0
+            @tracking = false
+
+          cancel: (e) ->
+            @axisXOffset = 0
+            @tracking = false
+
+  render: ->
+    @ extract tracking, axisXOffset
+    @props extract emotions
+
+    NavigationGraph[@needEmotion] extract? prev, next
+    if (axisXOffset < 0 && !prev) || (axisXOffset > 0 && !next)
+      axisXOffset /= 2
+
+    Element
+      :column
+      unless next? || prev?
+        # for animation purposes while navigating
+        NeedEmotion {}
+          emotions
+          hideStatus: true
+          needEmotion: @needEmotion
+      else []
+        Element
+          on: @handlers
+          prev && Element
+            key:        prev
+            animators:  !tracking && :axis
+            axis:       x: axisXOffset + 1
+            NeedEmotion {} emotions, needEmotion: prev
+          next && Element
+            key:        next
+            animators:  !tracking && :axis
+            axis:       x: axisXOffset - 1
+            NeedEmotion {} emotions, needEmotion: next
+          Element
+            key: @needEmotion
+            axis:       x: axisXOffset
+            animators:  !tracking && :axis
+            NeedEmotion {} emotions, needEmotion: @needEmotion
+        NeedStrip() unless emotions
