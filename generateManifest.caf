@@ -1,0 +1,14 @@
+import &ArtStandardLib
+log
+  """
+    CACHE MANIFEST
+    # built:    #{formatDate 'yyyy-mm-dd HH:MMtt'}
+    # version:  v#{&package.version}
+
+    assets/needs256.png
+    assets/fall.png
+    assets/spring.png
+    assets/winter.png
+    assets/unknown.png
+    assets/summer.png
+    index.js
