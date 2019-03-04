@@ -18,15 +18,14 @@ class HomePage extends FluxComponent
         NeedStatusBitmap status: @overallRoundedStatus
 
       TextElement
-        StyleProps.textStyle
+        StyleProps.largeText
         :textCenterCenter
         size: :childrenSize
         text:
           """
             Needs & Emotions v#{&Package.version}
 
-            Shane Brinkman-Davis Delamore
-            shanebdavis@gmail.com
+      Element()
 
       Element
         size: w: 300, h: 30
@@ -42,7 +41,7 @@ class HomePage extends FluxComponent
           outline: #7
 
         TextElement
-          StyleProps.textStyle
+          StyleProps.mediumText
           :childrenSize
           :centerCenter
           fontSize: 14
@@ -54,3 +53,14 @@ class HomePage extends FluxComponent
       PillButton
         text: "Start needs assessment"
         action: -> @models.navState.selectKey OrderedNeedsList[0]
+
+      Element()
+
+      TextElement
+        StyleProps.smallText
+        :textCenterCenter
+        :childrenSize
+        text:
+          """
+            Shane Brinkman-Davis Delamore
+            shanebdavis@gmail.com

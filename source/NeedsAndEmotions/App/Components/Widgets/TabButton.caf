@@ -25,7 +25,7 @@ class TabButton extends PointerActionsMixin Component
         fontSize:   24
 
       text && TextElement
-        StyleProps.textStyle
+        StyleProps.mediumText
         :childrenSize
         fontSize: 12
         text:     text

@@ -11,6 +11,6 @@ class Affirmations extends FluxComponent
       padding: 10
 
       TextElement
-        StyleProps.textStyle
+        StyleProps.mediumText
         align: .5
         text: "Affirmations - WIP"

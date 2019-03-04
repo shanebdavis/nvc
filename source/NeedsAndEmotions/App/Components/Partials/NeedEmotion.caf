@@ -33,31 +33,40 @@ class NeedEmotion extends FluxComponent
       + 1
 
   renderBitmap: ->
-    NeedStatusBitmap {} @status
+    Element
+      size: 300
+      NeedStatusBitmap {} @status
 
   renderDescription: ->
-    {textStyle} = StyleProps
+    {mediumText} = StyleProps
     TextElement
-      textStyle
+      mediumText
       :textCenterCenter
       :topCenter
-      size:     w: 300, h: 6 * textStyle.fontSize * textStyle.leading
+      size:     w: 300, h: 6 * mediumText.fontSize * mediumText.leading
       text:     dataNodes[@needEmotion]?.description
       margin:   bottom: 20
 
   renderStatusText: ->
     TextElement
-      StyleProps.textStyle
+      StyleProps.mediumText
       :childrenSize
       color:  StyleProps.colors[@status]
       text:   StyleProps.statuses[@status]
 
   renderTitle: ->
-    TextElement
-      StyleProps.titleStyle
-      :childrenSize
-      margin: bottom: 20
-      text:   upperCamelCase @needEmotion, ' '
+    []
+      TextElement
+        StyleProps.largeText
+        :childrenSize
+        margin: bottom: 20
+        text:   upperCamelCase @needEmotion, ' '
+      TextElement
+        StyleProps.smallText
+        :childrenSize
+        margin: bottom: 20
+        color: StyleProps.textPalette.black.tertiary
+        text:   &Data.dataNodes[@needEmotion]?.parentKey
 
   renderSlider: ->
     Element

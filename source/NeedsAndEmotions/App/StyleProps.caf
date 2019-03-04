@@ -5,13 +5,27 @@ class StyleProps extends HotStyleProps
   @primaryColor:  rgbColor #a7df6f
   @leafColor:     #ccc
 
-  @textStyle:
-    color:        #000a
+  baseFontScaler = 1.25
+
+  @textPalette:
+    black:
+      primary:          rgbColor #000a
+      secondary:        rgbColor #0008
+      tertiary:         rgbColor #0005
+
+    white:
+      primary:          rgbColor #fffd
+      secondary:        rgbColor #fff8
+      tertiary:         rgbColor #fff5
+
+  @mediumText:
+    color:        @textPalette.black.primary
     fontFamily:   :sans-serif
-    fontSize:     18
+    fontSize:     baseFontSize = 18
     leading:      1.25
 
-  @titleStyle: merge @textStyle, fontSize: 18 * 1.25
+  @largeText:   merge @mediumText, fontSize: baseFontSize * Math.pow baseFontScaler, 1
+  @smallText:   merge @mediumText, fontSize: baseFontSize * Math.pow baseFontScaler, -1
 
   @statuses:
     1: "" Tragically unfulfilled

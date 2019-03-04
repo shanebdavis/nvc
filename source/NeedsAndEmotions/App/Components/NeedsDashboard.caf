@@ -17,7 +17,7 @@ class NeedsDashboardSection extends FluxComponent
       childrenLayout: :column
       childrenMargins: 10
       TextElement
-        StyleProps.textStyle
+        StyleProps.mediumText
         :childrenSize
         text: @props.category
 
