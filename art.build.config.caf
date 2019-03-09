@@ -13,7 +13,5 @@ package:
         echo "Build done."
 
 webpack:
-  common:
-    output: path: "#{__dirname}/docs"
-  targets:
-    index: {}
+  common: output: path: "#{__dirname}/docs"
+  targets: index: {}
