@@ -18,7 +18,10 @@ class NeedEmotion extends FluxComponent
         when :pleasurable then 5
         else 4
       else
-        @state.status || 4
+        @state.status || 3
+    statusText: ->
+      if @state.status then StyleProps.statuses[@status]
+      else StyleProps.noStatusText
     landscape: -> @viewState.deviceSize.aspectRatio > 1
 
   toggleDescriptionFocused: -> @descriptionFocused = !@descriptionFocused
@@ -52,7 +55,7 @@ class NeedEmotion extends FluxComponent
       StyleProps.mediumText
       :childrenSize
       color:  StyleProps.colors[@status]
-      text:   StyleProps.statuses[@status]
+      text:   @statusText
 
   renderTitle: ->
     []
@@ -101,20 +104,24 @@ class NeedEmotion extends FluxComponent
 
   renderLandscape: ->
     Element
-      :row :childrenCenterCenter
-
-      @renderBitmap()
-
       Element
-        :column :childrenBottomCenter
-        padding: bottom:    10
+        :centerCenter
+        :row :childrenCenterCenter
+        size: w: ({x}) -> min x, @viewState.maxWidth
 
-        @renderTitle()
-        @renderDescription()
-        @renderStatusWidget()
+        Element
+          :row :childrenCenterCenter
+          @renderBitmap()
+
+        Element
+          :column :childrenCenterCenter
+
+          @renderTitle()
+          @renderDescription()
+          @renderStatusWidget()
 
   renderStatusWidget: ->
-    if  @props.emotions || @props.hideStatus
+    if @props.emotions || @props.hideStatus
       Element
         size: h: 50
     else []
@@ -132,7 +139,6 @@ class NeedEmotion extends FluxComponent
       @renderStatusWidget()
 
   render: ->
-
     NavigationGraph[@needEmotion] extract? prev, next
     Element
       if @viewState.deviceSize

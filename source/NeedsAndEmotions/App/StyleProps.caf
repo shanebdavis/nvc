@@ -30,7 +30,7 @@ class StyleProps extends HotStyleProps
   @statuses:
     1: "" Tragically unfulfilled
     2: "" Somewhat unfulfilled
-    3: "" << slide to select >>
+    3: "" Undecided
     4: "" Somewhat fulfilled
     5: "" Joyfully fulfilled
 
@@ -41,3 +41,5 @@ class StyleProps extends HotStyleProps
     3:  #bbb
     4:  #a7df6f
     5:  #ffa9f7
+
+  @noStatusText: "" << slide to select >>

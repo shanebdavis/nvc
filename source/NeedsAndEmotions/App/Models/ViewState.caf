@@ -5,6 +5,7 @@ class ViewState extends ApplicationState
   @stateFields
     deviceSize:   null
     safePadding:  getCssSafeAreaInset()
+    maxWidth:     820
 
   @setter
     deviceSize: (s) ->

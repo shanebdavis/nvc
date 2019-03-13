@@ -1,7 +1,7 @@
 import &StandardImport
 
 class NeedStrip extends FluxComponent
-  @subscriptions :status.status :navState.selectedKey
+  @subscriptions :status.status :navState.selectedKey :viewState.viewState
 
   @stateFields
     hoverNeed: null
@@ -32,42 +32,47 @@ class NeedStrip extends FluxComponent
     w = 1 / OrderedNeedsList.length
     key = hoverNeed ? selectedKey
 
+
     Element
       size: h: 40
       padding: h: padding
-      :pointerCursor
-      on: {}
-        @ready
-        @mouseOut
-        @mouseMove
-        @pointerClick
-        @pointerMove
-
       Element
-        animators: :draw
-        draw: if parentWidth > 0
-          array need, i in OrderedNeedsList
-            dataNodes[need] extract? parentKey
-            parentNum = switch parentKey
-            when :thriving      then 1
-            when :transcending  then 2
-            else 0
-            rectangle:
-              area:
-                rect
-                  parentWidth
-                  - 14
-                  * i * w
-                  + 2.5
-                  + parentNum * 5
-                  if need != key
-                    20
-                  else
-                    10
-                  parentWidth * w - 1
-                  if need == key
-                    40
-                  else
-                    20
+        size: w: ({x}) -> min x, @viewState.maxWidth
+        :centerCenter
 
-            fill: StyleProps.colors[@status[need]||3]
+        :pointerCursor
+        on: {}
+          @ready
+          @mouseOut
+          @mouseMove
+          @pointerClick
+          @pointerMove
+
+        Element
+          animators: :draw
+          draw: if parentWidth > 0
+            array need, i in OrderedNeedsList
+              dataNodes[need] extract? parentKey
+              parentNum = switch parentKey
+              when :thriving      then 1
+              when :transcending  then 2
+              else 0
+              rectangle:
+                area:
+                  rect
+                    parentWidth
+                    - 14
+                    * i * w
+                    + 2.5
+                    + parentNum * 5
+                    if need != key
+                      20
+                    else
+                      10
+                    parentWidth * w - 1
+                    if need == key
+                      40
+                    else
+                      20
+
+              fill: StyleProps.colors[@status[need]||3]

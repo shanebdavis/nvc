@@ -11,7 +11,9 @@ class App extends FluxComponent
     :viewState.safePadding
 
   render: ->
-    showSetStatus = dataNodes[@selectedKey]?.description
+    showSetStatus =
+      dataNodes[@selectedKey]?.description
+      && !(dataNodes[@selectedKey].childKeys?.length > 0)
     @ extract safePadding
 
     CanvasElement
@@ -43,20 +45,25 @@ class App extends FluxComponent
           draw: :white
           padding: {bottom, left, right} = safePadding
           :parentWidthChildrenHeight
-          :bottomLeft :column
+          :bottomLeft
+          Element
+            :topCenter :column
+            size:
+              hch: 1
+              w: ({x}) -> min x, 820
 
-          switch @currentTab
-          when :search
-            []
-              &ShowMenu keys: @searchResults
-              &SearchBar()
-          when :affirmations
-            &Affirmations()
-          when :home
-            null
-          else
-            []
-              &ShowPath()                 if @keyPath.length > 0
-              &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
+            switch @currentTab
+            when :search
+              []
+                &ShowMenu keys: @searchResults
+                &SearchBar()
+            when :affirmations
+              &Affirmations()
+            when :home
+              null
+            else
+              []
+                &ShowPath()                 if @keyPath.length > 0
+                &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
 
-          &TabBar()
+            &TabBar()

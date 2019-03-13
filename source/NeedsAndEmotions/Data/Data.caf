@@ -11,7 +11,7 @@ normalizeEmotions = (emotionTree) ->
     else
       val
 
-dataNodes: &Tools.flatten
+dataNodes = &Tools.flatten
   core:
     needs:          &Needs
     emotions:
@@ -24,3 +24,27 @@ dataNodes: &Tools.flatten
 
         Shane Brinkman-Davis Delamore
         shanebdavis@gmail.com
+
+dataNodes.needs.description =
+  """ Needs: The universal life-serving goals we all strive to fulfill.
+
+dataNodes.living.description =
+  """
+    Our physical needs
+
+    "Your body is your temple, it's your home, and you must decorate it."
+    - Gabourey Sidibe
+
+dataNodes.thriving.description =
+  """
+    Our social needs
+
+    "We naturally desire, not only to be loved, but to be lovely."
+    - Adam Smith [adapted]
+
+dataNodes.transcending.description =
+  """
+    Our needs to evolve and contribute
+
+
+{} dataNodes
