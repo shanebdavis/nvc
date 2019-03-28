@@ -18,7 +18,8 @@ class NeedStatus extends FluxComponent
         radius: 3
         StyleProps.colors[@status] ? #eee
 
-      TextElement StyleProps.mediumText,
+      TextElement
+        StyleProps.mediumText
         fontSize: 9
         align: .5
         color: #0006

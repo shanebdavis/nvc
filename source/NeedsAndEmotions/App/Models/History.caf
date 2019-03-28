@@ -1,0 +1,15 @@
+import &ArtSuite
+
+timer = new ReschedulableTimer
+
+class History extends ApplicationState
+  @persistant()
+
+  save: ->
+    timer.timeout
+      5000
+      ->
+        @setState
+          formatDate  :yyyy-mm-dd
+          savedAt:    toSeconds() | 0
+          status:     @models.status.state

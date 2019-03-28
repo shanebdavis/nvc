@@ -4,6 +4,7 @@
 module.exports = require './namespace'
 module.exports
 .addModules
+  History:   require './History'  
   NavState:  require './NavState' 
   Status:    require './Status'   
   ViewState: require './ViewState'

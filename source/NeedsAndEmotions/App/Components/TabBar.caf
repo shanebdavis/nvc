@@ -1,7 +1,8 @@
 import &StandardImport, &Widgets
 
 class TabBar extends FluxComponent
-  @subscriptions :navState.currentTab
+  @subscriptions
+    :navState.currentTab
 
   render: ->
     Element
@@ -23,6 +24,7 @@ class TabBar extends FluxComponent
           selected: @currentTab == key
           @currentTab
           two: @models.navState.currentTab
+
         TabButton
           :parentSize
           style:  :tab
@@ -37,4 +39,13 @@ class TabBar extends FluxComponent
         text:     :search
         selected: @currentTab == :search
         action:   @models.navState.toggleSearchVisible
+
+
+      TabButton
+        :parentSize
+        style:    :tab
+        text:     :history
+        selected: @currentTab == :history
+        action:   ->
+          @models.navState.currentTab = :history
 

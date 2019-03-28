@@ -1,0 +1,22 @@
+import &StandardImport
+
+class HistoryEntry extends FluxComponent
+  @subscriptions :history
+
+  render: ->
+    @history extract savedAt, status
+    Element
+      padding: 10
+      :parentWidthChildrenHeight
+
+      :row
+      :childrenCenterLeft
+      childrenMargins: 10
+      TextElement
+        StyleProps.mediumText
+        :childrenSize
+        text:
+          formatDate
+            :yyyy-mm-dd
+            savedAt
+      &NeedStripCore status: status

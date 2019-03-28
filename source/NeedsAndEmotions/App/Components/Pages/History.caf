@@ -1,0 +1,12 @@
+import &StandardImport
+
+class History extends FluxComponent
+  @subscriptions
+    :history.history
+
+  render: ->
+    Element
+      ScrollElement
+        :column
+        array _, historyId from @history
+          HistoryEntry {} historyId

@@ -18,7 +18,6 @@ class App extends FluxComponent
 
     CanvasElement
       canvasId:       :artCanvas
-      childrenLayout: :column
       on: ready: (event) =>
         @models.viewState.deviceSize = event.target.currentSize
 
@@ -32,14 +31,15 @@ class App extends FluxComponent
           padding: {left, right} = safePadding
           switch @currentTab
           when :home     then HomePage()
+          when :history  then History()
           when :needs    then NeedsEmotionPage needEmotion: @selectedKey
           when :emotions then NeedsEmotionPage needEmotion: @selectedKey, emotions: true
 
-          else
-            if showSetStatus
-              NeedsEmotionPage needEmotion: @selectedKey
-            else if @keyPath[0] == :needs
-              &NeedsDashboard()
+          # else
+          #   if showSetStatus
+          #     NeedsEmotionPage needEmotion: @selectedKey
+          #   else if @keyPath[0] == :needs
+          #     &NeedsDashboard()
 
         Element
           draw: :white
@@ -59,7 +59,7 @@ class App extends FluxComponent
                 &SearchBar()
             when :affirmations
               &Affirmations()
-            when :home
+            when :home :history
               null
             else
               []

@@ -4,5 +4,7 @@
 module.exports = require './namespace'
 module.exports
 .addModules
-  NeedEmotion: require './NeedEmotion'
-  NeedStrip:   require './NeedStrip'  
+  HistoryEntry:  require './HistoryEntry' 
+  NeedEmotion:   require './NeedEmotion'  
+  NeedStrip:     require './NeedStrip'    
+  NeedStripCore: require './NeedStripCore'

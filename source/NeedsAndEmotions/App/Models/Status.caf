@@ -5,6 +5,7 @@ class Status extends ApplicationState
   @persistant()
 
   set: (key, status) ->
+    @models.history.save()
     @setState key, bound 1, status + .5 | 0, 5
 
   @getter
