@@ -47,7 +47,7 @@ class NeedStripCore extends FluxComponent
         @pointerMove
 
       animators: :draw
-      draw: # if parentWidth > 0
+      draw: if parentWidth > 0
         array need, i in OrderedNeedsList
           dataNodes[need] extract? parentKey
           parentNum = switch parentKey
