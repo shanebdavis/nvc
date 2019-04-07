@@ -9,5 +9,5 @@ class History extends FluxComponent
     Element
       ScrollElement
         :column
-        array _, historyId from @history
+        array historyId from Object.keys @history by -1
           HistoryEntry {} historyId
