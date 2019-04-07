@@ -5,6 +5,7 @@ class History extends FluxComponent
     :history.history
 
   render: ->
+    log {} @history
     Element
       ScrollElement
         :column

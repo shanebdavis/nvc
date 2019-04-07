@@ -6,17 +6,19 @@ class HistoryEntry extends FluxComponent
   render: ->
     @history extract savedAt, status
     Element
-      padding: 10
+      padding: h: 10
       :parentWidthChildrenHeight
 
       :row
       :childrenCenterLeft
       childrenMargins: 10
       TextElement
-        StyleProps.mediumText
+        StyleProps.smallText
         :childrenSize
+        :textTopRight
+        size: w: 80, hch: 1
         text:
           formatDate
-            :yyyy-mm-dd
             savedAt
+            "" mmmm d
       &NeedStripCore status: status

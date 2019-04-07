@@ -76,4 +76,8 @@ class NeedsEmotionPage extends FluxComponent
             axis:       x: axisXOffset
             animators:  !tracking && :axis
             NeedEmotion {} emotions, needEmotion: @needEmotion
-        NeedStrip() unless emotions
+
+        Element
+          :parentWidthChildrenHeight
+          padding: h: 10
+          NeedStrip() unless emotions

@@ -28,6 +28,9 @@ class NeedStripCore extends FluxComponent
 
   padding = 0
 
+  ready: ({target})->
+    @parentWidth = target.parent.currentSize.x
+
   render: ->
     @ extract parentWidth, selectedKey, hoverNeed
     w = 1 / OrderedNeedsList.length
@@ -37,39 +40,39 @@ class NeedStripCore extends FluxComponent
       :pointerCursor
       size: h: 40
       on: {}
+        @ready
         @mouseOut
         @mouseMove
         @pointerClick
         @pointerMove
 
-      Element
-        animators: :draw
-        draw: # if parentWidth > 0
-          array need, i in OrderedNeedsList
-            dataNodes[need] extract? parentKey
-            parentNum = switch parentKey
-            when :thriving      then 1
-            when :transcending  then 2
-            else 0
-            rectangle:
-              area: ({x:parentWidth}) ->
-                rect
-                  parentWidth
-                  - 9
-                  * i * w
-                  # + 2.5
-                  + parentNum * 5
+      animators: :draw
+      draw: # if parentWidth > 0
+        array need, i in OrderedNeedsList
+          dataNodes[need] extract? parentKey
+          parentNum = switch parentKey
+          when :thriving      then 1
+          when :transcending  then 2
+          else 0
+          rectangle:
+            area:#  ({x:parentWidth}) ->
+              rect
+                parentWidth
+                - 9
+                * i * w
+                # + 2.5
+                + parentNum * 5
 
-                  if need != key
-                    10
-                  else
-                    0
+                if need != key
+                  10
+                else
+                  0
 
-                  parentWidth * w - 1
+                parentWidth * w - 1
 
-                  if need == key
-                    40
-                  else
-                    20
+                if need == key
+                  40
+                else
+                  20
 
-            fill: StyleProps.colors[@status[need]||3]
+          fill: StyleProps.colors[@status[need]||3]
