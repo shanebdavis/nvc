@@ -4,16 +4,14 @@ class HistoryEntry extends FluxComponent
   @subscriptions :history
 
   render: ->
-    @history extract savedAt, status
+    @history extract savedAt, status, note
     Element
       padding: h: 10
-      :parentWidthChildrenHeight
-
-      :row
-      :childrenCenterLeft
+      :row :parentWidthChildrenHeight
       childrenMargins: 10
       TextElement
         StyleProps.smallText
+        padding: top: 14
         :childrenSize
         :textTopRight
         size: w: 80, hch: 1
@@ -21,4 +19,10 @@ class HistoryEntry extends FluxComponent
           formatDate
             savedAt
             "" mmmm d
-      &NeedStripCore status: status
+      Element
+        :column :parentWidthChildrenHeight
+        &NeedStripCore status: status
+        if present note
+          TextElement
+            TextStyles.smallText
+            text: note

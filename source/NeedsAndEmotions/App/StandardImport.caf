@@ -2,4 +2,5 @@
   &ArtSuite
   &ArtEryIndexedDb
   &Data
+  &ArtAppKit
   {} &StyleProps

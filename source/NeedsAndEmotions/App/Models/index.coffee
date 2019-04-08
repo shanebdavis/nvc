@@ -6,5 +6,6 @@ module.exports
 .addModules
   History:   require './History'  
   NavState:  require './NavState' 
+  Note:      require './Note'     
   Status:    require './Status'   
   ViewState: require './ViewState'

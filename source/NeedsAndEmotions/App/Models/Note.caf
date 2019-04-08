@@ -1,0 +1,20 @@
+import &ArtSuite
+
+class Note extends ApplicationState
+
+  @stateFields
+    currentNote: ""
+
+  @setter
+    currentNote: (v) ->
+      @setState :currentNote, v
+      @models.history.save()
+
+  save: ->
+    timer.timeout
+      5000
+      ->
+        @setState
+          formatDate  :yyyy-mm-dd
+          savedAt:    toSeconds() | 0
+          status:     @models.status.state

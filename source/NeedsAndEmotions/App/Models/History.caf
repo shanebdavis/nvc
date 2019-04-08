@@ -13,3 +13,4 @@ class History extends ApplicationState
           formatDate  :yyyy-mm-dd
           savedAt:    toSeconds() | 0
           status:     @models.status.state
+          note:       @models.note.currentNote

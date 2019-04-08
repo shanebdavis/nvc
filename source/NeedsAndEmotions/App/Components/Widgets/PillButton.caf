@@ -2,11 +2,12 @@ import &StandardImport
 
 class PillButton extends PointerActionsMixin FluxComponent
   render: ->
-    @props extract selected, text, color = StyleProps.primaryColor
+    @props extract size, wide, selected, text, color = StyleProps.primaryColor
 
+    size = if wide then :parentWidthChildrenHeight else :childrenSize
 
     Element
-      :childrenSize
+      size
       :pointerCursor
       :clip
       on:         @buttonHandlers
@@ -22,7 +23,7 @@ class PillButton extends PointerActionsMixin FluxComponent
 
       TextElement
         StyleProps.mediumText
-        :childrenSize
+        size
         :textCenterCenter
         padding:  18
         text:     text.replace /_/g, ' '

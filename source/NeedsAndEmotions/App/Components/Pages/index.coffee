@@ -7,4 +7,5 @@ module.exports
   History:          require './History'         
   HomePage:         require './HomePage'        
   NeedsEmotionPage: require './NeedsEmotionPage'
+  Notes:            require './Notes'           
   StandardImport:   require './StandardImport'  

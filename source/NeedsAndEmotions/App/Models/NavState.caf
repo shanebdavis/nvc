@@ -33,6 +33,8 @@ class NavState extends ApplicationState
 
       @setKeyPath keyPath
 
+  showNotes: -> @currentTab = :notes
+
   setKeyPath: (keyPath) ->
     @setState
       selectedKey:  peek keyPath

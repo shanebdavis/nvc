@@ -1,0 +1,27 @@
+import &StandardImport
+
+class Notes extends FluxComponent
+  @subscriptions
+    :note.currentNote
+
+  render: ->
+    gridSize = 10
+    Element
+      :column
+      Element
+        :parentWidthChildrenHeight
+        padding: gridSize
+        draw: StyleProps.primaryColor
+        TextElement
+          TextStyles.mediumBoldText
+          text: :Notes
+          color: TextPalette.white.primary
+
+      Element
+        padding: gridSize
+        TextInputElement
+          value: @currentNote
+          on: valueChanged: ({target:{value}}) ->
+            @models.note.currentNote = value
+          type: :textarea
+          placeholder: "note for today"
