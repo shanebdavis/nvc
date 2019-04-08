@@ -30,7 +30,7 @@ class App extends FluxComponent
           size: ww:1, hh: 1, h: -120 - safePadding.bottom
           padding: {left, right} = safePadding
           switch @currentTab
-          when :home     then HomePage()
+          when :home     then Home()
           when :history  then History()
           when :needs    then NeedsEmotionPage needEmotion: @selectedKey
           when :emotions then NeedsEmotionPage needEmotion: @selectedKey, emotions: true

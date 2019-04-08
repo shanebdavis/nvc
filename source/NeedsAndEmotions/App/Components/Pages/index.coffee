@@ -5,7 +5,7 @@ module.exports = require './namespace'
 module.exports
 .addModules
   History:          require './History'         
-  HomePage:         require './HomePage'        
+  Home:             require './Home'            
   NeedsEmotionPage: require './NeedsEmotionPage'
   Notes:            require './Notes'           
   StandardImport:   require './StandardImport'  

@@ -14,7 +14,7 @@ class Notes extends FluxComponent
         draw: StyleProps.primaryColor
         TextElement
           TextStyles.mediumBoldText
-          text: :Notes
+          text: "" Today's Note
           color: TextPalette.white.primary
 
       Element
@@ -24,4 +24,4 @@ class Notes extends FluxComponent
           on: valueChanged: ({target:{value}}) ->
             @models.note.currentNote = value
           type: :textarea
-          placeholder: "note for today"
+          placeholder: "start note"

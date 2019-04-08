@@ -1,6 +1,6 @@
 import &StandardImport, &Widgets
 
-class HomePage extends FluxComponent
+class Home extends FluxComponent
   @subscriptions :status.status
 
   @getter
@@ -9,7 +9,7 @@ class HomePage extends FluxComponent
       4
 
   render: ->
-    Element
+    ScrollElement
       :column :childrenCenterCenter
       childrenMargins: 20
       padding: 10
@@ -61,9 +61,14 @@ class HomePage extends FluxComponent
           action: -> @models.navState.selectKey OrderedNeedsList[0]
 
         PillButton
-          text: "Edit Note"
+          text: "Today's Note"
           wide: true
           action: -> @models.navState.showNotes()
+
+        PillButton
+          text: "Search Needs and Emotions"
+          wide: true
+          action: -> @models.navState.showSearch()
 
       Element()
 

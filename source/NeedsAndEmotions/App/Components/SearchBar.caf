@@ -7,26 +7,28 @@ class SearchBar extends FluxComponent
 
   render: ->
     Element
-      childrenLayout: :row
       size: ww: 1  h: 50
       padding: h: 10
       animators: size: toFrom: ww:1, h: 0
       clip: true
-
       Element
-        padding: 5
-        draw: padding: 5, color: #e8e8e8 radius: 1000
-        TextInputElement
-          padding: h: 15
-          placeholder: "search needs and emotions"
-          on: valueChanged: @valueChanged
-          value: @models.navState.searchQuery
+        size: ww: 1  h: 50
+        childrenLayout: :row
 
-      TextElement
-        size:       :childrenSize
-        padding:    5
-        text:       :🔍
-        location:   ps: .5
-        axis:       :centerCenter
-        layoutMode: :tight
-        fontSize:   32
+        Element
+          padding: 5
+          draw: padding: 5, color: #e8e8e8 radius: 1000
+          TextInputElement
+            padding: h: 15
+            placeholder: "search needs and emotions"
+            on: valueChanged: @valueChanged
+            value: @models.navState.searchQuery
+
+        TextElement
+          size:       :childrenSize
+          padding:    5
+          text:       :🔍
+          location:   ps: .5
+          axis:       :centerCenter
+          layoutMode: :tight
+          fontSize:   32
