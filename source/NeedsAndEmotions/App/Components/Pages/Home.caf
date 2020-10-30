@@ -70,6 +70,11 @@ class Home extends FluxComponent
           wide: true
           action: -> @models.navState.showSearch()
 
+        PillButton
+          text: "Import/Export"
+          wide: true
+          action: -> @models.navState.showImportExport()
+
       Element()
 
       TextElement

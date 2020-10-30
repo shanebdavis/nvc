@@ -6,6 +6,7 @@
 .addModules({
   History:          require('./History'),
   Home:             require('./Home'),
+  ImportExport:     require('./ImportExport'),
   NeedsEmotionPage: require('./NeedsEmotionPage'),
   Notes:            require('./Notes'),
   StandardImport:   require('./StandardImport')

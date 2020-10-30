@@ -35,6 +35,7 @@ class NavState extends ApplicationState
 
   showNotes: -> @currentTab = :notes
   showSearch: -> @currentTab = :search
+  showImportExport: -> @currentTab = :importExport
 
   setKeyPath: (keyPath) ->
     @setState

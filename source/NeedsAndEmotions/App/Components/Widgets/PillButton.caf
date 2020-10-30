@@ -17,6 +17,8 @@ class PillButton extends PointerActionsMixin FluxComponent
         padding:  5
         color:
           if selected || @pointerIsDown then color
+          else if @props.disabled || !@props.action
+            #ccc
           else
             rgbColor color
             .blend :white, .5

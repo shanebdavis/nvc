@@ -1,0 +1,86 @@
+import &StandardImport
+
+class Notes extends FluxComponent
+  @subscriptions
+    :history.history
+
+  @stateFields
+    toImportJson: null
+    message: null
+
+  showMessage: (message) ->
+    @message = message
+    timeout 5000 -> if @message == message then  @message = null
+
+  render: ->
+    gridSize = 10
+    Element
+      :column
+      Element
+        :parentWidthChildrenHeight
+        padding: gridSize
+        draw: StyleProps.primaryColor
+        TextElement
+          TextStyles.mediumBoldText
+          text: "" Import / Export
+          color: TextPalette.white.primary
+
+      Element
+        padding: gridSize
+        :column
+        TextInputElement
+          placeholder: "" Paste Data-Export here
+          on:
+            focus: ({target})->
+            valueChanged: ({target:{value}}) ->
+              @toImportJson = null
+              try
+                parsed = JSON.parse value
+
+                if parsed is Object &&
+                    !find v, k in parsed
+                      !ok =
+                        /^\d+-\d+-\d+$/.test k
+                        && v.savedAt is Number
+                        && v.status is Object
+                        && !v.note ||
+                          v.note is String
+                          && present v.note
+
+                  @toImportJson = parsed
+
+              log "value changed"
+          type: :textarea
+
+        if present @message
+          Element
+            :parentWidthChildrenHeight
+            key: "message box"
+            animators: size: toFrom: h: 0
+            padding: 10
+            draw:
+              radius:   10
+              color:    #eee
+
+            clip: true
+            TextElement
+              StyleProps.mediumText
+              padding: 20
+              :textCenterCenter
+              :parentWidthChildrenHeight
+              text: @message
+
+        PillButton
+          text: "" Import Data-Export
+          wide: true
+          disabled: !@toImportJson
+          action: ->
+            @showMessage "" #{pluralize objectKeyCount(@toImportJson), :entry :entries} imported
+            @models.history.setState @toImportJson
+
+        PillButton
+          text: "" Copy Data-Export to Clipboard
+          wide: true
+          action: ->
+            @showMessage :copied...
+            &copy-to-clipboard JSON.stringify @history

@@ -1,5 +1,7 @@
 import &ArtSuite
 
+timer = new ReschedulableTimer
+
 class Note extends ApplicationState
 
   @stateFields
