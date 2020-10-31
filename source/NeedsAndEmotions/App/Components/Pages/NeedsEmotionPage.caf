@@ -2,6 +2,9 @@ import &StandardImport
 
 class NeedsEmotionPage extends FluxComponent
 
+  @subscriptions
+    :viewState.viewState
+
   @propFields :needEmotion
 
   @stateFields
@@ -77,7 +80,8 @@ class NeedsEmotionPage extends FluxComponent
             animators:  !tracking && :axis
             NeedEmotion {} emotions, needEmotion: @needEmotion
 
-        Element
-          :parentWidthChildrenHeight
-          padding: h: 10
-          NeedStrip() unless emotions
+        if @viewState.deviceSize.aspectRatio < 1 || @viewState.deviceSize.y > 500
+          Element
+            :parentWidthChildrenHeight
+            padding: h: 10
+            NeedStrip() unless emotions

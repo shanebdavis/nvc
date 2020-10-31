@@ -27,7 +27,7 @@ class App extends FluxComponent
 
         Element
           key: :status
-          size: ww:1, hh: 1, h: -120 - safePadding.bottom
+          size: ww:1, hh: 1, h: -100 - safePadding.bottom
           padding: {left, right} = safePadding
           switch @currentTab
           when :home     then Home()
@@ -46,6 +46,7 @@ class App extends FluxComponent
           padding: {bottom, left, right} = safePadding
           :parentWidthChildrenHeight
           :bottomLeft
+
           Element
             :topCenter :column
             size:
@@ -62,7 +63,6 @@ class App extends FluxComponent
             when :home :history
               null
             else if tabComponent = Pages[upperCamelCase @currentTab]
-              log tabComponent: @currentTab
               tabComponent()
             else
               []
