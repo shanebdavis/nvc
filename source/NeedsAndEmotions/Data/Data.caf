@@ -18,13 +18,6 @@ dataNodes = &Tools.flatten
       pleasurable:  normalizeEmotions &PositiveEmotions
       painful:      normalizeEmotions &NegativeEmotions
 
-    about:
-      """
-        Needs & Emotions v#{&Package.version}
-
-        Shane Brinkman-Davis Delamore
-        shanebdavis@gmail.com
-
 dataNodes.needs.description =
   """ Needs: The universal life-serving goals we all strive to fulfill.
 

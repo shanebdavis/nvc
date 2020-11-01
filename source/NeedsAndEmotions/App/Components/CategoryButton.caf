@@ -21,8 +21,11 @@ class CategoryButton extends PointerActionsMixin FluxComponent
       text:   key
       color:  rgbColor
         switch
-        when key == :needs || dataNodes[key].rootKey == :needs
-          StyleProps.colors[@status||3]
+        when key == :needs
+          StyleProps.colors[3]
+
+        when dataNodes[key].rootKey == :needs
+          StyleProps.colors[@models.status.getAverageFor key]
           || StyleProps.primaryColor
 
         when hasAncestorKey key, :painful     then StyleProps.colors[1]

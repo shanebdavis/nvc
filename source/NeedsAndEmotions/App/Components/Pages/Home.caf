@@ -16,14 +16,13 @@ class Home extends FluxComponent
     Element
       size:
         ww: 1
-        hw: 1
-        max: w: 640 h: 640
+        hw: .25
       :flow
       array status in 1 2 4 5
         Element
           size:
-            ww: .5
-            hw: .5
+            ww: .25
+            hw: .25
             w: -1
             h: -1
           NeedStatusBitmap {} status
@@ -53,18 +52,16 @@ class Home extends FluxComponent
         action: -> @models.navState.showImportExport()
 
   renderCredits: ->
-    []
-      Element()
-
-      TextElement
-        StyleProps.smallText
-        :textCenterCenter
-        :childrenSize
-        text:
-          """
-            Shane Brinkman-Davis Delamore
-            shanebdavis@gmail.com
-            v#{&Package.version}
+    TextElement
+      StyleProps.smallText
+      :textCenterCenter
+      :childrenSize
+      text:
+        """
+          by
+          Shane Brinkman-Davis Delamore
+          shanebdavis@gmail.com
+          v#{&Package.version}
 
   renderNeedsStatus: ->
     if 0 <= needsPercentage = @overallNeedsPercentage

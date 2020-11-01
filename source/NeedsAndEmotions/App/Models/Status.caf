@@ -1,4 +1,4 @@
-import &ArtSuite
+import &StandardImport
 
 class Status extends ApplicationState
 
@@ -15,3 +15,28 @@ class Status extends ApplicationState
         count++; a + b
       if count > 0
         sum / count
+
+  getSumFor: (key) ->
+    if dataNodes[key] extract? childKeys
+      reduce total, childKey in childKeys inject 0
+        total + @getSumFor childKey
+
+    else
+      sum = @state[key]
+      if sum? && sum != 3 then sum else 0
+
+  getCountFor: (key) ->
+    if dataNodes[key] extract? childKeys
+      reduce count, childKey in childKeys inject 0
+        count + @getCountFor childKey
+
+    else
+      sum = @state[key]
+      if sum? && sum != 3 then 1 else 0
+
+  getAverageFor: (key) ->
+    if 0 == count = @getCountFor key
+      3
+    else
+      @getSumFor key
+      / count

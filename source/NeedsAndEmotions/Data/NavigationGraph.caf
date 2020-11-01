@@ -1,22 +1,30 @@
+import &StandardImport
+
+class OrderAccumulator
+  constructor: (@output) ->
+    @lastKey = null
+
+  add: (key) ->
+    log OrderAccumulator_add: key
+    @output[key] = {}
+    if @lastKey
+      @output[key].prev = @lastKey
+      @output[@lastKey].next = key
+    @lastKey = key
+
 generatePrevNextNav = (items, navigation = {}) ->
 
-  lastNeed = null
-  # firstNeed = null
-  each subneeds in items
-    each need in Object.keys(subneeds).sort()
-      # firstNeed ?= need
-      navigation[need] = {}
-      if lastNeed
-        navigation[need].prev = lastNeed
-        navigation[lastNeed].next = need
-      lastNeed = need
+  accCats = new OrderAccumulator navigation
+  accItems = new OrderAccumulator navigation
 
-  # navigation[lastNeed].next = firstNeed
-  # navigation[firstNeed].prev = lastNeed
+  each subneeds, category in items
+    accCats.add category
+    each need in Object.keys(subneeds).sort()
+      accItems.add need
 
   navigation
 
-generatePrevNextNav
+log generatePrevNextNav
   &Needs
   generatePrevNextNav {}
     &NegativeEmotions

@@ -13,7 +13,9 @@ class NeedEmotion extends FluxComponent
 
 
   @getter
-    hideStatus: -> @props.hideStatus || @props.emotions
+    hideStatus: ->
+      @props.emotions
+      || dataNodes[@needEmotion].childKeys
     status:    ->
       if @props.emotions
         switch @models.navState.keyPath[1]
@@ -148,7 +150,7 @@ class NeedEmotion extends FluxComponent
         when @hideStatus
           size: h: 100
         else
-          size: hw: 1 max: h: 500
+          size: ps: 1 max: 500
 
 
         NeedStatusBitmap {} @status
@@ -157,7 +159,6 @@ class NeedEmotion extends FluxComponent
       @renderStatusWidget()
 
   render: ->
-    NavigationGraph[@needEmotion] extract? prev, next
     Element
       if @viewState.deviceSize
         if @landscape

@@ -1,3 +1,4 @@
-&StandardImport.mergeWithSelf
+[]
+  &StandardImport
   &Partials
   &Widgets

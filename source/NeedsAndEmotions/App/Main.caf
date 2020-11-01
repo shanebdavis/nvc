@@ -4,6 +4,8 @@ import &ArtSuite
 FullScreenApp.init
   title:    "" Needs and Emotions
   meta:     apple-mobile-web-app-status-bar-style:  :default
-  link:     apple-touch-icon: href:                 :assets/needs256.png
+  link:
+    apple-touch-icon: href:                 :assets/needs256.png
+    "shortcut icon":  href:                 :assets/needs256.png
 .then -> &ArtEry.sendInitializeRequestToAllPipelines()
 .then -> &Components.App().instantiateAsTopComponent()
