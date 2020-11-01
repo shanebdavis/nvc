@@ -21,7 +21,7 @@ class HistoryEntry extends FluxComponent
             "" mmmm d
       Element
         :column :parentWidthChildrenHeight
-        &NeedStripCore status: status
+        &NeedStripCore log status: status
         if present note
           TextElement
             TextStyles.smallText

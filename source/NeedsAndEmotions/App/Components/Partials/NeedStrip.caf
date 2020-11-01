@@ -9,7 +9,7 @@ class NeedStrip extends FluxComponent
 
   render: ->
     Element
-      size: h: 60
+      size: h: 50
       padding: h: padding, v: 10
       :row
       :childrenCenterCenter

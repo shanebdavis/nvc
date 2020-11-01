@@ -27,5 +27,5 @@ class PillButton extends PointerActionsMixin FluxComponent
         StyleProps.mediumText
         size
         :textCenterCenter
-        padding:  18
+        padding:  15
         text:     text.replace /_/g, ' '

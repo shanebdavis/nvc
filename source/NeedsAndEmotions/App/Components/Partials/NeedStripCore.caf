@@ -38,7 +38,7 @@ class NeedStripCore extends FluxComponent
 
     Element
       :pointerCursor
-      size: h: 40
+      size: h: 30
       on: {}
         @ready
         @mouseOut
@@ -64,14 +64,14 @@ class NeedStripCore extends FluxComponent
                 + parentNum * 5
 
                 if need != key
-                  10
+                  5
                 else
                   0
 
                 parentWidth * w - 1
 
                 if need == key
-                  40
+                  30
                 else
                   20
 

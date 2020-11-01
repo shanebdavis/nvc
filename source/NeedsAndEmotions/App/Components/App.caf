@@ -4,69 +4,80 @@ import &StandardImport, &Data, Pages = &Pages
 
 class App extends FluxComponent
   @subscriptions
+    :viewState.deviceSize
     :navState.keyPath
     :navState.currentTab
     :navState.selectedKey
     :navState.searchResults
     :viewState.safePadding
 
-  render: ->
+  renderPage: ->
+    Element
+      key: :status
+      size: ww:1, hh: 1, h: -50 - @safePadding.bottom
+      padding: {left, right} = @safePadding
+      switch @currentTab
+      when :home     then Home()
+      when :history  then History()
+      when :needs    then NeedsEmotionPage needEmotion: @selectedKey
+      when :emotions then NeedsEmotionPage needEmotion: @selectedKey, emotions: true
+
+  renderSecondaryToolBar: ->
     showSetStatus =
       dataNodes[@selectedKey]?.description
       && !(dataNodes[@selectedKey].childKeys?.length > 0)
-    @ extract safePadding
+
+    switch @currentTab
+    when :search
+      []
+        &ShowMenu keys: @searchResults
+        &SearchBar()
+    when :affirmations
+      &Affirmations()
+    when :home :history
+      null
+    else if tabComponent = Pages[upperCamelCase @currentTab]
+      tabComponent()
+    else
+      []
+        if @currentTab == :needs &&
+            @deviceSize.aspectRatio < 1 || @deviceSize.y > 500
+          Element
+            size: h: 45
+            padding: h: 5
+            &Partials.NeedStrip()
+
+        &ShowPath()                 if @keyPath.length > 0
+        &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
+
+  renderToolBar: ->
+    Element
+      draw: #f9
+      padding: {top} = @safePadding
+
+      @renderPage()
+
+      Element
+        draw: :white
+        padding: {bottom, left, right} = @safePadding
+        :parentWidthChildrenHeight
+        :bottomLeft
+
+        Element
+          :topCenter :column
+          size:
+            hch: 1
+            w: ({x}) -> min x, 820
+
+          @renderSecondaryToolBar()
+
+          &TabBar()
+
+  render: ->
 
     CanvasElement
       canvasId:       :artCanvas
       on: ready: (event) =>
         @models.viewState.deviceSize = event.target.currentSize
 
-      Element
-        draw: #f9
-        padding: {top} = safePadding
-
-        Element
-          key: :status
-          size: ww:1, hh: 1, h: -100 - safePadding.bottom
-          padding: {left, right} = safePadding
-          switch @currentTab
-          when :home     then Home()
-          when :history  then History()
-          when :needs    then NeedsEmotionPage needEmotion: @selectedKey
-          when :emotions then NeedsEmotionPage needEmotion: @selectedKey, emotions: true
-
-          # else
-          #   if showSetStatus
-          #     NeedsEmotionPage needEmotion: @selectedKey
-          #   else if @keyPath[0] == :needs
-          #     &NeedsDashboard()
-
-        Element
-          draw: :white
-          padding: {bottom, left, right} = safePadding
-          :parentWidthChildrenHeight
-          :bottomLeft
-
-          Element
-            :topCenter :column
-            size:
-              hch: 1
-              w: ({x}) -> min x, 820
-
-            switch @currentTab
-            when :search
-              []
-                &ShowMenu keys: @searchResults
-                &SearchBar()
-            when :affirmations
-              &Affirmations()
-            when :home :history
-              null
-            else if tabComponent = Pages[upperCamelCase @currentTab]
-              tabComponent()
-            else
-              []
-                &ShowPath()                 if @keyPath.length > 0
-                &ShowMenu key: @selectedKey if !showSetStatus && @selectedKey
-
-            &TabBar()
+      @renderToolBar()

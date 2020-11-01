@@ -10,7 +10,10 @@ class NeedEmotion extends FluxComponent
 
   @propFields :needEmotion
 
+
+
   @getter
+    hideStatus: -> @props.hideStatus || @props.emotions
     status:    ->
       if @props.emotions
         switch @models.navState.keyPath[1]
@@ -46,9 +49,14 @@ class NeedEmotion extends FluxComponent
       mediumText
       :textCenterCenter
       :topCenter
-      size:     w: 300, h: 6 * mediumText.fontSize * mediumText.leading
+      size:
+        if @hideStatus
+          w: 300 hch: 1
+        else
+          w: 300, h: 6 * mediumText.fontSize * mediumText.leading
+
       text:     dataNodes[@needEmotion]?.description
-      margin:   bottom: 20
+      # margin:   bottom: 20
 
   renderStatusText: ->
     TextElement
@@ -62,12 +70,12 @@ class NeedEmotion extends FluxComponent
       TextElement
         StyleProps.largeText
         :childrenSize
-        margin: bottom: 20
+        # margin: bottom: 20
         text:   upperCamelCase @needEmotion, ' '
       TextElement
         StyleProps.smallText
         :childrenSize
-        margin: bottom: 20
+        # margin: bottom: 20
         color: StyleProps.textPalette.black.tertiary
         text:   &Data.dataNodes[@needEmotion]?.parentKey
 
@@ -104,26 +112,26 @@ class NeedEmotion extends FluxComponent
 
   renderLandscape: ->
     Element
+      :centerCenter
+      :row :childrenCenterCenter
+      size: w: ({x}) -> min x, @viewState.maxWidth
+
       Element
-        :centerCenter
         :row :childrenCenterCenter
-        size: w: ({x}) -> min x, @viewState.maxWidth
+        NeedStatusBitmap {} @status
 
-        Element
-          :row :childrenCenterCenter
-          NeedStatusBitmap {} @status
+      Element
+        :column :childrenCenterCenter
+        childrenMargins: 20
 
-        Element
-          :column :childrenCenterCenter
-
-          @renderTitle()
-          @renderDescription()
-          @renderStatusWidget()
+        @renderTitle()
+        @renderDescription()
+        @renderStatusWidget()
 
   renderStatusWidget: ->
-    if @props.emotions || @props.hideStatus
+    if @hideStatus
       Element
-        size: h: 50
+        size: h: 150
     else []
       @renderStatusText()
       @renderSlider()
@@ -131,9 +139,18 @@ class NeedEmotion extends FluxComponent
   renderPortrait: ->
     Element
       :column
-      :childrenCenterCenter
+      :childrenTopCenter
+      childrenMargins: 20
+      # draw: :red
 
-      NeedStatusBitmap {} @status
+      Element
+        switch
+        when @props.emotions
+          size: h: 300
+        when @hideStatus
+          size: h: 100
+
+        NeedStatusBitmap {} @status
       @renderTitle()
       @renderDescription()
       @renderStatusWidget()

@@ -55,6 +55,7 @@ class NeedsEmotionPage extends FluxComponent
 
     Element
       :column
+      padding: bottom: 100
       unless next? || prev?
         # for animation purposes while navigating
         NeedEmotion {}
@@ -80,8 +81,8 @@ class NeedsEmotionPage extends FluxComponent
             animators:  !tracking && :axis
             NeedEmotion {} emotions, needEmotion: @needEmotion
 
-        if @viewState.deviceSize.aspectRatio < 1 || @viewState.deviceSize.y > 500
-          Element
-            :parentWidthChildrenHeight
-            padding: h: 10
-            NeedStrip() unless emotions
+        # if @viewState.deviceSize.aspectRatio < 1 || @viewState.deviceSize.y > 500
+        #   Element
+        #     :parentWidthChildrenHeight
+        #     padding: h: 10
+        #     NeedStrip() unless emotions

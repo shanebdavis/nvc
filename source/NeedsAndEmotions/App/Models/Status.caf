@@ -11,6 +11,7 @@ class Status extends ApplicationState
   @getter
     average: ->
       count = 0
-      sum = reduce a, b in @state inject 0 with count++; a + b
+      sum = reduce a, b in @state inject 0 when b? && b != 3
+        count++; a + b
       if count > 0
         sum / count

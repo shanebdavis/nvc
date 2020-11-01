@@ -46,19 +46,19 @@ living:
                       All the built-things around me support my body's health and comfort including:
                       clothing and tools, in the bathroom, kitchen, and bedroom, while exercising or working.
 
+  pleasure:
+    ""
+                    Plenty of rejuvenating light and darkness, lovely fragrances, pleasurable textures, wonderful music, delicious food and drink.
+
+                    All five senses are simulated and alive.
+
+  movement:         "" Plenty of exercise, movement and dance.
+
 thriving:
-    pleasure:
-      ""
-                      Plenty of rejuvenating light and darkness, lovely fragrances, pleasurable textures, wonderful music, delicious food and drink.
-
-                      All five senses are simulated and alive.
-
-    movement:         "" Plenty of exercise, movement and dance.
 
     variety:          "" Plenty of variety and novelty.
     leisure:          "" Plenty of comforable, relaxing time without stress or expectations.
     solitude:         "" Plenty of quiet, solo, alone time. Recharge-time for the introvert.
-
     play:             "" Plenty of adventure, excitement, fantasy, fun, humor, joy and laughter.
 
     sharing:          "" For each important experience, interest and value, having plenty of people who understand and share ones passions.
@@ -74,7 +74,6 @@ thriving:
     participation:    "" Plenty of collaboration, cooperation, opportunities for service and sharing.
     appreciation:     "" Valued, recognized, and wanted.
 
-    # substance:        "" Plenty of quality, authenticity, simplicity and depth in people, organizations and objects which embody these values.
 
     nurturing:        "" Receiving all the care, help, kindness, affection, support and helpful feedback one needs.
     understanding:    "" Feeling completely understood by those who matter: empathized, heard, known, seen and respected.
@@ -89,6 +88,7 @@ thriving:
 
                       All relationships, of any kind, are consensual, just, respecting of privacy, respecting of boundaries and generally respectful.
 
+    # substance:        "" Plenty of quality, authenticity, simplicity and depth in people, organizations and objects which embody these values.
 
     # mourning:
     #   ""

@@ -1,80 +1,57 @@
 import &StandardImport, &Widgets
 
 class Home extends FluxComponent
-  @subscriptions :status.status
+  @subscriptions
+    :status.status
+    :viewState.deviceSize
 
   @getter
     overallRoundedStatus: ->
       Math.round(@models.status.average)
       4
 
-  render: ->
-    ScrollElement
-      :column :childrenCenterCenter
-      childrenMargins: 20
-      padding: 10
-
-      Element
-        size:   300
-        NeedStatusBitmap status: @overallRoundedStatus
-
-      TextElement
-        StyleProps.largeText
-        :textCenterCenter
-        size: :childrenSize
-        text:
-          """
-            Needs & Emotions v#{&Package.version}
-
-      Element()
-
-      if @models.status extract average
+  renderBitmaps: ->
+    Element
+      size:
+        ww: 1
+        hw: 1
+        # max: w: 300 h: 300
+      :flow
+      array status in 1 2 4 5
         Element
-          size: w: 300, h: 30
-          draw:
-            padding:
-              right:
-                300 *
-                  1
-                  - @models.status.average / 5
-            fill:
-              StyleProps.colors[@overallRoundedStatus]
-            :reset
-            outline: #7
+          size:
+            ww: .5
+            hw: .5
+            w: -1
+            h: -1
+          NeedStatusBitmap {} status
 
-          TextElement
-            StyleProps.mediumText
-            :childrenSize
-            :centerCenter
-            fontSize: 14
-            text:
-              ""
-                Average:
-                #{} average.toFixed 2
+  renderActions: ->
+    Element
+      :column
+      size: ww: 1 hch: 1 max: w: 300
+      PillButton
+        text: "Start needs assessment"
+        wide: true
+        action: -> @models.navState.selectKey OrderedNeedsList[0]
 
-      Element
-        :column
-        size: w: 300 hch: 1
-        PillButton
-          text: "Start needs assessment"
-          wide: true
-          action: -> @models.navState.selectKey OrderedNeedsList[0]
+      PillButton
+        text: "Edit Today's Note"
+        wide: true
+        action: -> @models.navState.showNotes()
 
-        PillButton
-          text: "Today's Note"
-          wide: true
-          action: -> @models.navState.showNotes()
+      PillButton
+        text: "Search Needs and Emotions"
+        wide: true
+        action: -> @models.navState.showSearch()
 
-        PillButton
-          text: "Search Needs and Emotions"
-          wide: true
-          action: -> @models.navState.showSearch()
+      PillButton
+        text: "Import/Export"
+        wide: true
+        action: -> @models.navState.showImportExport()
 
-        PillButton
-          text: "Import/Export"
-          wide: true
-          action: -> @models.navState.showImportExport()
-
+  renderCredits: ->
+    []
       Element()
 
       TextElement
@@ -85,3 +62,94 @@ class Home extends FluxComponent
           """
             Shane Brinkman-Davis Delamore
             shanebdavis@gmail.com
+            v#{&Package.version}
+
+  renderNeedsStatus: ->
+    if @models.status extract average
+      Element
+        size: ww:1, hch: 1
+        :row
+        :childrenCenterCenter
+
+        Element
+          scale: ({w}) -> min 1, w / 300
+
+          size: w: 300, h: 30
+          draw:
+            radius: 5
+            fill: #e
+            :reset
+            radius: 5
+            padding:
+              right:
+                300 *
+                  1
+                  - (average-1) / 4
+            fill:
+              StyleProps.colors[@overallRoundedStatus]
+
+          TextElement
+            StyleProps.mediumText
+            :childrenSize
+            :centerCenter
+            fontSize: 14
+            text:
+              ""
+                #{((log average-1)/3) * 100 | 0}%
+                needs met
+
+  renderTitle: ->
+
+    TextElement
+      StyleProps.largeText
+      :textCenterCenter
+      size: :childrenSize
+      text:
+        """
+          Needs & Emotional
+          Awareness
+
+  renderPortrait: ->
+    ScrollElement
+      :column :childrenCenterCenter
+      childrenMargins: 20
+      padding: 10
+
+      @renderBitmaps()
+
+      @renderTitle()
+
+      @renderNeedsStatus()
+
+      @renderActions()
+      @renderCredits()
+
+  renderLandscape: ->
+    Element
+      :row
+      :childrenCenterCenter
+      @renderBitmaps()
+      ScrollElement
+        :column :childrenCenterCenter
+        childrenMargins: 20
+        padding: 10
+        size:
+          ps: 1
+          max: w: 300
+
+
+        @renderTitle()
+
+        @renderNeedsStatus()
+
+        @renderActions()
+        @renderCredits()
+
+  render: ->
+    Element
+      padding: 10
+      if @deviceSize?
+        if @deviceSize.aspectRatio < 1
+          @renderPortrait()
+        else
+          @renderLandscape()
