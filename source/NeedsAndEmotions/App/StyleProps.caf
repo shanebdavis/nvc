@@ -42,4 +42,12 @@ class StyleProps extends HotStyleProps
     4:  #a7df6f
     5:  #ffa9f7
 
+  @colorsForText:
+    # brightness: 88%, sat: 100% or 50%, color: 0deg, 30deg, 60deg, 90deg, 120deg
+    1:  #6ba7ba
+    2:  #ff9024
+    3:  #bbb
+    4:  #8ecc51
+    5:  #e983e0
+
   @noStatusText: "" << slide to select >>

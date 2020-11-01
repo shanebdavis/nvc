@@ -62,7 +62,7 @@ class NeedEmotion extends FluxComponent
     TextElement
       StyleProps.mediumText
       :childrenSize
-      color:  StyleProps.colors[@status]
+      color:  StyleProps.colorsForText[@status]
       text:   @statusText
 
   renderTitle: ->
@@ -145,10 +145,11 @@ class NeedEmotion extends FluxComponent
 
       Element
         switch
-        when @props.emotions
-          size: h: 300
         when @hideStatus
           size: h: 100
+        else
+          size: hw: 1 max: h: 500
+
 
         NeedStatusBitmap {} @status
       @renderTitle()

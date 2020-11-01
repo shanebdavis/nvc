@@ -6,16 +6,18 @@ class Home extends FluxComponent
     :viewState.deviceSize
 
   @getter
+    overallNeedsPercentage: ->
+      (@models.status.average-1) / 4
+
     overallRoundedStatus: ->
-      Math.round(@models.status.average)
-      4
+      Math.round @models.status.average
 
   renderBitmaps: ->
     Element
       size:
         ww: 1
         hw: 1
-        # max: w: 300 h: 300
+        max: w: 640 h: 640
       :flow
       array status in 1 2 4 5
         Element
@@ -65,7 +67,7 @@ class Home extends FluxComponent
             v#{&Package.version}
 
   renderNeedsStatus: ->
-    if @models.status extract average
+    if 0 <= needsPercentage = @overallNeedsPercentage
       Element
         size: ww:1, hch: 1
         :row
@@ -83,8 +85,7 @@ class Home extends FluxComponent
             padding:
               right:
                 300 *
-                  1
-                  - (average-1) / 4
+                  1 - needsPercentage
             fill:
               StyleProps.colors[@overallRoundedStatus]
 
@@ -95,8 +96,9 @@ class Home extends FluxComponent
             fontSize: 14
             text:
               ""
-                #{((log average-1)/3) * 100 | 0}%
-                needs met
+                #{StyleProps.statuses[@overallRoundedStatus]}
+                needs
+                (#{needsPercentage*100|0}%)
 
   renderTitle: ->
 
