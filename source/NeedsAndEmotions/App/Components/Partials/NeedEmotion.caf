@@ -13,17 +13,16 @@ class NeedEmotion extends FluxComponent
 
 
   @getter
+    isLeafNode: -> !dataNodes[@needEmotion].childKeys
     hideStatus: ->
       @props.emotions
-      || dataNodes[@needEmotion].childKeys
+      || @isLeafNode
     status:    ->
-      if @props.emotions
-        switch @models.navState.keyPath[1]
-        when :painful     then 1
-        when :pleasurable then 5
-        else 4
-      else
-        @state.status || 3
+      switch dataNodes[@needEmotion].parentKey
+      when :painful     then 1
+      when :pleasurable then 5
+      else @state.status || 3
+
     statusText: ->
       if @state.status then StyleProps.statuses[@status]
       else StyleProps.noStatusText
@@ -52,10 +51,10 @@ class NeedEmotion extends FluxComponent
       :textCenterCenter
       :topCenter
       size:
-        if @hideStatus
-          w: 300 hch: 1
-        else
+        if @isLeafNode
           w: 300, h: 6 * mediumText.fontSize * mediumText.leading
+        else
+          w: 300 hch: 1
 
       text:     dataNodes[@needEmotion]?.description
       # margin:   bottom: 20
@@ -131,12 +130,10 @@ class NeedEmotion extends FluxComponent
         @renderStatusWidget()
 
   renderStatusWidget: ->
-    if @hideStatus
-      Element
-        size: h: 150
-    else []
-      @renderStatusText()
-      @renderSlider()
+    unless @hideStatus
+      []
+        @renderStatusText()
+        @renderSlider()
 
   renderPortrait: ->
     Element
@@ -145,15 +142,13 @@ class NeedEmotion extends FluxComponent
       childrenMargins: 20
       # draw: :red
 
-      Element
-        switch
-        when @hideStatus
-          size: h: 100
-        else
+      if @isLeafNode
+        Element
           size: ps: 1 max: 500
+          NeedStatusBitmap {} @status
+      else
+        Element size: 10
 
-
-        NeedStatusBitmap {} @status
       @renderTitle()
       @renderDescription()
       @renderStatusWidget()

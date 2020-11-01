@@ -40,3 +40,6 @@ class Status extends ApplicationState
     else
       @getSumFor key
       / count
+
+  getRoundedAverageFor: (key) ->
+    Math.round @getAverageFor key

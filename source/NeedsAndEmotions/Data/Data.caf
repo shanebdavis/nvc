@@ -39,5 +39,13 @@ dataNodes.transcending.description =
   """
     Our needs to evolve and contribute
 
+dataNodes.painful.description =
+  """
+    Painful emotions suggest one or more needs are not being met.
+
+dataNodes.pleasurable.description =
+  """
+    Pleasurable emotions suggest one or more needs are currently getting met.
+
 
 {} dataNodes

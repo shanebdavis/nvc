@@ -25,7 +25,7 @@ class CategoryButton extends PointerActionsMixin FluxComponent
           StyleProps.colors[3]
 
         when dataNodes[key].rootKey == :needs
-          StyleProps.colors[@models.status.getAverageFor key]
+          StyleProps.colors[@models.status.getRoundedAverageFor key]
           || StyleProps.primaryColor
 
         when hasAncestorKey key, :painful     then StyleProps.colors[1]
