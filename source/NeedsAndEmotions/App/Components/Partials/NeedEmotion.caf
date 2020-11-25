@@ -16,7 +16,8 @@ class NeedEmotion extends FluxComponent
     isLeafNode: -> !dataNodes[@needEmotion].childKeys
     hideStatus: ->
       @props.emotions
-      || @isLeafNode
+      || !@isLeafNode
+
     status:    ->
       switch dataNodes[@needEmotion].parentKey
       when :painful     then 1
