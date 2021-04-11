@@ -5,6 +5,9 @@ timer = new ReschedulableTimer
 class History extends ApplicationState
   @persistant()
 
+  @getter
+    propsToKey: -> @_propsToKey ?= FluxModel.getRecordPropsToKeyFunction @modelName
+
   save: ->
     timer.timeout
       5000

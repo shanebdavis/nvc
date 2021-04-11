@@ -11,41 +11,11 @@ normalizeEmotions = (emotionTree) ->
     else
       val
 
-dataNodes = &Tools.flatten
+dataNodes = &Tools.createDataNodes
   core:
-    needs:          &Needs
+    needs:          &NeedsCore
     emotions:
       pleasurable:  normalizeEmotions &PositiveEmotions
       painful:      normalizeEmotions &NegativeEmotions
-
-dataNodes.needs.description =
-  """ Needs: The universal life-serving goals we all strive to fulfill.
-
-dataNodes.living.description =
-  """
-    Our physical needs
-
-    "Your body is your temple, it's your home, and you must decorate it."
-    - Gabourey Sidibe
-
-dataNodes.thriving.description =
-  """
-    Our social needs
-
-    "We naturally desire, not only to be loved, but to be lovely."
-    - Adam Smith [adapted]
-
-dataNodes.transcending.description =
-  """
-    Our needs to evolve and contribute
-
-dataNodes.painful.description =
-  """
-    Painful emotions suggest one or more needs are not being met.
-
-dataNodes.pleasurable.description =
-  """
-    Pleasurable emotions suggest one or more needs are currently getting met.
-
 
 {} dataNodes

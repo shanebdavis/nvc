@@ -7,6 +7,7 @@
   EmojiMap:         require('./EmojiMap'),
   NavigationGraph:  require('./NavigationGraph'),
   Needs:            require('./Needs'),
+  NeedsCore:        require('./NeedsCore'),
   NegativeEmotions: require('./NegativeEmotions'),
   OrderedNeedsList: require('./OrderedNeedsList'),
   PositiveEmotions: require('./PositiveEmotions'),

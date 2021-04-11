@@ -5,7 +5,6 @@ class OrderAccumulator
     @lastKey = null
 
   add: (key) ->
-    log OrderAccumulator_add: key
     @output[key] = {}
     if @lastKey
       @output[key].prev = @lastKey

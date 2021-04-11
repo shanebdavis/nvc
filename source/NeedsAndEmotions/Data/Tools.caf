@@ -1,22 +1,32 @@
 import &ArtSuite
 
-flatten: flatten = (map, intoObject = {}, parentKey, rootKey, depth = -1) ->
+createDataNodesR = (map, intoObject, parentKey, rootKey, depth) ->
 
   if !rootKey && parentKey != :core
     rootKey = parentKey
 
-  object v, k from map into intoObject
-    throw new Error "key #{k} already exists" if intoObject[k]
 
-    merge
+  array v, key from map when key != :description
+    throw new Error "key #{key} already exists" if intoObject[key]
+
+    intoObject[key] = merge
       if isPlainObject v
-        flatten v, intoObject, k, rootKey, depth + 1
-        childKeys: Object.keys v
+        childKeys: createDataNodesR v, intoObject, key, rootKey, depth + 1
 
-      else if isString v
-        description: v
+      description:
+        if isString description = v?.description ? v
+          description
 
-      key:        k
-      parentKey:  parentKey
-      rootKey:    rootKey
-      depth:      depth
+      {} key, parentKey, rootKey, depth
+    key
+
+createDataNodes: (map) ->
+  out = {}
+  createDataNodesR map, out, null, null, -1
+  out
+
+stripDescriptions: stripDescriptions = (map) ->
+  if isPlainObject map
+    object v, key from map when key != :description
+      stripDescriptions v
+  else map

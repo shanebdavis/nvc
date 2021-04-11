@@ -17,24 +17,17 @@ class NeedStripCore extends FluxComponent
     {target, location} = event
     OrderedNeedsList[Math.floor (location.x / target.currentSize.x) * OrderedNeedsList.length]
 
-  pointerClick: (event) ->
-    @models.navState.selectKey @getNeedFromMouseEvent event
-
-  mouseOut: ->
-    @clearHoverNeed()
-
-  mouseMove: (event) ->
-    @hoverNeed = @getNeedFromMouseEvent event
-
-  padding = 0
-
-  ready: ({target})->
-    @parentWidth = target.parent.currentSize.x
+  pointerClick: (event) -> @models.navState.selectKey @getNeedFromMouseEvent event
+  mouseOut: -> @clearHoverNeed()
+  mouseMove: (event) -> @hoverNeed = @getNeedFromMouseEvent event
+  ready: ({target})-> @parentWidth = target.parent.currentSize.x
 
   render: ->
     @ extract parentWidth, selectedKey, hoverNeed
-    w = 1 / OrderedNeedsList.length
     key = hoverNeed ? selectedKey
+
+    cellSpacing = 1
+    rootNeedSpacing = 5
 
     Element
       :pointerCursor
@@ -48,31 +41,33 @@ class NeedStripCore extends FluxComponent
 
       animators: :draw
       draw: if parentWidth > 0
+        cellWidth =
+          parentWidth
+          - (OrderedNeedsList.length - 1 ) * cellSpacing
+          - (dataNodes.needs.childKeys.length - 1 ) * rootNeedSpacing
+          / OrderedNeedsList.length
+
         array need, i in OrderedNeedsList
-          dataNodes[need] extract? parentKey
-          parentNum = switch parentKey
-          when :thriving      then 1
-          when :transcending  then 2
-          else 0
-          rectangle:
-            area:#  ({x:parentWidth}) ->
-              rect
-                parentWidth
-                - 9
-                * i * w
-                # + 2.5
-                + parentNum * 5
+          try
+            dataNodes[need] extract? parentKey
+            parentNum = max 0, rootNeedIndex = dataNodes.needs.childKeys.indexOf parentKey
+            rectangle:
+              area:#  ({x:parentWidth}) ->
+                rect
+                  cellWidth + cellSpacing
+                  * i
+                  + parentNum * rootNeedSpacing
 
-                if need != key
-                  5
-                else
-                  0
+                  if need != key
+                    5
+                  else
+                    0
 
-                parentWidth * w - 1
+                  cellWidth
 
-                if need == key
-                  30
-                else
-                  20
+                  if need == key
+                    30
+                  else
+                    20
 
-          fill: StyleProps.colors[@status[need]||3]
+            fill: StyleProps.colors[@status[need]||3]

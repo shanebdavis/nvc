@@ -12,5 +12,5 @@ class ShowMenu extends FluxComponent
       size:                     ww: 1  hch: 1
       animators: size: toFrom:  ww: 1  h: 0
 
-      array key from keys?.sort()
+      array key from keys
         &CategoryButton key: key
