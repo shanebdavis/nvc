@@ -5947,7 +5947,7 @@ eval("var __WEBPACK_AMD_DEFINE_RESULT__;/* Web Font Loader v1.6.28 - (c) Adobe S
 /***/ ((module) => {
 
 "use strict";
-eval("module.exports = JSON.parse('{\"author\":\"Shane Brinkman-Davis Delamore, Imikimi LLC\",\"dependencies\":{\"art-app-kit\":\"^1.0.2\",\"art-build-configurator\":\"^1.29.2\",\"art-ery-indexed-db\":\"^0.1.3\",\"art-suite\":\"^2.0.3\",\"copy-to-clipboard\":\"^3.3.1\"},\"devDependencies\":{\"webpack\":\"*\",\"webpack-cli\":\"*\",\"webpack-dev-server\":\"*\"},\"license\":\"ISC\",\"name\":\"nvc\",\"scripts\":{\"build\":\"echo \\\\\"Building js...\\\\\"\\\\nwebpack\\\\necho \\\\\"Building manifest...\\\\\"\\\\ncaf generateManifest.caf > docs/needs.manifest\\\\necho \\\\\"Build done.\\\\\"\",\"start\":\"webpack serve --hot --inline --progress\",\"test\":\"webpack serve  --progress\",\"testInBrowser\":\"webpack serve --progress\"},\"version\":\"2.16.2\"}');\n\n//# sourceURL=webpack://nvc/./package.json?");
+eval("module.exports = JSON.parse('{\"author\":\"Shane Brinkman-Davis Delamore, Imikimi LLC\",\"dependencies\":{\"art-app-kit\":\"^1.0.2\",\"art-build-configurator\":\"^1.29.2\",\"art-ery-indexed-db\":\"^0.1.3\",\"art-suite\":\"^2.0.3\",\"copy-to-clipboard\":\"^3.3.1\"},\"devDependencies\":{\"webpack\":\"*\",\"webpack-cli\":\"*\",\"webpack-dev-server\":\"*\"},\"license\":\"ISC\",\"name\":\"nvc\",\"scripts\":{\"build\":\"echo \\\\\"Building js...\\\\\"\\\\nwebpack\\\\necho \\\\\"Building manifest...\\\\\"\\\\ncaf generateManifest.caf > docs/needs.manifest\\\\necho \\\\\"Build done.\\\\\"\",\"start\":\"webpack serve --hot --inline --progress\",\"test\":\"webpack serve  --progress\",\"testInBrowser\":\"webpack serve --progress\"},\"version\":\"2.17.0\"}');\n\n//# sourceURL=webpack://nvc/./package.json?");
 
 /***/ }),
 
