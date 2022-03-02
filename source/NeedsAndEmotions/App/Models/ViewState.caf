@@ -1,4 +1,4 @@
-import &ArtSuite, &ArtFoundation.Browser
+import &StandardImport
 
 class ViewState extends ApplicationState
 

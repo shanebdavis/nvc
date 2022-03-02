@@ -3,4 +3,5 @@
   &ArtEryIndexedDb
   &Data
   &ArtAppKit
+  &ArtBrowserTools
   {} &StyleProps

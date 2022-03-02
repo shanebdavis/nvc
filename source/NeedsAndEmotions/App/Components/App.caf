@@ -1,7 +1,5 @@
 import &StandardImport, &Data, Pages = &Pages
 
-{simpleBrowserInfo, getCssSafeAreaInset} = &ArtFoundation.Browser
-
 class App extends FluxComponent
   @subscriptions
     :viewState.deviceSize
