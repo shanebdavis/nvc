@@ -2,8 +2,9 @@ import &ArtSuite
 
 normalizeEmotions = (emotionTree) ->
   object val from emotionTree
-    if isPlainObject val
+    if !val?.description? && isPlainObject val
       normalizeEmotions val
+
     else if isString val
       w val
       .sort()

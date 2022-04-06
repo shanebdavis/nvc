@@ -1,3 +1,4 @@
+# anger depression guilt shame
 description:
   """
     Painful emotions suggest one or more needs are not being met.
@@ -29,8 +30,10 @@ annoyed:
     irritated
     irked
 
-angry:
+angry: description:
   ""
+    Marshal Rosenberg: These feelings indicate we are not directly connected to our needs. In this case, we are making moralistic judgements about others.
+    \n\n
     enraged
     furious
     incensed
@@ -103,13 +106,15 @@ disquiet:
     unsettled
     upset
 
-embarrassed:
+embarrassed: description:
   ""
-    ashamed
-    chagrined
-    flustered
-    guilty
-    mortified
+    Marshal Rosenberg: These feelings indicate we are not directly connected to our needs. In this case, we are making moralistic judgements against ourselves.
+    \n\n
+    ashamed,
+    chagrined,
+    flustered,
+    guilty,
+    mortified,
     self-conscious
 
 fatigued:
@@ -141,20 +146,25 @@ pain:
 
 sad:
   ""
-    depressed
     dejected
-    despair
-    despondent
     disappointed
     discouraged
     disheartened
-    forlorn
     gloomy
     heavy-hearted
-    hopeless
     melancholy
     unhappy
     wretched
+
+depressed: description:
+  ""
+    Marshal Rosenberg: These feelings indicate we are not directly connected to our needs. In this case, we are making moralistic judgements against ourselves.
+    \n\n
+    hopeless
+    despondent
+    forlorn
+
+    despair
 
 tense:
   ""

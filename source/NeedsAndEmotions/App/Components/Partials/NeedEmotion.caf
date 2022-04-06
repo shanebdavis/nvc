@@ -79,7 +79,7 @@ class NeedEmotion extends FluxComponent
         :childrenSize
         # margin: bottom: 20
         color: StyleProps.textPalette.black.tertiary
-        text:   &Data.dataNodes[@needEmotion]?.parentKey
+        text:   dataNodes[@needEmotion]?.parentKey
 
   renderSlider: ->
     Element
