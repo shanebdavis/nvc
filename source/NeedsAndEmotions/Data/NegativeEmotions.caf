@@ -34,13 +34,13 @@ angry: description:
   ""
     Marshal Rosenberg: These feelings indicate we are not directly connected to our needs. In this case, we are making moralistic judgements about others.
     \n\n
-    enraged
-    furious
-    incensed
-    indignant
-    irate
-    livid
-    outraged
+    enraged,
+    furious,
+    incensed,
+    indignant,
+    irate,
+    livid,
+    outraged,
     resentful
 
 aversion:
@@ -160,11 +160,10 @@ depressed: description:
   ""
     Marshal Rosenberg: These feelings indicate we are not directly connected to our needs. In this case, we are making moralistic judgements against ourselves.
     \n\n
+    despair,
+    despondent,
+    forlorn,
     hopeless
-    despondent
-    forlorn
-
-    despair
 
 tense:
   ""
