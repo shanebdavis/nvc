@@ -53,7 +53,7 @@ class NeedEmotion extends FluxComponent
       :topCenter
       size:
         if @isLeafNode
-          w: 300, h: 6 * mediumText.fontSize * mediumText.leading
+          w: 300, h: 9 * mediumText.fontSize * mediumText.leading
         else
           w: 300 hch: 1
 

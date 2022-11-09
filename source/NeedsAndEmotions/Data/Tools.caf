@@ -11,7 +11,8 @@ createDataNodesR = (map, intoObject, parentKey, rootKey, depth) ->
 
     intoObject[key] = merge
       if isPlainObject v
-        childKeys: createDataNodesR v, intoObject, key, rootKey, depth + 1
+        childKeys = createDataNodesR v, intoObject, key, rootKey, depth + 1
+        if childKeys.length > 0 then {} childKeys
 
       description:
         if isString description = v?.description ? v
