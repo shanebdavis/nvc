@@ -3,4 +3,4 @@ package: -> &package
 
 webpack:
   common: output: path: "#{__dirname}/docs"
-  targets: index: {}
+  targets: client: {}
