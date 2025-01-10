@@ -10,9 +10,9 @@
     "neptune-namespaces-runtime": "^3.2.11"
   },
   "devDependencies": {
-    "webpack": "*",
-    "webpack-cli": "*",
-    "webpack-dev-server": "*"
+    "webpack": "^5.82.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   },
   "license": "ISC",
   "name": "nvc",
