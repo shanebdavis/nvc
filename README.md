@@ -15,10 +15,13 @@ npm start
 
 Go to: [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webpack-dev-server/)
 
-### Resources
+### NVC, Needs and Emotions Essentials
 
-* [NVC Distilled @medium.com](https://medium.com/@shanebdavis/nvc-distilled-a515b3429a29)
-* [needs list](https://github.com/shanebdavis/nvc/blob/master/source/NeedsAndEmotions/Data/Needs.caf)
-* [positive-emotions list](https://github.com/shanebdavis/nvc/blob/master/source/NeedsAndEmotions/Data/PositiveEmotions.caf)
-* [negative-emotions list](https://github.com/shanebdavis/nvc/blob/master/source/NeedsAndEmotions/Data/NegativeEmotions.caf)
-* This app was built with [Art.Suite](https://github.com/Imikimi-LLC/art-suite/wiki) and [CaffeineScript](http://CaffeineScript.com)
+- [NVC Essentials](./NVC_ESSENTIALS.md) (original: [NVC Distilled @medium.com](https://medium.com/@shanebdavis/nvc-distilled-a515b3429a29))
+- [The Needs List](./NEEDS.md)
+- [positive-emotions list](https://github.com/shanebdavis/nvc/blob/master/source/NeedsAndEmotions/Data/PositiveEmotions.caf)
+- [negative-emotions list](https://github.com/shanebdavis/nvc/blob/master/source/NeedsAndEmotions/Data/NegativeEmotions.caf)
+
+### About the App
+
+- This app was built with [Art.Suite](https://github.com/Imikimi-LLC/art-suite/wiki) and [CaffeineScript](http://CaffeineScript.com)
